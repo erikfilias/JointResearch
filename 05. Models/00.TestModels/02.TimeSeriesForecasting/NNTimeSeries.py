@@ -15,8 +15,7 @@ os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
 # =================================================================
 # load file
 def load_file(nameFile):
-    # print("Hello")
-    # print(os.path.dirname(__file__) + '/' + nameFile)
+    # load dataset
     dfData = pd.read_csv(
         filepath_or_buffer = os.path.dirname(__file__) + '/' + nameFile,
         sep                = ';',
@@ -124,16 +123,16 @@ def main():
             
             # define model
             model = Sequential()
-            model.add(Dense(200, activation='relu', input_dim=n_steps_in))
-            model.add(Dense(200, activation='sigmoid'                   ))
+            model.add(Dense(20, activation='relu', input_dim=n_steps_in))
+            model.add(Dense(20, activation='sigmoid'                   ))
             model.add(Dense(n_steps_out))
             model.compile(optimizer='adam', loss='mse')
             
             # fit model
-            model.fit(X, y, epochs=200, verbose=0)
+            model.fit(X, y, epochs=10, verbose=0)
             i = 1
             while i < 100:
-               model.fit(X, y, epochs=100, verbose=0)
+               model.fit(X, y, epochs=10, verbose=0)
                if i > 80:
                   print(model.get_weights()[0])
                i += 1
@@ -167,6 +166,9 @@ def main():
 
             training = raw_seq [n_steps_in:len(raw_seq )]
             original = raw_seq1[n_steps_in:len(raw_seq1)]
+            pd.DataFrame(original).to_csv(os.path.dirname(__file__) + '/' +'original.csv')
+            pd.DataFrame(training).to_csv(os.path.dirname(__file__) + '/' +'training.csv')
+            pd.DataFrame(predictions).to_csv(os.path.dirname(__file__) + '/' +'predictions.csv')
             plt.plot(original   , label = "original"   )
             plt.plot(training   , label = "train"      )
             plt.plot(predictions, label = "predictions")
@@ -183,16 +185,16 @@ def main():
                 
             # define model
             model = Sequential()
-            model.add(Dense(200, activation='relu', input_dim=n_steps_in))
-            model.add(Dense(200, activation='sigmoid'                   ))
+            model.add(Dense(20, activation='relu', input_dim=n_steps_in))
+            model.add(Dense(20, activation='sigmoid'                   ))
             model.add(Dense(1))
             model.compile(loss='mse', optimizer='adam') # loss = 'mse' loss='mean_squared_logarithmic_error'
 
             # fit model
-            model.fit(X, y, epochs=200, verbose=0)
+            model.fit(X, y, epochs=10, verbose=0)
             i = 1
             while i < 100:
-               model.fit(X, y, epochs=100, verbose=0)
+               model.fit(X, y, epochs=10, verbose=0)
                if i > 80:
                   print(model.get_weights()[0])
                i += 1
@@ -202,6 +204,7 @@ def main():
 
             # demonstrate prediction
             # split into samples
+            print('\n prediction \n')
             X, y = split_sequenceUStep(raw_seq1, n_steps_in)
             predictions = list()
             for x_input in X:
@@ -212,10 +215,16 @@ def main():
 
             training = raw_seq [n_steps_in:len(raw_seq )]
             original = raw_seq1[n_steps_in:len(raw_seq1)]
+            pd.DataFrame(original).to_csv(os.path.dirname(__file__) + '/' +'original.csv')
+            pd.DataFrame(training).to_csv(os.path.dirname(__file__) + '/' +'training.csv')
+            pd.DataFrame(predictions).to_csv(os.path.dirname(__file__) + '/' +'predictions.csv')
             plt.plot(original   , label = "original"   )
             plt.plot(training   , label = "train"      )
             plt.plot(predictions, label = "predictions")
+            plt.legend()
             plt.show()
+
+print('Done!')
 
 
 # =============================================================================================================================================================
