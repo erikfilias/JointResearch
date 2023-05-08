@@ -46,7 +46,7 @@ class ElectricityDemandForecasting(torch.nn.Module):
 # =================================================================
 # main function
 # =================================================================
-def main(n_steps_in, n_model, n_neurons):
+def main_f(n_steps_in, n_model, n_neurons):
     # Load the data
     data = pd.read_csv('electricity_demand.csv', header=0, index_col=0)
 
@@ -67,6 +67,7 @@ def main(n_steps_in, n_model, n_neurons):
     # Initialize the model and optimizer
     model = n_model(input_size=n_steps_in, hidden_size=n_neurons, output_size=1)
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+    # optimizer = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=0.1)
 
     # Train the model
     for epoch in range(100):
@@ -121,6 +122,7 @@ def main(n_steps_in, n_model, n_neurons):
     lines = (alt.Chart(source).mark_line().encode(x="LoadLevel", y="Value", color="Demand")).properties(width=1500, height=500)
     lines.save('Plot.html', embed_options={'renderer': 'svg'})
 
+    return test_loss
 # =============================================================================================================================================================
 # script execution
 # =============================================================================================================================================================
@@ -128,4 +130,4 @@ if __name__ == '__main__':
     # number of previous sample to look for correlations
     step_in = 168
     neurons = 20
-    main(n_steps_in=step_in, n_model=ElectricityDemandForecasting, n_neurons=neurons)
+    main_f(n_steps_in=step_in, n_model=ElectricityDemandForecasting, n_neurons=neurons)
