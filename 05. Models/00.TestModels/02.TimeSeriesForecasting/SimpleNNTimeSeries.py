@@ -46,7 +46,7 @@ class ElectricityDemandForecasting(torch.nn.Module):
 # =================================================================
 # main function
 # =================================================================
-def main(n_steps_in, NN_model):
+def main(n_steps_in, n_model, n_neurons):
     # Load the data
     data = pd.read_csv('electricity_demand.csv', header=0, index_col=0)
 
@@ -65,7 +65,7 @@ def main(n_steps_in, NN_model):
     test_targets = torch.from_numpy(y2)
 
     # Initialize the model and optimizer
-    model = NN_model(input_size=168, hidden_size=200, output_size=1)
+    model = n_model(input_size=n_steps_in, hidden_size=n_neurons, output_size=1)
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 
     # Train the model
@@ -127,4 +127,5 @@ def main(n_steps_in, NN_model):
 if __name__ == '__main__':
     # number of previous sample to look for correlations
     step_in = 168
-    main(step_in, ElectricityDemandForecasting)
+    neurons = 20
+    main(n_steps_in=step_in, n_model=ElectricityDemandForecasting, n_neurons=neurons)
