@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .error {
+        color: red;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm//vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm//vega-lite@4.17.0"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm//vega-embed@6"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "data": {"name": "data-125ae20bcbd8c56cf757b155a4e225fe"}, "mark": "point", "encoding": {"x": {"field": "Neurons", "type": "quantitative"}, "y": {"field": "Error", "type": "quantitative"}}, "$schema": "https://vega.github.io/schema/vega-lite/v4.17.0.json", "datasets": {"data-125ae20bcbd8c56cf757b155a4e225fe": [{"Neurons": 1.0, "Error": 0.0945691168308258}, {"Neurons": 11.0, "Error": 0.0036750556901097298}, {"Neurons": 21.0, "Error": 0.009615287184715271}, {"Neurons": 31.0, "Error": 0.0021206573583185673}, {"Neurons": 41.0, "Error": 0.0021001389250159264}, {"Neurons": 51.0, "Error": 0.0012051529483869672}, {"Neurons": 61.0, "Error": 0.0026424922980368137}, {"Neurons": 71.0, "Error": 0.0014011014718562365}, {"Neurons": 81.0, "Error": 0.001949623110704124}, {"Neurons": 91.0, "Error": 0.0028982285875827074}, {"Neurons": 101.0, "Error": 0.0008824533433653414}, {"Neurons": 111.0, "Error": 0.0017280721804127097}, {"Neurons": 121.0, "Error": 0.0015109808882698417}, {"Neurons": 131.0, "Error": 0.001437782309949398}, {"Neurons": 141.0, "Error": 0.0020740318577736616}, {"Neurons": 151.0, "Error": 0.002049342729151249}, {"Neurons": 161.0, "Error": 0.0014211605302989483}, {"Neurons": 171.0, "Error": 0.0008875674684531987}, {"Neurons": 181.0, "Error": 0.0009533824631944299}, {"Neurons": 191.0, "Error": 0.001386838499456644}]}};
+      var embedOpt = {"renderer": "svg", "mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div class="error" style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>

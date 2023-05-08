@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .error {
+        color: red;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm//vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm//vega-lite@4.17.0"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm//vega-embed@6"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "data": {"name": "data-f8dc002e40f619884a8187e4860b0a92"}, "mark": "point", "encoding": {"x": {"field": "Neurons", "type": "quantitative"}, "y": {"field": "Error", "type": "quantitative"}}, "$schema": "https://vega.github.io/schema/vega-lite/v4.17.0.json", "datasets": {"data-f8dc002e40f619884a8187e4860b0a92": [{"Neurons": 40.0, "Error": 0.0014404449611902237}, {"Neurons": 50.0, "Error": 0.004004193004220724}, {"Neurons": 60.0, "Error": 0.0012266576522961259}, {"Neurons": 70.0, "Error": 0.0013815669808536768}, {"Neurons": 80.0, "Error": 0.0009359399555251002}, {"Neurons": 90.0, "Error": 0.0014871887397021055}, {"Neurons": 100.0, "Error": 0.0013666433515027165}, {"Neurons": 110.0, "Error": 0.0013242211425676942}, {"Neurons": 120.0, "Error": 0.0016343470197170973}, {"Neurons": 130.0, "Error": 0.0019613474141806364}, {"Neurons": 140.0, "Error": 0.001569482497870922}, {"Neurons": 150.0, "Error": 0.0011375135509297252}, {"Neurons": 160.0, "Error": 0.0021834280341863632}, {"Neurons": 170.0, "Error": 0.0008694918360561132}, {"Neurons": 180.0, "Error": 0.001507490174844861}, {"Neurons": 190.0, "Error": 0.001048584934324026}]}};
+      var embedOpt = {"renderer": "svg", "mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div class="error" style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>
