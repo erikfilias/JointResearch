@@ -417,8 +417,8 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
     pIndBinStorInvest  = pIndBinStorInvest.map(idxDict)
     pMustRun           = pMustRun.map         (idxDict)
     pIndBinLineInvest  = pIndBinLineInvest.map(idxDict)
-    pIndGenSensitivity = pGenSensitivity.map  (idxDict)
-    pIndNetSensitivity = pNetSensitivity.map  (idxDict)
+    pGenSensitivity    = pGenSensitivity.map  (idxDict)
+    pNetSensitivity    = pNetSensitivity.map  (idxDict)
 
     # define AC existing  lines
     model.lea = Set(initialize=model.le, ordered=False, doc='AC existing  lines and non-switchable lines', filter=lambda model,*le: le in model.le and not pLineType[le] == 'DC')
@@ -670,6 +670,124 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
     for ni,nf,cc in model.la:
         if  pLineLength[ni,nf,cc] == 0.0:
             pLineLength[ni,nf,cc]  =  1.1 * 6371 * 2 * math.asin(math.sqrt(math.pow(math.sin((pNodeLat[nf]-pNodeLat[ni])*math.pi/180/2),2) + math.cos(pNodeLat[ni]*math.pi/180)*math.cos(pNodeLat[nf]*math.pi/180)*math.pow(math.sin((pNodeLon[nf]-pNodeLon[ni])*math.pi/180/2),2)))
+    #%% Parameters
+    model.pReserveMargin        = Param(model.ar,    initialize=pReserveMargin.to_dict()            , within=NonNegativeReals,    doc='Adequacy reserve margin'                             )
+    model.pPeakDemand           = Param(model.ar,    initialize=pPeakDemand.to_dict()               , within=NonNegativeReals,    doc='Peak demand'                                         )
+    model.pDemand               = Param(model.psnnd, initialize=pDemand                             , within=           Reals,    doc='Demand'                                              )
+    model.pPeriodWeight         = Param(model.p,     initialize=pPeriodWeight.to_dict()             , within=NonNegativeIntegers, doc='Period weight',                          mutable=True)
+    model.pDiscountFactor       = Param(model.p,     initialize=pDiscountFactor.to_dict()           , within=NonNegativeReals,    doc='Discount factor'                                     )
+    model.pScenProb             = Param(model.psc,   initialize=pScenProb.to_dict()                 , within=UnitInterval    ,    doc='Probability',                            mutable=True)
+    model.pStageWeight          = Param(model.stt,   initialize=pStageWeight.to_dict()              , within=NonNegativeIntegers, doc='Stage weight'                                        )
+    model.pDuration             = Param(model.n,     initialize=pDuration.to_dict()                 , within=PositiveIntegers,    doc='Duration',                               mutable=True)
+    model.pNodeLon              = Param(model.nd,    initialize=pNodeLon.to_dict()                  ,                             doc='Longitude'                                           )
+    model.pNodeLat              = Param(model.nd,    initialize=pNodeLat.to_dict()                  ,                             doc='Latitude'                                            )
+    # model.pSystemInertia        = Param(model.psnar, initialize=pSystemInertia.stack().to_dict()    , within=NonNegativeReals,    doc='System inertia'                                      )
+    # model.pOperReserveUp        = Param(model.psnar, initialize=pOperReserveUp.stack().to_dict()    , within=NonNegativeReals,    doc='Upward   operating reserve'                          )
+    # model.pOperReserveDw        = Param(model.psnar, initialize=pOperReserveDw.stack().to_dict()    , within=NonNegativeReals,    doc='Downward operating reserve'                          )
+    model.pMinPower             = Param(model.psngg, initialize=pMinPower                           , within=NonNegativeReals,    doc='Minimum power'                                       )
+    model.pMaxPower             = Param(model.psngg, initialize=pMaxPower                           , within=NonNegativeReals,    doc='Maximum power'                                       )
+    model.pMinCharge            = Param(model.psngg, initialize=pMinCharge                          , within=NonNegativeReals,    doc='Minimum charge'                                      )
+    model.pMaxCharge            = Param(model.psngg, initialize=pMaxCharge                          , within=NonNegativeReals,    doc='Maximum charge'                                      )
+    model.pMaxPower2ndBlock     = Param(model.psngg, initialize=pMaxPower2ndBlock                   , within=NonNegativeReals,    doc='Second block power'                                  )
+    model.pMaxCharge2ndBlock    = Param(model.psngg, initialize=pMaxCharge2ndBlock                  , within=NonNegativeReals,    doc='Second block charge'                                 )
+    model.pEnergyInflows        = Param(model.psngg, initialize=pEnergyInflows                      , within=NonNegativeReals,    doc='Energy inflows',                         mutable=True)
+    model.pEnergyOutflows       = Param(model.psngg, initialize=pEnergyOutflows                     , within=NonNegativeReals,    doc='Energy outflows',                        mutable=True)
+    model.pMinStorage           = Param(model.psngg, initialize=pMinStorage                         , within=NonNegativeReals,    doc='ESS Minimum storage capacity'                        )
+    model.pMaxStorage           = Param(model.psngg, initialize=pMaxStorage                         , within=NonNegativeReals,    doc='ESS Maximum storage capacity'                        )
+    # model.pMinEnergy            = Param(model.psngg, initialize=pVariableMinEnergy.stack().to_dict(), within=NonNegativeReals,    doc='Unit minimum energy demand'                          )
+    # model.pMaxEnergy            = Param(model.psngg, initialize=pVariableMaxEnergy.stack().to_dict(), within=NonNegativeReals,    doc='Unit maximum energy demand'                          )
+    model.pRatedMaxPower        = Param(model.gg,    initialize=pRatedMaxPower.to_dict()            , within=NonNegativeReals,    doc='Rated maximum power'                                 )
+    model.pRatedMaxCharge       = Param(model.gg,    initialize=pRatedMaxCharge.to_dict()           , within=NonNegativeReals,    doc='Rated maximum charge'                                )
+    model.pMustRun              = Param(model.gg,    initialize=pMustRun.to_dict()                  , within=Binary          ,    doc='must-run unit'                                       )
+    # model.pInertia              = Param(model.gg,    initialize=pInertia.to_dict()                  , within=NonNegativeReals,    doc='unit inertia constant'                               )
+    model.pPeriodIniGen         = Param(model.gg,    initialize=pPeriodIniGen.to_dict()             , within=PositiveIntegers,    doc='installation year',                                  )
+    model.pPeriodFinGen         = Param(model.gg,    initialize=pPeriodFinGen.to_dict()             , within=PositiveIntegers,    doc='retirement   year',                                  )
+    model.pAvailability         = Param(model.gg,    initialize=pAvailability.to_dict()             , within=UnitInterval    ,    doc='unit availability',                      mutable=True)
+    model.pEFOR                 = Param(model.gg,    initialize=pEFOR.to_dict()                     , within=UnitInterval    ,    doc='EFOR'                                                )
+    # model.pRatedLinearVarCost   = Param(model.gg,    initialize=pRatedLinearVarCost.to_dict()       , within=NonNegativeReals,    doc='Linear   variable cost'                              )
+    # model.pRatedConstantVarCost = Param(model.gg,    initialize=pRatedConstantVarCost.to_dict()     , within=NonNegativeReals,    doc='Constant variable cost'                              )
+    # model.pLinearVarCost        = Param(model.psngg, initialize=pLinearVarCost.to_dict()            , within=NonNegativeReals,    doc='Linear   variable cost'                              )
+    # model.pConstantVarCost      = Param(model.psngg, initialize=pConstantVarCost.to_dict()          , within=NonNegativeReals,    doc='Constant variable cost'                              )
+    # model.pLinearOMCost         = Param(model.gg,    initialize=pLinearOMCost.to_dict()             , within=NonNegativeReals,    doc='Linear   O&M      cost'                              )
+    # # model.pOperReserveCost      = Param(model.gg,    initialize=pOperReserveCost.to_dict()          , within=NonNegativeReals,    doc='Operating reserve cost'                              )
+    # model.pCO2EmissionCost      = Param(model.gg,    initialize=pCO2EmissionCost.to_dict()          , within=Reals,               doc='CO2 Emission      cost'                              )
+    # model.pCO2EmissionRate      = Param(model.gg,    initialize=pCO2EmissionRate.to_dict()          , within=Reals,               doc='CO2 Emission      rate'                              )
+    # model.pStartUpCost          = Param(model.gg,    initialize=pStartUpCost.to_dict()              , within=NonNegativeReals,    doc='Startup  cost'                                       )
+    # model.pShutDownCost         = Param(model.gg,    initialize=pShutDownCost.to_dict()             , within=NonNegativeReals,    doc='Shutdown cost'                                       )
+    # model.pRampUp               = Param(model.gg,    initialize=pRampUp.to_dict()                   , within=NonNegativeReals,    doc='Ramp up   rate'                                      )
+    # model.pRampDw               = Param(model.gg,    initialize=pRampDw.to_dict()                   , within=NonNegativeReals,    doc='Ramp down rate'                                      )
+    # model.pUpTime               = Param(model.gg,    initialize=pUpTime.to_dict()                   , within=NonNegativeIntegers, doc='Up    time'                                          )
+    # model.pDwTime               = Param(model.gg,    initialize=pDwTime.to_dict()                   , within=NonNegativeIntegers, doc='Down  time'                                          )
+    # model.pShiftTime            = Param(model.gg,    initialize=pShiftTime.to_dict()                , within=NonNegativeIntegers, doc='Shift time'                                          )
+    model.pGenInvestCost        = Param(model.gg,    initialize=pGenInvestCost.to_dict()            , within=NonNegativeReals,    doc='Generation fixed cost'                               )
+    # model.pGenRetireCost        = Param(model.gg,    initialize=pGenRetireCost.to_dict()            , within=Reals           ,    doc='Generation fixed retire cost'                        )
+    model.pIndBinUnitInvest     = Param(model.gg,    initialize=pIndBinUnitInvest.to_dict()         , within=Binary          ,    doc='Binary investment decision'                          )
+    # model.pIndBinUnitRetire     = Param(model.gg,    initialize=pIndBinUnitRetire.to_dict()         , within=Binary          ,    doc='Binary retirement decision'                          )
+    model.pIndBinUnitCommit     = Param(model.gg,    initialize=pIndBinUnitCommit.to_dict()         , within=Binary          ,    doc='Binary commitment decision'                          )
+    model.pIndBinStorInvest     = Param(model.gg,    initialize=pIndBinStorInvest.to_dict()         , within=Binary          ,    doc='Storage linked to generation investment'             )
+    # model.pIndOperReserve       = Param(model.gg,    initialize=pIndOperReserve.to_dict()           , within=Binary          ,    doc='Indicator of operating reserve'                      )
+    model.pEfficiency           = Param(model.gg,    initialize=pEfficiency.to_dict()               , within=UnitInterval    ,    doc='Round-trip efficiency'                               )
+    model.pCycleTimeStep        = Param(model.gg,    initialize=pCycleTimeStep.to_dict()            , within=PositiveIntegers,    doc='ESS Storage cycle'                                   )
+    model.pOutflowsTimeStep     = Param(model.gg,    initialize=pOutflowsTimeStep.to_dict()         , within=PositiveIntegers,    doc='ESS Outflows cycle'                                  )
+    # model.pEnergyTimeStep       = Param(model.gg,    initialize=pEnergyTimeStep.to_dict()           , within=PositiveIntegers,    doc='Unit energy cycle'                                   )
+    model.pIniInventory         = Param(model.psngg, initialize=pIniInventory                       , within=NonNegativeReals,    doc='ESS Initial storage',                    mutable=True)
+    model.pInitialInventory     = Param(model.gg,    initialize=pInitialInventory.to_dict()         , within=NonNegativeReals,    doc='ESS Initial storage without load levels'             )
+    model.pStorageType          = Param(model.gg,    initialize=pStorageType.to_dict()              , within=Any             ,    doc='ESS Storage type'                                    )
+    model.pGenLoInvest          = Param(model.gg,    initialize=pGenLoInvest.to_dict()              , within=NonNegativeReals,    doc='Lower bound of the investment decision', mutable=True)
+    model.pGenUpInvest          = Param(model.gg,    initialize=pGenUpInvest.to_dict()              , within=NonNegativeReals,    doc='Upper bound of the investment decision', mutable=True)
+    # model.pGenLoRetire          = Param(model.gg,    initialize=pGenLoRetire.to_dict()              , within=NonNegativeReals,    doc='Lower bound of the retirement decision', mutable=True)
+    # model.pGenUpRetire          = Param(model.gg,    initialize=pGenUpRetire.to_dict()              , within=NonNegativeReals,    doc='Upper bound of the retirement decision', mutable=True)
+    model.pGenSensitivity       = Param(model.gg,    initialize=pGenSensitivity.to_dict()           , within=NonNegativeReals,    doc='Sensitivity of the investment decision', mutable=True)
+    model.pGenFxInvest          = Param(model.gg,    initialize=pGenFxInvest.to_dict()              , within=NonNegativeReals,    doc='Fixed investment cost',                  mutable=True)
+    model.pGenSensiGroup        = Param(model.gg,    initialize=pGenSensiGroup.to_dict()            , within=Any             ,    doc='Sensitivity group',                      mutable=True)
+    model.pGenSensiGroupValue   = Param(model.gg,    initialize=pGenSensiGroupValue.to_dict()       , within=Any             ,    doc='Sensitivity group value',                mutable=True)
+
+    model.pLoadLevelDuration    = Param(model.n,     initialize=0                                   , within=NonNegativeIntegers, doc='Load level duration',                    mutable=True)
+    for n in model.n:
+        model.pLoadLevelDuration[n] = pLoadLevelWeight[n] * model.pDuration[n]
+
+    model.pPeriodProb           = Param(model.ps,    initialize=0.0                                 , within=NonNegativeReals,    doc='Period probability',                     mutable=True)
+    for p,sc in model.ps:
+        # periods and scenarios are going to be solved together with their weight and probability
+        model.pPeriodProb[p,sc] = model.pPeriodWeight[p] * model.pScenProb[p,sc]
+
+    model.pLineLossFactor       = Param(model.ln,    initialize=pLineLossFactor.to_dict()           , within=           Reals,    doc='Loss factor'                                         )
+    model.pLineR                = Param(model.ln,    initialize=pLineR.to_dict()                    , within=NonNegativeReals,    doc='Resistance'                                          )
+    model.pLineX                = Param(model.ln,    initialize=pLineX.to_dict()                    , within=           Reals,    doc='Reactance'                                           )
+    model.pLineBsh              = Param(model.ln,    initialize=pLineBsh.to_dict()                  , within=NonNegativeReals,    doc='Susceptance',                            mutable=True)
+    model.pLineTAP              = Param(model.ln,    initialize=pLineTAP.to_dict()                  , within=NonNegativeReals,    doc='Tap changer',                            mutable=True)
+    model.pLineLength           = Param(model.ln,    initialize=pLineLength.to_dict()               , within=NonNegativeReals,    doc='Length',                                 mutable=True)
+    model.pPeriodIniNet         = Param(model.ln,    initialize=pPeriodIniNet.to_dict()             , within=PositiveIntegers,    doc='Installation period'                                 )
+    model.pPeriodFinNet         = Param(model.ln,    initialize=pPeriodFinNet.to_dict()             , within=PositiveIntegers,    doc='Retirement   period'                                 )
+    model.pLineVoltage          = Param(model.ln,    initialize=pLineVoltage.to_dict()              , within=NonNegativeReals,    doc='Voltage'                                             )
+    model.pLineNTCFrw           = Param(model.ln,    initialize=pLineNTCFrw.to_dict()               , within=NonNegativeReals,    doc='NTC forward'                                         )
+    # model.pLineNTCBck           = Param(model.ln,    initialize=pLineNTCBck.to_dict()               , within=NonNegativeReals,    doc='NTC backward'                                        )
+    model.pNetFixedCost         = Param(model.ln,    initialize=pNetFixedCost.to_dict()             , within=NonNegativeReals,    doc='Network fixed cost'                                  )
+    model.pIndBinLineInvest     = Param(model.ln,    initialize=pIndBinLineInvest.to_dict()         , within=Binary          ,    doc='Binary investment decision'                          )
+    # model.pIndBinLineSwitch     = Param(model.ln,    initialize=pIndBinLineSwitch.to_dict()         , within=Binary          ,    doc='Binary switching  decision'                          )
+    # model.pSwOnTime             = Param(model.ln,    initialize=pSwitchOnTime.to_dict()             , within=NonNegativeIntegers, doc='Minimum switching on  time'                          )
+    # model.pSwOffTime            = Param(model.ln,    initialize=pSwitchOffTime.to_dict()            , within=NonNegativeIntegers, doc='Minimum switching off time'                          )
+    # model.pBigMFlowBck          = Param(model.ln,    initialize=pBigMFlowBck.to_dict()              , within=NonNegativeReals,    doc='Maximum backward capacity',              mutable=True)
+    model.pBigMFlowFrw          = Param(model.ln,    initialize=pBigMFlowFrw.to_dict()              , within=NonNegativeReals,    doc='Maximum forward  capacity',              mutable=True)
+    model.pMaxTheta             = Param(model.psnnd, initialize=pMaxTheta                           , within=NonNegativeReals,    doc='Maximum voltage angle',                  mutable=True)
+    model.pAngMin               = Param(model.ln,    initialize=pAngMin.to_dict()                   , within=Reals,               doc='Minimum phase angle diff',               mutable=True)
+    model.pAngMax               = Param(model.ln,    initialize=pAngMax.to_dict()                   , within=Reals,               doc='Maximum phase angle diff',               mutable=True)
+    model.pNetLoInvest          = Param(model.ln,    initialize=pNetLoInvest.to_dict()              , within=NonNegativeReals,    doc='Lower bound of the investment decision', mutable=True)
+    model.pNetUpInvest          = Param(model.ln,    initialize=pNetUpInvest.to_dict()              , within=NonNegativeReals,    doc='Upper bound of the investment decision', mutable=True)
+    model.pNetSensitivity       = Param(model.ln,    initialize=pNetSensitivity.to_dict()           , within=NonNegativeReals,    doc='Sensitivity of the investment decision', mutable=True)
+    model.pNetFxInvest          = Param(model.ln,    initialize=pNetFxInvest.to_dict()              , within=NonNegativeReals,    doc='Fixed cost of the investment decision' , mutable=True)
+    model.pNetSensiGroup        = Param(model.ln,    initialize=pNetSensiGroup.to_dict()            , within=NonNegativeIntegers, doc='Sensitivity group'                     , mutable=True)
+    model.pNetSensiGroupValue   = Param(model.ln,    initialize=pNetSensiGroupValue.to_dict()       , within=NonNegativeReals,    doc='Sensitivity group value'               , mutable=True)
+
+    # if unit availability = 0 changed to 1
+    for g in model.g:
+        if  model.pAvailability[g]() == 0.0:
+            model.pAvailability[g]   =  1.0
+
+    # if line length = 0 changed to geographical distance with an additional 10%
+    for ni,nf,cc in model.la:
+        if  model.pLineLength[ni,nf,cc]() == 0.0:
+            model.pLineLength[ni,nf,cc]   =  1.1 * 6371 * 2 * math.asin(math.sqrt(math.pow(math.sin((model.pNodeLat[nf]-model.pNodeLat[ni])*math.pi/180/2),2) + math.cos(model.pNodeLat[ni]*math.pi/180)*math.cos(model.pNodeLat[nf]*math.pi/180)*math.pow(math.sin((model.pNodeLon[nf]-model.pNodeLon[ni])*math.pi/180/2),2)))
 
     #%% variables
     model.vTotalSCost     = Var(                            within=NonNegativeReals,                                                                                          doc='total system                         cost      [MEUR]')
@@ -1205,8 +1323,9 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
     print('Generating network    constraints     ... ', round(GeneratingNetTime), 's')
 
     def eGenFixedInvestment(model,p,gc):
-        if sum(pGenFxInvest[g] for g in model.g) and pGenSensitivity[gc]:
-            return model.vGenerationInvest[p,gc] == pGenFxInvest[gc] * model.vGenSensi[p,gc]
+        if pGenSensitivity[gc]:
+            # return model.vGenerationInvest[p,gc] == pGenFxInvest[gc] * model.vGenSensi[p,gc]
+            return model.vGenerationInvest[p,gc] == pGenFxInvest[gc]
         else:
             return Constraint.Skip
     model.eGenFixedInvestment       = Constraint(model.pgc, rule=eGenFixedInvestment, doc='Fixing the investment decision to a specific value [p.u.]')
@@ -1227,9 +1346,9 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
 
     def eNetFixedInvestment(model,p,ni,nf,cc):
         if pIndBinSingleNode == 0 and pNetSensitivity[ni,nf,cc]:
-            # return model.vNetworkInvest[p,ni,nf,cc] == pNetFxInvest[ni,nf,cc]
+            return model.vNetworkInvest[p,ni,nf,cc] == pNetFxInvest[ni,nf,cc]
             # return model.vNetworkInvest[p,ni,nf,cc] == pNetFxInvest[ni,nf,cc] * model.vNetSensi[p,ni,nf,cc]
-            return model.vNetworkInvest[p, ni, nf, cc] <= pNetFxInvest[ni, nf, cc]
+            # return model.vNetworkInvest[p, ni, nf, cc] <= pNetFxInvest[ni, nf, cc]
             # return model.vNetworkInvest[p, ni, nf, cc] <= pNetFxInvest[ni, nf, cc] * 0.99999999
         else:
             return Constraint.Skip
@@ -1282,7 +1401,7 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
     if idx == 0:
         model.dual = Suffix(direction=Suffix.IMPORT)
         model.rc   = Suffix(direction=Suffix.IMPORT)
-    SolverResults = Solver.solve(model, tee=True)                                        # tee=True displays the output of the solver
+    SolverResults = Solver.solve(model, tee=False)                                        # tee=True displays the output of the solver
     print('Termination condition: ', SolverResults.solver.termination_condition)
     SolverResults.write()                                                                # summary of the solver results
 
@@ -1303,198 +1422,204 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
             Solver.options['relax_integrality'] = 1                                          # introduced to show results of the dual variables
         model.dual = Suffix(direction=Suffix.IMPORT)
         model.rc   = Suffix(direction=Suffix.IMPORT)
-        SolverResults = Solver.solve(model, tee=True)                                        # tee=True displays the output of the solver
+        SolverResults = Solver.solve(model, tee=False)                                        # tee=True displays the output of the solver
         SolverResults.write()                                                                # summary of the solver results
 
     SolvingTime = time.time() - StartTime
     StartTime   = time.time()
     print('Solving                               ... ', round(SolvingTime), 's')
 
-    print('Objective function value                  ', model.eTotalSCost.expr())
-
-    #%% outputting the generation operation
-    SysCost     = pd.Series(data=[                                                                                                             model.vTotalSCost()                                                                                                  ], index=[' ']  ).to_frame(name='Total          System Cost').stack()
-    GenInvCost  = pd.Series(data=[pDiscountFactor[p] * sum(pGenInvestCost[gc  ]                                                              * model.vGenerationInvest[p,gc  ]()  for gc      in model.gc                                     )     for p in model.p], index=model.p).to_frame(name='Generation Investment Cost').stack()
-    NetInvCost  = pd.Series(data=[pDiscountFactor[p] * sum(pNetFixedCost [lc  ]                                                              * model.vNetworkInvest   [p,lc  ]()  for lc      in model.lc                                     )     for p in model.p], index=model.p).to_frame(name='Network    Investment Cost').stack()
-    GenCost     = pd.Series(data=[pDiscountFactor[p] * sum(pScenProb     [p,sc]                                                              * model.vTotalGCost      [p,sc,n]()  for sc,n    in model.sc*model.n           if pScenProb[p,sc])     for p in model.p], index=model.p).to_frame(name='Generation  Operation Cost').stack()
-    ConCost     = pd.Series(data=[pDiscountFactor[p] * sum(pScenProb     [p,sc]                                                              * model.vTotalCCost      [p,sc,n]()  for sc,n    in model.sc*model.n           if pScenProb[p,sc])     for p in model.p], index=model.p).to_frame(name='Consumption Operation Cost').stack()
-    EmiCost     = pd.Series(data=[pDiscountFactor[p] * sum(pScenProb     [p,sc]                                                              * model.vTotalECost      [p,sc,n]()  for sc,n    in model.sc*model.n           if pScenProb[p,sc])     for p in model.p], index=model.p).to_frame(name='Emission              Cost').stack()
-    RelCost     = pd.Series(data=[pDiscountFactor[p] * sum(pScenProb     [p,sc]                                                              * model.vTotalRCost      [p,sc,n]()  for sc,n    in model.sc*model.n           if pScenProb[p,sc])     for p in model.p], index=model.p).to_frame(name='Reliability           Cost').stack()
-    CostSummary = pd.concat([SysCost, GenInvCost, NetInvCost, GenCost, ConCost, EmiCost, RelCost])
-    CostSummary = CostSummary.reset_index().rename(columns={'level_0': 'Period', 'level_1': 'Cost/Payment', 0: 'MEUR'})
-    CostSummary.to_csv(_path+'/3.Out/oT_Result_CostSummary_'+CaseName+'.csv', sep=',', index=False)
-
-    WritingCostSummaryTime = time.time() - StartTime
-    StartTime              = time.time()
-    print('Writing         cost summary results  ... ', round(WritingCostSummaryTime), 's')
-
-    #%% outputting the investments
-    if len(model.pgc):
-        OutputResults = pd.Series(data=[model.vGenerationInvest[p,gc]() for p,gc in model.pgc], index=pd.MultiIndex.from_tuples(model.pgc))
-        OutputResults.to_frame(name='p.u.').rename_axis(['Period','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_GenerationInvestment_'+CaseName+'.csv', index=False, sep=',')
-
-    if len(model.plc):
-        OutputResults = pd.Series(data=[model.vNetworkInvest[p,ni,nf,cc]() for p,ni,nf,cc in model.plc], index=pd.MultiIndex.from_tuples(model.plc))
-        OutputResults.to_frame(name='p.u.').rename_axis(['Period','InitialNode','FinalNode','Circuit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_NetworkInvestment_'+CaseName+'.csv', index=False, sep=',')
-
-    WritingInvResultsTime = time.time() - StartTime
-    StartTime              = time.time()
-    print('Writing           investment results  ... ', round(WritingInvResultsTime), 's')
-
-    #%%  Power balance per period, scenario, and load level
-    # incoming and outgoing lines (lin) (lout)
-    lin   = defaultdict(list)
-    lout  = defaultdict(list)
-    for ni,nf,cc in model.la:
-        lin  [nf].append((ni,cc))
-        lout [ni].append((nf,cc))
-
-    sPSNARND   = [(p,sc,n,ar,nd)    for p,sc,n,ar,nd    in model.psnar*model.nd if sum(1 for g in model.g if (nd,g) in model.n2g) + sum(1 for lout in lout[nd]) + sum(1 for ni,cc in lin[nd]) and (nd,ar) in model.ndar]
-    sPSNARNDGT = [(p,sc,n,ar,nd,gt) for p,sc,n,ar,nd,gt in sPSNARND*model.gt    if sum(1 for g in model.g if (gt,g) in model.t2g)                                                             and (nd,ar) in model.ndar]
-
-    OutputResults1     = pd.Series(data=[ sum(model.vTotalOutput   [p,sc,n,g       ]()*pLoadLevelDuration[n] for g  in model.g  if (nd,g ) in model.n2g and (gt,g ) in model.t2g) for p,sc,n,ar,nd,gt in sPSNARNDGT                        ], index=pd.Index(sPSNARNDGT)).to_frame(name='Generation'   ).reset_index().pivot_table(index=['level_0','level_1','level_2','level_3','level_4'], columns='level_5', values='Generation' , aggfunc=sum)
-    OutputResults2     = pd.Series(data=[-sum(model.vESSTotalCharge[p,sc,n,es      ]()*pLoadLevelDuration[n] for es in model.es if (nd,es) in model.n2g and (gt,es) in model.t2g) for p,sc,n,ar,nd,gt in sPSNARNDGT                        ], index=pd.Index(sPSNARNDGT)).to_frame(name='Consumption'  ).reset_index().pivot_table(index=['level_0','level_1','level_2','level_3','level_4'], columns='level_5', values='Consumption', aggfunc=sum)
-    OutputResults3     = pd.Series(data=[     model.vENS           [p,sc,n,nd      ]()*pLoadLevelDuration[n]                                                                      for p,sc,n,ar,nd    in sPSNARND                          ], index=pd.Index(sPSNARND  )).to_frame(name='ENS'          )
-    OutputResults4     = pd.Series(data=[-          pDemand        [p,sc,n,nd      ]  *pLoadLevelDuration[n]                                                                      for p,sc,n,ar,nd    in sPSNARND                          ], index=pd.Index(sPSNARND  )).to_frame(name='EnergyDemand' )
-    OutputResults5     = pd.Series(data=[-sum(model.vFlow          [p,sc,n,nd,lout ]()*pLoadLevelDuration[n] for lout  in lout [nd])                                              for p,sc,n,ar,nd    in sPSNARND                          ], index=pd.Index(sPSNARND  )).to_frame(name='EnergyFlowOut')
-    OutputResults6     = pd.Series(data=[ sum(model.vFlow          [p,sc,n,ni,nd,cc]()*pLoadLevelDuration[n] for ni,cc in lin  [nd])                                              for p,sc,n,ar,nd    in sPSNARND                          ], index=pd.Index(sPSNARND  )).to_frame(name='EnergyFlowIn' )
-    OutputResults  = pd.concat([OutputResults1, OutputResults2, OutputResults3, OutputResults4, OutputResults5, OutputResults6                                ], axis=1)
-
-    OutputResults.stack().rename_axis(['Period', 'Scenario', 'LoadLevel', 'Area', 'Node', 'Technology'], axis=0).reset_index().rename(columns={0: 'GWh'}, inplace=False).to_csv(_path+'/3.Out/oT_Result_BalanceEnergy_'+CaseName+'.csv', index=False, sep=',')
-
-    WritingEnergyBalanceTime = time.time() - StartTime
-    StartTime              = time.time()
-    print('Writing       energy balance results  ... ', round(WritingEnergyBalanceTime), 's')
-
-    #%% outputting the network operation
-    OutputResults = pd.Series(data=[model.vFlow[p,sc,n,ni,nf,cc]() for p,sc,n,ni,nf,cc in model.psnla], index=pd.Index(model.psnla))
-    OutputResults.to_frame(name='GWh').rename_axis(['Period', 'Scenario', 'LoadLevel', 'InitialNode', 'FinalNode', 'Circuit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_NetworkFlowPerNode_'       +CaseName+'.csv', index=False, sep=',')
-
-    # tolerance to consider avoid division by 0
-    pEpsilon = 1e-6
-
-    OutputResults = pd.Series(data=[max(model.vFlow[p,sc,n,ni,nf,cc]()/(pLineNTCFrw[ni,nf,cc]+pEpsilon),-model.vFlow[p,sc,n,ni,nf,cc]()/(pLineNTCFrw[ni,nf,cc]+pEpsilon)) for p,sc,n,ni,nf,cc in model.psnla], index=pd.Index(model.psnla))
-    OutputResults.to_frame(name='GWh').rename_axis(['Period', 'Scenario', 'LoadLevel', 'InitialNode', 'FinalNode', 'Circuit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_NetworkUtilizationPerNode_'+CaseName+'.csv', index=False, sep=',')
-
-    WritingNetOperTime = time.time() - StartTime
-    StartTime              = time.time()
-    print('Writing    network operation results  ... ', round(WritingNetOperTime), 's')
-
-    #%% outputting the generation operation
-    OutputResults = pd.Series(data=[model.vCommitment[p,sc,n,nr]() for p,sc,n,nr in model.psnnr], index=pd.MultiIndex.from_tuples(model.psnnr))
-    OutputResults.to_frame(name='p.u.').rename_axis(['Period','Scenario','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_GenerationCommitment_'+CaseName+'.csv', index=False, sep=',')
-    OutputResults = pd.Series(data=[model.vStartUp   [p,sc,n,nr]() for p,sc,n,nr in model.psnnr], index=pd.MultiIndex.from_tuples(model.psnnr))
-    OutputResults.to_frame(name='p.u.').rename_axis(['Period','Scenario','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_GenerationStartUp_'   +CaseName+'.csv', index=False, sep=',')
-    OutputResults = pd.Series(data=[model.vShutDown  [p,sc,n,nr]() for p,sc,n,nr in model.psnnr], index=pd.MultiIndex.from_tuples(model.psnnr))
-    OutputResults.to_frame(name='p.u.').rename_axis(['Period','Scenario','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_GenerationShutDown_'  +CaseName+'.csv', index=False, sep=',')
-
-    OutputResults = pd.Series(data=[model.vTotalOutput[p,sc,n,g]()*pLoadLevelDuration[n] for p,sc,n,g in model.psng], index=pd.MultiIndex.from_tuples(model.psng))
-    OutputResults.to_frame(name='GWh' ).rename_axis(['Period','Scenario','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_GenerationEnergy_'    +CaseName+'.csv', index=False, sep=',')
-    OutputResults = pd.Series(data=[sum(OutputResults[p,sc,n,g] for g in model.g if (gt,g) in model.t2g) for p,sc,n,gt in model.psngt], index=pd.MultiIndex.from_tuples(model.psngt))
-    OutputResults.to_frame(name='GWh' ).rename_axis(['Period','Scenario','LoadLevel','Technology'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_TechnologyEnergy_'+CaseName+'.csv', index=False, sep=',')
-
-    OutputResults = pd.Series(data=[model.vENS[p,sc,n,nd]()*pLoadLevelDuration[n] for p,sc,n,nd in model.psnnd], index=pd.MultiIndex.from_tuples(model.psnnd))
-    OutputResults.to_frame(name='GWh' ).rename_axis(['Period','Scenario','LoadLevel','Node'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_ENS_'                 +CaseName+'.csv', index=False, sep=',')
-
-    if len(model.r):
-        OutputResults = pd.Series(data=[(pMaxPower[p,sc,n,g]-model.vTotalOutput[p,sc,n,g]())*1e3 for p,sc,n,g in model.psnr], index=pd.MultiIndex.from_tuples(model.psnr))
-        OutputResults.to_frame(name='MW'  ).rename_axis(['Period','Scenario','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_RESCurtailment_'      +CaseName+'.csv', index=False, sep=',')
-
-    OutputResults = pd.Series(data=[model.vTotalOutput[p,sc,n,nr]()*pCO2EmissionRate[nr]*1e3 for p,sc,n,nr in model.psn*model.t], index=pd.MultiIndex.from_tuples(model.psn*model.t))
-    OutputResults.to_frame(name='tCO2').rename_axis(['Period','Scenario','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_GenerationEmission_'  +CaseName+'.csv', index=False, sep=',')
-
-    WritingGenOperTime = time.time() - StartTime
-    StartTime              = time.time()
-    print('Writing generation operation results  ... ', round(WritingGenOperTime), 's')
-
-    #%% outputting the ESS operation
-    if len(model.es):
-
-        OutputResults = pd.Series(data=[model.vESSTotalCharge   [p,sc,n,es]()*pLoadLevelDuration[n] for p,sc,n,es in model.psnes], index=pd.MultiIndex.from_tuples(model.psnes))
-        OutputResults.to_frame(name='GWh').rename_axis(['Period','Scenario','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_ESSConsumptionEnergy_'+CaseName+'.csv', index=False, sep=',')
-        OutputResults = pd.Series(data=[sum(OutputResults[p,sc,n,es] for es in model.es if (gt,es) in model.t2g) for p,sc,n,gt in model.psngt], index=pd.MultiIndex.from_tuples(model.psngt))
-        OutputResults.to_frame(name='GWh').rename_axis(['Period','Scenario','LoadLevel','Technology'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_TechnologyConsumption_'+CaseName+'.csv', index=False, sep=',')
-
-        OutputResults = pd.Series(data=[model.vESSInventory[p,sc,n,es]()                               for p,sc,n,es in model.psnes], index=pd.MultiIndex.from_tuples(model.psnes))
-        OutputResults *= 1e3
-        OutputResults.to_frame(name='GWh').rename_axis(['Period','Scenario','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_ESSInventory_'+CaseName+'.csv', index=False, sep=',')
-
-        OutputResults = pd.Series(data=[model.vESSSpillage [p,sc,n,es]()                               for p,sc,n,es in model.psnes], index=pd.MultiIndex.from_tuples(model.psnes))
-        OutputResults *= 1e3
-        OutputResults.to_frame(name='GWh').rename_axis(['Period','Scenario','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_ESSSpillage_'+CaseName+'.csv', index=False, sep=',')
-
-    WritingESSOperTime = time.time() - StartTime
-    StartTime              = time.time()
-    print('Writing        ESS operation results  ... ', round(WritingESSOperTime), 's')
-
-    #%% outputting the SRMC
-    if SolverName == 'gurobi':
-        OutputResults = pd.Series(data=[model.dual[model.eBalance[p,sc,st,n,nd]]*1e3/pScenProb[p,sc]/pLoadLevelDuration[n] for p,sc,n,nd,st in model.psnnd*model.st if (st,n) in model.s2n], index=pd.MultiIndex.from_tuples(model.psnnd))
-        OutputResults.to_frame(name='SRMC').rename_axis(['Period','Scenario','LoadLevel','Node'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_SRMC_'+CaseName+'.csv', index=False, sep=',')
-
-    if sum(pGenFxInvest[gc] for gc in model.gc):
-        List1 = [(p,sc,st,n,gc) for p,sc,st,n,gc in model.ps*model.n*model.st*model.n*model.gc if (st,n) in model.s2n and pMaxPower[p,sc,n,gc]]
-        if len(List1):
-            OutputResults = pd.Series(data=[model.dual[model.eInstalGenCap[p,sc,st,n,gc]] for (p,sc,st,n,gc) in List1], index=pd.MultiIndex.from_tuples(list(List1)))
-            OutputResults.to_frame(name='p.u.').rename_axis(['Period','Scenario','Stage','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_Dual_eGenFixedOperation_'+CaseName+'.csv', index=False, sep=',')
-
-            OutputResults = pd.Series(data=[model.dual[model.eGenFixedInvestment[p,gc]] for p,gc in model.pgc], index=pd.MultiIndex.from_tuples(model.pgc))
-            OutputResults.to_frame(name='p.u.').rename_axis(['Period','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_Dual_eGenFixedInvestment_'+CaseName+'.csv', index=False, sep=',')
-
-        List2 = [(p,gc,sg) for p,gc,sg in model.pgc*model.gs if pGenSensitivity[gc] and (sg,gc) in model.sg2g]
-        if len(List2):
-            OutputResults = pd.Series(data=[model.dual[model.eGenSensiGroup[p,gc,sg]] for p,gc,sg in List2], index=pd.MultiIndex.from_tuples(list(List2)))
-            OutputResults.to_frame(name='p.u.').rename_axis(['Period','Unit','Group'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_Dual_eGenSensitivityCoupling_'+CaseName+'.csv', index=False, sep=',')
-
-            OutputResults = pd.Series(data=[model.dual[model.eGenSensiGroupValue[p,gc,sg]] for p,gc,sg in List2], index=pd.MultiIndex.from_tuples(list(List2)))
-            OutputResults.to_frame(name='p.u.').rename_axis(['Period','Unit','Group'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_Dual_eGenSensitivityCouplingValue_'+CaseName+'.csv', index=False, sep=',')
-
-    List3 = [(p,sc,st,n,ni,nf,cc) for p,sc,st,n,ni,nf,cc in model.ps*model.st*model.n*model.lc if (st,n) in model.s2n and pIndBinSingleNode == 0]
-    if len(List3):
-        # OutputResults = pd.Series(data=[model.dual[model.eNetCapacity1[p,sc,st,n,ni,nf,cc]]/pPeriodProb[p,sc]/pLoadLevelDuration[n]*1e3 for (p,sc,st,n,ni,nf,cc) in List3], index=pd.MultiIndex.from_tuples(list(List3)))
-        OutputResults = pd.Series(data=[model.dual[model.eNetCapacity1[p,sc,st,n,ni,nf,cc]] for (p,sc,st,n,ni,nf,cc) in List3], index=pd.MultiIndex.from_tuples(list(List3)))
-        OutputResults.to_frame(name='EUR/MW').rename_axis(['Period','Scenario','Stage','LoadLevel','InitialNode','FinalNode','Circuit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_Dual_eNetCapacityOperation_LowerBound_'+CaseName+'.csv', index=False, sep=',')
-
-        # OutputResults = pd.Series(data=[model.dual[model.eNetCapacity2[p,sc,st,n,ni,nf,cc]]/pPeriodProb[p,sc]/pLoadLevelDuration[n]*1e3 for (p,sc,st,n,ni,nf,cc) in List3], index=pd.MultiIndex.from_tuples(list(List3)))
-        OutputResults = pd.Series(data=[model.dual[model.eNetCapacity2[p,sc,st,n,ni,nf,cc]] for (p,sc,st,n,ni,nf,cc) in List3], index=pd.MultiIndex.from_tuples(list(List3)))
-        OutputResults.to_frame(name='EUR/MW').rename_axis(['Period','Scenario','Stage','LoadLevel','InitialNode','FinalNode','Circuit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_Dual_eNetCapacityOperation_UpperBound_'+CaseName+'.csv', index=False, sep=',')
-
-    List4 = [(p,sc,st,n,ni,nf,cc) for p,sc,st,n,ni,nf,cc in model.ps*model.st*model.n*model.lca if (st,n) in model.s2n and pIndBinSingleNode == 0]
-    if len(List4):
-        OutputResults = pd.Series(data=[model.dual[model.eKirchhoff2ndLaw1[p,sc,st,n,ni,nf,cc]] for (p,sc,st,n,ni,nf,cc) in List4], index=pd.MultiIndex.from_tuples(list(List4)))
-        OutputResults.to_frame(name='p.u.').rename_axis(['Period','Scenario','Stage','LoadLevel','InitialNode','FinalNode','Circuit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_Dual_eNetAngleDifference_LowerBound_'+CaseName+'.csv', index=False, sep=',')
-
-        OutputResults = pd.Series(data=[model.dual[model.eKirchhoff2ndLaw2[p,sc,st,n,ni,nf,cc]] for (p,sc,st,n,ni,nf,cc) in List4], index=pd.MultiIndex.from_tuples(list(List4)))
-        OutputResults.to_frame(name='p.u.').rename_axis(['Period','Scenario','Stage','LoadLevel','InitialNode','FinalNode','Circuit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_Dual_eNetAngleDifference_UpperBound_'+CaseName+'.csv', index=False, sep=',')
-
-    if sum(pNetFxInvest[ni,nf,cc] for ni,nf,cc in model.lc):
-        if len(List3):
-            # OutputResults = pd.Series(data=[model.dual[model.eNetFixedInvestment[p,ni,nf,cc]]*1e3 for p,ni,nf,cc in model.plc], index=pd.MultiIndex.from_tuples(model.plc))
-            OutputResults = pd.Series(data=[model.dual[model.eNetFixedInvestment[p,ni,nf,cc]] for p,ni,nf,cc in model.plc], index=pd.MultiIndex.from_tuples(model.plc))
-            OutputResults.to_frame(name='EUR/MW').rename_axis(['Period','InitialNode','FinalNode','Circuit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_Dual_eNetFixedInvestment_'+CaseName+'.csv', index=False, sep=',')
-
-        # List5 = [(p,ni,nf,cc,sg) for p,ni,nf,cc,sg in model.plc*model.ns if pNetSensitivity[ni,nf,cc] and (sg,ni,nf,cc) in model.sg2la]
-        # if len(List5):
-        #     OutputResults = pd.Series(data=[model.dual[model.eNetSensiGroup[p,ni,nf,cc,sg]]*1e3 for p,ni,nf,cc,sg in List5], index=pd.MultiIndex.from_tuples(list(List5)))
-        #     OutputResults.to_frame(name='EUR/MW').rename_axis(['Period','InitialNode','FinalNode','Circuit','Group'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_Dual_eNetSensitivityCoupling_'+CaseName+'.csv', index=False, sep=',')
-        # List6 = [(p,sg) for p,sg in model.p*model.ns if sg != 'Gr0']
-        # if len(List6):
-        #     OutputResults = pd.Series(data=[model.dual[model.eNetSensiGroupValue[p,sg]]*1e3 for p,sg in List6], index=pd.MultiIndex.from_tuples(list(List6)))
-        #     OutputResults.to_frame(name='EUR/MW').rename_axis(['Period','Group'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_Dual_eNetSensitivityCouplingValue_'+CaseName+'.csv', index=False, sep=',')
-
-    #%% Reduced cost for NetworkInvestment
-    ReducedCostActivation = pIndBinGenInvest*len(model.gc) + pIndBinNetInvest*len(model.lc) + pIndBinGenOperat*len(model.nr)
-    if len(model.lc) and not ReducedCostActivation and model.vNetworkInvest.is_variable_type():
-        OutputToFile = pd.Series(data=[model.rc[model.vNetworkInvest[p,ni,nf,cc]] for p,ni,nf,cc in model.plc], index=pd.Index(model.plc))
-        # OutputToFile.index.names = ['Period', 'InitialNode', 'FinalNode', 'Circuit']
-        OutputToFile.to_frame(name='MEUR').rename_axis(['Period','InitialNode','FinalNode','Circuit'], axis=0).to_csv(_path+'/3.Out/oT_Result_ReducedCost_NetworkInvestment_'+CaseName+'.csv', sep=',')
-
-    WritingEconomicTime = time.time() - StartTime
-    print('Writing             economic results  ... ', round(WritingEconomicTime), 's')
-    print('Total time                            ... ', round(ReadingDataTime + SettingUpDataTime + GeneratingOFTime + GeneratingInvTime + GeneratingBalanceTime + GeneratingESSTime + GeneratingUCTime + GeneratingNetTime + GeneratingEATime + WritingLPTime + SolvingTime + WritingCostSummaryTime + WritingInvResultsTime + WritingEnergyBalanceTime + WritingNetOperTime + WritingGenOperTime + WritingESSOperTime + WritingEconomicTime), 's')
-    print('\n #### Academic research license - for non-commercial use only #### \n')
-
     return model
+
+# def saving_results(DirName, CaseName, SolverName, model):
+#
+#     _path = os.path.join(DirName, CaseName)
+#     StartTime = time.time()
+#     print('Objective function value                  ', model.eTotalSCost.expr())
+#
+#     #%% outputting the generation operation
+#     SysCost     = pd.Series(data=[                                                                                                             model.vTotalSCost()                                                                                                  ], index=[' ']  ).to_frame(name='Total          System Cost').stack()
+#     GenInvCost  = pd.Series(data=[pDiscountFactor[p] * sum(pGenInvestCost[gc  ]                                                              * model.vGenerationInvest[p,gc  ]()  for gc      in model.gc                                     )     for p in model.p], index=model.p).to_frame(name='Generation Investment Cost').stack()
+#     NetInvCost  = pd.Series(data=[pDiscountFactor[p] * sum(pNetFixedCost [lc  ]                                                              * model.vNetworkInvest   [p,lc  ]()  for lc      in model.lc                                     )     for p in model.p], index=model.p).to_frame(name='Network    Investment Cost').stack()
+#     GenCost     = pd.Series(data=[pDiscountFactor[p] * sum(pScenProb     [p,sc]                                                              * model.vTotalGCost      [p,sc,n]()  for sc,n    in model.sc*model.n           if pScenProb[p,sc])     for p in model.p], index=model.p).to_frame(name='Generation  Operation Cost').stack()
+#     ConCost     = pd.Series(data=[pDiscountFactor[p] * sum(pScenProb     [p,sc]                                                              * model.vTotalCCost      [p,sc,n]()  for sc,n    in model.sc*model.n           if pScenProb[p,sc])     for p in model.p], index=model.p).to_frame(name='Consumption Operation Cost').stack()
+#     EmiCost     = pd.Series(data=[pDiscountFactor[p] * sum(pScenProb     [p,sc]                                                              * model.vTotalECost      [p,sc,n]()  for sc,n    in model.sc*model.n           if pScenProb[p,sc])     for p in model.p], index=model.p).to_frame(name='Emission              Cost').stack()
+#     RelCost     = pd.Series(data=[pDiscountFactor[p] * sum(pScenProb     [p,sc]                                                              * model.vTotalRCost      [p,sc,n]()  for sc,n    in model.sc*model.n           if pScenProb[p,sc])     for p in model.p], index=model.p).to_frame(name='Reliability           Cost').stack()
+#     CostSummary = pd.concat([SysCost, GenInvCost, NetInvCost, GenCost, ConCost, EmiCost, RelCost])
+#     CostSummary = CostSummary.reset_index().rename(columns={'level_0': 'Period', 'level_1': 'Cost/Payment', 0: 'MEUR'})
+#     CostSummary.to_csv(_path+'/3.Out/oT_Result_CostSummary_'+CaseName+'.csv', sep=',', index=False)
+#
+#     WritingCostSummaryTime = time.time() - StartTime
+#     StartTime              = time.time()
+#     print('Writing         cost summary results  ... ', round(WritingCostSummaryTime), 's')
+#
+#     #%% outputting the investments
+#     if len(model.pgc):
+#         OutputResults = pd.Series(data=[model.vGenerationInvest[p,gc]() for p,gc in model.pgc], index=pd.MultiIndex.from_tuples(model.pgc))
+#         OutputResults.to_frame(name='p.u.').rename_axis(['Period','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_GenerationInvestment_'+CaseName+'.csv', index=False, sep=',')
+#
+#     if len(model.plc):
+#         OutputResults = pd.Series(data=[model.vNetworkInvest[p,ni,nf,cc]() for p,ni,nf,cc in model.plc], index=pd.MultiIndex.from_tuples(model.plc))
+#         OutputResults.to_frame(name='p.u.').rename_axis(['Period','InitialNode','FinalNode','Circuit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_NetworkInvestment_'+CaseName+'.csv', index=False, sep=',')
+#
+#     WritingInvResultsTime = time.time() - StartTime
+#     StartTime              = time.time()
+#     print('Writing           investment results  ... ', round(WritingInvResultsTime), 's')
+#
+#     #%%  Power balance per period, scenario, and load level
+#     # incoming and outgoing lines (lin) (lout)
+#     lin   = defaultdict(list)
+#     lout  = defaultdict(list)
+#     for ni,nf,cc in model.la:
+#         lin  [nf].append((ni,cc))
+#         lout [ni].append((nf,cc))
+#
+#     sPSNARND   = [(p,sc,n,ar,nd)    for p,sc,n,ar,nd    in model.psnar*model.nd if sum(1 for g in model.g if (nd,g) in model.n2g) + sum(1 for lout in lout[nd]) + sum(1 for ni,cc in lin[nd]) and (nd,ar) in model.ndar]
+#     sPSNARNDGT = [(p,sc,n,ar,nd,gt) for p,sc,n,ar,nd,gt in sPSNARND*model.gt    if sum(1 for g in model.g if (gt,g) in model.t2g)                                                             and (nd,ar) in model.ndar]
+#
+#     OutputResults1     = pd.Series(data=[ sum(model.vTotalOutput   [p,sc,n,g       ]()*pLoadLevelDuration[n] for g  in model.g  if (nd,g ) in model.n2g and (gt,g ) in model.t2g) for p,sc,n,ar,nd,gt in sPSNARNDGT                        ], index=pd.Index(sPSNARNDGT)).to_frame(name='Generation'   ).reset_index().pivot_table(index=['level_0','level_1','level_2','level_3','level_4'], columns='level_5', values='Generation' , aggfunc=sum)
+#     OutputResults2     = pd.Series(data=[-sum(model.vESSTotalCharge[p,sc,n,es      ]()*pLoadLevelDuration[n] for es in model.es if (nd,es) in model.n2g and (gt,es) in model.t2g) for p,sc,n,ar,nd,gt in sPSNARNDGT                        ], index=pd.Index(sPSNARNDGT)).to_frame(name='Consumption'  ).reset_index().pivot_table(index=['level_0','level_1','level_2','level_3','level_4'], columns='level_5', values='Consumption', aggfunc=sum)
+#     OutputResults3     = pd.Series(data=[     model.vENS           [p,sc,n,nd      ]()*pLoadLevelDuration[n]                                                                      for p,sc,n,ar,nd    in sPSNARND                          ], index=pd.Index(sPSNARND  )).to_frame(name='ENS'          )
+#     OutputResults4     = pd.Series(data=[-          pDemand        [p,sc,n,nd      ]  *pLoadLevelDuration[n]                                                                      for p,sc,n,ar,nd    in sPSNARND                          ], index=pd.Index(sPSNARND  )).to_frame(name='EnergyDemand' )
+#     OutputResults5     = pd.Series(data=[-sum(model.vFlow          [p,sc,n,nd,lout ]()*pLoadLevelDuration[n] for lout  in lout [nd])                                              for p,sc,n,ar,nd    in sPSNARND                          ], index=pd.Index(sPSNARND  )).to_frame(name='EnergyFlowOut')
+#     OutputResults6     = pd.Series(data=[ sum(model.vFlow          [p,sc,n,ni,nd,cc]()*pLoadLevelDuration[n] for ni,cc in lin  [nd])                                              for p,sc,n,ar,nd    in sPSNARND                          ], index=pd.Index(sPSNARND  )).to_frame(name='EnergyFlowIn' )
+#     OutputResults  = pd.concat([OutputResults1, OutputResults2, OutputResults3, OutputResults4, OutputResults5, OutputResults6                                ], axis=1)
+#
+#     OutputResults.stack().rename_axis(['Period', 'Scenario', 'LoadLevel', 'Area', 'Node', 'Technology'], axis=0).reset_index().rename(columns={0: 'GWh'}, inplace=False).to_csv(_path+'/3.Out/oT_Result_BalanceEnergy_'+CaseName+'.csv', index=False, sep=',')
+#
+#     WritingEnergyBalanceTime = time.time() - StartTime
+#     StartTime              = time.time()
+#     print('Writing       energy balance results  ... ', round(WritingEnergyBalanceTime), 's')
+#
+#     #%% outputting the network operation
+#     OutputResults = pd.Series(data=[model.vFlow[p,sc,n,ni,nf,cc]() for p,sc,n,ni,nf,cc in model.psnla], index=pd.Index(model.psnla))
+#     OutputResults.to_frame(name='GWh').rename_axis(['Period', 'Scenario', 'LoadLevel', 'InitialNode', 'FinalNode', 'Circuit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_NetworkFlowPerNode_'       +CaseName+'.csv', index=False, sep=',')
+#
+#     # tolerance to consider avoid division by 0
+#     pEpsilon = 1e-6
+#
+#     OutputResults = pd.Series(data=[max(model.vFlow[p,sc,n,ni,nf,cc]()/(pLineNTCFrw[ni,nf,cc]+pEpsilon),-model.vFlow[p,sc,n,ni,nf,cc]()/(pLineNTCFrw[ni,nf,cc]+pEpsilon)) for p,sc,n,ni,nf,cc in model.psnla], index=pd.Index(model.psnla))
+#     OutputResults.to_frame(name='GWh').rename_axis(['Period', 'Scenario', 'LoadLevel', 'InitialNode', 'FinalNode', 'Circuit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_NetworkUtilizationPerNode_'+CaseName+'.csv', index=False, sep=',')
+#
+#     WritingNetOperTime = time.time() - StartTime
+#     StartTime              = time.time()
+#     print('Writing    network operation results  ... ', round(WritingNetOperTime), 's')
+#
+#     #%% outputting the generation operation
+#     OutputResults = pd.Series(data=[model.vCommitment[p,sc,n,nr]() for p,sc,n,nr in model.psnnr], index=pd.MultiIndex.from_tuples(model.psnnr))
+#     OutputResults.to_frame(name='p.u.').rename_axis(['Period','Scenario','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_GenerationCommitment_'+CaseName+'.csv', index=False, sep=',')
+#     OutputResults = pd.Series(data=[model.vStartUp   [p,sc,n,nr]() for p,sc,n,nr in model.psnnr], index=pd.MultiIndex.from_tuples(model.psnnr))
+#     OutputResults.to_frame(name='p.u.').rename_axis(['Period','Scenario','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_GenerationStartUp_'   +CaseName+'.csv', index=False, sep=',')
+#     OutputResults = pd.Series(data=[model.vShutDown  [p,sc,n,nr]() for p,sc,n,nr in model.psnnr], index=pd.MultiIndex.from_tuples(model.psnnr))
+#     OutputResults.to_frame(name='p.u.').rename_axis(['Period','Scenario','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_GenerationShutDown_'  +CaseName+'.csv', index=False, sep=',')
+#
+#     OutputResults = pd.Series(data=[model.vTotalOutput[p,sc,n,g]()*pLoadLevelDuration[n] for p,sc,n,g in model.psng], index=pd.MultiIndex.from_tuples(model.psng))
+#     OutputResults.to_frame(name='GWh' ).rename_axis(['Period','Scenario','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_GenerationEnergy_'    +CaseName+'.csv', index=False, sep=',')
+#     OutputResults = pd.Series(data=[sum(OutputResults[p,sc,n,g] for g in model.g if (gt,g) in model.t2g) for p,sc,n,gt in model.psngt], index=pd.MultiIndex.from_tuples(model.psngt))
+#     OutputResults.to_frame(name='GWh' ).rename_axis(['Period','Scenario','LoadLevel','Technology'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_TechnologyEnergy_'+CaseName+'.csv', index=False, sep=',')
+#
+#     OutputResults = pd.Series(data=[model.vENS[p,sc,n,nd]()*pLoadLevelDuration[n] for p,sc,n,nd in model.psnnd], index=pd.MultiIndex.from_tuples(model.psnnd))
+#     OutputResults.to_frame(name='GWh' ).rename_axis(['Period','Scenario','LoadLevel','Node'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_ENS_'                 +CaseName+'.csv', index=False, sep=',')
+#
+#     if len(model.r):
+#         OutputResults = pd.Series(data=[(pMaxPower[p,sc,n,g]-model.vTotalOutput[p,sc,n,g]())*1e3 for p,sc,n,g in model.psnr], index=pd.MultiIndex.from_tuples(model.psnr))
+#         OutputResults.to_frame(name='MW'  ).rename_axis(['Period','Scenario','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_RESCurtailment_'      +CaseName+'.csv', index=False, sep=',')
+#
+#     OutputResults = pd.Series(data=[model.vTotalOutput[p,sc,n,nr]()*pCO2EmissionRate[nr]*1e3 for p,sc,n,nr in model.psn*model.t], index=pd.MultiIndex.from_tuples(model.psn*model.t))
+#     OutputResults.to_frame(name='tCO2').rename_axis(['Period','Scenario','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_GenerationEmission_'  +CaseName+'.csv', index=False, sep=',')
+#
+#     WritingGenOperTime = time.time() - StartTime
+#     StartTime              = time.time()
+#     print('Writing generation operation results  ... ', round(WritingGenOperTime), 's')
+#
+#     #%% outputting the ESS operation
+#     if len(model.es):
+#
+#         OutputResults = pd.Series(data=[model.vESSTotalCharge   [p,sc,n,es]()*pLoadLevelDuration[n] for p,sc,n,es in model.psnes], index=pd.MultiIndex.from_tuples(model.psnes))
+#         OutputResults.to_frame(name='GWh').rename_axis(['Period','Scenario','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_ESSConsumptionEnergy_'+CaseName+'.csv', index=False, sep=',')
+#         OutputResults = pd.Series(data=[sum(OutputResults[p,sc,n,es] for es in model.es if (gt,es) in model.t2g) for p,sc,n,gt in model.psngt], index=pd.MultiIndex.from_tuples(model.psngt))
+#         OutputResults.to_frame(name='GWh').rename_axis(['Period','Scenario','LoadLevel','Technology'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_TechnologyConsumption_'+CaseName+'.csv', index=False, sep=',')
+#
+#         OutputResults = pd.Series(data=[model.vESSInventory[p,sc,n,es]()                               for p,sc,n,es in model.psnes], index=pd.MultiIndex.from_tuples(model.psnes))
+#         OutputResults *= 1e3
+#         OutputResults.to_frame(name='GWh').rename_axis(['Period','Scenario','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_ESSInventory_'+CaseName+'.csv', index=False, sep=',')
+#
+#         OutputResults = pd.Series(data=[model.vESSSpillage [p,sc,n,es]()                               for p,sc,n,es in model.psnes], index=pd.MultiIndex.from_tuples(model.psnes))
+#         OutputResults *= 1e3
+#         OutputResults.to_frame(name='GWh').rename_axis(['Period','Scenario','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_ESSSpillage_'+CaseName+'.csv', index=False, sep=',')
+#
+#     WritingESSOperTime = time.time() - StartTime
+#     StartTime              = time.time()
+#     print('Writing        ESS operation results  ... ', round(WritingESSOperTime), 's')
+#
+#     #%% outputting the SRMC
+#     if SolverName == 'gurobi':
+#         OutputResults = pd.Series(data=[model.dual[model.eBalance[p,sc,st,n,nd]]*1e3/pScenProb[p,sc]/pLoadLevelDuration[n] for p,sc,n,nd,st in model.psnnd*model.st if (st,n) in model.s2n], index=pd.MultiIndex.from_tuples(model.psnnd))
+#         OutputResults.to_frame(name='SRMC').rename_axis(['Period','Scenario','LoadLevel','Node'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_SRMC_'+CaseName+'.csv', index=False, sep=',')
+#
+#     if sum(pGenFxInvest[gc] for gc in model.gc):
+#         List1 = [(p,sc,st,n,gc) for p,sc,st,n,gc in model.ps*model.n*model.st*model.n*model.gc if (st,n) in model.s2n and pMaxPower[p,sc,n,gc]]
+#         if len(List1):
+#             OutputResults = pd.Series(data=[model.dual[model.eInstalGenCap[p,sc,st,n,gc]] for (p,sc,st,n,gc) in List1], index=pd.MultiIndex.from_tuples(list(List1)))
+#             OutputResults.to_frame(name='p.u.').rename_axis(['Period','Scenario','Stage','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_Dual_eGenFixedOperation_'+CaseName+'.csv', index=False, sep=',')
+#
+#             OutputResults = pd.Series(data=[model.dual[model.eGenFixedInvestment[p,gc]] for p,gc in model.pgc], index=pd.MultiIndex.from_tuples(model.pgc))
+#             OutputResults.to_frame(name='p.u.').rename_axis(['Period','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_Dual_eGenFixedInvestment_'+CaseName+'.csv', index=False, sep=',')
+#
+#         List2 = [(p,gc,sg) for p,gc,sg in model.pgc*model.gs if pGenSensitivity[gc] and (sg,gc) in model.sg2g]
+#         if len(List2):
+#             OutputResults = pd.Series(data=[model.dual[model.eGenSensiGroup[p,gc,sg]] for p,gc,sg in List2], index=pd.MultiIndex.from_tuples(list(List2)))
+#             OutputResults.to_frame(name='p.u.').rename_axis(['Period','Unit','Group'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_Dual_eGenSensitivityCoupling_'+CaseName+'.csv', index=False, sep=',')
+#
+#             OutputResults = pd.Series(data=[model.dual[model.eGenSensiGroupValue[p,gc,sg]] for p,gc,sg in List2], index=pd.MultiIndex.from_tuples(list(List2)))
+#             OutputResults.to_frame(name='p.u.').rename_axis(['Period','Unit','Group'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_Dual_eGenSensitivityCouplingValue_'+CaseName+'.csv', index=False, sep=',')
+#
+#     List3 = [(p,sc,st,n,ni,nf,cc) for p,sc,st,n,ni,nf,cc in model.ps*model.st*model.n*model.lc if (st,n) in model.s2n and pIndBinSingleNode == 0]
+#     if len(List3):
+#         # OutputResults = pd.Series(data=[model.dual[model.eNetCapacity1[p,sc,st,n,ni,nf,cc]]/pPeriodProb[p,sc]/pLoadLevelDuration[n]*1e3 for (p,sc,st,n,ni,nf,cc) in List3], index=pd.MultiIndex.from_tuples(list(List3)))
+#         OutputResults = pd.Series(data=[model.dual[model.eNetCapacity1[p,sc,st,n,ni,nf,cc]] for (p,sc,st,n,ni,nf,cc) in List3], index=pd.MultiIndex.from_tuples(list(List3)))
+#         OutputResults.to_frame(name='EUR/MW').rename_axis(['Period','Scenario','Stage','LoadLevel','InitialNode','FinalNode','Circuit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_Dual_eNetCapacityOperation_LowerBound_'+CaseName+'.csv', index=False, sep=',')
+#
+#         # OutputResults = pd.Series(data=[model.dual[model.eNetCapacity2[p,sc,st,n,ni,nf,cc]]/pPeriodProb[p,sc]/pLoadLevelDuration[n]*1e3 for (p,sc,st,n,ni,nf,cc) in List3], index=pd.MultiIndex.from_tuples(list(List3)))
+#         OutputResults = pd.Series(data=[model.dual[model.eNetCapacity2[p,sc,st,n,ni,nf,cc]] for (p,sc,st,n,ni,nf,cc) in List3], index=pd.MultiIndex.from_tuples(list(List3)))
+#         OutputResults.to_frame(name='EUR/MW').rename_axis(['Period','Scenario','Stage','LoadLevel','InitialNode','FinalNode','Circuit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_Dual_eNetCapacityOperation_UpperBound_'+CaseName+'.csv', index=False, sep=',')
+#
+#     List4 = [(p,sc,st,n,ni,nf,cc) for p,sc,st,n,ni,nf,cc in model.ps*model.st*model.n*model.lca if (st,n) in model.s2n and pIndBinSingleNode == 0]
+#     if len(List4):
+#         OutputResults = pd.Series(data=[model.dual[model.eKirchhoff2ndLaw1[p,sc,st,n,ni,nf,cc]] for (p,sc,st,n,ni,nf,cc) in List4], index=pd.MultiIndex.from_tuples(list(List4)))
+#         OutputResults.to_frame(name='p.u.').rename_axis(['Period','Scenario','Stage','LoadLevel','InitialNode','FinalNode','Circuit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_Dual_eNetAngleDifference_LowerBound_'+CaseName+'.csv', index=False, sep=',')
+#
+#         OutputResults = pd.Series(data=[model.dual[model.eKirchhoff2ndLaw2[p,sc,st,n,ni,nf,cc]] for (p,sc,st,n,ni,nf,cc) in List4], index=pd.MultiIndex.from_tuples(list(List4)))
+#         OutputResults.to_frame(name='p.u.').rename_axis(['Period','Scenario','Stage','LoadLevel','InitialNode','FinalNode','Circuit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_Dual_eNetAngleDifference_UpperBound_'+CaseName+'.csv', index=False, sep=',')
+#
+#     if sum(pNetFxInvest[ni,nf,cc] for ni,nf,cc in model.lc):
+#         if len(List3):
+#             # OutputResults = pd.Series(data=[model.dual[model.eNetFixedInvestment[p,ni,nf,cc]]*1e3 for p,ni,nf,cc in model.plc], index=pd.MultiIndex.from_tuples(model.plc))
+#             OutputResults = pd.Series(data=[model.dual[model.eNetFixedInvestment[p,ni,nf,cc]] for p,ni,nf,cc in model.plc], index=pd.MultiIndex.from_tuples(model.plc))
+#             OutputResults.to_frame(name='EUR/MW').rename_axis(['Period','InitialNode','FinalNode','Circuit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_Dual_eNetFixedInvestment_'+CaseName+'.csv', index=False, sep=',')
+#
+#         # List5 = [(p,ni,nf,cc,sg) for p,ni,nf,cc,sg in model.plc*model.ns if pNetSensitivity[ni,nf,cc] and (sg,ni,nf,cc) in model.sg2la]
+#         # if len(List5):
+#         #     OutputResults = pd.Series(data=[model.dual[model.eNetSensiGroup[p,ni,nf,cc,sg]]*1e3 for p,ni,nf,cc,sg in List5], index=pd.MultiIndex.from_tuples(list(List5)))
+#         #     OutputResults.to_frame(name='EUR/MW').rename_axis(['Period','InitialNode','FinalNode','Circuit','Group'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_Dual_eNetSensitivityCoupling_'+CaseName+'.csv', index=False, sep=',')
+#         # List6 = [(p,sg) for p,sg in model.p*model.ns if sg != 'Gr0']
+#         # if len(List6):
+#         #     OutputResults = pd.Series(data=[model.dual[model.eNetSensiGroupValue[p,sg]]*1e3 for p,sg in List6], index=pd.MultiIndex.from_tuples(list(List6)))
+#         #     OutputResults.to_frame(name='EUR/MW').rename_axis(['Period','Group'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_Dual_eNetSensitivityCouplingValue_'+CaseName+'.csv', index=False, sep=',')
+#
+#     #%% Reduced cost for NetworkInvestment
+#     ReducedCostActivation = pIndBinGenInvest*len(model.gc) + pIndBinNetInvest*len(model.lc) + pIndBinGenOperat*len(model.nr)
+#     if len(model.lc) and not ReducedCostActivation and model.vNetworkInvest.is_variable_type():
+#         OutputToFile = pd.Series(data=[model.rc[model.vNetworkInvest[p,ni,nf,cc]] for p,ni,nf,cc in model.plc], index=pd.Index(model.plc))
+#         # OutputToFile.index.names = ['Period', 'InitialNode', 'FinalNode', 'Circuit']
+#         OutputToFile.to_frame(name='MEUR').rename_axis(['Period','InitialNode','FinalNode','Circuit'], axis=0).to_csv(_path+'/3.Out/oT_Result_ReducedCost_NetworkInvestment_'+CaseName+'.csv', sep=',')
+#
+#     WritingEconomicTime = time.time() - StartTime
+#     print('Writing             economic results  ... ', round(WritingEconomicTime), 's')
+#     print('Total time                            ... ', round(ReadingDataTime + SettingUpDataTime + GeneratingOFTime + GeneratingInvTime + GeneratingBalanceTime + GeneratingESSTime + GeneratingUCTime + GeneratingNetTime + GeneratingEATime + WritingLPTime + SolvingTime + WritingCostSummaryTime + WritingInvResultsTime + WritingEnergyBalanceTime + WritingNetOperTime + WritingGenOperTime + WritingESSOperTime + WritingEconomicTime), 's')
+#     print('\n #### Academic research license - for non-commercial use only #### \n')
+#
+#     return model
 
 if __name__ == '__main__':
     main(openStarNet)
