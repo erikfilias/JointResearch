@@ -237,44 +237,44 @@ def main():
 
     for (ni,nf,cc) in df_Network.index:
         if df_Network['BinaryInvestment'][ni,nf,cc] == 'Yes':
-        print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
-        print(f"Line {ni} {nf} {cc}")
-        print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
-        df_Network_Mod = pd.read_csv(_path + '/2.Par/oT_Data_Network_' + args.case + '.csv', index_col=[0, 1, 2])
-        # df_Generation_Mod = pd.read_csv(_path+'/2.Par/oT_Data_Generation_'+args.case+'.csv', index_col=[0    ])
+            print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
+            print(f"Line {ni} {nf} {cc}")
+            print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
+            df_Network_Mod = pd.read_csv(_path + '/2.Par/oT_Data_Network_' + args.case + '.csv', index_col=[0, 1, 2])
+            # df_Generation_Mod = pd.read_csv(_path+'/2.Par/oT_Data_Generation_'+args.case+'.csv', index_col=[0    ])
 
-        # Modifying the dataframes to run the openStarNet
-        df_Network_Mod.loc[(ni,nf,cc), 'InitialPeriod'] = 2020
-        df_Network_Mod.loc[(ni,nf,cc), 'Sensitivity']   = "Yes"
-        df_Network_Mod.loc[(ni,nf,cc), 'InvestmentFixed'] = 1
-        for (ni2,nf2,cc2) in df_Network.index:
-            if ((ni,nf,cc) != (ni2,nf2,cc2)) and df_Network['BinaryInvestment'][ni2,nf2,cc2] == 'Yes':
-                df_Network_Mod.loc[(ni2, nf2, cc2), 'InitialPeriod'] = 2049
-                df_Network_Mod.loc[(ni2, nf2, cc2), 'Sensitivity'] = "Yes"
-                df_Network_Mod.loc[(ni2, nf2, cc2), 'InvestmentFixed'] = 0
+            # Modifying the dataframes to run the openStarNet
+            df_Network_Mod.loc[(ni,nf,cc), 'InitialPeriod'] = 2020
+            df_Network_Mod.loc[(ni,nf,cc), 'Sensitivity']   = "Yes"
+            df_Network_Mod.loc[(ni,nf,cc), 'InvestmentFixed'] = 1
+            for (ni2,nf2,cc2) in df_Network.index:
+                if ((ni,nf,cc) != (ni2,nf2,cc2)) and df_Network['BinaryInvestment'][ni2,nf2,cc2] == 'Yes':
+                    df_Network_Mod.loc[(ni2, nf2, cc2), 'InitialPeriod'] = 2049
+                    df_Network_Mod.loc[(ni2, nf2, cc2), 'Sensitivity'] = "Yes"
+                    df_Network_Mod.loc[(ni2, nf2, cc2), 'InvestmentFixed'] = 0
 
-        # Saving the CSV file with the existing network
-        df_Network_Mod.to_csv(_path + '/2.Par/oT_Data_Network_' + args.case + '.csv')
+            # Saving the CSV file with the existing network
+            df_Network_Mod.to_csv(_path + '/2.Par/oT_Data_Network_' + args.case + '.csv')
 
-        # ## Modyfing the dataframes to run the openStarNet
-        # df_Network_Mod.loc[df_Network_Mod['BinaryInvestment'] == 'Yes', 'InitialPeriod']   = 2049
-        # df_Network_Mod.loc[df_Network_Mod['BinaryInvestment'] == 'Yes', 'Sensitivity'  ]   = 'Yes'
-        # df_Network_Mod.loc[df_Network_Mod['BinaryInvestment'] == 'Yes', 'InvestmentFixed'] = 1
-        # # Saving the CSV file with the existing network
-        # df_Network_Mod.to_csv(   _path+'/2.Par/oT_Data_Network_'   +args.case+'.csv')
+            # ## Modyfing the dataframes to run the openStarNet
+            # df_Network_Mod.loc[df_Network_Mod['BinaryInvestment'] == 'Yes', 'InitialPeriod']   = 2049
+            # df_Network_Mod.loc[df_Network_Mod['BinaryInvestment'] == 'Yes', 'Sensitivity'  ]   = 'Yes'
+            # df_Network_Mod.loc[df_Network_Mod['BinaryInvestment'] == 'Yes', 'InvestmentFixed'] = 1
+            # # Saving the CSV file with the existing network
+            # df_Network_Mod.to_csv(   _path+'/2.Par/oT_Data_Network_'   +args.case+'.csv')
 
-        ## Running the openStarNet
-        oSN       = ConcreteModel()
-        execution = 'Network_Line_Out_'+str(ni)+'_'+str(nf)+'_'+str(cc)
+            ## Running the openStarNet
+            oSN       = ConcreteModel()
+            execution = 'Network_Line_Out_'+str(ni)+'_'+str(nf)+'_'+str(cc)
 
-        df_Inp, df_Out = ModelRun(oSN, execution, _path, args.dir, args.case, args.solver, dictSets)
+            df_Inp, df_Out = ModelRun(oSN, execution, _path, args.dir, args.case, args.solver, dictSets)
 
-        df_input_data  = pd.concat([df_input_data,  df_Inp])
-        df_output_data = pd.concat([df_output_data, df_Out])
+            df_input_data  = pd.concat([df_input_data,  df_Inp])
+            df_output_data = pd.concat([df_output_data, df_Out])
 
-        #%% Restoring the dataframes
-        df_Network.to_csv(   _path+'/2.Par/oT_Data_Network_'   +args.case+'.csv')
-        df_Generation.to_csv(_path+'/2.Par/oT_Data_Generation_'+args.case+'.csv')
+            #%% Restoring the dataframes
+            df_Network.to_csv(   _path+'/2.Par/oT_Data_Network_'   +args.case+'.csv')
+            df_Generation.to_csv(_path+'/2.Par/oT_Data_Generation_'+args.case+'.csv')
 
     ####################################################################################################################
 
