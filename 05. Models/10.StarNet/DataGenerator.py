@@ -244,7 +244,10 @@ def main():
         # Modifying the dataframes to run the openStarNet
         df_Network_Mod.at[(ni,nf,cc), 'InitialPeriod'] = 2049
         df_Network_Mod.at[(ni,nf,cc), 'Sensitivity']   = "Yes"
-        df_Network_Mod.at[(ni,nf,cc), 'InvestmentFixed'] = 0
+        df_Network_Mod.at[(ni,nf,cc), 'InvestmentFixed'] = 1
+        for (ni2,nf2,cc2) in df_Network_Mod.index:
+            df_Network_Mod.at[(ni, nf, cc), 'Sensitivity'] = "Yes"
+            df_Network_Mod.at[(ni, nf, cc), 'InvestmentFixed'] = 0
 
         # Saving the CSV file with the existing network
         df_Network_Mod.to_csv(_path + '/2.Par/oT_Data_Network_' + args.case + '.csv')
