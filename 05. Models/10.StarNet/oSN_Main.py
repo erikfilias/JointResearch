@@ -1372,11 +1372,11 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
     StartTime         = time.time()
     print('Econometric analysis  constraints     ... ', round(GeneratingEATime), 's')
 
-    #%% solving the problem
-    model.write(_path+'/openStarNet_'+CaseName+'.lp', io_options={'symbolic_solver_labels': True}) # create lp-format file
-    WritingLPTime = time.time() - StartTime
-    StartTime   = time.time()
-    print('Writing LP file                       ... ', round(WritingLPTime), 's')
+    # #%% solving the problem
+    # model.write(_path+'/openStarNet_'+CaseName+'.lp', io_options={'symbolic_solver_labels': True}) # create lp-format file
+    # WritingLPTime = time.time() - StartTime
+    # StartTime   = time.time()
+    # print('Writing LP file                       ... ', round(WritingLPTime), 's')
 
     Solver = SolverFactory(SolverName)                                                   # select solver
     if SolverName == 'gurobi':
