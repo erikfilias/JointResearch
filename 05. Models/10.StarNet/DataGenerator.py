@@ -234,19 +234,21 @@ def main():
     print("―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
     print("Sequence of considering N-1 in the transmission network")
     print("―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
-    df_Network_Mod    = pd.read_csv(_path+'/2.Par/oT_Data_Network_'   +args.case+'.csv', index_col=[0,1,2])
-    # df_Generation_Mod = pd.read_csv(_path+'/2.Par/oT_Data_Generation_'+args.case+'.csv', index_col=[0    ])
 
-    for (ni,nf,cc) in df_Network_Mod.index:
+    for (ni,nf,cc) in df_Network.index:
+        if df_Network['BinaryInvestment'][ni,nf,cc] == 'Yes':
         print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
         print(f"Line {ni} {nf} {cc}")
         print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
+        df_Network_Mod = pd.read_csv(_path + '/2.Par/oT_Data_Network_' + args.case + '.csv', index_col=[0, 1, 2])
+        # df_Generation_Mod = pd.read_csv(_path+'/2.Par/oT_Data_Generation_'+args.case+'.csv', index_col=[0    ])
+
         # Modifying the dataframes to run the openStarNet
         df_Network_Mod.loc[(ni,nf,cc), 'InitialPeriod'] = 2020
         df_Network_Mod.loc[(ni,nf,cc), 'Sensitivity']   = "Yes"
         df_Network_Mod.loc[(ni,nf,cc), 'InvestmentFixed'] = 1
-        for (ni2,nf2,cc2) in df_Network_Mod.index:
-            if (ni,nf,cc) != (ni2,nf2,cc2):
+        for (ni2,nf2,cc2) in df_Network.index:
+            if ((ni,nf,cc) != (ni2,nf2,cc2)) and df_Network['BinaryInvestment'][ni2,nf2,cc2] == 'Yes':
                 df_Network_Mod.loc[(ni2, nf2, cc2), 'InitialPeriod'] = 2049
                 df_Network_Mod.loc[(ni2, nf2, cc2), 'Sensitivity'] = "Yes"
                 df_Network_Mod.loc[(ni2, nf2, cc2), 'InvestmentFixed'] = 0
