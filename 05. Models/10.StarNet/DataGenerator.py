@@ -116,17 +116,13 @@ def main():
     print('Reading    the parameters of the model ... ', round(reading_data_time), 's')
 
     #%% Saving the input data
-    df_input_data = pd.DataFrame(columns=['Execution'], index=pd.MultiIndex.from_tuples(model.psn))
-    df_input_data.index.names = ['Period','Scenario','LoadLevel']
-
-    # Defining the dataframe for the input data of the neural network
-    for (p,sc,n) in model.psn:
-        df_input_data.loc[(p,sc,n),'Execution'] = "Network_Full_Generation_Full"
-    
     # Extracting the demand data
     df_demand = pd.Series(data=[model.pDemand[p,sc,n,nd] for p,sc,n,nd in model.psnnd], index=pd.MultiIndex.from_tuples(model.psnnd))
-    df_demand.index.names = ['Period','Scenario','LoadLevel','Node']
-    df_demand = df_demand.reset_index().pivot_table(index=['Period','Scenario','LoadLevel'], columns='Node', values=0)
+    df_demand.index.names = ['Period','Scenario','LoadLevel','Variable']
+    df_demand = df_demand.reset_index().pivot_table(index=['Period','Scenario','LoadLevel','Variable'], values=0)
+    df_demand.rename(columns={0: 'Value'}, inplace=True)
+    df_demand['Dataset']   = 'ElectricityDemand'
+    df_demand['Execution'] = 'Network_Full_Generation_Full'
 
     # Extracting the network data (admittance matrix)
     size = len(model.nd)
@@ -135,15 +131,11 @@ def main():
     admittance_matrix = np.zeros((size, size), dtype=complex)
     # Iterate over each row in the DataFrame and populate the admittance matrix
     for (ni,nf,cc) in model.la:
-        node_1 = ni
-        node_2 = nf
         reactance = model.pLineX[ni,nf,cc]
         resistance = model.pLineR[ni,nf,cc]
         susceptance = model.pLineBsh[ni,nf,cc]()
 
         # find the index of the nodes in the admittance matrix
-        # index_1 = np.where(list(model.nd) == node_1)[0][0]
-        # index_2 = np.where(list(model.nd) == node_2)[0][0]
         index_1 = nodes.index(ni)
         index_2 = nodes.index(nf)
 
@@ -162,17 +154,25 @@ def main():
         for (ni,nf) in df.index:
             df_Y_matrix.loc[(p,sc,n),'Node_'+str(ni+1)+'_Node_'+str(nf+1)] = df.loc[(ni,nf),'Admittance']
 
+    df_Y_matrix = df_Y_matrix.stack()
+    df_Y_matrix.index.names = ['Period','Scenario','LoadLevel','Variable']
+    df_Y_matrix = df_Y_matrix.to_frame(name='Value')
+    df_Y_matrix['Dataset']   = 'MatrixY'
+    df_Y_matrix['Execution'] = 'Network_Full_Generation_Full'
 
     print(df_Y_matrix)
 
     # Extracting the maximum power generation data
     df_max_power = pd.Series(data=[model.pMaxPower[p,sc,n,g] for p,sc,n,g in model.psng], index=pd.MultiIndex.from_tuples(model.psng))
-    df_max_power.index.names = ['Period','Scenario','LoadLevel','Unit']
+    df_max_power.index.names = ['Period','Scenario','LoadLevel','Variable']
     print(df_max_power)
-    df_max_power = df_max_power.reset_index().pivot_table(index=['Period','Scenario','LoadLevel'], columns='Unit', values=0)
+    df_max_power = df_max_power.reset_index().pivot_table(index=['Period','Scenario','LoadLevel','Variable'], values=0)
+    df_max_power.rename(columns={0: 'Value'}, inplace=True)
+    df_max_power['Dataset'] = 'MaxPowerGeneration'
+    df_max_power['Execution'] = 'Network_Full_Generation_Full'
 
     # Merging all the data
-    df_input_data = pd.concat([df_input_data, df_demand, df_Y_matrix, df_max_power], axis=1)
+    df_input_data = pd.concat([df_demand, df_Y_matrix, df_max_power])
     df_input_data.to_csv(_path+'/3.Out/oT_Result_NN_Input_'+args.case+'.csv', index=True)
 
     #%% Saving the results
@@ -188,6 +188,10 @@ def main():
         df_output_data.loc[(p,sc,n),'vTotalRCost'] = model.pDiscountFactor[p] * model.pScenProb[p,sc]() * model.vTotalRCost[p,sc,n]()
 
     print(df_output_data)
+    df_output_data = df_output_data.stack().to_frame(name='Value')
+    df_output_data.index.names  = ['Period','Scenario','LoadLevel','Variable']
+    df_output_data['Dataset']   = 'SystemCosts'
+    df_output_data['Execution'] = 'Network_Full_Generation_Full'
     df_output_data.to_csv(_path+'/3.Out/oT_Result_NN_Output_'+args.case+'.csv', index=True)
 
     #%% Restoring the dataframes
