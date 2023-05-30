@@ -242,10 +242,11 @@ def main():
         print(f"Line {ni} {nf} {cc}")
         print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
         # Modifying the dataframes to run the openStarNet
-        df_Network_Mod.at[(ni,nf,cc), 'InitialPeriod'] = 2049
+        df_Network_Mod.at[(ni,nf,cc), 'InitialPeriod'] = 2020
         df_Network_Mod.at[(ni,nf,cc), 'Sensitivity']   = "Yes"
         df_Network_Mod.at[(ni,nf,cc), 'InvestmentFixed'] = 1
         for (ni2,nf2,cc2) in df_Network_Mod.index:
+            df_Network_Mod.at[(ni, nf, cc), 'InitialPeriod'] = 2049
             df_Network_Mod.at[(ni, nf, cc), 'Sensitivity'] = "Yes"
             df_Network_Mod.at[(ni, nf, cc), 'InvestmentFixed'] = 0
 
