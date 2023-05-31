@@ -1429,6 +1429,22 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
     StartTime   = time.time()
     print('Solving                               ... ', round(SolvingTime), 's')
 
+    #%% outputting the generation operation
+    SysCost     = pd.Series(data=[                                                                                                             model.vTotalSCost()                                                                                                  ], index=[' ']  ).to_frame(name='Total          System Cost').stack()
+    GenInvCost  = pd.Series(data=[pDiscountFactor[p] * sum(pGenInvestCost[gc  ]                                                              * model.vGenerationInvest[p,gc  ]()  for gc      in model.gc                                     )     for p in model.p], index=model.p).to_frame(name='Generation Investment Cost').stack()
+    NetInvCost  = pd.Series(data=[pDiscountFactor[p] * sum(pNetFixedCost [lc  ]                                                              * model.vNetworkInvest   [p,lc  ]()  for lc      in model.lc                                     )     for p in model.p], index=model.p).to_frame(name='Network    Investment Cost').stack()
+    GenCost     = pd.Series(data=[pDiscountFactor[p] * sum(pScenProb     [p,sc]                                                              * model.vTotalGCost      [p,sc,n]()  for sc,n    in model.sc*model.n           if pScenProb[p,sc])     for p in model.p], index=model.p).to_frame(name='Generation  Operation Cost').stack()
+    ConCost     = pd.Series(data=[pDiscountFactor[p] * sum(pScenProb     [p,sc]                                                              * model.vTotalCCost      [p,sc,n]()  for sc,n    in model.sc*model.n           if pScenProb[p,sc])     for p in model.p], index=model.p).to_frame(name='Consumption Operation Cost').stack()
+    EmiCost     = pd.Series(data=[pDiscountFactor[p] * sum(pScenProb     [p,sc]                                                              * model.vTotalECost      [p,sc,n]()  for sc,n    in model.sc*model.n           if pScenProb[p,sc])     for p in model.p], index=model.p).to_frame(name='Emission              Cost').stack()
+    RelCost     = pd.Series(data=[pDiscountFactor[p] * sum(pScenProb     [p,sc]                                                              * model.vTotalRCost      [p,sc,n]()  for sc,n    in model.sc*model.n           if pScenProb[p,sc])     for p in model.p], index=model.p).to_frame(name='Reliability           Cost').stack()
+    CostSummary = pd.concat([SysCost, GenInvCost, NetInvCost, GenCost, ConCost, EmiCost, RelCost])
+    CostSummary = CostSummary.reset_index().rename(columns={'level_0': 'Period', 'level_1': 'Cost/Payment', 0: 'MEUR'})
+    CostSummary.to_csv(_path+'/3.Out/oT_Result_CostSummary_'+CaseName+'.csv', sep=',', index=False)
+
+    WritingCostSummaryTime = time.time() - StartTime
+    StartTime              = time.time()
+    print('Writing         cost summary results  ... ', round(WritingCostSummaryTime), 's')
+
     return model
 
 # def saving_results(DirName, CaseName, SolverName, model):
@@ -1437,21 +1453,21 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
 #     StartTime = time.time()
 #     print('Objective function value                  ', model.eTotalSCost.expr())
 #
-#     #%% outputting the generation operation
-#     SysCost     = pd.Series(data=[                                                                                                             model.vTotalSCost()                                                                                                  ], index=[' ']  ).to_frame(name='Total          System Cost').stack()
-#     GenInvCost  = pd.Series(data=[pDiscountFactor[p] * sum(pGenInvestCost[gc  ]                                                              * model.vGenerationInvest[p,gc  ]()  for gc      in model.gc                                     )     for p in model.p], index=model.p).to_frame(name='Generation Investment Cost').stack()
-#     NetInvCost  = pd.Series(data=[pDiscountFactor[p] * sum(pNetFixedCost [lc  ]                                                              * model.vNetworkInvest   [p,lc  ]()  for lc      in model.lc                                     )     for p in model.p], index=model.p).to_frame(name='Network    Investment Cost').stack()
-#     GenCost     = pd.Series(data=[pDiscountFactor[p] * sum(pScenProb     [p,sc]                                                              * model.vTotalGCost      [p,sc,n]()  for sc,n    in model.sc*model.n           if pScenProb[p,sc])     for p in model.p], index=model.p).to_frame(name='Generation  Operation Cost').stack()
-#     ConCost     = pd.Series(data=[pDiscountFactor[p] * sum(pScenProb     [p,sc]                                                              * model.vTotalCCost      [p,sc,n]()  for sc,n    in model.sc*model.n           if pScenProb[p,sc])     for p in model.p], index=model.p).to_frame(name='Consumption Operation Cost').stack()
-#     EmiCost     = pd.Series(data=[pDiscountFactor[p] * sum(pScenProb     [p,sc]                                                              * model.vTotalECost      [p,sc,n]()  for sc,n    in model.sc*model.n           if pScenProb[p,sc])     for p in model.p], index=model.p).to_frame(name='Emission              Cost').stack()
-#     RelCost     = pd.Series(data=[pDiscountFactor[p] * sum(pScenProb     [p,sc]                                                              * model.vTotalRCost      [p,sc,n]()  for sc,n    in model.sc*model.n           if pScenProb[p,sc])     for p in model.p], index=model.p).to_frame(name='Reliability           Cost').stack()
-#     CostSummary = pd.concat([SysCost, GenInvCost, NetInvCost, GenCost, ConCost, EmiCost, RelCost])
-#     CostSummary = CostSummary.reset_index().rename(columns={'level_0': 'Period', 'level_1': 'Cost/Payment', 0: 'MEUR'})
-#     CostSummary.to_csv(_path+'/3.Out/oT_Result_CostSummary_'+CaseName+'.csv', sep=',', index=False)
-#
-#     WritingCostSummaryTime = time.time() - StartTime
-#     StartTime              = time.time()
-#     print('Writing         cost summary results  ... ', round(WritingCostSummaryTime), 's')
+    # #%% outputting the generation operation
+    # SysCost     = pd.Series(data=[                                                                                                             model.vTotalSCost()                                                                                                  ], index=[' ']  ).to_frame(name='Total          System Cost').stack()
+    # GenInvCost  = pd.Series(data=[pDiscountFactor[p] * sum(pGenInvestCost[gc  ]                                                              * model.vGenerationInvest[p,gc  ]()  for gc      in model.gc                                     )     for p in model.p], index=model.p).to_frame(name='Generation Investment Cost').stack()
+    # NetInvCost  = pd.Series(data=[pDiscountFactor[p] * sum(pNetFixedCost [lc  ]                                                              * model.vNetworkInvest   [p,lc  ]()  for lc      in model.lc                                     )     for p in model.p], index=model.p).to_frame(name='Network    Investment Cost').stack()
+    # GenCost     = pd.Series(data=[pDiscountFactor[p] * sum(pScenProb     [p,sc]                                                              * model.vTotalGCost      [p,sc,n]()  for sc,n    in model.sc*model.n           if pScenProb[p,sc])     for p in model.p], index=model.p).to_frame(name='Generation  Operation Cost').stack()
+    # ConCost     = pd.Series(data=[pDiscountFactor[p] * sum(pScenProb     [p,sc]                                                              * model.vTotalCCost      [p,sc,n]()  for sc,n    in model.sc*model.n           if pScenProb[p,sc])     for p in model.p], index=model.p).to_frame(name='Consumption Operation Cost').stack()
+    # EmiCost     = pd.Series(data=[pDiscountFactor[p] * sum(pScenProb     [p,sc]                                                              * model.vTotalECost      [p,sc,n]()  for sc,n    in model.sc*model.n           if pScenProb[p,sc])     for p in model.p], index=model.p).to_frame(name='Emission              Cost').stack()
+    # RelCost     = pd.Series(data=[pDiscountFactor[p] * sum(pScenProb     [p,sc]                                                              * model.vTotalRCost      [p,sc,n]()  for sc,n    in model.sc*model.n           if pScenProb[p,sc])     for p in model.p], index=model.p).to_frame(name='Reliability           Cost').stack()
+    # CostSummary = pd.concat([SysCost, GenInvCost, NetInvCost, GenCost, ConCost, EmiCost, RelCost])
+    # CostSummary = CostSummary.reset_index().rename(columns={'level_0': 'Period', 'level_1': 'Cost/Payment', 0: 'MEUR'})
+    # CostSummary.to_csv(_path+'/3.Out/oT_Result_CostSummary_'+CaseName+'.csv', sep=',', index=False)
+    #
+    # WritingCostSummaryTime = time.time() - StartTime
+    # StartTime              = time.time()
+    # print('Writing         cost summary results  ... ', round(WritingCostSummaryTime), 's')
 #
 #     #%% outputting the investments
 #     if len(model.pgc):
