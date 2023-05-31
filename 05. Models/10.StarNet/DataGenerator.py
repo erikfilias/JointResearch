@@ -74,6 +74,9 @@ def ModelRun(m, execution, path, dir, case, solver, dictSets):
         admittance_matrix[index_1][index_2] -= admittance
         admittance_matrix[index_2][index_1] -= admittance
 
+    # Calculate the diagonal elements
+    for i in range(size):
+        admittance_matrix[i][i] = -np.sum(admittance_matrix[i, :])
     df = pd.DataFrame(admittance_matrix).stack().reset_index()
     df.columns = ['Node1', 'Node2', 'Admittance']
     df.set_index(['Node1', 'Node2'], inplace=True)
