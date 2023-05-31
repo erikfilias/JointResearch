@@ -1,6 +1,7 @@
 #%% Libraries
 import argparse
 import os
+import itertools
 import numpy         as np
 import pandas        as pd
 import time          # count clock time
@@ -229,11 +230,56 @@ def main():
     df_Network.to_csv(   _path+'/2.Par/oT_Data_Network_'   +args.case+'.csv')
     df_Generation.to_csv(_path+'/2.Par/oT_Data_Generation_'+args.case+'.csv')
 
-    ####################################################################################################################
-    #%% Sequence of the only existing network
-    print("―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
-    print("Sequence of considering N-1 in the transmission network")
-    print("―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
+    # ####################################################################################################################
+    # #%% Sequence of all the combinations of the lines
+    # print("―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
+    # print("Sequence of considering all the combinations")
+    # print("―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
+    #
+    # all_combinations = []
+    #
+    # # Generate combinations for all possible lengths
+    # lines = [(ni,nf,cc) for (ni,nf,cc) in df_Network.index if df_Network['BinaryInvestment'][ni,nf,cc] == 'Yes']
+    # for r in range(1, len(lines) + 1):
+    #     combinations = list(itertools.combinations(lines, r))
+    #     all_combinations.extend(combinations)
+    #
+    # print(all_combinations)
+    #
+    # count = 0
+    # for LineGroup in all_combinations:
+    #     print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
+    #     print(f"Length of the group: {len(LineGroup)}")
+    #     print(f"Remaining groups: {len(LineGroup)-count}")
+    #     count += 1
+    #     print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
+    #     for (ni,nf,cc) in LineGroup:
+    #         df_Network_Mod = pd.read_csv(_path + '/2.Par/oT_Data_Network_' + args.case + '.csv', index_col=[0, 1, 2])
+    #
+    #         # Modifying the dataframes to run the openStarNet
+    #         df_Network_Mod.loc[(ni,nf,cc), 'InitialPeriod'] = 2020
+    #         df_Network_Mod.loc[(ni,nf,cc), 'Sensitivity']   = "Yes"
+    #         df_Network_Mod.loc[(ni,nf,cc), 'InvestmentFixed'] = 1
+    #
+    #     for (ni2,nf2,cc2) in lines:
+    #         if (ni2,nf2,cc2) not in LineGroup:
+    #             df_Network_Mod.loc[(ni2, nf2, cc2), 'InitialPeriod'] = 2049
+    #             df_Network_Mod.loc[(ni2, nf2, cc2), 'Sensitivity'] = "Yes"
+    #             df_Network_Mod.loc[(ni2, nf2, cc2), 'InvestmentFixed'] = 0
+    #
+    #     # Saving the CSV file with the existing network
+    #     df_Network_Mod.to_csv(_path + '/2.Par/oT_Data_Network_' + args.case + '.csv')
+    #
+    #     ## Running the openStarNet
+    #     oSN       = ConcreteModel()
+    #     execution = 'Network_Line_Out_'+str(count)
+    #     df_Inp, df_Out = ModelRun(oSN, execution, _path, args.dir, args.case, args.solver, dictSets)
+    #     df_input_data  = pd.concat([df_input_data,  df_Inp])
+    #     df_output_data = pd.concat([df_output_data, df_Out])
+    #
+    #     #%% Restoring the dataframes
+    #     df_Network.to_csv(   _path+'/2.Par/oT_Data_Network_'   +args.case+'.csv')
+    #     df_Generation.to_csv(_path+'/2.Par/oT_Data_Generation_'+args.case+'.csv')
 
     for (ni,nf,cc) in df_Network.index:
         if df_Network['BinaryInvestment'][ni,nf,cc] == 'Yes':
