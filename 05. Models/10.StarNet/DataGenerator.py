@@ -201,7 +201,7 @@ def ModelRun(m, execution, path, dir, case, solver, dictSets):
     # print('Getting the reduced cost: vTotalOutput ... ', round(data_time), 's')
 
     # Merging all the data
-    df_output_data = pd.concat([df_total_costs, df_dual_eBalance, df_dual_eNetCapacity1])
+    df_output_data = pd.concat([df_total_costs, df_dual_eBalance, df_dual_eNetCapacity1, df_dual_eNetCapacity2])
     # df_output_data = df_total_costs
     # df_output_data.to_csv(_path + '/3.Out/oT_Result_NN_Output_' + args.case + '.csv', index=True)
 
