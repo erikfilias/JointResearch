@@ -142,9 +142,17 @@ def ModelRun(m, execution, path, dir, case, solver, dictSets):
     df_total_costs['Dataset'] = 'SystemCosts'
     df_total_costs['Execution'] = execution
 
-    # Dual eBalance
-    df_dual_eBalance = pd.Series(data=[model.dual[model.eBalance[p,sc,st,n,nd]]*1e3 for p,sc,n,nd,st in model.psnnd*model.st if (st,n) in model.s2n], index=pd.MultiIndex.from_tuples(model.psnnd))
-    df_dual_eBalance.to_frame(name='Value').rename_axis(['Period', 'Scenario', 'LoadLevel', 'Node'], axis=0)
+    # # Dual eBalance
+    # incoming and outgoing lines (lin) (lout)
+    lin   = defaultdict(list)
+    lout  = defaultdict(list)
+    for ni,nf,cc in model.la:
+        lin  [nf].append((ni,cc))
+        lout [ni].append((nf,cc))
+
+    List1 = [(p,sc,n,nd,st) for (p,sc,st,n,nd) in model.psnnd*model.st if (st,n) in model.s2n and sum(1 for g in model.g if (nd,g) in model.n2g) + sum(1 for lout in lout[nd]) + sum(1 for ni,cc in lin[nd])]
+    df_dual_eBalance = pd.Series(data=[model.dual[model.eBalance[p,sc,st,n,nd]]*1e3 for p,sc,n,nd,st in model.psnnd*model.st if (st,n) in model.s2n], index=pd.MultiIndex.from_tuples(List1))
+    df_dual_eBalance.to_frame(name='Value').rename_axis(['Period', 'Scenario', 'LoadLevel', 'Node','Stage'], axis=0).reset_index().pivot_table(index=['Period','Scenario','LoadLevel','Node'], values='Value' , aggfunc=sum)
     df_dual_eBalance['Dataset'] = 'Dual_eBalance'
     df_dual_eBalance['Execution'] = execution
 
@@ -156,7 +164,8 @@ def ModelRun(m, execution, path, dir, case, solver, dictSets):
     #         OutputResults.to_frame(name='EUR/MW').rename_axis(['Period','Scenario','Stage','LoadLevel','InitialNode','FinalNode','Circuit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_Dual_eNetCapacityOperation_LowerBound_'+CaseName+'.csv', index=False, sep=',')
 
     # Merging all the data
-    df_output_data = pd.concat([df_total_costs, df_dual_eBalance])
+    # df_output_data = pd.concat([df_total_costs, df_dual_eBalance])
+    df_output_data = df_total_costs
     # df_output_data.to_csv(_path + '/3.Out/oT_Result_NN_Output_' + args.case + '.csv', index=True)
 
     data_time = time.time() - start_time
