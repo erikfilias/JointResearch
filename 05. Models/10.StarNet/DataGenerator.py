@@ -119,27 +119,44 @@ def ModelRun(m, execution, path, dir, case, solver, dictSets):
     print('Getting the input data file            ... ', round(data_time), 's')
 
     # %% Saving the results
-    df_output_data = pd.DataFrame(
+    # Total costs
+    df_total_costs = pd.DataFrame(
         columns=['vTotalSCost', 'vTotalFCost', 'vTotalGCost', 'vTotalCCost', 'vTotalECost', 'vTotalRCost'],
         index=pd.MultiIndex.from_tuples(model.psn))
-    df_output_data.index.names = ['Period', 'Scenario', 'LoadLevel']
+    df_total_costs.index.names = ['Period', 'Scenario', 'LoadLevel']
 
     for (p, sc, n) in model.psn:
-        df_output_data.loc[(p, sc, n), 'vTotalSCost'] = model.vTotalSCost()
-        df_output_data.loc[(p, sc, n), 'vTotalFCost'] = model.pDiscountFactor[p] * model.vTotalFCost[p]()
-        df_output_data.loc[(p, sc, n), 'vTotalGCost'] = model.pDiscountFactor[p] * model.pScenProb[p, sc]() * \
+        df_total_costs.loc[(p, sc, n), 'vTotalSCost'] = model.vTotalSCost()
+        df_total_costs.loc[(p, sc, n), 'vTotalFCost'] = model.pDiscountFactor[p] * model.vTotalFCost[p]()
+        df_total_costs.loc[(p, sc, n), 'vTotalGCost'] = model.pDiscountFactor[p] * model.pScenProb[p, sc]() * \
                                                         model.vTotalGCost[p, sc, n]()
-        df_output_data.loc[(p, sc, n), 'vTotalCCost'] = model.pDiscountFactor[p] * model.pScenProb[p, sc]() * \
+        df_total_costs.loc[(p, sc, n), 'vTotalCCost'] = model.pDiscountFactor[p] * model.pScenProb[p, sc]() * \
                                                         model.vTotalCCost[p, sc, n]()
-        df_output_data.loc[(p, sc, n), 'vTotalECost'] = model.pDiscountFactor[p] * model.pScenProb[p, sc]() * \
+        df_total_costs.loc[(p, sc, n), 'vTotalECost'] = model.pDiscountFactor[p] * model.pScenProb[p, sc]() * \
                                                         model.vTotalECost[p, sc, n]()
-        df_output_data.loc[(p, sc, n), 'vTotalRCost'] = model.pDiscountFactor[p] * model.pScenProb[p, sc]() * \
+        df_total_costs.loc[(p, sc, n), 'vTotalRCost'] = model.pDiscountFactor[p] * model.pScenProb[p, sc]() * \
                                                         model.vTotalRCost[p, sc, n]()
 
-    df_output_data = df_output_data.stack().to_frame(name='Value')
-    df_output_data.index.names = ['Period', 'Scenario', 'LoadLevel', 'Variable']
-    df_output_data['Dataset'] = 'SystemCosts'
-    df_output_data['Execution'] = execution
+    df_total_costs = df_total_costs.stack().to_frame(name='Value')
+    df_total_costs.index.names = ['Period', 'Scenario', 'LoadLevel', 'Variable']
+    df_total_costs['Dataset'] = 'SystemCosts'
+    df_total_costs['Execution'] = execution
+
+    # Dual eBalance
+    df_dual_eBalance = pd.Series(data=[model.dual[model.eBalance[p,sc,st,n,nd]]*1e3 for p,sc,n,nd,st in model.psnnd*model.st if (st,n) in model.s2n], index=pd.MultiIndex.from_tuples(model.psnnd))
+    df_dual_eBalance.to_frame(name='Value').rename_axis(['Period', 'Scenario', 'LoadLevel', 'Node'], axis=0)
+    df_dual_eBalance['Dataset'] = 'Dual_eBalance'
+    df_dual_eBalance['Execution'] = execution
+
+    # # Dual eNetCapacity1
+    # df_dual_eNetCapacity1 = pd.Series(data=[model.dual[model.eNetCapacity1[p,sc,st,n,ni,nf,cc]]/pPeriodProb[p,sc]/pLoadLevelDuration[n]*1e3 for (p,sc,st,n,ni,nf,cc) in List3], index=pd.MultiIndex.from_tuples(list(List3)))
+    #
+    #         # OutputResults = pd.Series(data=[model.dual[model.eNetCapacity1[p,sc,st,n,ni,nf,cc]]/pPeriodProb[p,sc]/pLoadLevelDuration[n]*1e3 for (p,sc,st,n,ni,nf,cc) in List3], index=pd.MultiIndex.from_tuples(list(List3)))
+    #         OutputResults = pd.Series(data=[model.dual[model.eNetCapacity1[p,sc,st,n,ni,nf,cc]] for (p,sc,st,n,ni,nf,cc) in List3], index=pd.MultiIndex.from_tuples(list(List3)))
+    #         OutputResults.to_frame(name='EUR/MW').rename_axis(['Period','Scenario','Stage','LoadLevel','InitialNode','FinalNode','Circuit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_Dual_eNetCapacityOperation_LowerBound_'+CaseName+'.csv', index=False, sep=',')
+
+    # Merging all the data
+    df_output_data = pd.concat([df_total_costs, df_dual_eBalance])
     # df_output_data.to_csv(_path + '/3.Out/oT_Result_NN_Output_' + args.case + '.csv', index=True)
 
     data_time = time.time() - start_time
