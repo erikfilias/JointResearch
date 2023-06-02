@@ -150,8 +150,8 @@ def ModelRun(m, execution, path, dir, case, solver, dictSets):
         lin  [nf].append((ni,cc))
         lout [ni].append((nf,cc))
 
-    List1 = [(p,sc,n,nd,st) for (p,sc,st,n,nd) in model.psnnd*model.st if (st,n) in model.s2n and sum(1 for g in model.g if (nd,g) in model.n2g) + sum(1 for lout in lout[nd]) + sum(1 for ni,cc in lin[nd])]
-    df_dual_eBalance = pd.Series(data=[model.dual[model.eBalance[p,sc,st,n,nd]]*1e3 for p,sc,n,nd,st in model.psnnd*model.st if (st,n) in model.s2n], index=pd.MultiIndex.from_tuples(List1))
+    List1 = [(p,sc,n,nd,st) for (p,sc,n,nd,st) in model.psnnd*model.st if (st,n) in model.s2n and sum(1 for g in model.g if (nd,g) in model.n2g) + sum(1 for lout in lout[nd]) + sum(1 for ni,cc in lin[nd])]
+    df_dual_eBalance = pd.Series(data=[model.dual[model.eBalance[p,sc,st,n,nd]]*1e3 for p,sc,n,nd,st in List1], index=pd.MultiIndex.from_tuples(List1))
     df_dual_eBalance.to_frame(name='Value').rename_axis(['Period', 'Scenario', 'LoadLevel', 'Node','Stage'], axis=0).reset_index().pivot_table(index=['Period','Scenario','LoadLevel','Node'], values='Value' , aggfunc=sum)
     df_dual_eBalance['Dataset'] = 'Dual_eBalance'
     df_dual_eBalance['Execution'] = execution
