@@ -164,8 +164,8 @@ def ModelRun(m, execution, path, dir, case, solver, dictSets):
     #         OutputResults.to_frame(name='EUR/MW').rename_axis(['Period','Scenario','Stage','LoadLevel','InitialNode','FinalNode','Circuit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_Dual_eNetCapacityOperation_LowerBound_'+CaseName+'.csv', index=False, sep=',')
 
     # Merging all the data
-    # df_output_data = pd.concat([df_total_costs, df_dual_eBalance])
-    df_output_data = df_total_costs
+    df_output_data = pd.concat([df_total_costs, df_dual_eBalance])
+    # df_output_data = df_total_costs
     # df_output_data.to_csv(_path + '/3.Out/oT_Result_NN_Output_' + args.case + '.csv', index=True)
 
     data_time = time.time() - start_time
