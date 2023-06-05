@@ -1258,9 +1258,9 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
 
     def eGenCapacity1(model,p,sc,st,n,g):
         if (st,n) in model.s2n and g in model.gc:
-            return model.vTotalOutput[p,sc,n,g] >= pMinPower[p,sc,n,g] * model.vGenerationInvest[p,gc]
+            return model.vTotalOutput[p,sc,n,g] >= 0
         elif (st,n) in model.s2n and g not in model.gc:
-            return model.vTotalOutput[p,sc,n,g] >= pMinPower[p,sc,n,g]
+            return model.vTotalOutput[p,sc,n,g] >= 0
         else:
             return Constraint.Skip
     model.eGenCapacity1          = Constraint(model.ps, model.st, model.n, model.g, rule=eGenCapacity1, doc='minimum power output by a generation unit [p.u.]')
