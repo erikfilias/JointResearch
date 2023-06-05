@@ -1256,9 +1256,29 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
     StartTime        = time.time()
     print('Generating generation commitment      ... ', round(GeneratingUCTime), 's')
 
+    def eGenCapacity1(model,p,sc,st,n,g):
+        if (st,n) in model.s2n and g in model.gc:
+            return model.vTotalOutput[p,sc,n,g] >= pMinPower[p,sc,n,g] * model.vGenerationInvest[p,gc]
+        elif (st,n) in model.s2n and g not in model.gc:
+            return model.vTotalOutput[p,sc,n,g] >= pMinPower[p,sc,n,g]
+        else:
+            return Constraint.Skip
+    model.eGenCapacity1          = Constraint(model.ps, model.st, model.n, model.g, rule=eGenCapacity1, doc='minimum power output by a generation unit [p.u.]')
+
+    def eGenCapacity2(model,p,sc,st,n,g):
+        if (st,n) in model.s2n and g in model.gc:
+            return model.vTotalOutput[p,sc,n,g] <= pMaxPower[p,sc,n,g] * model.vGenerationInvest[p,gc]
+        elif (st,n) in model.s2n and g not in model.gc:
+            return model.vTotalOutput[p,sc,n,g] <= pMaxPower[p,sc,n,g]
+        else:
+            return Constraint.Skip
+    model.eGenCapacity2          = Constraint(model.ps, model.st, model.n, model.g, rule=eGenCapacity2, doc='maximum power output by a generation unit [p.u.]')
+
     def eNetCapacity1(model,p,sc,st,n,ni,nf,cc):
         if (st,n) in model.s2n and pIndBinSingleNode == 0 and (ni,nf,cc) in model.lc:
             return model.vFlow[p,sc,n,ni,nf,cc] / pLineNTCFrw[ni,nf,cc] >= - model.vNetworkInvest[p,ni,nf,cc]
+        elif (st,n) in model.s2n and pIndBinSingleNode == 0 and (ni,nf,cc) not in model.lc:
+            return model.vFlow[p,sc,n,ni,nf,cc] / pLineNTCFrw[ni,nf,cc] >= - 1
         else:
             return Constraint.Skip
     model.eNetCapacity1          = Constraint(model.ps, model.st, model.n, model.la, rule=eNetCapacity1, doc='maximum flow by existing network capacity [p.u.]')
@@ -1266,6 +1286,8 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
     def eNetCapacity2(model,p,sc,st,n,ni,nf,cc):
         if (st,n) in model.s2n and pIndBinSingleNode == 0 and (ni,nf,cc) in model.lc:
             return model.vFlow[p,sc,n,ni,nf,cc] / pLineNTCFrw[ni,nf,cc] <=   model.vNetworkInvest[p,ni,nf,cc]
+        elif (st,n) in model.s2n and pIndBinSingleNode == 0 and (ni,nf,cc) not in model.lc:
+            return model.vFlow[p,sc,n,ni,nf,cc] / pLineNTCFrw[ni,nf,cc] <=   1
         else:
             return Constraint.Skip
     model.eNetCapacity2          = Constraint(model.ps, model.st, model.n, model.la, rule=eNetCapacity2, doc='maximum flow by existing network capacity [p.u.]')
