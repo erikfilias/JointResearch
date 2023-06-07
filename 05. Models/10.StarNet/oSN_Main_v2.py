@@ -918,18 +918,30 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
         # model.vPto    = Var(model.ps, model.n, model.la, within=Reals,            bounds=lambda model,p,sc,n,*la: (            -pLineNTCFrw[la]      ,pLineNTCFrw[la]    ),    doc='P flow from j to i [p.u.]')
         # model.vQfr    = Var(model.ps, model.n, model.la, within=Reals,            bounds=lambda model,p,sc,n,*la: (            -pLineNTCFrw[la]      ,pLineNTCFrw[la]    ),    doc='Q flow from i to j [p.u.]')
         # model.vQto    = Var(model.ps, model.n, model.la, within=Reals,            bounds=lambda model,p,sc,n,*la: (            -pLineNTCFrw[la]      ,pLineNTCFrw[la]    ),    doc='Q flow from j to i [p.u.]')
-        model.vS       = Var(model.ps, model.n, model.la,          initialize= 0.0, within=Reals,                                                                                                      doc='Sine term          [p.u.]')
-        model.vC       = Var(model.ps, model.n, model.la,          initialize= 1.0, within=Reals,                                                                                                      doc='Cosine term        [p.u.]')
-        model.vPfr     = Var(model.ps, model.n, model.la,          initialize= 0.0, within=Reals,                                                                                                      doc='P flow from i to j [p.u.]')
-        model.vPto     = Var(model.ps, model.n, model.la,          initialize= 0.0, within=Reals,                                                                                                      doc='P flow from j to i [p.u.]')
-        model.vQfr     = Var(model.ps, model.n, model.la,          initialize= 0.0, within=Reals,                                                                                                      doc='Q flow from i to j [p.u.]')
-        model.vQto     = Var(model.ps, model.n, model.la,          initialize= 0.0, within=Reals,                                                                                                      doc='Q flow from j to i [p.u.]')
-        model.vDelta_S = Var(model.ps, model.n, model.la, model.L, initialize= 0.0, within=NonNegativeReals, bounds=lambda model,p,sc,n,ni,nf,cc,l:(0, model.pLineDelta_S[ni,nf,cc]),                  doc='Delta Active Power Flow                   [  GW]')
-        model.vDelta_C = Var(model.ps, model.n, model.la, model.L, initialize= 0.0, within=NonNegativeReals, bounds=lambda model,p,sc,n,ni,nf,cc,l:(0, model.pLineDelta_S[ni,nf,cc]),                  doc='Delta Reactive Power Flow                 [Gvar]')
-        model.vS_max   = Var(model.ps, model.n, model.la,          initialize= 0.0, within=NonNegativeReals, bounds=lambda model,p,sc,n,ni,nf,cc:(  0, model.pLineNTCFrw[ni,nf,cc]),                   doc='Maximum bound of the sine term            [p.u.]')
-        model.vS_min   = Var(model.ps, model.n, model.la,          initialize= 0.0, within=NonNegativeReals, bounds=lambda model,p,sc,n,ni,nf,cc:(  0, model.pLineNTCFrw[ni,nf,cc]),                   doc='Minimum bound of the sine term            [p.u.]')
-        model.vC_max   = Var(model.ps, model.n, model.la,          initialize= 0.0, within=NonNegativeReals, bounds=lambda model,p,sc,n,ni,nf,cc:(  0, model.pLineNTCFrw[ni,nf,cc]),                   doc='Maximum bound of the cosine term          [p.u.]')
-        model.vC_min   = Var(model.ps, model.n, model.la,          initialize= 0.0, within=NonNegativeReals, bounds=lambda model,p,sc,n,ni,nf,cc:(  0, model.pLineNTCFrw[ni,nf,cc]),                   doc='Minimum bound of the cosine term          [p.u.]')
+        model.vS         = Var(model.ps, model.n, model.la,          initialize= 0.0, within=Reals,                                                                                                      doc='Sine term          [p.u.]')
+        model.vC         = Var(model.ps, model.n, model.la,          initialize= 1.0, within=Reals,                                                                                                      doc='Cosine term        [p.u.]')
+        model.vPfr       = Var(model.ps, model.n, model.la,          initialize= 0.0, within=Reals,                                                                                                      doc='P flow from i to j [p.u.]')
+        model.vPto       = Var(model.ps, model.n, model.la,          initialize= 0.0, within=Reals,                                                                                                      doc='P flow from j to i [p.u.]')
+        model.vQfr       = Var(model.ps, model.n, model.la,          initialize= 0.0, within=Reals,                                                                                                      doc='Q flow from i to j [p.u.]')
+        model.vQto       = Var(model.ps, model.n, model.la,          initialize= 0.0, within=Reals,                                                                                                      doc='Q flow from j to i [p.u.]')
+        model.vDelta_S   = Var(model.ps, model.n, model.la, model.L, initialize= 0.0, within=NonNegativeReals,                                                                                           doc='Delta Active Power Flow                   [  GW]')
+        model.vDelta_C   = Var(model.ps, model.n, model.la, model.L, initialize= 0.0, within=NonNegativeReals,                                                                                           doc='Delta Reactive Power Flow                 [Gvar]')
+        model.vS_max     = Var(model.ps, model.n, model.la,          initialize= 0.0, within=NonNegativeReals,                                                                                           doc='Maximum bound of the sine term            [p.u.]')
+        model.vS_min     = Var(model.ps, model.n, model.la,          initialize= 0.0, within=NonNegativeReals,                                                                                           doc='Minimum bound of the sine term            [p.u.]')
+        model.vC_max     = Var(model.ps, model.n, model.la,          initialize= 0.0, within=NonNegativeReals,                                                                                           doc='Maximum bound of the cosine term          [p.u.]')
+        model.vC_min     = Var(model.ps, model.n, model.la,          initialize= 0.0, within=NonNegativeReals,                                                                                           doc='Minimum bound of the cosine term          [p.u.]')
+        model.vDelta_Pfr = Var(model.ps, model.n, model.la, model.L, initialize= 0.0, within=NonNegativeReals,                                                                                           doc='Delta Active Power Flow                   [  GW]')
+        model.vDelta_Qfr = Var(model.ps, model.n, model.la, model.L, initialize= 0.0, within=NonNegativeReals,                                                                                           doc='Delta Reactive Power Flow                 [Gvar]')
+        model.vPfr_max   = Var(model.ps, model.n, model.la,          initialize= 0.0, within=NonNegativeReals,                                                                                           doc='Maximum bound of the sine term            [p.u.]')
+        model.vPfr_min   = Var(model.ps, model.n, model.la,          initialize= 0.0, within=NonNegativeReals,                                                                                           doc='Minimum bound of the sine term            [p.u.]')
+        model.vQfr_max   = Var(model.ps, model.n, model.la,          initialize= 0.0, within=NonNegativeReals,                                                                                           doc='Maximum bound of the cosine term          [p.u.]')
+        model.vQfr_min   = Var(model.ps, model.n, model.la,          initialize= 0.0, within=NonNegativeReals,                                                                                           doc='Minimum bound of the cosine term          [p.u.]')
+        model.vDelta_Pto = Var(model.ps, model.n, model.la, model.L, initialize= 0.0, within=NonNegativeReals,                                                                                           doc='Delta Active Power Flow                   [  GW]')
+        model.vDelta_Qto = Var(model.ps, model.n, model.la, model.L, initialize= 0.0, within=NonNegativeReals,                                                                                           doc='Delta Reactive Power Flow                 [Gvar]')
+        model.vPto_max   = Var(model.ps, model.n, model.la,          initialize= 0.0, within=NonNegativeReals,                                                                                           doc='Maximum bound of the sine term            [p.u.]')
+        model.vPto_min   = Var(model.ps, model.n, model.la,          initialize= 0.0, within=NonNegativeReals,                                                                                           doc='Minimum bound of the sine term            [p.u.]')
+        model.vQto_max   = Var(model.ps, model.n, model.la,          initialize= 0.0, within=NonNegativeReals,                                                                                           doc='Maximum bound of the cosine term          [p.u.]')
+        model.vQto_min   = Var(model.ps, model.n, model.la,          initialize= 0.0, within=NonNegativeReals,                                                                                           doc='Minimum bound of the cosine term          [p.u.]')
     else:
         model.vFlow      = Var(model.ps, model.n, model.la, initialize= 0.0 , within=Reals,                                                                                                      doc='flow               [GW]')
     model.vTheta         = Var(model.ps, model.n, model.nd, initialize= 0.0 , within=Reals,            bounds=lambda model,p,sc,n, nd: (            -pMaxTheta[p,sc,n,nd],pMaxTheta[p,sc,n,nd]),    doc='voltage angle     [rad]')
@@ -1547,19 +1559,69 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
             return Constraint.Skip
     model.eWUpperBound            = Constraint(model.ps, model.st, model.n, model.nd, rule=eWUpperBound,   doc='upper bound of the squared voltage magnitude [p.u.]')
 
-    def eLineCapacityFrUpperBound(model,p,sc,st,n,ni,nf,cc):
-        if (st,n) in model.s2n:
-            return model.vPfr[p,sc,n,ni,nf,cc]**2 + model.vQfr[p,sc,n,ni,nf,cc]**2 <= (pLineNTCFrw[ni,nf,cc]*1)**2
-        else:
-            return Constraint.Skip
-    model.eLineCapacityFrUpperBound = Constraint(model.ps, model.st, model.n, model.la, rule=eLineCapacityFrUpperBound, doc='maximum flow by a network capacity [p.u.]')
+    # def eLineCapacityFrUpperBound(model,p,sc,st,n,ni,nf,cc):
+    #     if (st,n) in model.s2n:
+    #         return model.vPfr[p,sc,n,ni,nf,cc]**2 + model.vQfr[p,sc,n,ni,nf,cc]**2 <= (pLineNTCFrw[ni,nf,cc]*1)**2
+    #     else:
+    #         return Constraint.Skip
+    # model.eLineCapacityFrUpperBound = Constraint(model.ps, model.st, model.n, model.la, rule=eLineCapacityFrUpperBound, doc='maximum flow by a network capacity [p.u.]')
+    #
+    # def eLineCapacityToUpperBound(model,p,sc,st,n,ni,nf,cc):
+    #     if (st,n) in model.s2n:
+    #         return model.vPto[p,sc,n,ni,nf,cc]**2 + model.vQto[p,sc,n,ni,nf,cc]**2 <= (pLineNTCFrw[ni,nf,cc]*1)**2
+    #     else:
+    #         return Constraint.Skip
+    # model.eLineCapacityToUpperBound = Constraint(model.ps, model.st, model.n, model.la, rule=eLineCapacityToUpperBound, doc='maximum flow by a network capacity [p.u.]')
 
-    def eLineCapacityToUpperBound(model,p,sc,st,n,ni,nf,cc):
-        if (st,n) in model.s2n:
-            return model.vPto[p,sc,n,ni,nf,cc]**2 + model.vQto[p,sc,n,ni,nf,cc]**2 <= (pLineNTCFrw[ni,nf,cc]*1)**2
-        else:
-            return Constraint.Skip
-    model.eLineCapacityToUpperBound = Constraint(model.ps, model.st, model.n, model.la, rule=eLineCapacityToUpperBound, doc='maximum flow by a network capacity [p.u.]')
+    def eLineCapacityFr_LP(model,p,sc,st,n,ni,nf,cc):
+        if (st, n) in model.s2n:
+            return sum(model.pLineM[ni,nf,cc,l] * model.vDelta_Pfr[p,sc,n,ni,nf,cc,l] for l in model.L) + sum(model.pLineM[ni,nf,cc,l] * model.vDelta_Qfr[p,sc,n,ni,nf,cc,l] for l in model.L) <= (pLineNTCFrw[ni,nf,cc]*1)**2
+    model.eLineCapacityFr_LP = Constraint(model.ps, model.st, model.n, model.laa, rule=eLineCapacityFr_LP)
+
+    def eLineCapacityFr_LinearPfr1(model,p,sc,st,n,ni,nf,cc):
+        if (st, n) in model.s2n:
+            return model.vPfr_max[p,sc,n,ni,nf,cc] - model.vPfr_min[p,sc,n,ni,nf,cc] == model.vPfr[p,sc,n,ni,nf,cc]
+    model.eLineCapacityFr_LinearPfr1 = Constraint(model.ps, model.st, model.n, model.laa, rule=eLineCapacityFr_LinearPfr1)
+
+    def eLineCapacityFr_LinearPfr2(model,p,sc,st,n,ni,nf,cc):
+        if (st, n) in model.s2n:
+            return model.vPfr_max[p,sc,n,ni,nf,cc] + model.vPfr_min[p,sc,n,ni,nf,cc] == sum(model.vDelta_Pfr[p,sc,n,ni,nf,cc,l] for l in model.L)
+    model.eLineCapacityFr_LinearPfr2 = Constraint(model.ps, model.st, model.n, model.laa, rule=eLineCapacityFr_LinearPfr2)
+
+    def eLineCapacityFr_LinearQfr1(model,p,sc,st,n,ni,nf,cc):
+        if (st, n) in model.s2n:
+            return (model.vQfr_max[p,sc,n,ni,nf,cc] - model.vQfr_min[p,sc,n,ni,nf,cc] == model.vQfr[p,sc,n,ni,nf,cc])
+    model.eLineCapacityFr_LinearQfr1 = Constraint(model.ps, model.st, model.n, model.laa, rule=eLineCapacityFr_LinearQfr1)
+
+    def eLineCapacityFr_LinearQfr2(model,p,sc,st,n,ni,nf,cc):
+        if (st, n) in model.s2n:
+            return (model.vQfr_max[p,sc,n,ni,nf,cc] + model.vQfr_min[p,sc,n,ni,nf,cc] == sum(model.vDelta_Qfr[p,sc,n,ni,nf,cc,l] for l in model.L))
+    model.eLineCapacityFr_LinearQfr2 = Constraint(model.ps, model.st, model.n, model.laa, rule=eLineCapacityFr_LinearQfr2)
+
+    def eLineCapacityTo_LP(model,p,sc,st,n,ni,nf,cc):
+        if (st, n) in model.s2n:
+            return sum(model.pLineM[ni,nf,cc,l] * model.vDelta_Pto[p,sc,n,ni,nf,cc,l] for l in model.L) + sum(model.pLineM[ni,nf,cc,l] * model.vDelta_Qto[p,sc,n,ni,nf,cc,l] for l in model.L) <= (pLineNTCFrw[ni,nf,cc]*1)**2
+    model.eLineCapacityTo_LP = Constraint(model.ps, model.st, model.n, model.laa, rule=eLineCapacityTo_LP)
+
+    def eLineCapacityTo_LinearPTo1(model,p,sc,st,n,ni,nf,cc):
+        if (st, n) in model.s2n:
+            return model.vPto_max[p,sc,n,ni,nf,cc] - model.vPto_min[p,sc,n,ni,nf,cc] == model.vPto[p,sc,n,ni,nf,cc]
+    model.eLineCapacityTo_LinearPTo1 = Constraint(model.ps, model.st, model.n, model.laa, rule=eLineCapacityTo_LinearPTo1)
+
+    def eLineCapacityTo_LinearPTo2(model,p,sc,st,n,ni,nf,cc):
+        if (st, n) in model.s2n:
+            return model.vPto_max[p,sc,n,ni,nf,cc] + model.vPto_min[p,sc,n,ni,nf,cc] == sum(model.vDelta_Pto[p,sc,n,ni,nf,cc,l] for l in model.L)
+    model.eLineCapacityTo_LinearPTo2 = Constraint(model.ps, model.st, model.n, model.laa, rule=eLineCapacityTo_LinearPTo2)
+
+    def eLineCapacityTo_LinearQTo1(model,p,sc,st,n,ni,nf,cc):
+        if (st, n) in model.s2n:
+            return (model.vQto_max[p,sc,n,ni,nf,cc] - model.vQto_min[p,sc,n,ni,nf,cc] == model.vQto[p,sc,n,ni,nf,cc])
+    model.eLineCapacityTo_LinearQTo1 = Constraint(model.ps, model.st, model.n, model.laa, rule=eLineCapacityTo_LinearQTo1)
+
+    def eLineCapacityTo_LinearQTo2(model,p,sc,st,n,ni,nf,cc):
+        if (st, n) in model.s2n:
+            return (model.vQto_max[p,sc,n,ni,nf,cc] + model.vQto_min[p,sc,n,ni,nf,cc] == sum(model.vDelta_Qto[p,sc,n,ni,nf,cc,l] for l in model.L))
+    model.eLineCapacityTo_LinearQTo2 = Constraint(model.ps, model.st, model.n, model.laa, rule=eLineCapacityTo_LinearQTo2)
 
     def eLineActivePowerLossesLowerBound(model,p,sc,st,n,ni,nf,cc):
         if (st,n) in model.s2n:
