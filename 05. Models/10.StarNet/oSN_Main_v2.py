@@ -356,10 +356,10 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
 
     #%% Modifying line parameters
 
-    pLineZ2     = pLineR**2 + pLineX**2
-    pLineG      = pLineR/pLineZ2
-    pLineB      = pLineX/pLineZ2
-    pLineBsh    = pLineBsh/2
+    pLineZ2     =  pLineR**2 + pLineX**2
+    pLineG      =  pLineR/pLineZ2
+    pLineB      = -pLineX/pLineZ2
+    pLineBsh    =  pLineBsh/2
 
     pLineTAP    = pLineTAP.where(pLineTAP > 0.0, other=1.0        )
     pLineTAP    = 1/pLineTAP
@@ -845,24 +845,24 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
             model.pLineLength[ni,nf,cc]   =  1.1 * 6371 * 2 * math.asin(math.sqrt(math.pow(math.sin((model.pNodeLat[nf]-model.pNodeLat[ni])*math.pi/180/2),2) + math.cos(model.pNodeLat[ni]*math.pi/180)*math.cos(model.pNodeLat[nf]*math.pi/180)*math.pow(math.sin((model.pNodeLon[nf]-model.pNodeLon[ni])*math.pi/180/2),2)))
 
     #%% variables
-    model.vTotalSCost     = Var(                            within=NonNegativeReals,                                                                                          doc='total system                         cost      [MEUR]')
-    model.vTotalICost     = Var(                            within=NonNegativeReals,                                                                                          doc='total system investment              cost      [MEUR]')
-    model.vTotalFCost     = Var(model.p,                    within=NonNegativeReals,                                                                                          doc='total system fixed                   cost      [MEUR]')
-    model.vTotalGCost     = Var(model.psn,                  within=NonNegativeReals,                                                                                          doc='total variable generation  operation cost      [MEUR]')
-    model.vTotalCCost     = Var(model.psn,                  within=NonNegativeReals,                                                                                          doc='total variable consumption operation cost      [MEUR]')
-    model.vTotalECost     = Var(model.psn,                  within=NonNegativeReals,                                                                                          doc='total system emission                cost      [MEUR]')
-    model.vTotalRCost     = Var(model.psn,                  within=NonNegativeReals,                                                                                          doc='total system reliability             cost      [MEUR]')
-    model.vTotalOutputP   = Var(model.psng ,                within=NonNegativeReals, bounds=lambda model,p,sc,n,g : (0.0,                    pMaxPower          [p,sc,n,g]),  doc='total output of the unit                         [GW]')
-    model.vTotalOutputQ   = Var(model.psnnr,                within=           Reals, bounds=lambda model,p,sc,n,nr: (pRatedMinPowerQ[nr],    pRatedMaxPowerQ    [      nr]),  doc='total output of the unit                       [GVAr]')
-    model.vOutput2ndBlock = Var(model.psnnr,                within=NonNegativeReals, bounds=lambda model,p,sc,n,nr: (0.0,                    pMaxPower2ndBlock [p,sc,n,nr]),  doc='second block of the unit                         [GW]')
-    model.vEnergyInflows  = Var(model.psnes,                within=NonNegativeReals, bounds=lambda model,p,sc,n,es: (0.0,                    pEnergyInflows    [p,sc,n,es]),  doc='unscheduled inflows  of candidate ESS units      [GW]')
-    model.vEnergyOutflows = Var(model.psnes,                within=NonNegativeReals, bounds=lambda model,p,sc,n,es: (0.0,max(pMaxPower  [p,sc,n,es],pMaxCharge [p,sc,n,es])), doc='scheduled   outflows of all       ESS units      [GW]')
-    model.vESSInventory   = Var(model.psnes,                within=NonNegativeReals, bounds=lambda model,p,sc,n,es: (        pMinStorage[p,sc,n,es],pMaxStorage[p,sc,n,es]),  doc='ESS inventory                                   [GWh]')
-    model.vESSSpillage    = Var(model.psnes,                within=NonNegativeReals,                                                                                          doc='ESS spillage                                    [GWh]')
-    model.vESSTotalCharge = Var(model.psnes,                within=NonNegativeReals, bounds=lambda model,p,sc,n,es: (0.0,                   pMaxCharge         [p,sc,n,es]),  doc='ESS total charge power                           [GW]')
-    model.vCharge2ndBlock = Var(model.psnes,                within=NonNegativeReals, bounds=lambda model,p,sc,n,es: (0.0,                   pMaxCharge2ndBlock [p,sc,n,es]),  doc='ESS       charge power                           [GW]')
-    model.vENS            = Var(model.psnnd,                within=NonNegativeReals, bounds=lambda model,p,sc,n,nd: (0.0,                                           1.0000),  doc='energy not served in node                        [GW]')
-    model.vW              = Var(model.psnnd,                within=NonNegativeReals,                                                                                          doc='squared voltage in node                        [p.u.]')
+    model.vTotalSCost     = Var(                              within=NonNegativeReals,                                                                                          doc='total system                         cost      [MEUR]')
+    model.vTotalICost     = Var(                              within=NonNegativeReals,                                                                                          doc='total system investment              cost      [MEUR]')
+    model.vTotalFCost     = Var(model.p,                      within=NonNegativeReals,                                                                                          doc='total system fixed                   cost      [MEUR]')
+    model.vTotalGCost     = Var(model.psn,                    within=NonNegativeReals,                                                                                          doc='total variable generation  operation cost      [MEUR]')
+    model.vTotalCCost     = Var(model.psn,                    within=NonNegativeReals,                                                                                          doc='total variable consumption operation cost      [MEUR]')
+    model.vTotalECost     = Var(model.psn,                    within=NonNegativeReals,                                                                                          doc='total system emission                cost      [MEUR]')
+    model.vTotalRCost     = Var(model.psn,                    within=NonNegativeReals,                                                                                          doc='total system reliability             cost      [MEUR]')
+    model.vTotalOutputP   = Var(model.psng ,                  within=NonNegativeReals, bounds=lambda model,p,sc,n,g : (0.0,                    pMaxPower          [p,sc,n,g]),  doc='total output of the unit                         [GW]')
+    model.vTotalOutputQ   = Var(model.psnnr,                  within=           Reals, bounds=lambda model,p,sc,n,nr: (pRatedMinPowerQ[nr],    pRatedMaxPowerQ    [      nr]),  doc='total output of the unit                       [GVAr]')
+    model.vOutput2ndBlock = Var(model.psnnr,                  within=NonNegativeReals, bounds=lambda model,p,sc,n,nr: (0.0,                    pMaxPower2ndBlock [p,sc,n,nr]),  doc='second block of the unit                         [GW]')
+    model.vEnergyInflows  = Var(model.psnes,                  within=NonNegativeReals, bounds=lambda model,p,sc,n,es: (0.0,                    pEnergyInflows    [p,sc,n,es]),  doc='unscheduled inflows  of candidate ESS units      [GW]')
+    model.vEnergyOutflows = Var(model.psnes,                  within=NonNegativeReals, bounds=lambda model,p,sc,n,es: (0.0,max(pMaxPower  [p,sc,n,es],pMaxCharge [p,sc,n,es])), doc='scheduled   outflows of all       ESS units      [GW]')
+    model.vESSInventory   = Var(model.psnes,                  within=NonNegativeReals, bounds=lambda model,p,sc,n,es: (        pMinStorage[p,sc,n,es],pMaxStorage[p,sc,n,es]),  doc='ESS inventory                                   [GWh]')
+    model.vESSSpillage    = Var(model.psnes,                  within=NonNegativeReals,                                                                                          doc='ESS spillage                                    [GWh]')
+    model.vESSTotalCharge = Var(model.psnes,                  within=NonNegativeReals, bounds=lambda model,p,sc,n,es: (0.0,                   pMaxCharge         [p,sc,n,es]),  doc='ESS total charge power                           [GW]')
+    model.vCharge2ndBlock = Var(model.psnes,                  within=NonNegativeReals, bounds=lambda model,p,sc,n,es: (0.0,                   pMaxCharge2ndBlock [p,sc,n,es]),  doc='ESS       charge power                           [GW]')
+    model.vENS            = Var(model.psnnd, initialize= 0.0 ,within=NonNegativeReals, bounds=lambda model,p,sc,n,nd: (0.0,                                           1.0000),  doc='energy not served in node                        [GW]')
+    model.vW              = Var(model.psnnd, initialize= 1.0 ,within=NonNegativeReals,                                                                                          doc='squared voltage in node                        [p.u.]')
 
     if pIndBinGenInvest == 0:
         model.vGenerationInvest  = Var(model.pgc,           within=UnitInterval,                                                                                               doc='generation investment decision exists in a year [0,1]')
@@ -909,15 +909,15 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
         # model.vPto    = Var(model.ps, model.n, model.la, within=Reals,            bounds=lambda model,p,sc,n,*la: (            -pLineNTCFrw[la]      ,pLineNTCFrw[la]    ),    doc='P flow from j to i [p.u.]')
         # model.vQfr    = Var(model.ps, model.n, model.la, within=Reals,            bounds=lambda model,p,sc,n,*la: (            -pLineNTCFrw[la]      ,pLineNTCFrw[la]    ),    doc='Q flow from i to j [p.u.]')
         # model.vQto    = Var(model.ps, model.n, model.la, within=Reals,            bounds=lambda model,p,sc,n,*la: (            -pLineNTCFrw[la]      ,pLineNTCFrw[la]    ),    doc='Q flow from j to i [p.u.]')
-        model.vS      = Var(model.ps, model.n, model.la, within=Reals,                                                                                                      doc='Sine term          [p.u.]')
-        model.vC      = Var(model.ps, model.n, model.la, within=Reals,                                                                                                      doc='Cosine term        [p.u.]')
-        model.vPfr    = Var(model.ps, model.n, model.la, within=Reals,                                                                                                      doc='P flow from i to j [p.u.]')
-        model.vPto    = Var(model.ps, model.n, model.la, within=Reals,                                                                                                      doc='P flow from j to i [p.u.]')
-        model.vQfr    = Var(model.ps, model.n, model.la, within=Reals,                                                                                                      doc='Q flow from i to j [p.u.]')
-        model.vQto    = Var(model.ps, model.n, model.la, within=Reals,                                                                                                      doc='Q flow from j to i [p.u.]')
+        model.vS      = Var(model.ps, model.n, model.la, initialize= 0.0 , within=Reals,                                                                                                      doc='Sine term          [p.u.]')
+        model.vC      = Var(model.ps, model.n, model.la, initialize= 1.0 , within=Reals,                                                                                                      doc='Cosine term        [p.u.]')
+        model.vPfr    = Var(model.ps, model.n, model.la, initialize= 0.0 , within=Reals,                                                                                                      doc='P flow from i to j [p.u.]')
+        model.vPto    = Var(model.ps, model.n, model.la, initialize= 0.0 , within=Reals,                                                                                                      doc='P flow from j to i [p.u.]')
+        model.vQfr    = Var(model.ps, model.n, model.la, initialize= 0.0 , within=Reals,                                                                                                      doc='Q flow from i to j [p.u.]')
+        model.vQto    = Var(model.ps, model.n, model.la, initialize= 0.0 , within=Reals,                                                                                                      doc='Q flow from j to i [p.u.]')
     else:
-        model.vFlow      = Var(model.ps, model.n, model.la, within=Reals,                                                                                                      doc='flow               [GW]')
-    model.vTheta         = Var(model.ps, model.n, model.nd, within=Reals,            bounds=lambda model,p,sc,n, nd: (            -pMaxTheta[p,sc,n,nd],pMaxTheta[p,sc,n,nd]),    doc='voltage angle     [rad]')
+        model.vFlow      = Var(model.ps, model.n, model.la, initialize= 0.0 , within=Reals,                                                                                                      doc='flow               [GW]')
+    model.vTheta         = Var(model.ps, model.n, model.nd, initialize= 0.0 , within=Reals,            bounds=lambda model,p,sc,n, nd: (            -pMaxTheta[p,sc,n,nd],pMaxTheta[p,sc,n,nd]),    doc='voltage angle     [rad]')
 
     if pIndBinNetInvest == 0:
         model.vShuntInvest     = Var(model.pshc,            within=UnitInterval,                                                                                               doc='bus shunt  investment decision exists in a year [0,1]')
@@ -1048,9 +1048,10 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
                 model.vEnergyOutflows[p,sc,n,es].fix(0.0)
 
     # fixing the voltage angle of the reference node for each scenario, period, and load level
-    if pIndBinSingleNode == 0:
-        for p,sc,n in model.psn:
-            model.vTheta[p,sc,n,model.rf.first()].fix(0.0)
+    # if pIndBinSingleNode == 0:
+    #     for p,sc,n in model.psn:
+    #         # model.vTheta[p,sc,n,model.rf.first()].fix(0.0)
+    #         model.vW    [p,sc,n,model.rf.first()].fix(1.1025)
 
     # fixing the ENS in nodes with no demand
     for p,sc,n,nd in model.psnnd:
@@ -1149,7 +1150,7 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
 
     def eTotalRCost(model,p,sc,st,n):
         if (st,n) in model.s2n:
-            return     model.vTotalRCost[p,sc,n] == sum(pLoadLevelDuration[n] * pENSCost             * model.vENS           [p,sc,n,nd] for nd in model.nd)
+            return     model.vTotalRCost[p,sc,n] == sum(pLoadLevelDuration[n] * pENSCost * (pDemandP[p,sc,n,nd]+pDemandQ[p,sc,n,nd]) * model.vENS[p,sc,n,nd] for nd in model.nd)
         else:
             return Constraint.Skip
     model.eTotalRCost            = Constraint(model.ps, model.st, model.n, rule=eTotalRCost, doc='system reliability cost [MEUR]')
@@ -1195,20 +1196,6 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
             return Constraint.Skip
     model.eAdequacyReserveMargin = Constraint(model.p, model.ar, rule=eAdequacyReserveMargin, doc='system adequacy reserve margin [p.u.]')
 
-    def eInstalBusShuntPCap(model,p,sc,st,n,shc):
-        if (st,n) in model.s2n and pGshb[shc]:
-            return model.vBusShuntP   [p,sc,n,shc] / pGshb[shc] <= model.vShuntInvest[p,shc]
-        else:
-            return Constraint.Skip
-    model.eInstalBusShuntPCap    = Constraint(model.ps, model.st, model.n, model.shc, rule=eInstalBusShuntPCap, doc='output if installed bus shunt [p.u.]')
-
-    def eInstalBusShuntQCap(model,p,sc,st,n,shc):
-        if (st,n) in model.s2n and pBshb[shc]:
-            return model.vBusShuntQ   [p,sc,n,shc] / pBshb[shc] <= model.vShuntInvest[p,shc]
-        else:
-            return Constraint.Skip
-    model.eInstalBusShuntQCap    = Constraint(model.ps, model.st, model.n, model.shc, rule=eInstalBusShuntQCap, doc='output if installed bus shunt [p.u.]')
-
     GeneratingInvTime = time.time() - StartTime
     StartTime         = time.time()
     print('Generating operation & investment     ... ', round(GeneratingInvTime), 's')
@@ -1235,7 +1222,7 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
         if (st,n) in model.s2n and sum(1 for g in model.g if (nd,g) in model.n2g) + sum(1 for lout in lout[nd]) + sum(1 for ni,cc in lin[nd]):
             return (sum(model.vTotalOutputQ[p,sc,n,nr] for nr    in model.nr if (nd,nr  ) in model.n2g )
                     - pDemandQ[p,sc,n,nd]*(1-model.vENS[p,sc,n,nd])
-                    - sum(model.vBusShuntQ[p,sc,n,sh ] for sh    in model.sh if (nd,sh  ) in model.n2sh)
+                    + sum(model.vBusShuntQ[p,sc,n,sh ] for sh    in model.sh if (nd,sh  ) in model.n2sh)
                     - sum(model.vQfr[ p,sc,n,nd,lout ] for lout  in lout[nd] if (nd,lout) in model.laa ) - sum(model.vQto[ p,sc,n,ni,nd,cc] for ni,cc in lin [nd] if (ni,nd,cc) in model.laa) == 0)
         else:
             return Constraint.Skip
@@ -1346,7 +1333,7 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
 
     def eTotalOutputQ_LB(model,p,sc,st,n,nr):
         if (st,n) in model.s2n and (pRatedMaxPowerQ[nr] or pRatedMinPowerQ[nr]):
-            return model.vTotalOutputQ[p,sc,n,nr] >= -model.vTotalOutputP[p,sc,n,nr]*math.tan(math.acos(0.9))
+            return model.vTotalOutputQ[p,sc,n,nr] >= -model.vTotalOutputP[p,sc,n,nr]*math.tan(math.acos(0.99))
         else:
             return Constraint.Skip
     model.eTotalOutputQ_LB       = Constraint(model.ps, model.st, model.n, model.nr, rule=eTotalOutputQ_LB, doc='lower bound of the reactive power output of a unit [GVAr]')
@@ -1391,56 +1378,56 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
 
     def eNetCapacityPfrLowerBound(model,p,sc,st,n,ni,nf,cc):
         if (st,n) in model.s2n and pIndBinSingleNode == 0 and (ni,nf,cc) in model.lc:
-            return model.vPfr[p,sc,n,ni,nf,cc] / pLineNTCFrw[ni,nf,cc] >= - model.vNetworkInvest[p,ni,nf,cc]
+            return model.vPfr[p,sc,n,ni,nf,cc] / (pLineNTCFrw[ni,nf,cc]*1e3)  >= - model.vNetworkInvest[p,ni,nf,cc]
         else:
             return Constraint.Skip
     model.eNetCapacityPfrLowerBound = Constraint(model.ps, model.st, model.n, model.la, rule=eNetCapacityPfrLowerBound, doc='maximum flow by candidate network capacity [p.u.]')
 
     def eNetCapacityPfrUpperBound(model,p,sc,st,n,ni,nf,cc):
         if (st,n) in model.s2n and pIndBinSingleNode == 0 and (ni,nf,cc) in model.lc:
-            return model.vPfr[p,sc,n,ni,nf,cc] / pLineNTCFrw[ni,nf,cc] <=   model.vNetworkInvest[p,ni,nf,cc]
+            return model.vPfr[p,sc,n,ni,nf,cc] / (pLineNTCFrw[ni,nf,cc]*1e3) <=   model.vNetworkInvest[p,ni,nf,cc]
         else:
             return Constraint.Skip
     model.eNetCapacityPfrUpperBound = Constraint(model.ps, model.st, model.n, model.la, rule=eNetCapacityPfrUpperBound, doc='maximum flow by candidate network capacity [p.u.]')
 
     def eNetCapacityPtoLowerBound(model,p,sc,st,n,ni,nf,cc):
         if (st,n) in model.s2n and pIndBinSingleNode == 0 and (ni,nf,cc) in model.lc:
-            return model.vPto[p,sc,n,ni,nf,cc] / pLineNTCFrw[ni,nf,cc] >= - model.vNetworkInvest[p,ni,nf,cc]
+            return model.vPto[p,sc,n,ni,nf,cc] / (pLineNTCFrw[ni,nf,cc]*1e3) >= - model.vNetworkInvest[p,ni,nf,cc]
         else:
             return Constraint.Skip
     model.eNetCapacityPtoLowerBound = Constraint(model.ps, model.st, model.n, model.la, rule=eNetCapacityPtoLowerBound, doc='maximum flow by candidate network capacity [p.u.]')
 
     def eNetCapacityPtoUpperBound(model,p,sc,st,n,ni,nf,cc):
         if (st,n) in model.s2n and pIndBinSingleNode == 0 and (ni,nf,cc) in model.lc:
-            return model.vPto[p,sc,n,ni,nf,cc] / pLineNTCFrw[ni,nf,cc] <=   model.vNetworkInvest[p,ni,nf,cc]
+            return model.vPto[p,sc,n,ni,nf,cc] / (pLineNTCFrw[ni,nf,cc]*1e3) <=   model.vNetworkInvest[p,ni,nf,cc]
         else:
             return Constraint.Skip
     model.eNetCapacityPtoUpperBound = Constraint(model.ps, model.st, model.n, model.la, rule=eNetCapacityPtoUpperBound, doc='maximum flow by candidate network capacity [p.u.]')
 
     def eNetCapacityQfrLowerBound(model,p,sc,st,n,ni,nf,cc):
         if (st,n) in model.s2n and pIndBinSingleNode == 0 and (ni,nf,cc) in model.lc:
-            return model.vQfr[p,sc,n,ni,nf,cc] / pLineNTCFrw[ni,nf,cc] >= - model.vNetworkInvest[p,ni,nf,cc]
+            return model.vQfr[p,sc,n,ni,nf,cc] / (pLineNTCFrw[ni,nf,cc]*1e3) >= - model.vNetworkInvest[p,ni,nf,cc]
         else:
             return Constraint.Skip
     model.eNetCapacityQfrLowerBound = Constraint(model.ps, model.st, model.n, model.la, rule=eNetCapacityQfrLowerBound, doc='maximum flow by candidate network capacity [p.u.]')
 
     def eNetCapacityQfrUpperBound(model,p,sc,st,n,ni,nf,cc):
         if (st,n) in model.s2n and pIndBinSingleNode == 0 and (ni,nf,cc) in model.lc:
-            return model.vQfr[p,sc,n,ni,nf,cc] / pLineNTCFrw[ni,nf,cc] <=   model.vNetworkInvest[p,ni,nf,cc]
+            return model.vQfr[p,sc,n,ni,nf,cc] / (pLineNTCFrw[ni,nf,cc]*1e3) <=   model.vNetworkInvest[p,ni,nf,cc]
         else:
             return Constraint.Skip
     model.eNetCapacityQfrUpperBound = Constraint(model.ps, model.st, model.n, model.la, rule=eNetCapacityQfrUpperBound, doc='maximum flow by candidate network capacity [p.u.]')
 
     def eNetCapacityQtoLowerBound(model,p,sc,st,n,ni,nf,cc):
         if (st,n) in model.s2n and pIndBinSingleNode == 0 and (ni,nf,cc) in model.lc:
-            return model.vQto[p,sc,n,ni,nf,cc] / pLineNTCFrw[ni,nf,cc] >= - model.vNetworkInvest[p,ni,nf,cc]
+            return model.vQto[p,sc,n,ni,nf,cc] / (pLineNTCFrw[ni,nf,cc]*1e3) >= - model.vNetworkInvest[p,ni,nf,cc]
         else:
             return Constraint.Skip
     model.eNetCapacityQtoLowerBound = Constraint(model.ps, model.st, model.n, model.la, rule=eNetCapacityQtoLowerBound, doc='maximum flow by candidate network capacity [p.u.]')
 
     def eNetCapacityQtoUpperBound(model,p,sc,st,n,ni,nf,cc):
         if (st,n) in model.s2n and pIndBinSingleNode == 0 and (ni,nf,cc) in model.lc:
-            return model.vQto[p,sc,n,ni,nf,cc] / pLineNTCFrw[ni,nf,cc] <=   model.vNetworkInvest[p,ni,nf,cc]
+            return model.vQto[p,sc,n,ni,nf,cc] / (pLineNTCFrw[ni,nf,cc]*1e3) <=   model.vNetworkInvest[p,ni,nf,cc]
         else:
             return Constraint.Skip
     model.eNetCapacityQtoUpperBound = Constraint(model.ps, model.st, model.n, model.la, rule=eNetCapacityQtoUpperBound, doc='maximum flow by candidate network capacity [p.u.]')
@@ -1499,6 +1486,20 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
             return Constraint.Skip
     model.eQfrUpperBound          = Constraint(model.ps, model.st, model.n, model.la, rule=eQfrUpperBound, doc='maximum flow by existing network capacity [p.u.]')
 
+    # def eq1(model,p,sc,st,n,ni,nf,cc):
+    #     if (st,n) in model.s2n:
+    #         return model.vQfr[p,sc,n,ni,nf,cc] + (pLineB[ni,nf,cc]+pLineBsh[ni,nf,cc])*pLineTAP[ni,nf,cc]**2*model.vW[p,sc,n,ni] - pLineTAP[ni,nf,cc]*pLineG[ni,nf,cc]*model.vS[p,sc,n,ni,nf,cc] - pLineTAP[ni,nf,cc]*pLineB[ni,nf,cc]*model.vC[p,sc,n,ni,nf,cc] == 0
+    #     else:
+    #         return Constraint.Skip
+    # model.eq1 = Constraint(model.ps, model.st, model.n, model.la, rule=eq1, doc='')
+    #
+    # def eq2(model,p,sc,st,n,ni,nf,cc):
+    #     if (st,n) in model.s2n:
+    #         return model.vQto[p,sc,n,ni,nf,cc] + (pLineB[ni,nf,cc]+pLineBsh[ni,nf,cc])                      *model.vW[p,sc,n,nf] + pLineTAP[ni,nf,cc]*pLineG[ni,nf,cc]*model.vS[p,sc,n,ni,nf,cc] - pLineTAP[ni,nf,cc]*pLineB[ni,nf,cc]*model.vC[p,sc,n,ni,nf,cc] == 0
+    #     else:
+    #         return Constraint.Skip
+    # model.eq2 = Constraint(model.ps, model.st, model.n, model.la, rule=eq2, doc='')
+
     def eQtoLowerBound(model,p,sc,st,n,ni,nf,cc):
         if (st,n) in model.s2n and pIndBinSingleNode == 0 and (ni,nf,cc) in model.lc:
             return model.vQto[p,sc,n,ni,nf,cc] + (pLineB[ni,nf,cc]+pLineBsh[ni,nf,cc])                     *model.vW[p,sc,n,nf] + pLineTAP[ni,nf,cc]*pLineG[ni,nf,cc]*model.vS[p,sc,n,ni,nf,cc] - pLineTAP[ni,nf,cc]*pLineB[ni,nf,cc]*model.vC[p,sc,n,ni,nf,cc] >= (1 - model.vNetworkInvest[p,ni,nf,cc])
@@ -1533,14 +1534,14 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
 
     def eLineCapacityFrUpperBound(model,p,sc,st,n,ni,nf,cc):
         if (st,n) in model.s2n:
-            return model.vPfr[p,sc,n,ni,nf,cc]**2 + model.vQfr[p,sc,n,ni,nf,cc]**2 <= pLineNTCFrw[ni,nf,cc]**2
+            return model.vPfr[p,sc,n,ni,nf,cc]**2 + model.vQfr[p,sc,n,ni,nf,cc]**2 <= (pLineNTCFrw[ni,nf,cc]*1)**2
         else:
             return Constraint.Skip
     model.eLineCapacityFrUpperBound = Constraint(model.ps, model.st, model.n, model.la, rule=eLineCapacityFrUpperBound, doc='maximum flow by a network capacity [p.u.]')
 
     def eLineCapacityToUpperBound(model,p,sc,st,n,ni,nf,cc):
         if (st,n) in model.s2n:
-            return model.vPto[p,sc,n,ni,nf,cc]**2 + model.vQto[p,sc,n,ni,nf,cc]**2 <= pLineNTCFrw[ni,nf,cc]**2
+            return model.vPto[p,sc,n,ni,nf,cc]**2 + model.vQto[p,sc,n,ni,nf,cc]**2 <= (pLineNTCFrw[ni,nf,cc]*1)**2
         else:
             return Constraint.Skip
     model.eLineCapacityToUpperBound = Constraint(model.ps, model.st, model.n, model.la, rule=eLineCapacityToUpperBound, doc='maximum flow by a network capacity [p.u.]')
@@ -1565,6 +1566,20 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
         else:
             return Constraint.Skip
     model.eLineConic2 = Constraint(model.ps, model.st, model.n, model.la, rule=eLineConic2, doc='conic constraint 2 [p.u.]')
+
+    def eExistingShuntGshb(model,p,sc,st,n,sh):
+        if (st,n) in model.s2n:
+            return model.vBusShuntP[p,sc,n,sh] - pGshb[sh]*model.vW[p,sc,n,pShuntToNode[sh]] == 0
+        else:
+            return Constraint.Skip
+    model.eExistingShuntGshb = Constraint(model.ps, model.st, model.n, model.she, rule=eExistingShuntGshb, doc='shunt constraint [p.u.]')
+
+    def eExistingShuntBshb(model,p,sc,st,n,sh):
+        if (st,n) in model.s2n:
+            return model.vBusShuntQ[p,sc,n,sh] - pBshb[sh]*model.vW[p,sc,n,pShuntToNode[sh]] == 0
+        else:
+            return Constraint.Skip
+    model.eExistingShuntBshb = Constraint(model.ps, model.st, model.n, model.she, rule=eExistingShuntBshb, doc='shunt constraint [p.u.]')
 
     GeneratingNetTime = time.time() - StartTime
     StartTime         = time.time()
@@ -1649,7 +1664,7 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
     if idx == 0:
         model.dual = Suffix(direction=Suffix.IMPORT)
         model.rc   = Suffix(direction=Suffix.IMPORT)
-    SolverResults = Solver.solve(model, tee=False)                                        # tee=True displays the output of the solver
+    SolverResults = Solver.solve(model, tee=True)                                        # tee=True displays the output of the solver
     print('Termination condition: ', SolverResults.solver.termination_condition)
     SolverResults.write()                                                                # summary of the solver results
 
@@ -1676,6 +1691,8 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
     SolvingTime = time.time() - StartTime
     StartTime   = time.time()
     print('Solving                               ... ', round(SolvingTime), 's')
+
+    print('Objective function value                  ', model.eTotalSCost.expr())
 
     # #%% outputting the generation operation
     # SysCost     = pd.Series(data=[                                                                                                             model.vTotalSCost()                                                                                                  ], index=[' ']  ).to_frame(name='Total          System Cost').stack()
