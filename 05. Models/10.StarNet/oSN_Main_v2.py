@@ -1555,7 +1555,8 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
 
     def eLineConic1(model,p,sc,st,n,ni,nf,cc):
         if (st,n) in model.s2n:
-            return model.vC[p,sc,n,ni,nf,cc]**2 + model.vS[p,sc,n,ni,nf,cc]**2 <= model.vW[p,sc,n,ni]*model.vW[p,sc,n,nf]
+            # return model.vC[p,sc,n,ni,nf,cc]**2 + model.vS[p,sc,n,ni,nf,cc]**2 <= model.vW[p,sc,n,ni]*model.vW[p,sc,n,nf]
+            return model.vC[p,sc,n,ni,nf,cc]**2 + model.vS[p,sc,n,ni,nf,cc]**2 <= model.vW[p,sc,n,nf]
         else:
             return Constraint.Skip
     model.eLineConic1 = Constraint(model.ps, model.st, model.n, model.la, rule=eLineConic1, doc='conic constraint 1 [p.u.]')
@@ -1658,7 +1659,7 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
         Solver.options['TimeLimit'     ] =    76000
         Solver.options['IterationLimit'] = 76000000
     idx = 0
-    for var in model.component_data_objects(Var, active=True, descend_into=True):
+    for var in model.component_data_objects(Var, active=False, descend_into=True):
         if not var.is_continuous():
             idx += 1
     if idx == 0:
