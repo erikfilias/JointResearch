@@ -88,7 +88,7 @@ import time          # count clock time
 import math          # access to math operations
 import psutil        # access the number of CPUs
 from   collections   import defaultdict
-from   pyomo.environ import ConcreteModel, Set, Param, Var, Objective, minimize, Constraint, DataPortal, PositiveIntegers, NonNegativeIntegers, Boolean, NonNegativeReals, UnitInterval, PositiveReals, Any, Binary, Reals, Suffix
+from   pyomo.environ import ConcreteModel, RangeSet, Set, Param, Var, Objective, minimize, Constraint, DataPortal, PositiveIntegers, NonNegativeIntegers, Boolean, NonNegativeReals, UnitInterval, PositiveReals, Any, Binary, Reals, Suffix
 from   pyomo.opt     import SolverFactory
 
 print('\n #### Academic research license - for non-commercial use only #### \n')
@@ -359,7 +359,7 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
     pLineZ2     =  pLineR**2 + pLineX**2
     pLineG      =  pLineR/pLineZ2
     pLineB      = -pLineX/pLineZ2
-    pLineBsh    =  pLineBsh/2
+    pLineBsh    =  pLineBsh/20
 
     pLineTAP    = pLineTAP.where(pLineTAP > 0.0, other=1.0        )
     pLineTAP    = 1/pLineTAP
@@ -806,6 +806,8 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
         # periods and scenarios are going to be solved together with their weight and probability
         model.pPeriodProb[p,sc] = model.pPeriodWeight[p] * model.pScenProb[p,sc]
 
+    model.L = RangeSet(10)
+
     model.pLineLossFactor       = Param(model.ln,    initialize=pLineLossFactor.to_dict()           , within=           Reals,    doc='Loss factor'                                         )
     model.pLineR                = Param(model.ln,    initialize=pLineR.to_dict()                    , within=NonNegativeReals,    doc='Resistance'                                          )
     model.pLineX                = Param(model.ln,    initialize=pLineX.to_dict()                    , within=           Reals,    doc='Reactance'                                           )
@@ -833,6 +835,13 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
     model.pNetFxInvest          = Param(model.ln,    initialize=pNetFxInvest.to_dict()              , within=NonNegativeReals,    doc='Fixed cost of the investment decision' , mutable=True)
     model.pNetSensiGroup        = Param(model.ln,    initialize=pNetSensiGroup.to_dict()            , within=NonNegativeIntegers, doc='Sensitivity group'                     , mutable=True)
     model.pNetSensiGroupValue   = Param(model.ln,    initialize=pNetSensiGroupValue.to_dict()       , within=NonNegativeReals,    doc='Sensitivity group value'               , mutable=True)
+    model.pLineDelta_S          = Param(model.la,         initialize=0.,                              within=NonNegativeReals,    doc='Delta of Smax splitted by L',           mutable=True)
+    model.pLineM                = Param(model.la,model.L, initialize=0.,                              within=NonNegativeReals,    doc='M partitions of Delta Smax',            mutable=True)
+
+    for la in model.la:
+        model.pLineDelta_S[la] = model.pLineNTCFrw[la]   / len(model.L)
+        for l in model.L:
+            model.pLineM[la,l] = (2*l-1)*model.pLineDelta_S[la]
 
     # if unit availability = 0 changed to 1
     for g in model.g:
@@ -909,12 +918,18 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
         # model.vPto    = Var(model.ps, model.n, model.la, within=Reals,            bounds=lambda model,p,sc,n,*la: (            -pLineNTCFrw[la]      ,pLineNTCFrw[la]    ),    doc='P flow from j to i [p.u.]')
         # model.vQfr    = Var(model.ps, model.n, model.la, within=Reals,            bounds=lambda model,p,sc,n,*la: (            -pLineNTCFrw[la]      ,pLineNTCFrw[la]    ),    doc='Q flow from i to j [p.u.]')
         # model.vQto    = Var(model.ps, model.n, model.la, within=Reals,            bounds=lambda model,p,sc,n,*la: (            -pLineNTCFrw[la]      ,pLineNTCFrw[la]    ),    doc='Q flow from j to i [p.u.]')
-        model.vS      = Var(model.ps, model.n, model.la, initialize= 0.0 , within=Reals,                                                                                                      doc='Sine term          [p.u.]')
-        model.vC      = Var(model.ps, model.n, model.la, initialize= 1.0 , within=Reals,                                                                                                      doc='Cosine term        [p.u.]')
-        model.vPfr    = Var(model.ps, model.n, model.la, initialize= 0.0 , within=Reals,                                                                                                      doc='P flow from i to j [p.u.]')
-        model.vPto    = Var(model.ps, model.n, model.la, initialize= 0.0 , within=Reals,                                                                                                      doc='P flow from j to i [p.u.]')
-        model.vQfr    = Var(model.ps, model.n, model.la, initialize= 0.0 , within=Reals,                                                                                                      doc='Q flow from i to j [p.u.]')
-        model.vQto    = Var(model.ps, model.n, model.la, initialize= 0.0 , within=Reals,                                                                                                      doc='Q flow from j to i [p.u.]')
+        model.vS       = Var(model.ps, model.n, model.la,          initialize= 0.0, within=Reals,                                                                                                      doc='Sine term          [p.u.]')
+        model.vC       = Var(model.ps, model.n, model.la,          initialize= 1.0, within=Reals,                                                                                                      doc='Cosine term        [p.u.]')
+        model.vPfr     = Var(model.ps, model.n, model.la,          initialize= 0.0, within=Reals,                                                                                                      doc='P flow from i to j [p.u.]')
+        model.vPto     = Var(model.ps, model.n, model.la,          initialize= 0.0, within=Reals,                                                                                                      doc='P flow from j to i [p.u.]')
+        model.vQfr     = Var(model.ps, model.n, model.la,          initialize= 0.0, within=Reals,                                                                                                      doc='Q flow from i to j [p.u.]')
+        model.vQto     = Var(model.ps, model.n, model.la,          initialize= 0.0, within=Reals,                                                                                                      doc='Q flow from j to i [p.u.]')
+        model.vDelta_S = Var(model.ps, model.n, model.la, model.L, initialize= 0.0, within=NonNegativeReals, bounds=lambda model,p,sc,n,ni,nf,cc,l:(0, model.pLineDelta_S[ni,nf,cc]),                  doc='Delta Active Power Flow                   [  GW]')
+        model.vDelta_C = Var(model.ps, model.n, model.la, model.L, initialize= 0.0, within=NonNegativeReals, bounds=lambda model,p,sc,n,ni,nf,cc,l:(0, model.pLineDelta_S[ni,nf,cc]),                  doc='Delta Reactive Power Flow                 [Gvar]')
+        model.vS_max   = Var(model.ps, model.n, model.la,          initialize= 0.0, within=NonNegativeReals, bounds=lambda model,p,sc,n,ni,nf,cc:(  0, model.pLineNTCFrw[ni,nf,cc]),                   doc='Maximum bound of the sine term            [p.u.]')
+        model.vS_min   = Var(model.ps, model.n, model.la,          initialize= 0.0, within=NonNegativeReals, bounds=lambda model,p,sc,n,ni,nf,cc:(  0, model.pLineNTCFrw[ni,nf,cc]),                   doc='Minimum bound of the sine term            [p.u.]')
+        model.vC_max   = Var(model.ps, model.n, model.la,          initialize= 0.0, within=NonNegativeReals, bounds=lambda model,p,sc,n,ni,nf,cc:(  0, model.pLineNTCFrw[ni,nf,cc]),                   doc='Maximum bound of the cosine term          [p.u.]')
+        model.vC_min   = Var(model.ps, model.n, model.la,          initialize= 0.0, within=NonNegativeReals, bounds=lambda model,p,sc,n,ni,nf,cc:(  0, model.pLineNTCFrw[ni,nf,cc]),                   doc='Minimum bound of the cosine term          [p.u.]')
     else:
         model.vFlow      = Var(model.ps, model.n, model.la, initialize= 0.0 , within=Reals,                                                                                                      doc='flow               [GW]')
     model.vTheta         = Var(model.ps, model.n, model.nd, initialize= 0.0 , within=Reals,            bounds=lambda model,p,sc,n, nd: (            -pMaxTheta[p,sc,n,nd],pMaxTheta[p,sc,n,nd]),    doc='voltage angle     [rad]')
@@ -1553,13 +1568,38 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
             return Constraint.Skip
     model.eLineActivePowerLossesLowerBound = Constraint(model.ps, model.st, model.n, model.la, rule=eLineActivePowerLossesLowerBound, doc='lower bound of the active power losses [p.u.]')
 
-    def eLineConic1(model,p,sc,st,n,ni,nf,cc):
-        if (st,n) in model.s2n:
-            # return model.vC[p,sc,n,ni,nf,cc]**2 + model.vS[p,sc,n,ni,nf,cc]**2 <= model.vW[p,sc,n,ni]*model.vW[p,sc,n,nf]
-            return model.vC[p,sc,n,ni,nf,cc]**2 + model.vS[p,sc,n,ni,nf,cc]**2 <= model.vW[p,sc,n,nf]
-        else:
-            return Constraint.Skip
-    model.eLineConic1 = Constraint(model.ps, model.st, model.n, model.la, rule=eLineConic1, doc='conic constraint 1 [p.u.]')
+    # def eLineConic1(model,p,sc,st,n,ni,nf,cc):
+    #     if (st,n) in model.s2n:
+    #         # return model.vC[p,sc,n,ni,nf,cc]**2 + model.vS[p,sc,n,ni,nf,cc]**2 <= model.vW[p,sc,n,ni]*model.vW[p,sc,n,nf]
+    #         return model.vC[p,sc,n,ni,nf,cc]**2 + model.vS[p,sc,n,ni,nf,cc]**2 <= model.vW[p,sc,n,nf]
+    #     else:
+    #         return Constraint.Skip
+    # model.eLineConic1 = Constraint(model.ps, model.st, model.n, model.la, rule=eLineConic1, doc='conic constraint 1 [p.u.]')
+
+    def eLineConic1_LP(model,p,sc,st,n,ni,nf,cc):
+        if (st, n) in model.s2n:
+            return sum(model.pLineM[ni,nf,cc,l] * model.vDelta_S[p,sc,n,ni,nf,cc,l] for l in model.L) + sum(model.pLineM[ni,nf,cc,l] * model.vDelta_C[p,sc,n,ni,nf,cc,l] for l in model.L) <= model.vW[p,sc,n,nf]
+    model.eLineConic1_LP = Constraint(model.ps, model.st, model.n, model.laa, rule=eLineConic1_LP)
+
+    def eLineConic1_LinearS1(model,p,sc,st,n,ni,nf,cc):
+        if (st, n) in model.s2n:
+            return model.vS_max[p,sc,n,ni,nf,cc] - model.vS_min[p,sc,n,ni,nf,cc] == model.vS[p,sc,n,ni,nf,cc]
+    model.eLineConic1_LinearS1 = Constraint(model.ps, model.st, model.n, model.laa, rule=eLineConic1_LinearS1)
+
+    def eLineConic1_LinearS2(model,p,sc,st,n,ni,nf,cc):
+        if (st, n) in model.s2n:
+            return model.vS_max[p,sc,n,ni,nf,cc] + model.vS_min[p,sc,n,ni,nf,cc] == sum(model.vDelta_S[p,sc,n,ni,nf,cc,l] for l in model.L)
+    model.eLineConic1_LinearS2 = Constraint(model.ps, model.st, model.n, model.laa, rule=eLineConic1_LinearS2)
+
+    def eLineConic1_LinearC1(model,p,sc,st,n,ni,nf,cc):
+        if (st, n) in model.s2n:
+            return (model.vC_max[p,sc,n,ni,nf,cc] - model.vC_min[p,sc,n,ni,nf,cc] == model.vC[p,sc,n,ni,nf,cc])
+    model.eLineConic1_LinearC1 = Constraint(model.ps, model.st, model.n, model.laa, rule=eLineConic1_LinearC1)
+
+    def eLineConic1_LinearC2(model,p,sc,st,n,ni,nf,cc):
+        if (st, n) in model.s2n:
+            return (model.vC_max[p,sc,n,ni,nf,cc] + model.vC_min[p,sc,n,ni,nf,cc] == sum(model.vDelta_C[p,sc,n,ni,nf,cc,l] for l in model.L))
+    model.eLineConic1_LinearC2 = Constraint(model.ps, model.st, model.n, model.laa, rule=eLineConic1_LinearC2)
 
     def eLineConic2(model,p,sc,st,n,ni,nf,cc):
         if (st,n) in model.s2n:
