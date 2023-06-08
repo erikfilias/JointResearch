@@ -1513,20 +1513,6 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
             return Constraint.Skip
     model.eQfrUpperBound          = Constraint(model.ps, model.st, model.n, model.la, rule=eQfrUpperBound, doc='maximum flow by existing network capacity [p.u.]')
 
-    # def eq1(model,p,sc,st,n,ni,nf,cc):
-    #     if (st,n) in model.s2n:
-    #         return model.vQfr[p,sc,n,ni,nf,cc] + (pLineB[ni,nf,cc]+pLineBsh[ni,nf,cc])*pLineTAP[ni,nf,cc]**2*model.vW[p,sc,n,ni] - pLineTAP[ni,nf,cc]*pLineG[ni,nf,cc]*model.vS[p,sc,n,ni,nf,cc] - pLineTAP[ni,nf,cc]*pLineB[ni,nf,cc]*model.vC[p,sc,n,ni,nf,cc] == 0
-    #     else:
-    #         return Constraint.Skip
-    # model.eq1 = Constraint(model.ps, model.st, model.n, model.la, rule=eq1, doc='')
-    #
-    # def eq2(model,p,sc,st,n,ni,nf,cc):
-    #     if (st,n) in model.s2n:
-    #         return model.vQto[p,sc,n,ni,nf,cc] + (pLineB[ni,nf,cc]+pLineBsh[ni,nf,cc])                      *model.vW[p,sc,n,nf] + pLineTAP[ni,nf,cc]*pLineG[ni,nf,cc]*model.vS[p,sc,n,ni,nf,cc] - pLineTAP[ni,nf,cc]*pLineB[ni,nf,cc]*model.vC[p,sc,n,ni,nf,cc] == 0
-    #     else:
-    #         return Constraint.Skip
-    # model.eq2 = Constraint(model.ps, model.st, model.n, model.la, rule=eq2, doc='')
-
     def eQtoLowerBound(model,p,sc,st,n,ni,nf,cc):
         if (st,n) in model.s2n and pIndBinSingleNode == 0 and (ni,nf,cc) in model.lc:
             return model.vQto[p,sc,n,ni,nf,cc] + (pLineB[ni,nf,cc]+pLineBsh[ni,nf,cc])                     *model.vW[p,sc,n,nf] + pLineTAP[ni,nf,cc]*pLineG[ni,nf,cc]*model.vS[p,sc,n,ni,nf,cc] - pLineTAP[ni,nf,cc]*pLineB[ni,nf,cc]*model.vC[p,sc,n,ni,nf,cc] >= (1 - model.vNetworkInvest[p,ni,nf,cc])
