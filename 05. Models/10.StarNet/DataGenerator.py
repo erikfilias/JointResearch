@@ -59,6 +59,7 @@ def ModelRun(m, execution, path, dir, case, solver, dictSets):
     size = len(model_p.nd)
     # Convert the set to a list
     nodes = list(model_p.nd)
+    nodes.sort()
     admittance_matrix = np.zeros((size, size), dtype=complex)
     # Iterate over each row in the DataFrame and populate the admittance matrix
     model_p.la.pprint()
