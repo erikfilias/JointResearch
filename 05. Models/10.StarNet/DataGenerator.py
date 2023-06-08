@@ -5,11 +5,8 @@ import itertools
 import numpy         as np
 import pandas        as pd
 import time          # count clock time
-import math          # access to math operations
-import psutil        # access the number of CPUs
 from   collections   import defaultdict
 from   pyomo.environ import ConcreteModel, Set, Param, Var, Objective, minimize, Constraint, DataPortal, PositiveIntegers, NonNegativeIntegers, Boolean, NonNegativeReals, UnitInterval, PositiveReals, Any, Binary, Reals, Suffix
-from   pyomo.opt     import SolverFactory
 from   oSN_Main_v2   import openStarNet_run
 
 #%% Defining metadata
@@ -28,23 +25,13 @@ def ModelRun(m, execution, path, dir, case, solver, dictSets):
     _path = path
     model_p = openStarNet_run(dir, case, solver, m)
 
-    # for i in dictSets['nd']:
-    #     print(f"Node: {i}")
-
-    # for (i,j,k) in df_Network.index*df_Generation.index:
-    #     print(f"line {i} {j} {k}, generation {k}")
-    #     print("line", i, j, k, "generation", k")
-    #     if df_Network.loc[i,j,'Type'] == 'Line':
-    #         df_Network.loc[i,j,'Capacity'] = 9999999999
-
     reading_data_time = time.time() - start_time
     start_time = time.time()
     print('Reading    the parameters of the model ... ', round(reading_data_time), 's')
 
     # %% Saving the input data
     # Extracting the demand data
-    df_demand = pd.Series(data=[model_p.pDemandP[p, sc, n, nd] for p, sc, n, nd in model_p.psnnd],
-                          index=pd.MultiIndex.from_tuples(model_p.psnnd))
+    df_demand = pd.Series(data=[model_p.pDemandP[p,sc,n,nd] for p,sc,n,nd in model_p.psnnd], index=pd.MultiIndex.from_tuples(model_p.psnnd))
     df_demand.index.names = ['Period', 'Scenario', 'LoadLevel', 'Variable']
     df_demand = df_demand.reset_index().pivot_table(index=['Period', 'Scenario', 'LoadLevel', 'Variable'], values=0)
     df_demand.rename(columns={0: 'Value'}, inplace=True)
@@ -140,17 +127,13 @@ def ModelRun(m, execution, path, dir, case, solver, dictSets):
         index=pd.MultiIndex.from_tuples(model_p.psn))
     df_total_costs.index.names = ['Period', 'Scenario', 'LoadLevel']
 
-    for (p, sc, n) in model_p.psn:
-        df_total_costs.loc[(p, sc, n), 'vTotalSCost'] = model_p.vTotalSCost()
-        df_total_costs.loc[(p, sc, n), 'vTotalFCost'] = model_p.pDiscountFactor[p] * model_p.vTotalFCost[p]()
-        df_total_costs.loc[(p, sc, n), 'vTotalGCost'] = model_p.pDiscountFactor[p] * model_p.pScenProb[p, sc]() * \
-                                                        model_p.vTotalGCost[p, sc, n]()
-        df_total_costs.loc[(p, sc, n), 'vTotalCCost'] = model_p.pDiscountFactor[p] * model_p.pScenProb[p, sc]() * \
-                                                        model_p.vTotalCCost[p, sc, n]()
-        df_total_costs.loc[(p, sc, n), 'vTotalECost'] = model_p.pDiscountFactor[p] * model_p.pScenProb[p, sc]() * \
-                                                        model_p.vTotalECost[p, sc, n]()
-        df_total_costs.loc[(p, sc, n), 'vTotalRCost'] = model_p.pDiscountFactor[p] * model_p.pScenProb[p, sc]() * \
-                                                        model_p.vTotalRCost[p, sc, n]()
+    for (p,sc,n) in model_p.psn:
+        df_total_costs.loc[(p,sc,n), 'vTotalSCost'] = model_p.vTotalSCost()
+        df_total_costs.loc[(p,sc,n), 'vTotalFCost'] = model_p.pDiscountFactor[p]                             * model_p.vTotalFCost[p]()
+        df_total_costs.loc[(p,sc,n), 'vTotalGCost'] = model_p.pDiscountFactor[p] * model_p.pScenProb[p,sc]() * model_p.vTotalGCost[p,sc,n]()
+        df_total_costs.loc[(p,sc,n), 'vTotalCCost'] = model_p.pDiscountFactor[p] * model_p.pScenProb[p,sc]() * model_p.vTotalCCost[p,sc,n]()
+        df_total_costs.loc[(p,sc,n), 'vTotalECost'] = model_p.pDiscountFactor[p] * model_p.pScenProb[p,sc]() * model_p.vTotalECost[p,sc,n]()
+        df_total_costs.loc[(p,sc,n), 'vTotalRCost'] = model_p.pDiscountFactor[p] * model_p.pScenProb[p,sc]() * model_p.vTotalRCost[p,sc,n]()
 
     df_total_costs = df_total_costs.stack().to_frame(name='Value')
     df_total_costs.index.names = ['Period', 'Scenario', 'LoadLevel', 'Variable']
@@ -160,69 +143,69 @@ def ModelRun(m, execution, path, dir, case, solver, dictSets):
     data_time = time.time() - start_time
     start_time = time.time()
     print('Getting the total costs                ... ', round(data_time), 's')
-    #
-    # # # Dual eBalance
-    # # incoming and outgoing lines (lin) (lout)
-    # lin   = defaultdict(list)
-    # lout  = defaultdict(list)
-    # for ni,nf,cc in model_p.la:
-    #     lin  [nf].append((ni,cc))
-    #     lout [ni].append((nf,cc))
-    #
-    # List1 = [(p,sc,n,nd,st) for (p,sc,n,nd,st) in model_p.psnnd*model_p.st if (st,n) in model_p.s2n and sum(1 for g in model_p.g if (nd,g) in model_p.n2g) + sum(1 for lout in lout[nd]) + sum(1 for ni,cc in lin[nd])]
-    # df_dual_eBalance = pd.Series(data=[model_p.dual[model.eBalance[p,sc,st,n,nd]]*1e3 for p,sc,n,nd,st in List1], index=pd.MultiIndex.from_tuples(List1))
-    # df_dual_eBalance = df_dual_eBalance.to_frame(name='Value').rename_axis(['Period', 'Scenario', 'LoadLevel', 'Variable','Stage'], axis=0).reset_index().pivot_table(index=['Period','Scenario','LoadLevel','Variable'], values='Value' , aggfunc=sum)
-    # df_dual_eBalance['Dataset']   = 'Dual_eBalance'
-    # df_dual_eBalance['Execution'] = execution
-    #
-    # data_time = time.time() - start_time
-    # start_time = time.time()
-    # print('Getting the dual variable: eBalance    ... ', round(data_time), 's')
-    #
-    # # Dual eNetCapacity1 - lower bound
-    # List2 = [(p,sc,st,n,ni,nf,cc) for p,sc,st,n,ni,nf,cc in model_p.ps*model_p.st*model_p.n*model_p.la if (st,n) in model_p.s2n]
-    # df_dual_eNetCapacity1 = pd.Series(data=[model_p.dual[model.eNetCapacity1[p,sc,st,n,ni,nf,cc]]*1e3 for (p,sc,st,n,ni,nf,cc) in List2], index=pd.MultiIndex.from_tuples(List2))
-    # df_dual_eNetCapacity1 = df_dual_eNetCapacity1.to_frame(name='Value').rename_axis(['Period','Scenario','Stage','LoadLevel','InitialNode','FinalNode','Circuit'], axis=0).reset_index()
-    # df_dual_eNetCapacity1['Variable'] = df_dual_eNetCapacity1['InitialNode'] + '_' + df_dual_eNetCapacity1['FinalNode'] + '_' + df_dual_eNetCapacity1['Circuit']
-    # df_dual_eNetCapacity1 = df_dual_eNetCapacity1.pivot_table(index=['Period','Scenario','LoadLevel','Variable'], values='Value' , aggfunc=sum)
-    # df_dual_eNetCapacity1['Dataset']   = 'Dual_eNetCapacity_LowerBound'
-    # df_dual_eNetCapacity1['Execution'] = execution
-    #
-    # data_time = time.time() - start_time
-    # start_time = time.time()
-    # print('Getting the dual variable: eNetCapacity1.. ', round(data_time), 's')
-    #
-    # # Dual eNetCapacity2 - upper bound
-    # df_dual_eNetCapacity2 = pd.Series(data=[model_p.dual[model.eNetCapacity2[p,sc,st,n,ni,nf,cc]]*1e3 for (p,sc,st,n,ni,nf,cc) in List2], index=pd.MultiIndex.from_tuples(List2))
-    # df_dual_eNetCapacity2 = df_dual_eNetCapacity2.to_frame(name='Value').rename_axis(['Period','Scenario','Stage','LoadLevel','InitialNode','FinalNode','Circuit'], axis=0).reset_index()
-    # df_dual_eNetCapacity2['Variable'] = df_dual_eNetCapacity2['InitialNode'] + '_' + df_dual_eNetCapacity2['FinalNode'] + '_' + df_dual_eNetCapacity2['Circuit']
-    # df_dual_eNetCapacity2 = df_dual_eNetCapacity2.pivot_table(index=['Period','Scenario','LoadLevel','Variable'], values='Value' , aggfunc=sum)
-    # df_dual_eNetCapacity2['Dataset']   = 'Dual_eNetCapacity_UpperBound'
-    # df_dual_eNetCapacity2['Execution'] = execution
-    #
-    # data_time = time.time() - start_time
-    # start_time = time.time()
-    # print('Getting the dual variable: eNetCapacity2.. ', round(data_time), 's')
-    #
-    # # Dual eGenCapacity1 - lower bound
-    # List3 = [(p,sc,st,n,g) for p,sc,st,n,g in model_p.ps*model_p.st*model_p.n*model_p.g if (st,n) in model_p.s2n]
-    # df_dual_eGenCapacity1 = pd.Series(data=[model_p.dual[model.eGenCapacity1[p,sc,st,n,g]]*1e3 for (p,sc,st,n,g) in List3], index=pd.MultiIndex.from_tuples(List3))
-    # df_dual_eGenCapacity1 = df_dual_eGenCapacity1.to_frame(name='Value').rename_axis(['Period','Scenario','Stage','LoadLevel','Variable'], axis=0).pivot_table(index=['Period','Scenario','LoadLevel','Variable'], values='Value' , aggfunc=sum)
-    # df_dual_eGenCapacity1['Dataset'] = 'Dual_eGenCapacity_LowerBound'
-    # df_dual_eGenCapacity1['Execution'] = execution
-    #
-    # df_dual_eGenCapacity2 = pd.Series(data=[model_p.dual[model.eGenCapacity2[p,sc,st,n,g]]*1e3 for (p,sc,st,n,g) in List3], index=pd.MultiIndex.from_tuples(List3))
-    # df_dual_eGenCapacity2 = df_dual_eGenCapacity2.to_frame(name='Value').rename_axis(['Period','Scenario','Stage','LoadLevel','Variable'], axis=0).pivot_table(index=['Period','Scenario','LoadLevel','Variable'], values='Value' , aggfunc=sum)
-    # df_dual_eGenCapacity2['Dataset'] = 'Dual_eGenCapacity_UpperBound'
-    # df_dual_eGenCapacity2['Execution'] = execution
-    #
-    # data_time = time.time() - start_time
-    # start_time = time.time()
-    # print('Getting the reduced cost: vTotalOutput ... ', round(data_time), 's')
+
+    # # Dual eBalance
+    # incoming and outgoing lines (lin) (lout)
+    lin   = defaultdict(list)
+    lout  = defaultdict(list)
+    for ni,nf,cc in model_p.la:
+        lin  [nf].append((ni,cc))
+        lout [ni].append((nf,cc))
+
+    List1 = [(p,sc,n,nd,st) for (p,sc,n,nd,st) in model_p.psnnd*model_p.st if (st,n) in model_p.s2n and sum(1 for g in model_p.g if (nd,g) in model_p.n2g) + sum(1 for lout in lout[nd]) + sum(1 for ni,cc in lin[nd])]
+    df_dual_eBalance = pd.Series(data=[model_p.dual[model_p.eBalanceP[p,sc,st,n,nd]]*1e3 for p,sc,n,nd,st in List1], index=pd.MultiIndex.from_tuples(List1))
+    df_dual_eBalance = df_dual_eBalance.to_frame(name='Value').rename_axis(['Period', 'Scenario', 'LoadLevel', 'Variable','Stage'], axis=0).reset_index().pivot_table(index=['Period','Scenario','LoadLevel','Variable'], values='Value' , aggfunc=sum)
+    df_dual_eBalance['Dataset']   = 'Dual_eBalance'
+    df_dual_eBalance['Execution'] = execution
+
+    data_time = time.time() - start_time
+    start_time = time.time()
+    print('Getting the dual variable: eBalance    ... ', round(data_time), 's')
+
+    # Dual eLineCapacityFr_LP - from i to j
+    List2 = [(p,sc,st,n,ni,nf,cc) for p,sc,st,n,ni,nf,cc in model_p.ps*model_p.st*model_p.n*model_p.laa if (st,n) in model_p.s2n]
+    df_dual_eNetCapacity1 = pd.Series(data=[model_p.dual[model_p.eLineCapacityFr_LP[p,sc,st,n,ni,nf,cc]]*1e3 for (p,sc,st,n,ni,nf,cc) in List2], index=pd.MultiIndex.from_tuples(List2))
+    df_dual_eNetCapacity1 = df_dual_eNetCapacity1.to_frame(name='Value').rename_axis(['Period','Scenario','Stage','LoadLevel','InitialNode','FinalNode','Circuit'], axis=0).reset_index()
+    df_dual_eNetCapacity1['Variable'] = df_dual_eNetCapacity1['InitialNode'] + '_' + df_dual_eNetCapacity1['FinalNode'] + '_' + df_dual_eNetCapacity1['Circuit']
+    df_dual_eNetCapacity1 = df_dual_eNetCapacity1.pivot_table(index=['Period','Scenario','LoadLevel','Variable'], values='Value' , aggfunc=sum)
+    df_dual_eNetCapacity1['Dataset']   = 'Dual_eNetCapacity_LowerBound'
+    df_dual_eNetCapacity1['Execution'] = execution
+
+    data_time = time.time() - start_time
+    start_time = time.time()
+    print('Getting the dual variable: eNetCapacity1.. ', round(data_time), 's')
+
+    # Dual eLineCapacityTo_LP - from j to i
+    df_dual_eNetCapacity2 = pd.Series(data=[model_p.dual[model_p.eLineCapacityTo_LP[p,sc,st,n,ni,nf,cc]]*1e3 for (p,sc,st,n,ni,nf,cc) in List2], index=pd.MultiIndex.from_tuples(List2))
+    df_dual_eNetCapacity2 = df_dual_eNetCapacity2.to_frame(name='Value').rename_axis(['Period','Scenario','Stage','LoadLevel','InitialNode','FinalNode','Circuit'], axis=0).reset_index()
+    df_dual_eNetCapacity2['Variable'] = df_dual_eNetCapacity2['InitialNode'] + '_' + df_dual_eNetCapacity2['FinalNode'] + '_' + df_dual_eNetCapacity2['Circuit']
+    df_dual_eNetCapacity2 = df_dual_eNetCapacity2.pivot_table(index=['Period','Scenario','LoadLevel','Variable'], values='Value' , aggfunc=sum)
+    df_dual_eNetCapacity2['Dataset']   = 'Dual_eNetCapacity_UpperBound'
+    df_dual_eNetCapacity2['Execution'] = execution
+
+    data_time = time.time() - start_time
+    start_time = time.time()
+    print('Getting the dual variable: eNetCapacity2.. ', round(data_time), 's')
+
+    # Dual eGenCapacity1 - lower bound
+    List3 = [(p,sc,st,n,g) for p,sc,st,n,g in model_p.ps*model_p.st*model_p.n*model_p.g if (st,n) in model_p.s2n]
+    df_dual_eGenCapacity1 = pd.Series(data=[model_p.dual[model_p.eGenCapacity1[p,sc,st,n,g]]*1e3 for (p,sc,st,n,g) in List3], index=pd.MultiIndex.from_tuples(List3))
+    df_dual_eGenCapacity1 = df_dual_eGenCapacity1.to_frame(name='Value').rename_axis(['Period','Scenario','Stage','LoadLevel','Variable'], axis=0).pivot_table(index=['Period','Scenario','LoadLevel','Variable'], values='Value' , aggfunc=sum)
+    df_dual_eGenCapacity1['Dataset'] = 'Dual_eGenCapacity_LowerBound'
+    df_dual_eGenCapacity1['Execution'] = execution
+
+    df_dual_eGenCapacity2 = pd.Series(data=[model_p.dual[model_p.eGenCapacity2[p,sc,st,n,g]]*1e3 for (p,sc,st,n,g) in List3], index=pd.MultiIndex.from_tuples(List3))
+    df_dual_eGenCapacity2 = df_dual_eGenCapacity2.to_frame(name='Value').rename_axis(['Period','Scenario','Stage','LoadLevel','Variable'], axis=0).pivot_table(index=['Period','Scenario','LoadLevel','Variable'], values='Value' , aggfunc=sum)
+    df_dual_eGenCapacity2['Dataset'] = 'Dual_eGenCapacity_UpperBound'
+    df_dual_eGenCapacity2['Execution'] = execution
+
+    data_time = time.time() - start_time
+    start_time = time.time()
+    print('Getting the reduced cost: vTotalOutput ... ', round(data_time), 's')
 
     # Merging all the data
-    # df_output_data = pd.concat([df_total_costs, df_dual_eBalance, df_dual_eNetCapacity1, df_dual_eNetCapacity2, df_dual_eGenCapacity1, df_dual_eGenCapacity2])
-    df_output_data = df_total_costs
+    df_output_data = pd.concat([df_total_costs, df_dual_eBalance, df_dual_eNetCapacity1, df_dual_eNetCapacity2, df_dual_eGenCapacity1, df_dual_eGenCapacity2])
+    # df_output_data = df_total_costs
     # df_output_data.to_csv(_path + '/3.Out/oT_Result_NN_Output_' + args.case + '.csv', index=True)
 
     data_time = time.time() - start_time
