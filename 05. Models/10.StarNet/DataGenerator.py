@@ -26,7 +26,7 @@ SOLVER = 'gurobi'
 def ModelRun(m, execution, path, dir, case, solver, dictSets):
     start_time = time.time()
     _path = path
-    model = openStarNet_run(dir, case, solver, m)
+    model_p = openStarNet_run(dir, case, solver, m)
 
     # for i in dictSets['nd']:
     #     print(f"Node: {i}")
@@ -43,8 +43,8 @@ def ModelRun(m, execution, path, dir, case, solver, dictSets):
 
     # %% Saving the input data
     # Extracting the demand data
-    df_demand = pd.Series(data=[model.pDemandP[p, sc, n, nd] for p, sc, n, nd in model.psnnd],
-                          index=pd.MultiIndex.from_tuples(model.psnnd))
+    df_demand = pd.Series(data=[model_p.pDemandP[p, sc, n, nd] for p, sc, n, nd in model_p.psnnd],
+                          index=pd.MultiIndex.from_tuples(model_p.psnnd))
     df_demand.index.names = ['Period', 'Scenario', 'LoadLevel', 'Variable']
     df_demand = df_demand.reset_index().pivot_table(index=['Period', 'Scenario', 'LoadLevel', 'Variable'], values=0)
     df_demand.rename(columns={0: 'Value'}, inplace=True)
@@ -56,33 +56,47 @@ def ModelRun(m, execution, path, dir, case, solver, dictSets):
     print('Getting the electricity demand         ... ', round(data_time), 's')
 
     # Extracting the network data (admittance matrix)
-    size = len(model.nd)
+    size = len(model_p.nd)
     # Convert the set to a list
-    nodes = list(model.nd)
+    nodes = list(model_p.nd)
     admittance_matrix = np.zeros((size, size), dtype=complex)
     # Iterate over each row in the DataFrame and populate the admittance matrix
-    for (ni, nf, cc) in model.la:
-        reactance = model.pLineX[ni, nf, cc]
-        resistance = model.pLineR[ni, nf, cc]
-        susceptance = model.pLineBsh[ni, nf, cc]()
+    model_p.la.pprint()
+    for (ni, nf, cc) in model_p.la:
+        index_1 = 0
+        index_2 = 0
+        reactance   = model_p.pLineX[  ni,nf,cc]
+        resistance  = model_p.pLineR[  ni,nf,cc]
+        tap         = model_p.pLineTAP[ni,nf,cc]()
 
         # find the index of the nodes in the admittance matrix
         index_1 = nodes.index(ni)
         index_2 = nodes.index(nf)
 
-        admittance = 1 / (reactance + resistance * 1j + susceptance * 1j)
-        admittance_matrix[index_1][index_2] -= admittance
-        admittance_matrix[index_2][index_1] -= admittance
+        admittance = 1 / (resistance + reactance * 1j)
+        admittance_matrix[index_1][index_2] = admittance_matrix[index_1][index_2] + admittance * tap
+        admittance_matrix[index_2][index_1] = admittance_matrix[index_1][index_2]
 
     # Calculate the diagonal elements
     for i in range(size):
-        admittance_matrix[i][i] = -np.sum(admittance_matrix[i, :])
+        for (ni,nf,cc) in model_p.la:
+            index_1 = 0
+            index_2 = 0
+            index_1 = nodes.index(ni)
+            index_2 = nodes.index(nf)
+            susceptance = model_p.pLineBsh[ni,nf,cc]()
+            tap         = model_p.pLineTAP[ni,nf,cc]()
+            if index_1 == i:
+                admittance_matrix[i][i] = admittance_matrix[i][i] + admittance_matrix[index_1][index_2] * tap ** 2 + susceptance * 1j
+            elif index_2 == i:
+                admittance_matrix[i][i] = admittance_matrix[i][i] + admittance_matrix[index_1][index_2]            + susceptance * 1j
+
     df = pd.DataFrame(admittance_matrix).stack().reset_index()
     df.columns = ['Node1', 'Node2', 'Admittance']
     df.set_index(['Node1', 'Node2'], inplace=True)
-    df_Y_matrix = pd.DataFrame(index=pd.MultiIndex.from_tuples(model.psn))
+    df_Y_matrix = pd.DataFrame(index=pd.MultiIndex.from_tuples(model_p.psn))
 
-    for (p, sc, n) in model.psn:
+    for (p, sc, n) in model_p.psn:
         for (ni, nf) in df.index:
             df_Y_matrix.loc[(p, sc, n), 'Node_' + str(ni + 1) + '_Node_' + str(nf + 1)] = df.loc[(ni, nf), 'Admittance']
 
@@ -97,8 +111,8 @@ def ModelRun(m, execution, path, dir, case, solver, dictSets):
     print('Getting the Y matrix                   ... ', round(data_time), 's')
 
     # Extracting the maximum power generation data
-    df_max_power = pd.Series(data=[model.pMaxPower[p, sc, n, g] for p, sc, n, g in model.psng],
-                             index=pd.MultiIndex.from_tuples(model.psng))
+    df_max_power = pd.Series(data=[model_p.pMaxPower[p, sc, n, g] for p, sc, n, g in model_p.psng],
+                             index=pd.MultiIndex.from_tuples(model_p.psng))
     df_max_power.index.names = ['Period', 'Scenario', 'LoadLevel', 'Variable']
     df_max_power = df_max_power.reset_index().pivot_table(index=['Period', 'Scenario', 'LoadLevel', 'Variable'],
                                                           values=0)
@@ -122,20 +136,20 @@ def ModelRun(m, execution, path, dir, case, solver, dictSets):
     # Total costs
     df_total_costs = pd.DataFrame(
         columns=['vTotalSCost', 'vTotalFCost', 'vTotalGCost', 'vTotalCCost', 'vTotalECost', 'vTotalRCost'],
-        index=pd.MultiIndex.from_tuples(model.psn))
+        index=pd.MultiIndex.from_tuples(model_p.psn))
     df_total_costs.index.names = ['Period', 'Scenario', 'LoadLevel']
 
-    for (p, sc, n) in model.psn:
-        df_total_costs.loc[(p, sc, n), 'vTotalSCost'] = model.vTotalSCost()
-        df_total_costs.loc[(p, sc, n), 'vTotalFCost'] = model.pDiscountFactor[p] * model.vTotalFCost[p]()
-        df_total_costs.loc[(p, sc, n), 'vTotalGCost'] = model.pDiscountFactor[p] * model.pScenProb[p, sc]() * \
-                                                        model.vTotalGCost[p, sc, n]()
-        df_total_costs.loc[(p, sc, n), 'vTotalCCost'] = model.pDiscountFactor[p] * model.pScenProb[p, sc]() * \
-                                                        model.vTotalCCost[p, sc, n]()
-        df_total_costs.loc[(p, sc, n), 'vTotalECost'] = model.pDiscountFactor[p] * model.pScenProb[p, sc]() * \
-                                                        model.vTotalECost[p, sc, n]()
-        df_total_costs.loc[(p, sc, n), 'vTotalRCost'] = model.pDiscountFactor[p] * model.pScenProb[p, sc]() * \
-                                                        model.vTotalRCost[p, sc, n]()
+    for (p, sc, n) in model_p.psn:
+        df_total_costs.loc[(p, sc, n), 'vTotalSCost'] = model_p.vTotalSCost()
+        df_total_costs.loc[(p, sc, n), 'vTotalFCost'] = model_p.pDiscountFactor[p] * model_p.vTotalFCost[p]()
+        df_total_costs.loc[(p, sc, n), 'vTotalGCost'] = model_p.pDiscountFactor[p] * model_p.pScenProb[p, sc]() * \
+                                                        model_p.vTotalGCost[p, sc, n]()
+        df_total_costs.loc[(p, sc, n), 'vTotalCCost'] = model_p.pDiscountFactor[p] * model_p.pScenProb[p, sc]() * \
+                                                        model_p.vTotalCCost[p, sc, n]()
+        df_total_costs.loc[(p, sc, n), 'vTotalECost'] = model_p.pDiscountFactor[p] * model_p.pScenProb[p, sc]() * \
+                                                        model_p.vTotalECost[p, sc, n]()
+        df_total_costs.loc[(p, sc, n), 'vTotalRCost'] = model_p.pDiscountFactor[p] * model_p.pScenProb[p, sc]() * \
+                                                        model_p.vTotalRCost[p, sc, n]()
 
     df_total_costs = df_total_costs.stack().to_frame(name='Value')
     df_total_costs.index.names = ['Period', 'Scenario', 'LoadLevel', 'Variable']
@@ -150,12 +164,12 @@ def ModelRun(m, execution, path, dir, case, solver, dictSets):
     # # incoming and outgoing lines (lin) (lout)
     # lin   = defaultdict(list)
     # lout  = defaultdict(list)
-    # for ni,nf,cc in model.la:
+    # for ni,nf,cc in model_p.la:
     #     lin  [nf].append((ni,cc))
     #     lout [ni].append((nf,cc))
     #
-    # List1 = [(p,sc,n,nd,st) for (p,sc,n,nd,st) in model.psnnd*model.st if (st,n) in model.s2n and sum(1 for g in model.g if (nd,g) in model.n2g) + sum(1 for lout in lout[nd]) + sum(1 for ni,cc in lin[nd])]
-    # df_dual_eBalance = pd.Series(data=[model.dual[model.eBalance[p,sc,st,n,nd]]*1e3 for p,sc,n,nd,st in List1], index=pd.MultiIndex.from_tuples(List1))
+    # List1 = [(p,sc,n,nd,st) for (p,sc,n,nd,st) in model_p.psnnd*model_p.st if (st,n) in model_p.s2n and sum(1 for g in model_p.g if (nd,g) in model_p.n2g) + sum(1 for lout in lout[nd]) + sum(1 for ni,cc in lin[nd])]
+    # df_dual_eBalance = pd.Series(data=[model_p.dual[model.eBalance[p,sc,st,n,nd]]*1e3 for p,sc,n,nd,st in List1], index=pd.MultiIndex.from_tuples(List1))
     # df_dual_eBalance = df_dual_eBalance.to_frame(name='Value').rename_axis(['Period', 'Scenario', 'LoadLevel', 'Variable','Stage'], axis=0).reset_index().pivot_table(index=['Period','Scenario','LoadLevel','Variable'], values='Value' , aggfunc=sum)
     # df_dual_eBalance['Dataset']   = 'Dual_eBalance'
     # df_dual_eBalance['Execution'] = execution
@@ -165,8 +179,8 @@ def ModelRun(m, execution, path, dir, case, solver, dictSets):
     # print('Getting the dual variable: eBalance    ... ', round(data_time), 's')
     #
     # # Dual eNetCapacity1 - lower bound
-    # List2 = [(p,sc,st,n,ni,nf,cc) for p,sc,st,n,ni,nf,cc in model.ps*model.st*model.n*model.la if (st,n) in model.s2n]
-    # df_dual_eNetCapacity1 = pd.Series(data=[model.dual[model.eNetCapacity1[p,sc,st,n,ni,nf,cc]]*1e3 for (p,sc,st,n,ni,nf,cc) in List2], index=pd.MultiIndex.from_tuples(List2))
+    # List2 = [(p,sc,st,n,ni,nf,cc) for p,sc,st,n,ni,nf,cc in model_p.ps*model_p.st*model_p.n*model_p.la if (st,n) in model_p.s2n]
+    # df_dual_eNetCapacity1 = pd.Series(data=[model_p.dual[model.eNetCapacity1[p,sc,st,n,ni,nf,cc]]*1e3 for (p,sc,st,n,ni,nf,cc) in List2], index=pd.MultiIndex.from_tuples(List2))
     # df_dual_eNetCapacity1 = df_dual_eNetCapacity1.to_frame(name='Value').rename_axis(['Period','Scenario','Stage','LoadLevel','InitialNode','FinalNode','Circuit'], axis=0).reset_index()
     # df_dual_eNetCapacity1['Variable'] = df_dual_eNetCapacity1['InitialNode'] + '_' + df_dual_eNetCapacity1['FinalNode'] + '_' + df_dual_eNetCapacity1['Circuit']
     # df_dual_eNetCapacity1 = df_dual_eNetCapacity1.pivot_table(index=['Period','Scenario','LoadLevel','Variable'], values='Value' , aggfunc=sum)
@@ -178,7 +192,7 @@ def ModelRun(m, execution, path, dir, case, solver, dictSets):
     # print('Getting the dual variable: eNetCapacity1.. ', round(data_time), 's')
     #
     # # Dual eNetCapacity2 - upper bound
-    # df_dual_eNetCapacity2 = pd.Series(data=[model.dual[model.eNetCapacity2[p,sc,st,n,ni,nf,cc]]*1e3 for (p,sc,st,n,ni,nf,cc) in List2], index=pd.MultiIndex.from_tuples(List2))
+    # df_dual_eNetCapacity2 = pd.Series(data=[model_p.dual[model.eNetCapacity2[p,sc,st,n,ni,nf,cc]]*1e3 for (p,sc,st,n,ni,nf,cc) in List2], index=pd.MultiIndex.from_tuples(List2))
     # df_dual_eNetCapacity2 = df_dual_eNetCapacity2.to_frame(name='Value').rename_axis(['Period','Scenario','Stage','LoadLevel','InitialNode','FinalNode','Circuit'], axis=0).reset_index()
     # df_dual_eNetCapacity2['Variable'] = df_dual_eNetCapacity2['InitialNode'] + '_' + df_dual_eNetCapacity2['FinalNode'] + '_' + df_dual_eNetCapacity2['Circuit']
     # df_dual_eNetCapacity2 = df_dual_eNetCapacity2.pivot_table(index=['Period','Scenario','LoadLevel','Variable'], values='Value' , aggfunc=sum)
@@ -190,13 +204,13 @@ def ModelRun(m, execution, path, dir, case, solver, dictSets):
     # print('Getting the dual variable: eNetCapacity2.. ', round(data_time), 's')
     #
     # # Dual eGenCapacity1 - lower bound
-    # List3 = [(p,sc,st,n,g) for p,sc,st,n,g in model.ps*model.st*model.n*model.g if (st,n) in model.s2n]
-    # df_dual_eGenCapacity1 = pd.Series(data=[model.dual[model.eGenCapacity1[p,sc,st,n,g]]*1e3 for (p,sc,st,n,g) in List3], index=pd.MultiIndex.from_tuples(List3))
+    # List3 = [(p,sc,st,n,g) for p,sc,st,n,g in model_p.ps*model_p.st*model_p.n*model_p.g if (st,n) in model_p.s2n]
+    # df_dual_eGenCapacity1 = pd.Series(data=[model_p.dual[model.eGenCapacity1[p,sc,st,n,g]]*1e3 for (p,sc,st,n,g) in List3], index=pd.MultiIndex.from_tuples(List3))
     # df_dual_eGenCapacity1 = df_dual_eGenCapacity1.to_frame(name='Value').rename_axis(['Period','Scenario','Stage','LoadLevel','Variable'], axis=0).pivot_table(index=['Period','Scenario','LoadLevel','Variable'], values='Value' , aggfunc=sum)
     # df_dual_eGenCapacity1['Dataset'] = 'Dual_eGenCapacity_LowerBound'
     # df_dual_eGenCapacity1['Execution'] = execution
     #
-    # df_dual_eGenCapacity2 = pd.Series(data=[model.dual[model.eGenCapacity2[p,sc,st,n,g]]*1e3 for (p,sc,st,n,g) in List3], index=pd.MultiIndex.from_tuples(List3))
+    # df_dual_eGenCapacity2 = pd.Series(data=[model_p.dual[model.eGenCapacity2[p,sc,st,n,g]]*1e3 for (p,sc,st,n,g) in List3], index=pd.MultiIndex.from_tuples(List3))
     # df_dual_eGenCapacity2 = df_dual_eGenCapacity2.to_frame(name='Value').rename_axis(['Period','Scenario','Stage','LoadLevel','Variable'], axis=0).pivot_table(index=['Period','Scenario','LoadLevel','Variable'], values='Value' , aggfunc=sum)
     # df_dual_eGenCapacity2['Dataset'] = 'Dual_eGenCapacity_UpperBound'
     # df_dual_eGenCapacity2['Execution'] = execution
@@ -352,8 +366,9 @@ def main():
     #     df_Network.to_csv(   _path+'/2.Par/oT_Data_Network_'   +args.case+'.csv')
     #     df_Generation.to_csv(_path+'/2.Par/oT_Data_Generation_'+args.case+'.csv')
 
-    lines = [(ni,nf,cc) for (ni,nf,cc) in df_Network.index if df_Network['BinaryInvestment'][ni,nf,cc] == 'Yes']
-    for (ni,nf,cc) in lines:
+    clines = [(ni,nf,cc) for (ni,nf,cc) in df_Network.index if df_Network['BinaryInvestment'][ni,nf,cc] == 'Yes']
+    elines = [(ni,nf,cc) for (ni,nf,cc) in df_Network.index if df_Network['BinaryInvestment'][ni,nf,cc] != 'Yes']
+    for (ni,nf,cc) in clines:
         print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
         print(f"Line {ni} {nf} {cc}")
         print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
@@ -364,7 +379,7 @@ def main():
         df_Network_Mod.loc[(ni,nf,cc), 'InitialPeriod'] = 2020
         df_Network_Mod.loc[(ni,nf,cc), 'Sensitivity']   = "Yes"
         df_Network_Mod.loc[(ni,nf,cc), 'InvestmentFixed'] = 1
-        for (ni2,nf2,cc2) in df_Network.index:
+        for (ni2,nf2,cc2) in clines:
             if (ni,nf,cc) != (ni2,nf2,cc2):
                 df_Network_Mod.loc[(ni2, nf2, cc2), 'InitialPeriod'] = 2049
                 df_Network_Mod.loc[(ni2, nf2, cc2), 'Sensitivity'] = "Yes"
@@ -375,7 +390,7 @@ def main():
 
         ## Running the openStarNet
         oSN       = ConcreteModel()
-        execution = 'Network_Line_Out_'+str(ni)+'_'+str(nf)+'_'+str(cc)
+        execution = 'Network_Line_In_'+str(ni)+'_'+str(nf)+'_'+str(cc)
 
         df_Inp, df_Out = ModelRun(oSN, execution, _path, args.dir, args.case, args.solver, dictSets)
 
