@@ -85,8 +85,8 @@ def ModelRun(m, execution, path, dir, case, solver, dictSets):
     df_Y_matrix = pd.DataFrame(index=pd.MultiIndex.from_tuples(model_p.psn))
 
     for (ni, nf) in df.index:
-        df          = pd.DataFrame([df['Admittance'][ni, nf]]*len(model_p.psn), columns=['Node_' + str(ni + 1) + '_Node_' + str(nf + 1)] ,index=pd.MultiIndex.from_tuples(model_p.psn))
-        df_Y_matrix = pd.concat([df_Y_matrix, df], axis=1)
+        df1         = pd.DataFrame([df['Admittance'][ni, nf]]*len(model_p.psn), columns=['Node_' + str(ni + 1) + '_Node_' + str(nf + 1)] ,index=pd.MultiIndex.from_tuples(model_p.psn))
+        df_Y_matrix = pd.concat([df_Y_matrix, df1], axis=1)
 
     # for (p, sc, n) in model_p.psn:
     #     for (ni, nf) in df.index:
@@ -268,23 +268,27 @@ def main():
     df_Network    = pd.read_csv(_path+'/2.Par/oT_Data_Network_'   +args.case+'.csv', index_col=[0,1,2])
     df_Generation = pd.read_csv(_path+'/2.Par/oT_Data_Generation_'+args.case+'.csv', index_col=[0    ])
 
+    df_Network = df_Network.replace(0.0, float('nan'))
+    dict_la = [(ni,nf,cc) for (ni,nf,cc) in df_Network.index if df_Network['Reactance'][ni,nf,cc] != 0.0 and df_Network['TTC'][ni,nf,cc] > 0.0 and df_Network['InitialPeriod'][ni,nf,cc] <= dictSets['p'][-1] and df_Network['FinalPeriod'][ni,nf,cc] >= dictSets['p'][0]]
+    dict_le = [(ni,nf,cc) for (ni,nf,cc) in dict_la if df_Network['BinaryInvestment'][ni,nf,cc] != 'Yes']
+    dict_lc = [(ni,nf,cc) for (ni,nf,cc) in dict_la if df_Network['BinaryInvestment'][ni,nf,cc] == 'Yes']
+
+    print('Number of lines in the network: ', len(dict_la))
+
     #%% Sequence of the full network
     print("―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
-    print("Sequence of the full network and generation")
+    print("Sequence of the existing network and generation")
     print("―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
-    df_Network_full    = pd.read_csv(_path+'/2.Par/oT_Data_Network_'   +args.case+'.csv', index_col=[0,1,2])
-    df_Generation_full = pd.read_csv(_path+'/2.Par/oT_Data_Generation_'+args.case+'.csv', index_col=[0    ])
+    df_Network_exist    = pd.read_csv(_path+'/2.Par/oT_Data_Network_'   +args.case+'.csv', index_col=[0,1,2])
+    df_Generation_exist = pd.read_csv(_path+'/2.Par/oT_Data_Generation_'+args.case+'.csv', index_col=[0    ])
 
-    ## Modyfing the dataframes to run the openStarNet
-    for (ni,nf,cc) in df_Network_full.index:
-        if df_Network_full['BinaryInvestment'][ni,nf,cc] == 'Yes':
-            df_Network_full[  'InitialPeriod'][ni,nf,cc]  = 2049
+    # drop the lines that are not in the network
+    df_Network_exist = df_Network_exist.loc[dict_la]
 
-    # df_Network_full[   "Sensitivity"  ]   = 'Yes'
-    #
-    # df_Network_full[   "InvestmentFixed"] = 1
+    # drop the lines that are candidates for investment
+    df_Network_exist = df_Network_exist.drop(dict_lc, axis=0)
 
-    df_Network_full.to_csv(   _path+'/2.Par/oT_Data_Network_'   +args.case+'.csv')
+    df_Network_exist.to_csv(   _path+'/2.Par/oT_Data_Network_'   +args.case+'.csv')
     # df_Generation_full.to_csv(_path+'/2.Par/oT_Data_Generation_'+args.case+'.csv')
 
     ## Running the openStarNet
@@ -354,7 +358,7 @@ def main():
     #     df_Generation.to_csv(_path+'/2.Par/oT_Data_Generation_'+args.case+'.csv')
 
     clines = [(ni,nf,cc) for (ni,nf,cc) in df_Network.index if df_Network['BinaryInvestment'][ni,nf,cc] == 'Yes']
-    elines = [(ni,nf,cc) for (ni,nf,cc) in df_Network.index if df_Network['BinaryInvestment'][ni,nf,cc] != 'Yes']
+    print(f'Number of candidate lines to be considered: {len(clines)}')
     for (ni,nf,cc) in clines:
         print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
         print(f"Line {ni} {nf} {cc}")
@@ -362,15 +366,14 @@ def main():
         df_Network_Mod = pd.read_csv(_path + '/2.Par/oT_Data_Network_' + args.case + '.csv', index_col=[0, 1, 2])
         # df_Generation_Mod = pd.read_csv(_path+'/2.Par/oT_Data_Generation_'+args.case+'.csv', index_col=[0    ])
 
-        # Modifying the dataframes to run the openStarNet
-        df_Network_Mod.loc[(ni,nf,cc), 'InitialPeriod'] = 2020
-        df_Network_Mod.loc[(ni,nf,cc), 'Sensitivity']   = "Yes"
-        df_Network_Mod.loc[(ni,nf,cc), 'InvestmentFixed'] = 1
-        for (ni2,nf2,cc2) in clines:
-            if (ni,nf,cc) != (ni2,nf2,cc2):
-                df_Network_Mod.loc[(ni2, nf2, cc2), 'InitialPeriod'] = 2049
-                df_Network_Mod.loc[(ni2, nf2, cc2), 'Sensitivity'] = "Yes"
-                df_Network_Mod.loc[(ni2, nf2, cc2), 'InvestmentFixed'] = 0
+        # Adding the line to the network
+        elines = [(ni,nf,cc) for (ni,nf,cc) in df_Network_Mod.index if df_Network_Mod['BinaryInvestment'][ni,nf,cc] != 'Yes']
+        print(f'Number of existing lines to be considered: {len(elines)}')
+        elines.append((ni,nf,cc))
+
+        # selecting the lines that will be keep
+        df_Network_Mod = df_Network_Mod.loc[elines]
+        print(f'Number of lines to be considered: {len(df_Network_Mod)}')
 
         # Saving the CSV file with the existing network
         df_Network_Mod.to_csv(_path + '/2.Par/oT_Data_Network_' + args.case + '.csv')
