@@ -7,7 +7,7 @@ import pandas        as pd
 import time          # count clock time
 from   collections   import defaultdict
 from   pyomo.environ import ConcreteModel, Set, Param, Var, Objective, minimize, Constraint, DataPortal, PositiveIntegers, NonNegativeIntegers, Boolean, NonNegativeReals, UnitInterval, PositiveReals, Any, Binary, Reals, Suffix
-from   oSN_Main      import openStarNet_run
+from   oSN_Main_v2   import openStarNet_run
 
 #%% Defining metadata
 parser = argparse.ArgumentParser(description='Introducing main parameters...')
@@ -31,7 +31,7 @@ def ModelRun(m, execution, path, dir, case, solver, dictSets):
 
     # %% Saving the input data
     # Extracting the demand data
-    df_demand = pd.Series(data=[model_p.pDemand[p,sc,n,nd] for p,sc,n,nd in model_p.psnnd], index=pd.MultiIndex.from_tuples(model_p.psnnd))
+    df_demand = pd.Series(data=[model_p.pDemandP[p,sc,n,nd] for p,sc,n,nd in model_p.psnnd], index=pd.MultiIndex.from_tuples(model_p.psnnd))
     df_demand.index.names = ['Period', 'Scenario', 'LoadLevel', 'Variable']
     df_demand = df_demand.reset_index().pivot_table(index=['Period', 'Scenario', 'LoadLevel', 'Variable'], values=0)
     df_demand.rename(columns={0: 'Value'}, inplace=True)
@@ -84,13 +84,9 @@ def ModelRun(m, execution, path, dir, case, solver, dictSets):
     df.set_index(['Node1', 'Node2'], inplace=True)
     df_Y_matrix = pd.DataFrame(index=pd.MultiIndex.from_tuples(model_p.psn))
 
-    for (ni, nf) in df.index:
-        df          = pd.DataFrame([df['Admittance'][ni, nf]]*len(model_p.psn), columns=['Node_' + str(ni + 1) + '_Node_' + str(nf + 1)] ,index=pd.MultiIndex.from_tuples(model_p.psn))
-        df_Y_matrix = pd.concat([df_Y_matrix, df], axis=1)
-
-    # for (p, sc, n) in model_p.psn:
-    #     for (ni, nf) in df.index:
-    #         df_Y_matrix.loc[(p, sc, n), 'Node_' + str(ni + 1) + '_Node_' + str(nf + 1)] = df.loc[(ni, nf), 'Admittance']
+    for (p, sc, n) in model_p.psn:
+        for (ni, nf) in df.index:
+            df_Y_matrix.loc[(p, sc, n), 'Node_' + str(ni + 1) + '_Node_' + str(nf + 1)] = df.loc[(ni, nf), 'Admittance']
 
     df_Y_matrix = df_Y_matrix.stack()
     df_Y_matrix.index.names = ['Period', 'Scenario', 'LoadLevel', 'Variable']
@@ -157,7 +153,7 @@ def ModelRun(m, execution, path, dir, case, solver, dictSets):
         lout [ni].append((nf,cc))
 
     List1 = [(p,sc,n,nd,st) for (p,sc,n,nd,st) in model_p.psnnd*model_p.st if (st,n) in model_p.s2n and sum(1 for g in model_p.g if (nd,g) in model_p.n2g) + sum(1 for lout in lout[nd]) + sum(1 for ni,cc in lin[nd])]
-    df_dual_eBalance = pd.Series(data=[model_p.dual[model_p.eBalance[p,sc,st,n,nd]]*1e3 for p,sc,n,nd,st in List1], index=pd.MultiIndex.from_tuples(List1))
+    df_dual_eBalance = pd.Series(data=[model_p.dual[model_p.eBalanceP[p,sc,st,n,nd]]*1e3 for p,sc,n,nd,st in List1], index=pd.MultiIndex.from_tuples(List1))
     df_dual_eBalance = df_dual_eBalance.to_frame(name='Value').rename_axis(['Period', 'Scenario', 'LoadLevel', 'Variable','Stage'], axis=0).reset_index().pivot_table(index=['Period','Scenario','LoadLevel','Variable'], values='Value' , aggfunc=sum)
     df_dual_eBalance['Dataset']   = 'Dual_eBalance'
     df_dual_eBalance['Execution'] = execution
@@ -168,7 +164,7 @@ def ModelRun(m, execution, path, dir, case, solver, dictSets):
 
     # Dual eLineCapacityFr_LP - from i to j
     List2 = [(p,sc,st,n,ni,nf,cc) for p,sc,st,n,ni,nf,cc in model_p.ps*model_p.st*model_p.n*model_p.laa if (st,n) in model_p.s2n]
-    df_dual_eNetCapacity1 = pd.Series(data=[model_p.dual[model_p.eNetCapacity1[p,sc,st,n,ni,nf,cc]]*1e3 for (p,sc,st,n,ni,nf,cc) in List2], index=pd.MultiIndex.from_tuples(List2))
+    df_dual_eNetCapacity1 = pd.Series(data=[model_p.dual[model_p.eLineCapacityFr_LP[p,sc,st,n,ni,nf,cc]]*1e3 for (p,sc,st,n,ni,nf,cc) in List2], index=pd.MultiIndex.from_tuples(List2))
     df_dual_eNetCapacity1 = df_dual_eNetCapacity1.to_frame(name='Value').rename_axis(['Period','Scenario','Stage','LoadLevel','InitialNode','FinalNode','Circuit'], axis=0).reset_index()
     df_dual_eNetCapacity1['Variable'] = df_dual_eNetCapacity1['InitialNode'] + '_' + df_dual_eNetCapacity1['FinalNode'] + '_' + df_dual_eNetCapacity1['Circuit']
     df_dual_eNetCapacity1 = df_dual_eNetCapacity1.pivot_table(index=['Period','Scenario','LoadLevel','Variable'], values='Value' , aggfunc=sum)
@@ -180,7 +176,7 @@ def ModelRun(m, execution, path, dir, case, solver, dictSets):
     print('Getting the dual variable: eNetCapacity1.. ', round(data_time), 's')
 
     # Dual eLineCapacityTo_LP - from j to i
-    df_dual_eNetCapacity2 = pd.Series(data=[model_p.dual[model_p.eNetCapacity2[p,sc,st,n,ni,nf,cc]]*1e3 for (p,sc,st,n,ni,nf,cc) in List2], index=pd.MultiIndex.from_tuples(List2))
+    df_dual_eNetCapacity2 = pd.Series(data=[model_p.dual[model_p.eLineCapacityTo_LP[p,sc,st,n,ni,nf,cc]]*1e3 for (p,sc,st,n,ni,nf,cc) in List2], index=pd.MultiIndex.from_tuples(List2))
     df_dual_eNetCapacity2 = df_dual_eNetCapacity2.to_frame(name='Value').rename_axis(['Period','Scenario','Stage','LoadLevel','InitialNode','FinalNode','Circuit'], axis=0).reset_index()
     df_dual_eNetCapacity2['Variable'] = df_dual_eNetCapacity2['InitialNode'] + '_' + df_dual_eNetCapacity2['FinalNode'] + '_' + df_dual_eNetCapacity2['Circuit']
     df_dual_eNetCapacity2 = df_dual_eNetCapacity2.pivot_table(index=['Period','Scenario','LoadLevel','Variable'], values='Value' , aggfunc=sum)
@@ -276,20 +272,21 @@ def main():
     df_Generation_full = pd.read_csv(_path+'/2.Par/oT_Data_Generation_'+args.case+'.csv', index_col=[0    ])
 
     ## Modyfing the dataframes to run the openStarNet
-    for (ni,nf,cc) in df_Network_full.index:
-        if df_Network_full['BinaryInvestment'][ni,nf,cc] == 'Yes':
-            df_Network_full[  'InitialPeriod'][ni,nf,cc]  = 2049
+    df_Network_full[   "InitialPeriod"]   = 2020
+    df_Generation_full["InitialPeriod"]   = 2020
 
-    # df_Network_full[   "Sensitivity"  ]   = 'Yes'
-    #
-    # df_Network_full[   "InvestmentFixed"] = 1
+    df_Network_full[   "Sensitivity"  ]   = 'Yes'
+    df_Generation_full["Sensitivity"  ]   = 'Yes'
+
+    df_Network_full[   "InvestmentFixed"] = 1
+    df_Generation_full["InvestmentFixed"] = 1
 
     df_Network_full.to_csv(   _path+'/2.Par/oT_Data_Network_'   +args.case+'.csv')
-    # df_Generation_full.to_csv(_path+'/2.Par/oT_Data_Generation_'+args.case+'.csv')
+    df_Generation_full.to_csv(_path+'/2.Par/oT_Data_Generation_'+args.case+'.csv')
 
     ## Running the openStarNet
     oSN       = ConcreteModel()
-    execution = 'Network_Existing_Generation_Full'
+    execution = 'Network_Full_Generation_Full'
 
     df_Inp, df_Out = ModelRun(oSN, execution, _path, args.dir, args.case, args.solver, dictSets)
 
