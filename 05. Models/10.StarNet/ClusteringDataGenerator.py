@@ -92,7 +92,13 @@ def PINT_approach(DirName, CaseName):
     start_time = time.time()
 
     # getting the line benefits per candidate line
-    # for (ni,nf,cc) in dict_lc:
+    for (ni,nf,cc) in dict_lc:
+        df_Network_candidate = pd.read_csv(os.path.join(_path, '2.Par','oT_Data_Network_'+CaseName+'.csv'), index_col=[0,1,2])
+        df_Network_candidate = df_Network_candidate.replace(0.0, float('nan'))
+        elines = [(ni, nf, cc) for (ni, nf, cc) in dict_la if df_Network['BinaryInvestment'][ni, nf, cc] != 'Yes']
+        elines.append((ni, nf, cc))
+
+
 
 
     final_time = time.time() - initial_time
