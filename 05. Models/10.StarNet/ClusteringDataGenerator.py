@@ -80,13 +80,13 @@ def PINT_approach(DirName, CaseName):
     df_Network_existing = pd.read_csv(os.path.join(_path, '2.Par','oT_Data_Network_'+CaseName+'.csv'), index_col=[0,1,2])
     df_Network_existing = df_Network_existing.replace(0.0, float('nan'))
     df_Network_existing = df_Network_existing.drop(dict_lc, axis=0)
-    print('Existing Network indices', list(df_Network_existing.index))
+    print('Existing Network indices', len(df_Network_existing.index))
     df_Network_existing.to_csv(os.path.join(_path, '2.Par','oT_Data_Network_'+CaseName+'.csv'))
     df_existing = Input_Dataset_Generator(DirName, CaseName)
 
     # restoring the original network
     print('Restoring the original network')
-    print('Original Network indices', list(df_Network.index))
+    print('Original Network indices', len(df_Network.index))
     df_Network.to_csv(os.path.join(_path, '2.Par','oT_Data_Network_'+CaseName+'.csv'))
     print(f'Time for getting the dataset using only existing lines: {round(time.time() - start_time)} s')
     start_time = time.time()
