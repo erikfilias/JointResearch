@@ -371,6 +371,10 @@ def main():
         print(f'Number of existing lines to be considered: {len(elines)}')
         elines.append((ni,nf,cc))
 
+        df_Network_Mod.loc[(ni, nf, cc), 'InitialPeriod'  ] = 2020
+        df_Network_Mod.loc[(ni, nf, cc), 'Sensitivity'    ] = "Yes"
+        df_Network_Mod.loc[(ni, nf, cc), 'InvestmentFixed'] = 1
+
         # selecting the lines that will be keep
         df_Network_Mod = df_Network_Mod.loc[elines]
         print(f'Number of lines to be considered: {len(df_Network_Mod)}')
