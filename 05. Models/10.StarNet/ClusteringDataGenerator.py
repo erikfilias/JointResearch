@@ -5,9 +5,11 @@
 import argparse
 import os
 import time
-import itertools as it
-import numpy  as np
-import pandas as pd
+import torch
+import itertools  as it
+import NN_classes as NN
+import numpy      as np
+import pandas     as pd
 from   pyomo.environ import DataPortal, Set
 
 #%% Defining metadata
@@ -89,14 +91,60 @@ def PINT_approach(DirName, CaseName):
     print('Original Network indices', len(df_Network.index))
     df_Network.to_csv(os.path.join(_path, '2.Par','oT_Data_Network_'+CaseName+'.csv'))
     print(f'Time for getting the dataset using only existing lines: {round(time.time() - start_time)} s')
-    start_time = time.time()
 
     # getting the line benefits per candidate line
     for (ni,nf,cc) in dict_lc:
+        start_time = time.time()
+        print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
+        print(f"Line {ni} {nf} {cc}")
+        print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
         df_Network_candidate = pd.read_csv(os.path.join(_path, '2.Par','oT_Data_Network_'+CaseName+'.csv'), index_col=[0,1,2])
         df_Network_candidate = df_Network_candidate.replace(0.0, float('nan'))
         elines = [(ni, nf, cc) for (ni, nf, cc) in dict_la if df_Network['BinaryInvestment'][ni, nf, cc] != 'Yes']
         elines.append((ni, nf, cc))
+
+        df_Network_candidate.loc[(ni, nf, cc), 'InitialPeriod'  ] = 2020
+        df_Network_candidate.loc[(ni, nf, cc), 'Sensitivity'    ] = "Yes"
+        df_Network_candidate.loc[(ni, nf, cc), 'InvestmentFixed'] = 1
+
+        # selecting the lines that will be keep
+        df_Network_candidate = df_Network_candidate.loc[elines]
+        print(f'Number of lines to be considered: {len(df_Network_candidate.index)}')
+
+        # Saving the CSV file with the existing network
+        df_Network_candidate.to_csv(_path + '/2.Par/oT_Data_Network_'+CaseName+'.csv')
+
+        # getting the dataset for the especific candidate line
+        df_line = Input_Dataset_Generator(DirName, CaseName)
+
+        # getting the line benefits
+        for nn in dictSets['nn']:
+            df_eline = df_existing.loc[nn]
+            df_cline = df_line.loc[nn]
+            x1_eline = torch.from_numpy(df_eline.values)
+            x2_cline = torch.from_numpy(df_cline.values)
+            model    = NN.ObjectiveEstimator_ANN_3hidden_layer(input_size=x1_eline.shape[0],
+                                                               hidden_size1=int(x1_eline.shape[0] / 4),
+                                                               hidden_size2=int(x1_eline.shape[0] / 16),  # 16
+                                                               hidden_size3=int(x1_eline.shape[0] / 64),  # 64
+                                                               output_size=1)
+            model.load_state_dict(torch.load('24_bus_3h.pth'))
+            model.eval()
+            y1_eline = model(x1_eline.float())
+            y2_cline = model(x2_cline.float())
+
+            # Convert the estimations to NumPy arrays
+            line_benefit_eline = y1_eline.detach().numpy()
+            line_benefit_cline = y2_cline.detach().numpy()
+
+            # getting the line benefits
+            df.loc[(dictSets['pp'], dictSets['sc'], nn), (ni, nf, cc)] = line_benefit_cline - line_benefit_eline
+
+
+        # restoring the original network
+        print('Restoring the original network')
+        df_Network.to_csv(os.path.join(_path, '2.Par', 'oT_Data_Network_' + CaseName + '.csv'))
+        print(f'Time for getting the dataset using only existing lines: {round(time.time() - start_time)} s')
 
 
 
