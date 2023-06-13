@@ -1,0 +1,110 @@
+import torch
+from datetime import datetime
+from torch.utils.tensorboard import SummaryWriter
+
+def train_and_get_loss(model,tr_in,tr_out,nb_epochs,lr,print_ = False):
+    optimizer = torch.optim.Adam(model.parameters(), lr=lr)
+
+    for epoch in range(nb_epochs):
+        model.train()
+        optimizer.zero_grad()
+        # Forward pass
+        train_predictions = model(tr_in.float())
+        train_loss = torch.nn.MSELoss()(train_predictions.float().squeeze(), tr_out.float())
+
+        # Backward pass
+        # optimizer.zero_grad()
+        train_loss.backward()
+        optimizer.step()
+        #Print the training loss every 10 epochs
+        if print_ and (epoch + 1) % 10 == 0:
+            print(f'Epoch {epoch + 1}, Train Loss: {train_loss.item()}')
+    train_predictions = model(tr_in.float())
+    train_loss = torch.nn.MSELoss()(train_predictions.float().squeeze(), tr_out.float())
+    return train_loss
+
+
+def train_one_epoch(model, training_loader, epoch_index, tb_writer, optimizer, loss_fn,f_print = 100):
+    running_loss = 0.
+    last_loss = 0.
+
+    # Here, we use enumerate(training_loader) instead of
+    # iter(training_loader) so that we can track the batch
+    # index and do some intra-epoch reporting
+    for i, data in enumerate(training_loader):
+        # Every data instance is an input + label pair
+        inputs, labels = data
+
+        # Zero your gradients for every batch!
+        optimizer.zero_grad()
+
+        # Make predictions for this batch
+        outputs = model(inputs)
+
+        # Compute the loss and its gradients
+        loss = loss_fn(outputs, labels.unsqueeze(1))
+        loss.backward()
+
+        # Adjust learning weights
+        optimizer.step()
+
+        # Gather data and report
+        running_loss += loss.item()
+        if i % f_print == 0:
+            last_loss = running_loss / f_print # loss per batch
+            print('  batch {} loss: {}'.format(i + 1, last_loss))
+            tb_x = epoch_index * len(training_loader) + i + 1
+            tb_writer.add_scalar('Loss/train', last_loss, tb_x)
+            running_loss = 0.
+
+    return last_loss
+
+def train_multiple_epochs(nb_epochs,model,training_loader,validation_loader,loss_fn,optimizer,model_name, save_trained=False):
+    # Initializing in a separate cell so we can easily add more epochs to the same run
+    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+    writer = SummaryWriter('trained_models/{}_{}'.format(model_name,timestamp))
+    epoch_number = 0
+
+    best_vloss = 1_000_000.
+    for epoch in range(nb_epochs):
+        print('EPOCH {}:'.format(epoch_number + 1))
+
+        # Make sure gradient tracking is on, and do a pass over the data
+        model.train(True)
+        avg_loss = train_one_epoch(model,training_loader,epoch_number, writer,optimizer,loss_fn)
+
+
+        running_vloss = 0.0
+        # Set the model to evaluation mode, disabling dropout and using population
+        # statistics for batch normalization.
+        model.eval()
+
+        # Disable gradient computation and reduce memory consumption.
+        with torch.no_grad():
+            for i, vdata in enumerate(validation_loader):
+                vinputs, vlabels = vdata
+                voutputs = model(vinputs)
+                vloss = loss_fn(voutputs, vlabels)
+                running_vloss += vloss
+
+        avg_vloss = running_vloss / (i + 1)
+        print('LOSS train {} valid {}'.format(avg_loss, avg_vloss))
+
+        # Log the running loss averaged per batch
+        # for both training and validation
+        writer.add_scalars('Training vs. Validation Loss',
+                        { 'Training' : avg_loss, 'Validation' : avg_vloss },
+                        epoch_number + 1)
+        writer.flush()
+
+        # Track best performance, and save the model's state
+        if avg_vloss < best_vloss:
+            best_vloss = avg_vloss
+            if save_trained:
+                model_path = 'model_{}_{}'.format(timestamp, epoch_number)
+                torch.save(model.state_dict(), model_path)
+
+
+
+        epoch_number += 1
+    return best_vloss
