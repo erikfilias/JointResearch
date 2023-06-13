@@ -84,9 +84,13 @@ def ModelRun(m, execution, path, dir, case, solver, dictSets):
     df.set_index(['Node1', 'Node2'], inplace=True)
     df_Y_matrix = pd.DataFrame(index=pd.MultiIndex.from_tuples(model_p.psn))
 
-    for (p, sc, n) in model_p.psn:
-        for (ni, nf) in df.index:
-            df_Y_matrix.loc[(p, sc, n), 'Node_' + str(ni + 1) + '_Node_' + str(nf + 1)] = df.loc[(ni, nf), 'Admittance']
+    for (ni, nf) in df.index:
+        df          = pd.DataFrame([df['Admittance'][ni, nf]]*len(model_p.psn), columns=['Node_' + str(ni + 1) + '_Node_' + str(nf + 1)] ,index=pd.MultiIndex.from_tuples(model_p.psn))
+        df_Y_matrix = pd.concat([df_Y_matrix, df], axis=1)
+
+    # for (p, sc, n) in model_p.psn:
+    #     for (ni, nf) in df.index:
+    #         df_Y_matrix.loc[(p, sc, n), 'Node_' + str(ni + 1) + '_Node_' + str(nf + 1)] = df.loc[(ni, nf), 'Admittance']
 
     df_Y_matrix = df_Y_matrix.stack()
     df_Y_matrix.index.names = ['Period', 'Scenario', 'LoadLevel', 'Variable']
