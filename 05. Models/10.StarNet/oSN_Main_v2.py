@@ -1403,6 +1403,10 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
             return Constraint.Skip
     model.eGenCapacity2          = Constraint(model.ps, model.st, model.n, model.g, rule=eGenCapacity2, doc='maximum power output by a generation unit [p.u.]')
 
+    CheckpointTime   = time.time() - StartTime
+    StartTime        = time.time()
+    print('Generating generation capacity        ... ', round(CheckpointTime), 's')
+
     def eNetCapacityPfrLowerBound(model,p,sc,st,n,ni,nf,cc):
         if (st,n) in model.s2n and pIndBinSingleNode == 0 and (ni,nf,cc) in model.lc:
             return model.vPfr[p,sc,n,ni,nf,cc] / (pLineNTCFrw[ni,nf,cc]*1e3)  >= - model.vNetworkInvest[p,ni,nf,cc]
@@ -1431,6 +1435,10 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
             return Constraint.Skip
     model.eNetCapacityPtoUpperBound = Constraint(model.ps, model.st, model.n, model.la, rule=eNetCapacityPtoUpperBound, doc='maximum flow by candidate network capacity [p.u.]')
 
+    CheckpointTime   = time.time() - StartTime
+    StartTime        = time.time()
+    print('Generating net P capacity bounds      ... ', round(CheckpointTime), 's')
+
     def eNetCapacityQfrLowerBound(model,p,sc,st,n,ni,nf,cc):
         if (st,n) in model.s2n and pIndBinSingleNode == 0 and (ni,nf,cc) in model.lc:
             return model.vQfr[p,sc,n,ni,nf,cc] / (pLineNTCFrw[ni,nf,cc]*1e3) >= - model.vNetworkInvest[p,ni,nf,cc]
@@ -1458,6 +1466,10 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
         else:
             return Constraint.Skip
     model.eNetCapacityQtoUpperBound = Constraint(model.ps, model.st, model.n, model.la, rule=eNetCapacityQtoUpperBound, doc='maximum flow by candidate network capacity [p.u.]')
+
+    CheckpointTime   = time.time() - StartTime
+    StartTime        = time.time()
+    print('Generating net Q capacity bounds      ... ', round(CheckpointTime), 's')
 
     def ePfrLowerBound(model,p,sc,st,n,ni,nf,cc):
         if (st,n) in model.s2n and pIndBinSingleNode == 0 and (ni,nf,cc) in model.lc:
@@ -1495,6 +1507,10 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
             return Constraint.Skip
     model.ePtoUpperBound          = Constraint(model.ps, model.st, model.n, model.la, rule=ePtoUpperBound, doc='maximum flow by existing network capacity [p.u.]')
 
+    CheckpointTime   = time.time() - StartTime
+    StartTime        = time.time()
+    print('Generating net P constraints          ... ', round(CheckpointTime), 's')
+
     def eQfrLowerBound(model,p,sc,st,n,ni,nf,cc):
         if (st,n) in model.s2n and pIndBinSingleNode == 0 and (ni,nf,cc) in model.lc:
             return model.vQfr[p,sc,n,ni,nf,cc] + (pLineB[ni,nf,cc]+pLineBsh[ni,nf,cc])*pLineTAP[ni,nf,cc]**2*model.vW[p,sc,n,ni] - pLineTAP[ni,nf,cc]*pLineG[ni,nf,cc]*model.vS[p,sc,n,ni,nf,cc] - pLineTAP[ni,nf,cc]*pLineB[ni,nf,cc]*model.vC[p,sc,n,ni,nf,cc] >= (1 - model.vNetworkInvest[p,ni,nf,cc])
@@ -1531,6 +1547,10 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
             return Constraint.Skip
     model.eQtoUpperBound          = Constraint(model.ps, model.st, model.n, model.la, rule=eQtoUpperBound, doc='maximum flow by existing network capacity [p.u.]')
 
+    CheckpointTime   = time.time() - StartTime
+    StartTime        = time.time()
+    print('Generating net Q constraints          ... ', round(CheckpointTime), 's')
+
     def eWLowerBound(model,p,sc,st,n,nd):
         if (st,n) in model.s2n:
             return model.vW[p,sc,n,nd] >=   0.95**2
@@ -1544,6 +1564,10 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
         else:
             return Constraint.Skip
     model.eWUpperBound            = Constraint(model.ps, model.st, model.n, model.nd, rule=eWUpperBound,   doc='upper bound of the squared voltage magnitude [p.u.]')
+
+    CheckpointTime   = time.time() - StartTime
+    StartTime        = time.time()
+    print('Generating net voltage bounds         ... ', round(CheckpointTime), 's')
 
     # def eLineCapacityFrUpperBound(model,p,sc,st,n,ni,nf,cc):
     #     if (st,n) in model.s2n:
@@ -1584,6 +1608,10 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
             return (model.vQfr_max[p,sc,n,ni,nf,cc] + model.vQfr_min[p,sc,n,ni,nf,cc] == sum(model.vDelta_Qfr[p,sc,n,ni,nf,cc,l] for l in model.L))
     model.eLineCapacityFr_LinearQfr2 = Constraint(model.ps, model.st, model.n, model.laa, rule=eLineCapacityFr_LinearQfr2)
 
+    CheckpointTime   = time.time() - StartTime
+    StartTime        = time.time()
+    print('Generating net linear forward capacity... ', round(CheckpointTime), 's')
+
     def eLineCapacityTo_LP(model,p,sc,st,n,ni,nf,cc):
         if (st, n) in model.s2n:
             return sum(model.pLineM[ni,nf,cc,l] * model.vDelta_Pto[p,sc,n,ni,nf,cc,l] for l in model.L) + sum(model.pLineM[ni,nf,cc,l] * model.vDelta_Qto[p,sc,n,ni,nf,cc,l] for l in model.L) <= (pLineNTCFrw[ni,nf,cc]*1)**2
@@ -1609,12 +1637,20 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
             return (model.vQto_max[p,sc,n,ni,nf,cc] + model.vQto_min[p,sc,n,ni,nf,cc] == sum(model.vDelta_Qto[p,sc,n,ni,nf,cc,l] for l in model.L))
     model.eLineCapacityTo_LinearQTo2 = Constraint(model.ps, model.st, model.n, model.laa, rule=eLineCapacityTo_LinearQTo2)
 
+    CheckpointTime   = time.time() - StartTime
+    StartTime        = time.time()
+    print('Generating net linear backward capacit... ', round(CheckpointTime), 's')
+
     def eLineActivePowerLossesLowerBound(model,p,sc,st,n,ni,nf,cc):
         if (st,n) in model.s2n:
             return model.vPfr[p,sc,n,ni,nf,cc] + model.vPto[p,sc,n,ni,nf,cc] >= 0
         else:
             return Constraint.Skip
     model.eLineActivePowerLossesLowerBound = Constraint(model.ps, model.st, model.n, model.la, rule=eLineActivePowerLossesLowerBound, doc='lower bound of the active power losses [p.u.]')
+
+    CheckpointTime   = time.time() - StartTime
+    StartTime        = time.time()
+    print('Generating net non negative losses    ... ', round(CheckpointTime), 's')
 
     # def eLineConic1(model,p,sc,st,n,ni,nf,cc):
     #     if (st,n) in model.s2n:
@@ -1649,12 +1685,20 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
             return (model.vC_max[p,sc,n,ni,nf,cc] + model.vC_min[p,sc,n,ni,nf,cc] == sum(model.vDelta_C[p,sc,n,ni,nf,cc,l] for l in model.L))
     model.eLineConic1_LinearC2 = Constraint(model.ps, model.st, model.n, model.laa, rule=eLineConic1_LinearC2)
 
+    CheckpointTime   = time.time() - StartTime
+    StartTime        = time.time()
+    print('Generating net linear SOC1            ... ', round(CheckpointTime), 's')
+
     def eLineConic2(model,p,sc,st,n,ni,nf,cc):
         if (st,n) in model.s2n:
             return model.vW[p,sc,n,ni] + model.vW[p,sc,n,nf] - 2*model.vC[p,sc,n,ni,nf,cc] >= 0
         else:
             return Constraint.Skip
     model.eLineConic2 = Constraint(model.ps, model.st, model.n, model.la, rule=eLineConic2, doc='conic constraint 2 [p.u.]')
+
+    CheckpointTime   = time.time() - StartTime
+    StartTime        = time.time()
+    print('Generating net linear SOC2            ... ', round(CheckpointTime), 's')
 
     def eExistingShuntGshb(model,p,sc,st,n,sh):
         if (st,n) in model.s2n:
@@ -1663,6 +1707,10 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
             return Constraint.Skip
     model.eExistingShuntGshb = Constraint(model.ps, model.st, model.n, model.she, rule=eExistingShuntGshb, doc='shunt constraint [p.u.]')
 
+    CheckpointTime   = time.time() - StartTime
+    StartTime        = time.time()
+    print('Generating net gshb injection         ... ', round(CheckpointTime), 's')
+
     def eExistingShuntBshb(model,p,sc,st,n,sh):
         if (st,n) in model.s2n:
             return model.vBusShuntQ[p,sc,n,sh] - pBshb[sh]*model.vW[p,sc,n,pShuntToNode[sh]] == 0
@@ -1670,9 +1718,9 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
             return Constraint.Skip
     model.eExistingShuntBshb = Constraint(model.ps, model.st, model.n, model.she, rule=eExistingShuntBshb, doc='shunt constraint [p.u.]')
 
-    GeneratingNetTime = time.time() - StartTime
-    StartTime         = time.time()
-    print('Generating network    constraints     ... ', round(GeneratingNetTime), 's')
+    CheckpointTime   = time.time() - StartTime
+    StartTime        = time.time()
+    print('Generating net bshb injection         ... ', round(CheckpointTime), 's')
 
     def eGenFixedInvestment(model,p,gc):
         if pGenSensitivity[gc]:
