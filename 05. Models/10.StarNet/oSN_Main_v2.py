@@ -108,6 +108,7 @@ SOLVER = 'gurobi'
 openStarNet = ConcreteModel('openStarNet - Open Version of the StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0 - January 16, 2023')
 
 def main(model):
+    initial_time = time.time()
     args = parser.parse_args()
     if args.dir is None:
         args.dir    = input('Input Dir    Name (Default {}): '.format(DIR))
@@ -128,6 +129,7 @@ def main(model):
     print(sys.argv)
     print(args)
     openStarNet_run(args.dir, args.case, args.solver, model)
+    print('Elapsed time: {} seconds'.format(time.time() - initial_time))
 
 def openStarNet_run(DirName, CaseName, SolverName, model):
 
