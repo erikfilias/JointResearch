@@ -856,43 +856,44 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
             model.pLineLength[ni,nf,cc]   =  1.1 * 6371 * 2 * math.asin(math.sqrt(math.pow(math.sin((model.pNodeLat[nf]-model.pNodeLat[ni])*math.pi/180/2),2) + math.cos(model.pNodeLat[ni]*math.pi/180)*math.cos(model.pNodeLat[nf]*math.pi/180)*math.pow(math.sin((model.pNodeLon[nf]-model.pNodeLon[ni])*math.pi/180/2),2)))
 
     #%% variables
-    model.vTotalSCost     = Var(                              within=NonNegativeReals,                                                                                          doc='total system                         cost      [MEUR]')
-    model.vTotalICost     = Var(                              within=NonNegativeReals,                                                                                          doc='total system investment              cost      [MEUR]')
-    model.vTotalFCost     = Var(model.p,                      within=NonNegativeReals,                                                                                          doc='total system fixed                   cost      [MEUR]')
-    model.vTotalGCost     = Var(model.psn,                    within=NonNegativeReals,                                                                                          doc='total variable generation  operation cost      [MEUR]')
-    model.vTotalCCost     = Var(model.psn,                    within=NonNegativeReals,                                                                                          doc='total variable consumption operation cost      [MEUR]')
-    model.vTotalECost     = Var(model.psn,                    within=NonNegativeReals,                                                                                          doc='total system emission                cost      [MEUR]')
-    model.vTotalRCost     = Var(model.psn,                    within=NonNegativeReals,                                                                                          doc='total system reliability             cost      [MEUR]')
-    model.vTotalOutputP   = Var(model.psng ,                  within=NonNegativeReals, bounds=lambda model,p,sc,n,g : (0.0,                    pMaxPower          [p,sc,n,g]),  doc='total output of the unit                         [GW]')
-    model.vTotalOutputQ   = Var(model.psnnr,                  within=           Reals, bounds=lambda model,p,sc,n,nr: (pRatedMinPowerQ[nr],    pRatedMaxPowerQ    [      nr]),  doc='total output of the unit                       [GVAr]')
-    model.vOutput2ndBlock = Var(model.psnnr,                  within=NonNegativeReals, bounds=lambda model,p,sc,n,nr: (0.0,                    pMaxPower2ndBlock [p,sc,n,nr]),  doc='second block of the unit                         [GW]')
-    model.vEnergyInflows  = Var(model.psnes,                  within=NonNegativeReals, bounds=lambda model,p,sc,n,es: (0.0,                    pEnergyInflows    [p,sc,n,es]),  doc='unscheduled inflows  of candidate ESS units      [GW]')
-    model.vEnergyOutflows = Var(model.psnes,                  within=NonNegativeReals, bounds=lambda model,p,sc,n,es: (0.0,max(pMaxPower  [p,sc,n,es],pMaxCharge [p,sc,n,es])), doc='scheduled   outflows of all       ESS units      [GW]')
-    model.vESSInventory   = Var(model.psnes,                  within=NonNegativeReals, bounds=lambda model,p,sc,n,es: (        pMinStorage[p,sc,n,es],pMaxStorage[p,sc,n,es]),  doc='ESS inventory                                   [GWh]')
-    model.vESSSpillage    = Var(model.psnes,                  within=NonNegativeReals,                                                                                          doc='ESS spillage                                    [GWh]')
-    model.vESSTotalCharge = Var(model.psnes,                  within=NonNegativeReals, bounds=lambda model,p,sc,n,es: (0.0,                   pMaxCharge         [p,sc,n,es]),  doc='ESS total charge power                           [GW]')
-    model.vCharge2ndBlock = Var(model.psnes,                  within=NonNegativeReals, bounds=lambda model,p,sc,n,es: (0.0,                   pMaxCharge2ndBlock [p,sc,n,es]),  doc='ESS       charge power                           [GW]')
-    model.vENS            = Var(model.psnnd, initialize= 0.0 ,within=NonNegativeReals, bounds=lambda model,p,sc,n,nd: (0.0,                                           1.0000),  doc='energy not served in node                        [GW]')
-    model.vW              = Var(model.psnnd, initialize= 1.0 ,within=NonNegativeReals,                                                                                          doc='squared voltage in node                        [p.u.]')
+    model.vTotalSCost     = Var(                                                  within=NonNegativeReals,                                                                                          doc='total system                         cost      [MEUR]')
+    model.vTotalICost     = Var(                                                  within=NonNegativeReals,                                                                                          doc='total system investment              cost      [MEUR]')
+    model.vTotalFCost     = Var(model.p,                                          within=NonNegativeReals,                                                                                          doc='total system fixed                   cost      [MEUR]')
+    model.vTotalGCost     = Var(model.psn,                                        within=NonNegativeReals,                                                                                          doc='total variable generation  operation cost      [MEUR]')
+    model.vTotalCCost     = Var(model.psn,                                        within=NonNegativeReals,                                                                                          doc='total variable consumption operation cost      [MEUR]')
+    model.vTotalECost     = Var(model.psn,                                        within=NonNegativeReals,                                                                                          doc='total system emission                cost      [MEUR]')
+    model.vTotalRCost     = Var(model.psn,                                        within=NonNegativeReals,                                                                                          doc='total system reliability             cost      [MEUR]')
+    model.vTotalOutputP   = Var(model.psng ,                                      within=NonNegativeReals, bounds=lambda model,p,sc,n,g : (0.0,                    pMaxPower          [p,sc,n,g]),  doc='total output of the unit                         [GW]')
+    model.vTotalOutputQ   = Var(model.psnnr,                                      within=           Reals, bounds=lambda model,p,sc,n,nr: (pRatedMinPowerQ[nr],    pRatedMaxPowerQ    [      nr]),  doc='total output of the unit                       [GVAr]')
+    model.vOutput2ndBlock = Var(model.psnnr,                                      within=NonNegativeReals, bounds=lambda model,p,sc,n,nr: (0.0,                    pMaxPower2ndBlock [p,sc,n,nr]),  doc='second block of the unit                         [GW]')
+    model.vEnergyInflows  = Var(model.psnes,                                      within=NonNegativeReals, bounds=lambda model,p,sc,n,es: (0.0,                    pEnergyInflows    [p,sc,n,es]),  doc='unscheduled inflows  of candidate ESS units      [GW]')
+    model.vEnergyOutflows = Var(model.psnes,                                      within=NonNegativeReals, bounds=lambda model,p,sc,n,es: (0.0,max(pMaxPower  [p,sc,n,es],pMaxCharge [p,sc,n,es])), doc='scheduled   outflows of all       ESS units      [GW]')
+    model.vESSInventory   = Var(model.psnes,                                      within=NonNegativeReals, bounds=lambda model,p,sc,n,es: (        pMinStorage[p,sc,n,es],pMaxStorage[p,sc,n,es]),  doc='ESS inventory                                   [GWh]')
+    model.vESSSpillage    = Var(model.psnes,                                      within=NonNegativeReals,                                                                                          doc='ESS spillage                                    [GWh]')
+    model.vESSTotalCharge = Var(model.psnes,                                      within=NonNegativeReals, bounds=lambda model,p,sc,n,es: (0.0,                   pMaxCharge         [p,sc,n,es]),  doc='ESS total charge power                           [GW]')
+    model.vCharge2ndBlock = Var(model.psnes,                                      within=NonNegativeReals, bounds=lambda model,p,sc,n,es: (0.0,                   pMaxCharge2ndBlock [p,sc,n,es]),  doc='ESS       charge power                           [GW]')
+    model.vENS            = Var(model.psnnd,                     initialize= 0.0 ,within=NonNegativeReals, bounds=lambda model,p,sc,n,nd: (0.0,                                           1.0000),  doc='energy not served in node                        [GW]')
+    model.vW              = Var(model.psnnd,                     initialize= 1.0 ,within=NonNegativeReals,                                                                                          doc='squared voltage in node                        [p.u.]')
+    model.vWL             = Var(model.psn  , model.nd, model.nd, initialize= 1.0 ,within=NonNegativeReals,                                                                                          doc='product of squared voltage                     [p.u.]')
 
     if pIndBinGenInvest == 0:
-        model.vGenerationInvest  = Var(model.pgc,           within=UnitInterval,                                                                                               doc='generation investment decision exists in a year [0,1]')
+        model.vGenerationInvest  = Var(model.pgc,                                 within=UnitInterval,                                                                                               doc='generation investment decision exists in a year [0,1]')
     else:
-        model.vGenerationInvest  = Var(model.pgc,           within=Binary,                                                                                                     doc='generation investment decision exists in a year {0,1}')
+        model.vGenerationInvest  = Var(model.pgc,                                 within=Binary,                                                                                                     doc='generation investment decision exists in a year {0,1}')
 
     if pIndBinNetInvest == 0:
-        model.vNetworkInvest     = Var(model.plc,           within=UnitInterval,                                                                                               doc='network    investment decision exists in a year [0,1]')
+        model.vNetworkInvest     = Var(model.plc,                                 within=UnitInterval,                                                                                               doc='network    investment decision exists in a year [0,1]')
     else:
-        model.vNetworkInvest     = Var(model.plc,           within=Binary,                                                                                                     doc='network    investment decision exists in a year {0,1}')
+        model.vNetworkInvest     = Var(model.plc,                                 within=Binary,                                                                                                     doc='network    investment decision exists in a year {0,1}')
 
     if pIndBinGenOperat == 0:
-        model.vCommitment        = Var(model.psnnr,         within=UnitInterval,     initialize=0.0,                                                                           doc='commitment         of the unit                  [0,1]')
-        model.vStartUp           = Var(model.psnnr,         within=UnitInterval,     initialize=0.0,                                                                           doc='startup            of the unit                  [0,1]')
-        model.vShutDown          = Var(model.psnnr,         within=UnitInterval,     initialize=0.0,                                                                           doc='shutdown           of the unit                  [0,1]')
+        model.vCommitment        = Var(model.psnnr,                               within=UnitInterval,     initialize=0.0,                                                                           doc='commitment         of the unit                  [0,1]')
+        model.vStartUp           = Var(model.psnnr,                               within=UnitInterval,     initialize=0.0,                                                                           doc='startup            of the unit                  [0,1]')
+        model.vShutDown          = Var(model.psnnr,                               within=UnitInterval,     initialize=0.0,                                                                           doc='shutdown           of the unit                  [0,1]')
     else:
-        model.vCommitment        = Var(model.psnnr,         within=Binary,           initialize=0  ,                                                                           doc='commitment         of the unit                  {0,1}')
-        model.vStartUp           = Var(model.psnnr,         within=Binary,           initialize=0  ,                                                                           doc='startup            of the unit                  {0,1}')
-        model.vShutDown          = Var(model.psnnr,         within=Binary,           initialize=0  ,                                                                           doc='shutdown           of the unit                  {0,1}')
+        model.vCommitment        = Var(model.psnnr,                               within=Binary,           initialize=0  ,                                                                           doc='commitment         of the unit                  {0,1}')
+        model.vStartUp           = Var(model.psnnr,                               within=Binary,           initialize=0  ,                                                                           doc='startup            of the unit                  {0,1}')
+        model.vShutDown          = Var(model.psnnr,                               within=Binary,           initialize=0  ,                                                                           doc='shutdown           of the unit                  {0,1}')
 
     # relax binary condition in generation and network investment decisions
     for p,gc in model.pgc:
@@ -1571,6 +1572,38 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
     StartTime        = time.time()
     print('Generating net voltage bounds         ... ', round(CheckpointTime), 's')
 
+    def eWLUpperBound1(model,p,sc,st,n,ni,nf):
+        if (st,n) in model.s2n:
+            return model.vWL[p,sc,n,ni,nf] <= 1.05**2 * model.vW[p,sc,n,ni] + 0.95**2 * model.vW[p,sc,n,nf] - 0.95**2 * 1.05**2
+        else:
+            return Constraint.Skip
+    model.eWLUpperBound1          = Constraint(model.ps, model.st, model.n, model.nd, model.nd, rule=eWLUpperBound1, doc='upper bound of the product of squared voltage magnitude [p.u.]')
+
+    def eWLUpperBound2(model,p,sc,st,n,ni,nf):
+        if (st,n) in model.s2n:
+            return model.vWL[p,sc,n,ni,nf] <= 1.05**2 * model.vW[p,sc,n,nf] + 0.95**2 * model.vW[p,sc,n,ni] - 0.95**2 * 1.05**2
+        else:
+            return Constraint.Skip
+    model.eWLUpperBound2          = Constraint(model.ps, model.st, model.n, model.nd, model.nd, rule=eWLUpperBound2, doc='upper bound of the product of squared voltage magnitude [p.u.]')
+
+    def eWLLowerBound1(model,p,sc,st,n,ni,nf):
+        if (st,n) in model.s2n:
+            return model.vWL[p,sc,n,ni,nf] >= 0.95**2 * model.vW[p,sc,n,ni] + 0.95**2 * model.vW[p,sc,n,nf] - 0.95**2 * 0.95**2
+        else:
+            return Constraint.Skip
+    model.eWLLowerBound1          = Constraint(model.ps, model.st, model.n, model.nd, model.nd, rule=eWLLowerBound1, doc='lower bound of the product of squared voltage magnitude [p.u.]')
+
+    def eWLLowerBound2(model,p,sc,st,n,ni,nf):
+        if (st,n) in model.s2n:
+            return model.vWL[p,sc,n,ni,nf] >= 1.05**2 * model.vW[p,sc,n,ni] + 1.05**2 * model.vW[p,sc,n,nf] - 1.05**2 * 1.05**2
+        else:
+            return Constraint.Skip
+    model.eWLLowerBound2          = Constraint(model.ps, model.st, model.n, model.nd, model.nd, rule=eWLLowerBound2, doc='lower bound of the product of squared voltage magnitude [p.u.]')
+
+    CheckpointTime   = time.time() - StartTime
+    StartTime        = time.time()
+    print('Generating net McCormick volt bounds  ... ', round(CheckpointTime), 's')
+
     # def eLineCapacityFrUpperBound(model,p,sc,st,n,ni,nf,cc):
     #     if (st,n) in model.s2n:
     #         return model.vPfr[p,sc,n,ni,nf,cc]**2 + model.vQfr[p,sc,n,ni,nf,cc]**2 <= (pLineNTCFrw[ni,nf,cc]*1)**2
@@ -1664,7 +1697,7 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
 
     def eLineConic1_LP(model,p,sc,st,n,ni,nf,cc):
         if (st, n) in model.s2n:
-            return sum(model.pLineM[ni,nf,cc,l] * model.vDelta_S[p,sc,n,ni,nf,cc,l] for l in model.L) + sum(model.pLineM[ni,nf,cc,l] * model.vDelta_C[p,sc,n,ni,nf,cc,l] for l in model.L) <= model.vW[p,sc,n,nf]
+            return sum(model.pLineM[ni,nf,cc,l] * model.vDelta_S[p,sc,n,ni,nf,cc,l] for l in model.L) + sum(model.pLineM[ni,nf,cc,l] * model.vDelta_C[p,sc,n,ni,nf,cc,l] for l in model.L) <= model.vWL[p,sc,n,ni,nf]
     model.eLineConic1_LP = Constraint(model.ps, model.st, model.n, model.laa, rule=eLineConic1_LP)
 
     def eLineConic1_LinearS1(model,p,sc,st,n,ni,nf,cc):
