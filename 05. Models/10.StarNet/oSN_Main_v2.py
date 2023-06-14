@@ -401,7 +401,8 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
     model.gs  = Set(initialize=sGSList,           ordered=True , doc='all the groups which participate in the sensitivities'                                                      )
     model.ns  = Set(initialize=sNSList,           ordered=True , doc='all the groups which participate in the sensitivities'                                                      )
     model.sh  = Set(initialize=model.shh,         ordered=False, doc='bus shunts'           , filter=lambda model,shh     :  shh    in model.shh and pPeriodIniShunt[shh] <= model.p.last() and pPeriodFinShunt[shh] >= model.p.first() and pShuntToNode.reset_index().set_index(['index']).isin(model.nd)['Node'][shh])  # excludes devices with empty node
-    model.shc = Set(initialize=model.sh,          ordered=False, doc='candidate bus shunt'  , filter=lambda model,sh      :  sh     in model.sh  and pShuntInvestCost  [sh] >  0.0)
+    model.shc = Set(initialize=model.sh ,         ordered=False, doc='candidate bus shunt'  , filter=lambda model,sh      :  sh     in model.sh  and pShuntInvestCost  [sh] >  0.0)
+    model.sq  = Set(initialize=model.gg ,         ordered=False, doc='synch condenser'      , filter=lambda model,gg      :  gg     in model.gg  and pRatedMaxPowerP   [gg] == 0.0 and (pRatedMaxPowerQ[gg] >= 0.0 or pRatedMinPowerQ[gg] <= 0.0))
 
     # non-RES units, they can be committed and also contribute to the operating reserves
     model.nr = model.g - model.r
@@ -421,6 +422,7 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
     model.psnnr  = [(p,sc,n,nr) for p,sc,n,nr in model.psn*model.nr ]
     model.psnes  = [(p,sc,n,es) for p,sc,n,es in model.psn*model.es ]
     model.psnec  = [(p,sc,n,ec) for p,sc,n,ec in model.psn*model.ec ]
+    model.psnsq  = [(p,sc,n,sq) for p,sc,n,sq in model.psn*model.sq ]
     model.psnnd  = [(p,sc,n,nd) for p,sc,n,nd in model.psn*model.nd ]
     model.psnar  = [(p,sc,n,ar) for p,sc,n,ar in model.psn*model.ar ]
     model.psngt  = [(p,sc,n,gt) for p,sc,n,gt in model.psn*model.gt ]
@@ -515,6 +517,13 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
     model.z2g = Set(initialize=model.zn*model.g, ordered=False, doc='zone   to generator', filter=lambda model,zn,g: (zn,g) in pZone2Gen  )
     model.a2g = Set(initialize=model.ar*model.g, ordered=False, doc='area   to generator', filter=lambda model,ar,g: (ar,g) in pArea2Gen  )
     model.r2g = Set(initialize=model.rg*model.g, ordered=False, doc='region to generator', filter=lambda model,rg,g: (rg,g) in pRegion2Gen)
+
+    #%% inverse index node to synchronous condenser
+    pNodeToSyn = pGenToNode.reset_index().set_index('Node').set_axis(['SynCond'], axis=1, copy=False)[['SynCond']]
+    pNodeToSyn = pNodeToSyn.loc[pNodeToSyn['SynCond'].isin(model.sq)]
+    pNode2Syn  = pNodeToSyn.reset_index().set_index(['Node', 'SynCond'])
+
+    model.n2sq = Set(initialize=pNode2Syn.index, ordered=False, doc='node to synchronous condenser')
 
     #%% inverse index generator to technology
     pTechnologyToGen = pGenToTechnology.reset_index().set_index('Technology').set_axis(['Generator'], axis=1, copy=False)[['Generator']]
@@ -864,7 +873,9 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
     model.vTotalECost     = Var(model.psn,                                        within=NonNegativeReals,                                                                                          doc='total system emission                cost      [MEUR]')
     model.vTotalRCost     = Var(model.psn,                                        within=NonNegativeReals,                                                                                          doc='total system reliability             cost      [MEUR]')
     model.vTotalOutputP   = Var(model.psng ,                                      within=NonNegativeReals, bounds=lambda model,p,sc,n,g : (0.0,                    pMaxPower          [p,sc,n,g]),  doc='total output of the unit                         [GW]')
-    model.vTotalOutputQ   = Var(model.psnnr,                                      within=           Reals, bounds=lambda model,p,sc,n,nr: (pRatedMinPowerQ[nr],    pRatedMaxPowerQ    [      nr]),  doc='total output of the unit                       [GVAr]')
+    # model.vTotalOutputQ   = Var(model.psnnr,                                      within=           Reals, bounds=lambda model,p,sc,n,nr: (pRatedMinPowerQ[nr],    pRatedMaxPowerQ    [      nr]),  doc='total output of the unit                       [GVAr]')
+    model.vTotalOutputQ   = Var(model.psnnr,                                      within=           Reals,                                                                                          doc='total output of the unit                       [GVAr]')
+    model.vSynchOutput    = Var(model.psnsq,                                      within=           Reals, bounds=lambda model,p,sc,n,sq: (pRatedMinPowerQ[sq],    pRatedMaxPowerQ   [       sq]),  doc='synchronous output of the unit                 [GVAr]')
     model.vOutput2ndBlock = Var(model.psnnr,                                      within=NonNegativeReals, bounds=lambda model,p,sc,n,nr: (0.0,                    pMaxPower2ndBlock [p,sc,n,nr]),  doc='second block of the unit                         [GW]')
     model.vEnergyInflows  = Var(model.psnes,                                      within=NonNegativeReals, bounds=lambda model,p,sc,n,es: (0.0,                    pEnergyInflows    [p,sc,n,es]),  doc='unscheduled inflows  of candidate ESS units      [GW]')
     model.vEnergyOutflows = Var(model.psnes,                                      within=NonNegativeReals, bounds=lambda model,p,sc,n,es: (0.0,max(pMaxPower  [p,sc,n,es],pMaxCharge [p,sc,n,es])), doc='scheduled   outflows of all       ESS units      [GW]')
@@ -1250,7 +1261,7 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
 
     def eBalanceQ(model,p,sc,st,n,nd):
         if (st,n) in model.s2n and sum(1 for g in model.g if (nd,g) in model.n2g) + sum(1 for lout in lout[nd]) + sum(1 for ni,cc in lin[nd]):
-            return (sum(model.vTotalOutputQ[p,sc,n,nr] for nr    in model.nr if (nd,nr  ) in model.n2g )
+            return (sum(model.vTotalOutputQ[p,sc,n,nr] for nr    in model.nr if (nd,nr  ) in model.n2g ) + sum(model.vSynchOutput[p,sc,n,sq] for sq in model.sq if (nd,sq) in model.n2sq)
                     - pDemandQ[p,sc,n,nd]*(1-model.vENS[p,sc,n,nd])
                     + sum(model.vBusShuntQ[p,sc,n,sh ] for sh    in model.sh if (nd,sh  ) in model.n2sh)
                     - sum(model.vQfr[ p,sc,n,nd,lout ] for lout  in lout[nd] if (nd,lout) in model.laa ) - sum(model.vQto[ p,sc,n,ni,nd,cc] for ni,cc in lin [nd] if (ni,nd,cc) in model.laa) == 0)
@@ -1363,14 +1374,16 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
 
     def eTotalOutputQ_LB(model,p,sc,st,n,nr):
         if (st,n) in model.s2n and (pRatedMaxPowerQ[nr] or pRatedMinPowerQ[nr]):
-            return model.vTotalOutputQ[p,sc,n,nr] >= -model.vTotalOutputP[p,sc,n,nr]*math.tan(math.acos(0.99))
+            # return model.vTotalOutputQ[p,sc,n,nr] >= -model.vTotalOutputP[p,sc,n,nr]*math.tan(math.acos(0.99))
+            return model.vTotalOutputQ[p,sc,n,nr] >= -model.vTotalOutputP[p,sc,n,nr]
         else:
             return Constraint.Skip
     model.eTotalOutputQ_LB       = Constraint(model.ps, model.st, model.n, model.nr, rule=eTotalOutputQ_LB, doc='lower bound of the reactive power output of a unit [GVAr]')
 
     def eTotalOutputQ_UB(model,p,sc,st,n,nr):
         if (st,n) in model.s2n and (pRatedMaxPowerQ[nr] or pRatedMinPowerQ[nr]):
-            return model.vTotalOutputQ[p,sc,n,nr] <=  model.vTotalOutputP[p,sc,n,nr]*math.tan(math.acos(0.95))
+            # return model.vTotalOutputQ[p,sc,n,nr] <=  model.vTotalOutputP[p,sc,n,nr]*math.tan(math.acos(0.95))
+            return model.vTotalOutputQ[p,sc,n,nr] <=  model.vTotalOutputP[p,sc,n,nr]
         else:
             return Constraint.Skip
     model.eTotalOutputQ_UB       = Constraint(model.ps, model.st, model.n, model.nr, rule=eTotalOutputQ_UB, doc='upper bound of the reactive power output of a unit [GVAr]')
@@ -1391,8 +1404,8 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
     def eGenCapacity1(model,p,sc,st,n,g):
         if (st,n) in model.s2n and g in model.gc:
             return model.vTotalOutputP[p,sc,n,g] >= pMinPower[p,sc,n,g] * model.vGenerationInvest[p,gc]
-        elif (st,n) in model.s2n and g not in model.gc:
-            return model.vTotalOutputP[p,sc,n,g] >= pMinPower[p,sc,n,g]
+        # elif (st,n) in model.s2n and g not in model.gc:
+        #     return model.vTotalOutputP[p,sc,n,g] >= pMinPower[p,sc,n,g]
         else:
             return Constraint.Skip
     model.eGenCapacity1          = Constraint(model.ps, model.st, model.n, model.g, rule=eGenCapacity1, doc='minimum power output by a generation unit [p.u.]')
@@ -1697,7 +1710,7 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
 
     def eLineConic1_LP(model,p,sc,st,n,ni,nf,cc):
         if (st, n) in model.s2n:
-            return sum(model.pLineM[ni,nf,cc,l] * model.vDelta_S[p,sc,n,ni,nf,cc,l] for l in model.L) + sum(model.pLineM[ni,nf,cc,l] * model.vDelta_C[p,sc,n,ni,nf,cc,l] for l in model.L) <= model.vWL[p,sc,n,ni,nf]
+            return sum(model.pLineM[ni,nf,cc,l] * model.vDelta_S[p,sc,n,ni,nf,cc,l] for l in model.L) + sum(model.pLineM[ni,nf,cc,l] * model.vDelta_C[p,sc,n,ni,nf,cc,l] for l in model.L) == model.vWL[p,sc,n,ni,nf]
     model.eLineConic1_LP = Constraint(model.ps, model.st, model.n, model.laa, rule=eLineConic1_LP)
 
     def eLineConic1_LinearS1(model,p,sc,st,n,ni,nf,cc):
