@@ -330,7 +330,7 @@ def main():
 
     #%% Restoring the dataframes
     df_Network.to_csv(   _path+'/2.Par/oT_Data_Network_'   +args.case+'.csv')
-    df_Generation.to_csv(_path+'/2.Par/oT_Data_Generation_'+args.case+'.csv')
+    # df_Generation.to_csv(_path+'/2.Par/oT_Data_Generation_'+args.case+'.csv')
 
     # ####################################################################################################################
     # #%% Sequence of all the combinations of the lines
@@ -385,6 +385,7 @@ def main():
 
     clines = [(ni,nf,cc) for (ni,nf,cc) in df_Network.index if df_Network['BinaryInvestment'][ni,nf,cc] == 'Yes']
     print(f'Number of candidate lines to be considered: {len(clines)}')
+    counter1 = 0
     for (ni,nf,cc) in clines:
         print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
         print(f"Line {ni} {nf} {cc}")
@@ -419,7 +420,13 @@ def main():
 
         #%% Restoring the dataframes
         df_Network.to_csv(   _path+'/2.Par/oT_Data_Network_'   +args.case+'.csv')
-        df_Generation.to_csv(_path+'/2.Par/oT_Data_Generation_'+args.case+'.csv')
+        # df_Generation.to_csv(_path+'/2.Par/oT_Data_Generation_'+args.case+'.csv')
+
+        counter1 += 1
+        print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
+        print(f'Remaining lines: {len(clines)-counter1}')
+        print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
+
 
     ####################################################################################################################
 
