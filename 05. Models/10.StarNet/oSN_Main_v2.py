@@ -129,7 +129,7 @@ def main(model):
     print(sys.argv)
     print(args)
     openStarNet_run(args.dir, args.case, args.solver, model)
-    print('Elapsed time: {} seconds'.format(time.time() - initial_time))
+    print('Elapsed time: {} seconds'.format(round(time.time() - initial_time), 2))
 
 def openStarNet_run(DirName, CaseName, SolverName, model):
 
@@ -1831,7 +1831,7 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
     StartTime   = time.time()
     print('Solving                               ... ', round(SolvingTime), 's')
 
-    print('Objective function value                  ', model.eTotalSCost.expr())
+    print('Objective function value                  ', round(model.eTotalSCost.expr(), 2), 'M€')
 
     # #%% outputting the generation operation
     # SysCost     = pd.Series(data=[                                                                                                             model.vTotalSCost()                                                                                                  ], index=[' ']  ).to_frame(name='Total          System Cost').stack()
