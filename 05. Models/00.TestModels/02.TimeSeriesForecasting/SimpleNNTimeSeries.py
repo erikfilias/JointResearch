@@ -131,3 +131,4 @@ if __name__ == '__main__':
     step_in = 168
     neurons = 20
     main_f(n_steps_in=step_in, n_model=ElectricityDemandForecasting, n_neurons=neurons)
+    print('Done!')
