@@ -37,6 +37,7 @@ def ModelRun(m, execution, path, dir, case, solver, dictSets):
     df_demand.rename(columns={0: 'Value'}, inplace=True)
     df_demand['Dataset'] = 'ElectricityDemand'
     df_demand['Execution'] = execution
+    df_demand = df_demand.reset_index().pivot_table(index=['Execution','Period','Scenario','LoadLevel'], columns=['Dataset','Variable'], values='Value')
 
     data_time = time.time() - start_time
     start_time = time.time()
@@ -82,21 +83,43 @@ def ModelRun(m, execution, path, dir, case, solver, dictSets):
     df = pd.DataFrame(admittance_matrix).stack().reset_index()
     df.columns = ['Node1', 'Node2', 'Admittance']
     df.set_index(['Node1', 'Node2'], inplace=True)
-    df_Y_matrix = pd.DataFrame(index=pd.MultiIndex.from_tuples(model_p.psn))
+    # df_Y_matrix = pd.DataFrame(index=pd.MultiIndex.from_tuples(model_p.psn))
+    #
+    # for (ni, nf) in df.index:
+    #     df1         = pd.DataFrame([df['Admittance'][ni, nf]]*len(model_p.psn), columns=['Node_' + str(ni + 1) + '_Node_' + str(nf + 1)] ,index=pd.MultiIndex.from_tuples(model_p.psn))
+    #     df_Y_matrix = pd.concat([df_Y_matrix, df1], axis=1)
+    #
+    # # for (p, sc, n) in model_p.psn:
+    # #     for (ni, nf) in df.index:
+    # #         df_Y_matrix.loc[(p, sc, n), 'Node_' + str(ni + 1) + '_Node_' + str(nf + 1)] = df.loc[(ni, nf), 'Admittance']
+    #
+    # df_Y_matrix = df_Y_matrix.stack()
+    # df_Y_matrix.index.names = ['Period', 'Scenario', 'LoadLevel', 'Variable']
+    # df_Y_matrix = df_Y_matrix.to_frame(name='Value')
+    # df_Y_matrix['Dataset'] = 'MatrixY'
+    # df_Y_matrix['Execution'] = execution
+
+    df_Y_matrix_real = pd.DataFrame(index=pd.MultiIndex.from_tuples(model_p.psn))
+    df_Y_matrix_imag = pd.DataFrame(index=pd.MultiIndex.from_tuples(model_p.psn))
 
     for (ni, nf) in df.index:
-        df1         = pd.DataFrame([df['Admittance'][ni, nf]]*len(model_p.psn), columns=['Node_' + str(ni + 1) + '_Node_' + str(nf + 1)] ,index=pd.MultiIndex.from_tuples(model_p.psn))
-        df_Y_matrix = pd.concat([df_Y_matrix, df1], axis=1)
+        df1 = pd.DataFrame([np.real(df['Admittance'][ni, nf])]*len(model_p.psn), columns=['Node_' + str(ni + 1) + '_Node_' + str(nf + 1)] ,index=pd.MultiIndex.from_tuples(model_p.psn))
+        df2 = pd.DataFrame([np.imag(df['Admittance'][ni, nf])]*len(model_p.psn), columns=['Node_' + str(ni + 1) + '_Node_' + str(nf + 1)] ,index=pd.MultiIndex.from_tuples(model_p.psn))
+        df_Y_matrix_real = pd.concat([df_Y_matrix_real, df1], axis=1)
+        df_Y_matrix_imag = pd.concat([df_Y_matrix_imag, df2], axis=1)
 
-    # for (p, sc, n) in model_p.psn:
-    #     for (ni, nf) in df.index:
-    #         df_Y_matrix.loc[(p, sc, n), 'Node_' + str(ni + 1) + '_Node_' + str(nf + 1)] = df.loc[(ni, nf), 'Admittance']
+    df_Y_matrix_real = df_Y_matrix_real.stack()
+    df_Y_matrix_real.index.names = ['Period', 'Scenario', 'LoadLevel', 'Variable']
+    df_Y_matrix_real = df_Y_matrix_real.to_frame(name='Value')
+    df_Y_matrix_real['Dataset'] = 'MatrixYReal'
+    df_Y_matrix_real = df_Y_matrix_real.reset_index().pivot_table(index=['Execution','Period','Scenario','LoadLevel'], columns=['Dataset','Variable'], values='Value')
 
-    df_Y_matrix = df_Y_matrix.stack()
-    df_Y_matrix.index.names = ['Period', 'Scenario', 'LoadLevel', 'Variable']
-    df_Y_matrix = df_Y_matrix.to_frame(name='Value')
-    df_Y_matrix['Dataset'] = 'MatrixY'
-    df_Y_matrix['Execution'] = execution
+    df_Y_matrix_imag = df_Y_matrix_imag.stack()
+    df_Y_matrix_imag.index.names = ['Period', 'Scenario', 'LoadLevel', 'Variable']
+    df_Y_matrix_imag = df_Y_matrix_imag.to_frame(name='Value')
+    df_Y_matrix_imag['Dataset'  ] = 'MatrixYImag'
+    df_Y_matrix_imag['Execution'] = execution
+    df_Y_matrix_imag = df_Y_matrix_imag.reset_index().pivot_table(index=['Execution','Period','Scenario','LoadLevel'], columns=['Dataset','Variable'], values='Value')
 
     data_time = time.time() - start_time
     start_time = time.time()
@@ -109,15 +132,16 @@ def ModelRun(m, execution, path, dir, case, solver, dictSets):
     df_max_power = df_max_power.reset_index().pivot_table(index=['Period', 'Scenario', 'LoadLevel', 'Variable'],
                                                           values=0)
     df_max_power.rename(columns={0: 'Value'}, inplace=True)
-    df_max_power['Dataset'] = 'MaxPowerGeneration'
+    df_max_power['Dataset'  ] = 'MaxPowerGeneration'
     df_max_power['Execution'] = execution
+    df_max_power              = df_max_power.reset_index().pivot_table(index=['Execution','Period','Scenario','LoadLevel'], columns=['Dataset','Variable'], values='Value')
 
     data_time = time.time() - start_time
     start_time = time.time()
     print('Getting the max power generation       ... ', round(data_time), 's')
 
     # Merging all the data
-    df_input_data = pd.concat([df_demand, df_Y_matrix, df_max_power])
+    df_input_data = pd.concat([df_demand, df_Y_matrix_real, df_Y_matrix_imag, df_max_power], axis=1)
     # df_input_data.to_csv(_path + '/3.Out/oT_Result_NN_Input_' + args.case + '.csv', index=True)
 
     data_time = time.time() - start_time
