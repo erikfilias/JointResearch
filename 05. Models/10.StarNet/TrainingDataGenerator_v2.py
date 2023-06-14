@@ -37,7 +37,7 @@ def ModelRun(m, execution, path, dir, case, solver, dictSets):
     df_demand.rename(columns={0: 'Value'}, inplace=True)
     df_demand['Dataset'] = 'ElectricityDemand'
     df_demand['Execution'] = execution
-    df_demand = df_demand.reset_index().pivot_table(index=['Execution','Period','Scenario','LoadLevel'], columns=['Dataset','Variable'], values='Value')
+    # df_demand = df_demand.reset_index().pivot_table(index=['Execution','Period','Scenario','LoadLevel'], columns=['Dataset','Variable'], values='Value')
 
     data_time = time.time() - start_time
     start_time = time.time()
@@ -111,15 +111,16 @@ def ModelRun(m, execution, path, dir, case, solver, dictSets):
     df_Y_matrix_real = df_Y_matrix_real.stack()
     df_Y_matrix_real.index.names = ['Period', 'Scenario', 'LoadLevel', 'Variable']
     df_Y_matrix_real = df_Y_matrix_real.to_frame(name='Value')
-    df_Y_matrix_real['Dataset'] = 'MatrixYReal'
-    df_Y_matrix_real = df_Y_matrix_real.reset_index().pivot_table(index=['Execution','Period','Scenario','LoadLevel'], columns=['Dataset','Variable'], values='Value')
+    df_Y_matrix_real['Dataset'  ] = 'MatrixYReal'
+    df_Y_matrix_real['Execution'] = execution
+    # df_Y_matrix_real = df_Y_matrix_real.reset_index().pivot_table(index=['Execution','Period','Scenario','LoadLevel'], columns=['Dataset','Variable'], values='Value')
 
     df_Y_matrix_imag = df_Y_matrix_imag.stack()
     df_Y_matrix_imag.index.names = ['Period', 'Scenario', 'LoadLevel', 'Variable']
     df_Y_matrix_imag = df_Y_matrix_imag.to_frame(name='Value')
     df_Y_matrix_imag['Dataset'  ] = 'MatrixYImag'
     df_Y_matrix_imag['Execution'] = execution
-    df_Y_matrix_imag = df_Y_matrix_imag.reset_index().pivot_table(index=['Execution','Period','Scenario','LoadLevel'], columns=['Dataset','Variable'], values='Value')
+    # df_Y_matrix_imag = df_Y_matrix_imag.reset_index().pivot_table(index=['Execution','Period','Scenario','LoadLevel'], columns=['Dataset','Variable'], values='Value')
 
     data_time = time.time() - start_time
     start_time = time.time()
@@ -129,19 +130,19 @@ def ModelRun(m, execution, path, dir, case, solver, dictSets):
     df_max_power = pd.Series(data=[model_p.pMaxPower[p, sc, n, g] for p, sc, n, g in model_p.psng],
                              index=pd.MultiIndex.from_tuples(model_p.psng))
     df_max_power.index.names = ['Period', 'Scenario', 'LoadLevel', 'Variable']
-    df_max_power = df_max_power.reset_index().pivot_table(index=['Period', 'Scenario', 'LoadLevel', 'Variable'],
-                                                          values=0)
+    df_max_power = df_max_power.reset_index().pivot_table(index=['Period', 'Scenario', 'LoadLevel', 'Variable'], values=0)
     df_max_power.rename(columns={0: 'Value'}, inplace=True)
     df_max_power['Dataset'  ] = 'MaxPowerGeneration'
     df_max_power['Execution'] = execution
-    df_max_power              = df_max_power.reset_index().pivot_table(index=['Execution','Period','Scenario','LoadLevel'], columns=['Dataset','Variable'], values='Value')
+    # df_max_power              = df_max_power.reset_index().pivot_table(index=['Execution','Period','Scenario','LoadLevel'], columns=['Dataset','Variable'], values='Value')
 
     data_time = time.time() - start_time
     start_time = time.time()
     print('Getting the max power generation       ... ', round(data_time), 's')
 
     # Merging all the data
-    df_input_data = pd.concat([df_demand, df_Y_matrix_real, df_Y_matrix_imag, df_max_power], axis=1)
+    # df_input_data = pd.concat([df_demand, df_Y_matrix_real, df_Y_matrix_imag, df_max_power], axis=1)
+    df_input_data = pd.concat([df_demand, df_Y_matrix_real, df_Y_matrix_imag, df_max_power])
     # df_input_data.to_csv(_path + '/3.Out/oT_Result_NN_Input_' + args.case + '.csv', index=True)
 
     data_time = time.time() - start_time
