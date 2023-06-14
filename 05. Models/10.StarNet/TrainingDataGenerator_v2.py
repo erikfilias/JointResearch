@@ -218,10 +218,10 @@ def ModelRun(m, execution, path, dir, case, solver, dictSets):
 
     # Dual eGenCapacity1 - lower bound
     List3 = [(p,sc,st,n,g) for p,sc,st,n,g in model_p.ps*model_p.st*model_p.n*model_p.g if (st,n) in model_p.s2n]
-    df_dual_eGenCapacity1 = pd.Series(data=[model_p.dual[model_p.eGenCapacity1[p,sc,st,n,g]]*1e3 for (p,sc,st,n,g) in List3], index=pd.MultiIndex.from_tuples(List3))
-    df_dual_eGenCapacity1 = df_dual_eGenCapacity1.to_frame(name='Value').rename_axis(['Period','Scenario','Stage','LoadLevel','Variable'], axis=0).pivot_table(index=['Period','Scenario','LoadLevel','Variable'], values='Value' , aggfunc=sum)
-    df_dual_eGenCapacity1['Dataset'] = 'Dual_eGenCapacity_LowerBound'
-    df_dual_eGenCapacity1['Execution'] = execution
+    # df_dual_eGenCapacity1 = pd.Series(data=[model_p.dual[model_p.eGenCapacity1[p,sc,st,n,g]]*1e3 for (p,sc,st,n,g) in List3], index=pd.MultiIndex.from_tuples(List3))
+    # df_dual_eGenCapacity1 = df_dual_eGenCapacity1.to_frame(name='Value').rename_axis(['Period','Scenario','Stage','LoadLevel','Variable'], axis=0).pivot_table(index=['Period','Scenario','LoadLevel','Variable'], values='Value' , aggfunc=sum)
+    # df_dual_eGenCapacity1['Dataset'] = 'Dual_eGenCapacity_LowerBound'
+    # df_dual_eGenCapacity1['Execution'] = execution
 
     df_dual_eGenCapacity2 = pd.Series(data=[model_p.dual[model_p.eGenCapacity2[p,sc,st,n,g]]*1e3 for (p,sc,st,n,g) in List3], index=pd.MultiIndex.from_tuples(List3))
     df_dual_eGenCapacity2 = df_dual_eGenCapacity2.to_frame(name='Value').rename_axis(['Period','Scenario','Stage','LoadLevel','Variable'], axis=0).pivot_table(index=['Period','Scenario','LoadLevel','Variable'], values='Value' , aggfunc=sum)
@@ -233,7 +233,8 @@ def ModelRun(m, execution, path, dir, case, solver, dictSets):
     print('Getting the reduced cost: vTotalOutput ... ', round(data_time), 's')
 
     # Merging all the data
-    df_output_data = pd.concat([df_total_costs, df_dual_eBalance, df_dual_eNetCapacity1, df_dual_eNetCapacity2, df_dual_eGenCapacity1, df_dual_eGenCapacity2])
+    # df_output_data = pd.concat([df_total_costs, df_dual_eBalance, df_dual_eNetCapacity1, df_dual_eNetCapacity2, df_dual_eGenCapacity1, df_dual_eGenCapacity2])
+    df_output_data = pd.concat([df_total_costs, df_dual_eBalance, df_dual_eNetCapacity1, df_dual_eNetCapacity2, df_dual_eGenCapacity2])
     # df_output_data = df_total_costs
     # df_output_data.to_csv(_path + '/3.Out/oT_Result_NN_Output_' + args.case + '.csv', index=True)
 
