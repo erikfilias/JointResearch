@@ -111,7 +111,8 @@ def ModelRun(m, execution, path, dir, case, solver, dictSets):
     df_Y_matrix_real = df_Y_matrix_real.stack()
     df_Y_matrix_real.index.names = ['Period', 'Scenario', 'LoadLevel', 'Variable']
     df_Y_matrix_real = df_Y_matrix_real.to_frame(name='Value')
-    df_Y_matrix_real['Dataset'] = 'MatrixYReal'
+    df_Y_matrix_real['Dataset'  ] = 'MatrixYReal'
+    df_Y_matrix_real['Execution'] = execution
     df_Y_matrix_real = df_Y_matrix_real.reset_index().pivot_table(index=['Execution','Period','Scenario','LoadLevel'], columns=['Dataset','Variable'], values='Value')
 
     df_Y_matrix_imag = df_Y_matrix_imag.stack()
