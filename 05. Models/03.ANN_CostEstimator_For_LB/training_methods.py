@@ -1,6 +1,7 @@
 import torch
 from datetime import datetime
 from torch.utils.tensorboard import SummaryWriter
+import numpy as np
 
 def train_and_get_loss(model,tr_in,tr_out,nb_epochs,lr,print_ = False):
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
@@ -31,6 +32,7 @@ def train_one_epoch(model, training_loader, epoch_index, tb_writer, optimizer, l
     # Here, we use enumerate(training_loader) instead of
     # iter(training_loader) so that we can track the batch
     # index and do some intra-epoch reporting
+    losses = []
     for i, data in enumerate(training_loader):
         # Every data instance is an input + label pair
         inputs, labels = data
@@ -50,6 +52,7 @@ def train_one_epoch(model, training_loader, epoch_index, tb_writer, optimizer, l
 
         # Gather data and report
         running_loss += loss.item()
+        losses.append(loss)
         if i % f_print == 0:
             last_loss = running_loss / f_print # loss per batch
             print('  batch {} loss: {}'.format(i + 1, last_loss))
@@ -57,12 +60,11 @@ def train_one_epoch(model, training_loader, epoch_index, tb_writer, optimizer, l
             tb_writer.add_scalar('Loss/train', last_loss, tb_x)
             running_loss = 0.
 
-    return last_loss
+    return losses
 
-def train_multiple_epochs(nb_epochs,model,training_loader,validation_loader,loss_fn,optimizer,model_name, save_trained=False):
+def train_multiple_epochs(nb_epochs,model,training_loader,validation_loader,loss_fn,optimizer,model_name, save_trained=True):
     # Initializing in a separate cell so we can easily add more epochs to the same run
-    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-    writer = SummaryWriter('trained_models/{}_{}'.format(model_name,timestamp))
+    writer = SummaryWriter('trained_models/{}'.format(model_name))
     epoch_number = 0
 
     best_vloss = 1_000_000.
@@ -71,7 +73,8 @@ def train_multiple_epochs(nb_epochs,model,training_loader,validation_loader,loss
 
         # Make sure gradient tracking is on, and do a pass over the data
         model.train(True)
-        avg_loss = train_one_epoch(model,training_loader,epoch_number, writer,optimizer,loss_fn)
+        one_epoch_losses = train_one_epoch(model,training_loader,epoch_number, writer,optimizer,loss_fn)
+        avg_loss = np.mean(one_epoch_losses)
 
 
         running_vloss = 0.0
@@ -88,23 +91,23 @@ def train_multiple_epochs(nb_epochs,model,training_loader,validation_loader,loss
                 running_vloss += vloss
 
         avg_vloss = running_vloss / (i + 1)
-        print('LOSS train {} valid {}'.format(avg_loss, avg_vloss))
+        print('LOSS train {} valid {}'.format(np.mean(avg_loss), np.mean(avg_vloss)))
 
-        # Log the running loss averaged per batch
-        # for both training and validation
-        writer.add_scalars('Training vs. Validation Loss',
-                        { 'Training' : avg_loss, 'Validation' : avg_vloss },
-                        epoch_number + 1)
-        writer.flush()
+        # # Log the running loss averaged per batch
+        # # for both training and validation
+        # writer.add_scalars('Training vs. Validation Loss',
+        #                 { 'Training' : avg_loss, 'Validation' : avg_vloss },
+        #                 epoch_number + 1)
+        # writer.flush()
 
         # Track best performance, and save the model's state
         if avg_vloss < best_vloss:
             best_vloss = avg_vloss
             if save_trained:
-                model_path = 'model_{}_{}'.format(timestamp, epoch_number)
+                model_path = 'model_{}_{}'.format(model_name, epoch_number)
                 torch.save(model.state_dict(), model_path)
 
 
 
         epoch_number += 1
-    return best_vloss
+    return best_vloss,model_path,model
