@@ -312,7 +312,7 @@ def main():
     print("Sequence of the existing network and generation")
     print("―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
     df_Network_exist    = pd.read_csv(_path+'/2.Par/oT_Data_Network_'   +args.case+'.csv', index_col=[0,1,2])
-    df_Generation_exist = pd.read_csv(_path+'/2.Par/oT_Data_Generation_'+args.case+'.csv', index_col=[0    ])
+    # df_Generation_exist = pd.read_csv(_path+'/2.Par/oT_Data_Generation_'+args.case+'.csv', index_col=[0    ])
 
     # drop the lines that are not in the network
     df_Network_exist = df_Network_exist.loc[dict_la]
