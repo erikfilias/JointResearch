@@ -7,30 +7,19 @@ def load_data(folder,executions,period,sc):
     dfs_out = dict()
     for execution in executions:
         # Read the data from desired execution
-        df_in_e = pd.read_csv(f"Data/{folder}/input_f_{sc}_{execution}_{period}.csv", header=[0, 1])
-        df_out_e = pd.read_csv(f"Data/{folder}/output_f_{sc}_{execution}_{period}.csv", header=[0, 1])
+        df_in_e = pd.read_csv(f"Data/{folder}/input_f_{sc}_{execution}_{period}.csv", header=[0],index_col=0)
+        df_out_e = pd.read_csv(f"Data/{folder}/output_f_{sc}_{execution}_{period}.csv", header=[0],index_col=0)
 
-        # Drop the first row(s) because its useless
-        df_in_e = df_in_e.drop([0])
-        if (folder == "RTS_24") or (folder == ""):
-            df_out_e = df_out_e.drop([0])
-        elif (folder == "RTS_24_AC") :
-            df_out_e = df_out_e.drop([0, 1])
         print(f"Data/input_f_{sc}_{execution}_{period}.csv")
-
-        # Split the real and imaginary part the input data:
-        df_in_e_r = df_in_e["Value_R"]
-        df_in_e_i = df_in_e["Value_I"]
 
         # And order the variables:
 
-        print(len(df_in_e_r.columns) + len(df_in_e_i.columns))
-
-        df_in_e_c = pd.concat([df_in_e_r, df_in_e_i], axis=1)
-        df_out_e = df_out_e["Value"]
+        print(len(df_in_e.columns))
         for col in df_out_e.columns:
             df_out_e[col] = df_out_e[col].astype(float)
-        dfs_in[execution] = df_in_e_c
+        for col in df_in_e.columns:
+            df_in_e[col] = df_in_e[col].astype(float)
+        dfs_in[execution] = df_in_e
         dfs_out[execution] = df_out_e
     return dfs_in,dfs_out
 
