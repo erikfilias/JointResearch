@@ -34,7 +34,7 @@ def load_data(folder,executions,period,sc):
         dfs_out[execution] = df_out_e
     return dfs_in,dfs_out
 
-def split_tr_val_te(dfs_in,dfs_out,executions):
+def split_tr_val_te(dfs_in,dfs_out,executions,te_s,val_s):
     ts_in = dict()
     ts_out = dict()
 
@@ -47,7 +47,7 @@ def split_tr_val_te(dfs_in,dfs_out,executions):
     ts_out["val"] = dict()
 
     # Test size as fraction of full dataset, validation size as fraction of training data set
-    test_size, validation_size = 0.2, 0.2
+    test_size, validation_size = te_s, val_s
 
     for execution in executions:
         # Convert input dataframes numpy arrays sum the columns of the output:

@@ -102,10 +102,15 @@ def train_multiple_epochs(nb_epochs,model,training_loader,validation_loader,loss
         if avg_vloss < best_vloss:
             best_vloss = avg_vloss
             if save_trained:
-                model_path = 'model_{}_{}'.format(model_name, epoch_number)
-                torch.save(model.state_dict(), model_path)
+                min_val_model_path = 'trained_models/min_val/model_{}'.format(model_name)
+                torch.save(model.state_dict(), min_val_model_path)
+
+
 
 
 
         epoch_number += 1
+    model_path = 'trained_models/all_epochs/model_{}_{}'.format(model_name, epoch_number)
+    torch.save(model.state_dict(), model_path)
+
     return best_vloss,model_path,model
