@@ -127,8 +127,14 @@ def ModelRun(m, execution, path, dir, case, solver, dictSets):
     print('Getting the Y matrix                   ... ', round(data_time), 's')
 
     # Extracting the maximum power generation data
-    df_max_power = pd.Series(data=[model_p.pMaxPower[p, sc, n, g] for p, sc, n, g in model_p.psng],
-                             index=pd.MultiIndex.from_tuples(model_p.psng))
+    # Dynamic sets
+    df_Generation = pd.read_csv(_path+'/2.Par/oT_Data_Generation_'+case+'.csv', index_col=[0    ])
+    map_gen = df_Generation['Technology'].to_dict()
+    dict_techs = [tg for tg in dictSets['tg'] if tg in ['Solar','Wind']]
+    dict_gens  = [gg for gg in dictSets['gg'] if map_gen[gg] in dict_techs]
+    List1      = [(p,sc,n,g) for (p,sc,n) in model_p.psn for g in dict_gens]
+
+    df_max_power = pd.Series(data=[model_p.pMaxPower[p,sc,n,g] for p,sc,n,g in List1], index=pd.MultiIndex.from_tuples(List1))
     df_max_power.index.names = ['Period', 'Scenario', 'LoadLevel', 'Variable']
     df_max_power = df_max_power.reset_index().pivot_table(index=['Period', 'Scenario', 'LoadLevel', 'Variable'], values=0)
     df_max_power.rename(columns={0: 'Value'}, inplace=True)
@@ -276,8 +282,8 @@ def main():
     dictSets.load(filename=_path+'/1.Set/oT_Dict_Scenario_'    +args.case+'.csv', set='sc'  , format='set')
     dictSets.load(filename=_path+'/1.Set/oT_Dict_Stage_'       +args.case+'.csv', set='st'  , format='set')
     dictSets.load(filename=_path+'/1.Set/oT_Dict_LoadLevel_'   +args.case+'.csv', set='n'   , format='set')
-    dictSets.load(filename=_path+'/1.Set/oT_Dict_Generation_'  +args.case+'.csv', set='g'   , format='set')
-    dictSets.load(filename=_path+'/1.Set/oT_Dict_Technology_'  +args.case+'.csv', set='gt'  , format='set')
+    dictSets.load(filename=_path+'/1.Set/oT_Dict_Generation_'  +args.case+'.csv', set='gg'   , format='set')
+    dictSets.load(filename=_path+'/1.Set/oT_Dict_Technology_'  +args.case+'.csv', set='tg'  , format='set')
     dictSets.load(filename=_path+'/1.Set/oT_Dict_Storage_'     +args.case+'.csv', set='et'  , format='set')
     dictSets.load(filename=_path+'/1.Set/oT_Dict_Node_'        +args.case+'.csv', set='nd'  , format='set')
     dictSets.load(filename=_path+'/1.Set/oT_Dict_Zone_'        +args.case+'.csv', set='zn'  , format='set')
@@ -292,7 +298,7 @@ def main():
 
     #%% Reading the network data
     df_Network    = pd.read_csv(_path+'/2.Par/oT_Data_Network_'   +args.case+'.csv', index_col=[0,1,2])
-    df_Generation = pd.read_csv(_path+'/2.Par/oT_Data_Generation_'+args.case+'.csv', index_col=[0    ])
+    # df_Generation = pd.read_csv(_path+'/2.Par/oT_Data_Generation_'+args.case+'.csv', index_col=[0    ])
 
     df_Network = df_Network.replace(0.0, float('nan'))
     dict_la = [(ni,nf,cc) for (ni,nf,cc) in df_Network.index if df_Network['Reactance'][ni,nf,cc] != 0.0 and df_Network['TTC'][ni,nf,cc] > 0.0 and df_Network['InitialPeriod'][ni,nf,cc] <= dictSets['p'][-1] and df_Network['FinalPeriod'][ni,nf,cc] >= dictSets['p'][0]]
@@ -306,7 +312,7 @@ def main():
     print("Sequence of the existing network and generation")
     print("―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
     df_Network_exist    = pd.read_csv(_path+'/2.Par/oT_Data_Network_'   +args.case+'.csv', index_col=[0,1,2])
-    df_Generation_exist = pd.read_csv(_path+'/2.Par/oT_Data_Generation_'+args.case+'.csv', index_col=[0    ])
+    # df_Generation_exist = pd.read_csv(_path+'/2.Par/oT_Data_Generation_'+args.case+'.csv', index_col=[0    ])
 
     # drop the lines that are not in the network
     df_Network_exist = df_Network_exist.loc[dict_la]
