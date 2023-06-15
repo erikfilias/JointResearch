@@ -130,7 +130,7 @@ def ModelRun(m, execution, path, dir, case, solver, dictSets):
     # Dynamic sets
     df_Generation = pd.read_csv(_path+'/2.Par/oT_Data_Generation_'+case+'.csv', index_col=[0    ])
     map_gen = df_Generation['Technology'].to_dict()
-    dict_techs = [tg for tg in dictSets['tg'] if tg in ['Hydro','Solar','Wind']]
+    dict_techs = [tg for tg in dictSets['tg'] if tg in ['Solar','Wind']]
     dict_gens  = [gg for gg in dictSets['gg'] if map_gen[gg] in dict_techs]
     List1      = [(p,sc,n,g) for (p,sc,n) in model_p.psn for g in dict_gens]
 
@@ -283,7 +283,7 @@ def main():
     dictSets.load(filename=_path+'/1.Set/oT_Dict_Stage_'       +args.case+'.csv', set='st'  , format='set')
     dictSets.load(filename=_path+'/1.Set/oT_Dict_LoadLevel_'   +args.case+'.csv', set='n'   , format='set')
     dictSets.load(filename=_path+'/1.Set/oT_Dict_Generation_'  +args.case+'.csv', set='g'   , format='set')
-    dictSets.load(filename=_path+'/1.Set/oT_Dict_Technology_'  +args.case+'.csv', set='gt'  , format='set')
+    dictSets.load(filename=_path+'/1.Set/oT_Dict_Technology_'  +args.case+'.csv', set='tg'  , format='set')
     dictSets.load(filename=_path+'/1.Set/oT_Dict_Storage_'     +args.case+'.csv', set='et'  , format='set')
     dictSets.load(filename=_path+'/1.Set/oT_Dict_Node_'        +args.case+'.csv', set='nd'  , format='set')
     dictSets.load(filename=_path+'/1.Set/oT_Dict_Zone_'        +args.case+'.csv', set='zn'  , format='set')
