@@ -25,7 +25,7 @@ def train_and_get_loss(model,tr_in,tr_out,nb_epochs,lr,print_ = False):
     return train_loss
 
 
-def train_one_epoch(model, training_loader, epoch_index, tb_writer, optimizer, loss_fn,f_print = 100):
+def train_one_epoch(model, training_loader, epoch_index, optimizer, loss_fn,f_print = 100):
     running_loss = 0.
     last_loss = 0.
 
@@ -52,19 +52,17 @@ def train_one_epoch(model, training_loader, epoch_index, tb_writer, optimizer, l
 
         # Gather data and report
         running_loss += loss.item()
-        losses.append(loss)
+        losses.append(loss.item())
         if i % f_print == 0:
             last_loss = running_loss / f_print # loss per batch
             print('  batch {} loss: {}'.format(i + 1, last_loss))
-            tb_x = epoch_index * len(training_loader) + i + 1
-            tb_writer.add_scalar('Loss/train', last_loss, tb_x)
+            # tb_writer.add_scalar('Loss/train', last_loss, tb_x)
             running_loss = 0.
 
     return losses
 
 def train_multiple_epochs(nb_epochs,model,training_loader,validation_loader,loss_fn,optimizer,model_name, save_trained=True):
     # Initializing in a separate cell so we can easily add more epochs to the same run
-    writer = SummaryWriter('trained_models/{}'.format(model_name))
     epoch_number = 0
 
     best_vloss = 1_000_000.
@@ -73,7 +71,7 @@ def train_multiple_epochs(nb_epochs,model,training_loader,validation_loader,loss
 
         # Make sure gradient tracking is on, and do a pass over the data
         model.train(True)
-        one_epoch_losses = train_one_epoch(model,training_loader,epoch_number, writer,optimizer,loss_fn)
+        one_epoch_losses = train_one_epoch(model,training_loader,epoch_number,optimizer,loss_fn)
         avg_loss = np.mean(one_epoch_losses)
 
 
@@ -91,7 +89,7 @@ def train_multiple_epochs(nb_epochs,model,training_loader,validation_loader,loss
                 running_vloss += vloss
 
         avg_vloss = running_vloss / (i + 1)
-        print('LOSS train {} valid {}'.format(np.mean(avg_loss), np.mean(avg_vloss)))
+        print('LOSS train {} valid {}'.format(np.mean(avg_loss), avg_vloss))
 
         # # Log the running loss averaged per batch
         # # for both training and validation
