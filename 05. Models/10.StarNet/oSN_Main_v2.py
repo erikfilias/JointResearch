@@ -1634,26 +1634,36 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
     def eLineCapacityFr_LP(model,p,sc,st,n,ni,nf,cc):
         if (st, n) in model.s2n:
             return sum(model.pLineM[ni,nf,cc,l] * model.vDelta_Pfr[p,sc,n,ni,nf,cc,l] for l in model.L) + sum(model.pLineM[ni,nf,cc,l] * model.vDelta_Qfr[p,sc,n,ni,nf,cc,l] for l in model.L) <= (pLineNTCFrw[ni,nf,cc]*1)**2
+        else:
+            return Constraint.Skip
     model.eLineCapacityFr_LP = Constraint(model.ps, model.st, model.n, model.laa, rule=eLineCapacityFr_LP)
 
     def eLineCapacityFr_LinearPfr1(model,p,sc,st,n,ni,nf,cc):
         if (st, n) in model.s2n:
             return model.vPfr_max[p,sc,n,ni,nf,cc] - model.vPfr_min[p,sc,n,ni,nf,cc] == model.vPfr[p,sc,n,ni,nf,cc]
+        else:
+            return Constraint.Skip
     model.eLineCapacityFr_LinearPfr1 = Constraint(model.ps, model.st, model.n, model.laa, rule=eLineCapacityFr_LinearPfr1)
 
     def eLineCapacityFr_LinearPfr2(model,p,sc,st,n,ni,nf,cc):
         if (st, n) in model.s2n:
             return model.vPfr_max[p,sc,n,ni,nf,cc] + model.vPfr_min[p,sc,n,ni,nf,cc] == sum(model.vDelta_Pfr[p,sc,n,ni,nf,cc,l] for l in model.L)
+        else:
+            return Constraint.Skip
     model.eLineCapacityFr_LinearPfr2 = Constraint(model.ps, model.st, model.n, model.laa, rule=eLineCapacityFr_LinearPfr2)
 
     def eLineCapacityFr_LinearQfr1(model,p,sc,st,n,ni,nf,cc):
         if (st, n) in model.s2n:
             return (model.vQfr_max[p,sc,n,ni,nf,cc] - model.vQfr_min[p,sc,n,ni,nf,cc] == model.vQfr[p,sc,n,ni,nf,cc])
+        else:
+            return Constraint.Skip
     model.eLineCapacityFr_LinearQfr1 = Constraint(model.ps, model.st, model.n, model.laa, rule=eLineCapacityFr_LinearQfr1)
 
     def eLineCapacityFr_LinearQfr2(model,p,sc,st,n,ni,nf,cc):
         if (st, n) in model.s2n:
             return (model.vQfr_max[p,sc,n,ni,nf,cc] + model.vQfr_min[p,sc,n,ni,nf,cc] == sum(model.vDelta_Qfr[p,sc,n,ni,nf,cc,l] for l in model.L))
+        else:
+            return Constraint.Skip
     model.eLineCapacityFr_LinearQfr2 = Constraint(model.ps, model.st, model.n, model.laa, rule=eLineCapacityFr_LinearQfr2)
 
     CheckpointTime   = time.time() - StartTime
@@ -1663,26 +1673,36 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
     def eLineCapacityTo_LP(model,p,sc,st,n,ni,nf,cc):
         if (st, n) in model.s2n:
             return sum(model.pLineM[ni,nf,cc,l] * model.vDelta_Pto[p,sc,n,ni,nf,cc,l] for l in model.L) + sum(model.pLineM[ni,nf,cc,l] * model.vDelta_Qto[p,sc,n,ni,nf,cc,l] for l in model.L) <= (pLineNTCFrw[ni,nf,cc]*1)**2
+        else:
+            return Constraint.Skip
     model.eLineCapacityTo_LP = Constraint(model.ps, model.st, model.n, model.laa, rule=eLineCapacityTo_LP)
 
     def eLineCapacityTo_LinearPTo1(model,p,sc,st,n,ni,nf,cc):
         if (st, n) in model.s2n:
             return model.vPto_max[p,sc,n,ni,nf,cc] - model.vPto_min[p,sc,n,ni,nf,cc] == model.vPto[p,sc,n,ni,nf,cc]
+        else:
+            return Constraint.Skip
     model.eLineCapacityTo_LinearPTo1 = Constraint(model.ps, model.st, model.n, model.laa, rule=eLineCapacityTo_LinearPTo1)
 
     def eLineCapacityTo_LinearPTo2(model,p,sc,st,n,ni,nf,cc):
         if (st, n) in model.s2n:
             return model.vPto_max[p,sc,n,ni,nf,cc] + model.vPto_min[p,sc,n,ni,nf,cc] == sum(model.vDelta_Pto[p,sc,n,ni,nf,cc,l] for l in model.L)
+        else:
+            return Constraint.Skip
     model.eLineCapacityTo_LinearPTo2 = Constraint(model.ps, model.st, model.n, model.laa, rule=eLineCapacityTo_LinearPTo2)
 
     def eLineCapacityTo_LinearQTo1(model,p,sc,st,n,ni,nf,cc):
         if (st, n) in model.s2n:
             return (model.vQto_max[p,sc,n,ni,nf,cc] - model.vQto_min[p,sc,n,ni,nf,cc] == model.vQto[p,sc,n,ni,nf,cc])
+        else:
+            return Constraint.Skip
     model.eLineCapacityTo_LinearQTo1 = Constraint(model.ps, model.st, model.n, model.laa, rule=eLineCapacityTo_LinearQTo1)
 
     def eLineCapacityTo_LinearQTo2(model,p,sc,st,n,ni,nf,cc):
         if (st, n) in model.s2n:
             return (model.vQto_max[p,sc,n,ni,nf,cc] + model.vQto_min[p,sc,n,ni,nf,cc] == sum(model.vDelta_Qto[p,sc,n,ni,nf,cc,l] for l in model.L))
+        else:
+            return Constraint.Skip
     model.eLineCapacityTo_LinearQTo2 = Constraint(model.ps, model.st, model.n, model.laa, rule=eLineCapacityTo_LinearQTo2)
 
     CheckpointTime   = time.time() - StartTime
@@ -1711,26 +1731,36 @@ def openStarNet_run(DirName, CaseName, SolverName, model):
     def eLineConic1_LP(model,p,sc,st,n,ni,nf,cc):
         if (st, n) in model.s2n:
             return sum(model.pLineM[ni,nf,cc,l] * model.vDelta_S[p,sc,n,ni,nf,cc,l] for l in model.L) + sum(model.pLineM[ni,nf,cc,l] * model.vDelta_C[p,sc,n,ni,nf,cc,l] for l in model.L) == model.vWL[p,sc,n,ni,nf]
+        else:
+            return Constraint.Skip
     model.eLineConic1_LP = Constraint(model.ps, model.st, model.n, model.laa, rule=eLineConic1_LP)
 
     def eLineConic1_LinearS1(model,p,sc,st,n,ni,nf,cc):
         if (st, n) in model.s2n:
             return model.vS_max[p,sc,n,ni,nf,cc] - model.vS_min[p,sc,n,ni,nf,cc] == model.vS[p,sc,n,ni,nf,cc]
+        else:
+            return Constraint.Skip
     model.eLineConic1_LinearS1 = Constraint(model.ps, model.st, model.n, model.laa, rule=eLineConic1_LinearS1)
 
     def eLineConic1_LinearS2(model,p,sc,st,n,ni,nf,cc):
         if (st, n) in model.s2n:
             return model.vS_max[p,sc,n,ni,nf,cc] + model.vS_min[p,sc,n,ni,nf,cc] == sum(model.vDelta_S[p,sc,n,ni,nf,cc,l] for l in model.L)
+        else:
+            return Constraint.Skip
     model.eLineConic1_LinearS2 = Constraint(model.ps, model.st, model.n, model.laa, rule=eLineConic1_LinearS2)
 
     def eLineConic1_LinearC1(model,p,sc,st,n,ni,nf,cc):
         if (st, n) in model.s2n:
             return (model.vC_max[p,sc,n,ni,nf,cc] - model.vC_min[p,sc,n,ni,nf,cc] == model.vC[p,sc,n,ni,nf,cc])
+        else:
+            return Constraint.Skip
     model.eLineConic1_LinearC1 = Constraint(model.ps, model.st, model.n, model.laa, rule=eLineConic1_LinearC1)
 
     def eLineConic1_LinearC2(model,p,sc,st,n,ni,nf,cc):
         if (st, n) in model.s2n:
             return (model.vC_max[p,sc,n,ni,nf,cc] + model.vC_min[p,sc,n,ni,nf,cc] == sum(model.vDelta_C[p,sc,n,ni,nf,cc,l] for l in model.L))
+        else:
+            return Constraint.Skip
     model.eLineConic1_LinearC2 = Constraint(model.ps, model.st, model.n, model.laa, rule=eLineConic1_LinearC2)
 
     CheckpointTime   = time.time() - StartTime
