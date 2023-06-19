@@ -16,7 +16,7 @@ parser.add_argument('--dir',    type=str, default=None)
 parser.add_argument('--solver', type=str, default=None)
 
 DIR    = os.path.dirname(__file__)
-CASE   = '9n'
+CASE   = '3-bus'
 SOLVER = 'gurobi'
 
 
@@ -247,18 +247,18 @@ def ModelRun(m, execution, path, dir, case, solver, dictSets):
 # Calling the main function
 def main():
     args = parser.parse_args()
-    if args.dir is None:
-        args.dir    = input('Input Dir    Name (Default {}): '.format(DIR))
-        if args.dir == '':
-            args.dir = DIR
-    if args.case is None:
-        args.case   = input('Input Case   Name (Default {}): '.format(CASE))
-        if args.case == '':
-            args.case = CASE
-    if args.solver is None:
-        args.solver = input('Input Solver Name (Default {}): '.format(SOLVER))
-        if args.solver == '':
-            args.solver = SOLVER
+    # if args.dir is None:
+    #     args.dir    = input('Input Dir    Name (Default {}): '.format(DIR))
+    #     if args.dir == '':
+    args.dir = DIR
+    # if args.case is None:
+    #     args.case   = input('Input Case   Name (Default {}): '.format(CASE))
+    #     if args.case == '':
+    args.case = CASE
+    # if args.solver is None:
+    #     args.solver = input('Input Solver Name (Default {}): '.format(SOLVER))
+    #     if args.solver == '':
+    args.solver = SOLVER
     print(args.case)
     print(args.dir)
     print(args.solver)
