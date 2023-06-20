@@ -5,12 +5,30 @@ class ObjectiveEstimator_ANN_Single_layer(torch.nn.Module):
     def __init__(self, input_size, output_size):
         super().__init__()
         self.output_layer = torch.nn.Linear(input_size, output_size)
+
         # define the device to use (GPU or CPU)
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     def forward(self, input):
         output = self.output_layer(input)
         return output
+
+
+class ObjectiveEstimator_ANN_Single_layer_dropout(torch.nn.Module):
+    def __init__(self, input_size, output_size,do_r):
+        super().__init__()
+        self.output_layer = torch.nn.Linear(input_size, output_size)
+        self.dropout = torch.nn.Dropout(do_r)
+
+        # define the device to use (GPU or CPU)
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+    def forward(self, input):
+        input = self.dropout(input)
+        output = self.output_layer(input)
+        return output
+
+
 class ObjectiveEstimator_ANN_3hidden_layer(torch.nn.Module):
     def __init__(self, input_size, hidden_size1, hidden_size2, hidden_size3, output_size):
         super().__init__()
@@ -48,7 +66,7 @@ class ObjectiveEstimator_ANN_2hidden_layer(torch.nn.Module):
         output = self.output_layer(hidden2)
         return output
 class ObjectiveEstimator_ANN_1hidden_layer(torch.nn.Module):
-    def __init__(self, input_size, hidden_size1, hidden_size2, output_size):
+    def __init__(self, input_size, hidden_size1, output_size):
         super().__init__()
         self.hidden_layer1 = torch.nn.Linear(input_size, hidden_size1)
         self.output_layer = torch.nn.Linear(hidden_size1, output_size)
@@ -58,7 +76,6 @@ class ObjectiveEstimator_ANN_1hidden_layer(torch.nn.Module):
 
     def forward(self, input):
         hidden1 = torch.relu(self.hidden_layer1(input))
-        # hidden3 = torch.relu(self.hidden_layer3(hidden2))
         output = self.output_layer(hidden1)
         return output
 
