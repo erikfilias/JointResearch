@@ -8,6 +8,14 @@ import time          # count clock time
 from   collections   import defaultdict
 from   pyomo.environ import ConcreteModel, Set, Param, Var, Objective, minimize, Constraint, DataPortal, PositiveIntegers, NonNegativeIntegers, Boolean, NonNegativeReals, UnitInterval, PositiveReals, Any, Binary, Reals, Suffix
 from   oSN_Main_v2   import openStarNet_run
+import asyncio
+
+def background(f):
+    def wrapped(*args, **kwargs):
+        return asyncio.get_event_loop().run_in_executor(None, f, *args, **kwargs)
+
+    return wrapped
+
 
 #%% Defining metadata
 parser = argparse.ArgumentParser(description='Introducing main parameters...')
@@ -16,7 +24,7 @@ parser.add_argument('--dir',    type=str, default=None)
 parser.add_argument('--solver', type=str, default=None)
 
 DIR    = os.path.dirname(__file__)
-CASE   = 'RTS24'
+CASE   = '3-bus'
 SOLVER = 'gurobi'
 
 
@@ -386,7 +394,11 @@ def main():
     clines = [(ni,nf,cc) for (ni,nf,cc) in df_Network.index if df_Network['BinaryInvestment'][ni,nf,cc] == 'Yes']
     print(f'Number of candidate lines to be considered: {len(clines)}')
     counter1 = 0
-    for (ni,nf,cc) in clines:
+
+
+    @background
+    def solve_and_save(ni,nf,cc,df_input_data,df_output_data):
+
         print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
         print(f"Line {ni} {nf} {cc}")
         print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
@@ -422,11 +434,13 @@ def main():
         df_Network.to_csv(   _path+'/2.Par/oT_Data_Network_'   +args.case+'.csv')
         # df_Generation.to_csv(_path+'/2.Par/oT_Data_Generation_'+args.case+'.csv')
 
-        counter1 += 1
-        print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
-        print(f'Remaining lines: {len(clines)-counter1}')
-        print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
+        # counter1 += 1
+        # print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
+        # print(f'Remaining lines: {len(clines)-counter1}')
+        # print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
 
+    for (ni,nf,cc) in clines:
+        solve_and_save(ni, nf, cc, df_input_data, df_output_data)
 
     ####################################################################################################################
 
