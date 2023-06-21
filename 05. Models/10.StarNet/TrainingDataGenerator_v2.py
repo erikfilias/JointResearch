@@ -328,6 +328,9 @@ def main():
     df_input_data  = df_Inp
     df_output_data = df_Out
 
+    df_Inp.to_csv(_path + '/3.Out/oT_Input_Data_' + args.case + '_' + execution + '.csv')
+    df_Out.to_csv(_path + '/3.Out/oT_Output_Data_' + args.case + '_' + execution + '.csv')
+
     #%% Restoring the dataframes
     df_Network.to_csv(   _path+'/2.Par/oT_Data_Network_'   +args.case+'.csv')
     # df_Generation.to_csv(_path+'/2.Par/oT_Data_Generation_'+args.case+'.csv')
@@ -414,6 +417,9 @@ def main():
         execution = 'Network_Line_In_'+str(ni)+'_'+str(nf)+'_'+str(cc)
 
         df_Inp, df_Out = ModelRun(oSN, execution, _path, args.dir, args.case, args.solver, dictSets)
+
+        df_Inp.to_csv(_path + '/3.Out/oT_Input_Data_' + args.case + '_' + execution + '.csv')
+        df_Out.to_csv(_path + '/3.Out/oT_Output_Data_' + args.case + '_' + execution + '.csv')
 
         df_input_data  = pd.concat([df_input_data,  df_Inp])
         df_output_data = pd.concat([df_output_data, df_Out])
