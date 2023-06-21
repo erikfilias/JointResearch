@@ -110,7 +110,7 @@ def train_multiple_epochs(nb_epochs,model,training_loader,validation_loader,loss
 
 
         epoch_number += 1
-    model_path = 'trained_models/all_epochs/model_{}_{}.pth'.format(model_name, epoch_number)
+    model_path = 'trained_models/all_epochs/model_{}.pth'.format(model_name)
     torch.save(model.state_dict(), model_path)
 
     return best_vloss,model_path,model
