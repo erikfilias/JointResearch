@@ -1,6 +1,12 @@
 import pandas as pd
 import torch
 from sklearn.model_selection import train_test_split
+import os
+import numpy as np
+def list_executions(per,sc,folder):
+    filenames = os.listdir(f"Data/{folder}")
+    executions = [fn.split(per)[0].split(sc)[1][1:-1] for fn in filenames]
+    return np.unique(executions)
 
 def load_data(folder,executions,period,sc):
     dfs_in = dict()
