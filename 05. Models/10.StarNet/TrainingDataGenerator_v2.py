@@ -260,34 +260,6 @@ def main():
     # Initial time counter for all the code
     initial_time = time.time()
 
-    # dictSets = DataPortal()
-    # dictSets.load(filename=_path+'/1.Set/oT_Dict_Period_'      +args.case+'.csv', set='p'   , format='set')
-    # dictSets.load(filename=_path+'/1.Set/oT_Dict_Scenario_'    +args.case+'.csv', set='sc'  , format='set')
-    # dictSets.load(filename=_path+'/1.Set/oT_Dict_Stage_'       +args.case+'.csv', set='st'  , format='set')
-    # dictSets.load(filename=_path+'/1.Set/oT_Dict_LoadLevel_'   +args.case+'.csv', set='n'   , format='set')
-    # dictSets.load(filename=_path+'/1.Set/oT_Dict_Generation_'  +args.case+'.csv', set='g'   , format='set')
-    # dictSets.load(filename=_path+'/1.Set/oT_Dict_Technology_'  +args.case+'.csv', set='gt'  , format='set')
-    # dictSets.load(filename=_path+'/1.Set/oT_Dict_Storage_'     +args.case+'.csv', set='et'  , format='set')
-    # dictSets.load(filename=_path+'/1.Set/oT_Dict_Node_'        +args.case+'.csv', set='nd'  , format='set')
-    # dictSets.load(filename=_path+'/1.Set/oT_Dict_Zone_'        +args.case+'.csv', set='zn'  , format='set')
-    # dictSets.load(filename=_path+'/1.Set/oT_Dict_Area_'        +args.case+'.csv', set='ar'  , format='set')
-    # dictSets.load(filename=_path+'/1.Set/oT_Dict_Region_'      +args.case+'.csv', set='rg'  , format='set')
-    # dictSets.load(filename=_path+'/1.Set/oT_Dict_Circuit_'     +args.case+'.csv', set='cc'  , format='set')
-    # dictSets.load(filename=_path+'/1.Set/oT_Dict_Line_'        +args.case+'.csv', set='lt'  , format='set')
-    #
-    # dictSets.load(filename=_path+'/1.Set/oT_Dict_NodeToZone_'  +args.case+'.csv', set='ndzn', format='set')
-    # dictSets.load(filename=_path+'/1.Set/oT_Dict_ZoneToArea_'  +args.case+'.csv', set='znar', format='set')
-    # dictSets.load(filename=_path+'/1.Set/oT_Dict_AreaToRegion_'+args.case+'.csv', set='arrg', format='set')
-    #
-    # #%% Reading the network data
-    # df_Network    = pd.read_csv(_path+'/2.Par/oT_Data_Network_'   +args.case+'.csv', index_col=[0,1,2])
-    #
-    # df_Network = df_Network.replace(0.0, float('nan'))
-    # dict_la = [(ni,nf,cc) for (ni,nf,cc) in df_Network.index if df_Network['Reactance'][ni,nf,cc] != 0.0 and df_Network['TTC'][ni,nf,cc] > 0.0 and df_Network['InitialPeriod'][ni,nf,cc] <= dictSets['p'][-1] and df_Network['FinalPeriod'][ni,nf,cc] >= dictSets['p'][0]]
-    # dict_le = [(ni,nf,cc) for (ni,nf,cc) in dict_la if df_Network['BinaryInvestment'][ni,nf,cc] != 'Yes']
-    # dict_lc = [(ni,nf,cc) for (ni,nf,cc) in dict_la if df_Network['BinaryInvestment'][ni,nf,cc] == 'Yes']
-
-
     # create the base model
     base_model = ConcreteModel()
 
@@ -366,62 +338,6 @@ def main():
     # define AC candidate lines
     base_model.lca = Set(initialize=base_model.la, ordered=False, doc='AC candidate lines and     switchable lines', filter=lambda base_model, *lc: lc in base_model.lc and (lc, 'AC') in base_model.pLineType)
     base_model.laa = base_model.lea | base_model.lca
-
-
-    #%% Restoring the dataframes
-    # df_Network.to_csv(   _path+'/2.Par/oT_Data_Network_'   +args.case+'.csv')
-    # df_Generation.to_csv(_path+'/2.Par/oT_Data_Generation_'+args.case+'.csv')
-
-    # ####################################################################################################################
-    # #%% Sequence of all the combinations of the lines
-    # print("―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
-    # print("Sequence of considering all the combinations")
-    # print("―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
-    #
-    # all_combinations = []
-    #
-    # # Generate combinations for all possible lengths
-    # lines = [(ni,nf,cc) for (ni,nf,cc) in df_Network.index if df_Network['BinaryInvestment'][ni,nf,cc] == 'Yes']
-    # for r in range(1, len(lines) + 1):
-    #     combinations = list(itertools.combinations(lines, r))
-    #     all_combinations.extend(combinations)
-    #
-    # print(all_combinations)
-    #
-    # count = 0
-    # for LineGroup in all_combinations:
-    #     print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
-    #     print(f"Length of the group: {len(LineGroup)}")
-    #     print(f"Remaining groups: {len(LineGroup)-count}")
-    #     count += 1
-    #     print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
-    #     for (ni,nf,cc) in LineGroup:
-    #         df_Network_Mod = pd.read_csv(_path + '/2.Par/oT_Data_Network_' + args.case + '.csv', index_col=[0, 1, 2])
-    #
-    #         # Modifying the dataframes to run the openStarNet
-    #         df_Network_Mod.loc[(ni,nf,cc), 'InitialPeriod'] = 2020
-    #         df_Network_Mod.loc[(ni,nf,cc), 'Sensitivity']   = "Yes"
-    #         df_Network_Mod.loc[(ni,nf,cc), 'InvestmentFixed'] = 1
-    #
-    #     for (ni2,nf2,cc2) in lines:
-    #         if (ni2,nf2,cc2) not in LineGroup:
-    #             df_Network_Mod.loc[(ni2, nf2, cc2), 'InitialPeriod'] = 2049
-    #             df_Network_Mod.loc[(ni2, nf2, cc2), 'Sensitivity'] = "Yes"
-    #             df_Network_Mod.loc[(ni2, nf2, cc2), 'InvestmentFixed'] = 0
-    #
-    #     # Saving the CSV file with the existing network
-    #     df_Network_Mod.to_csv(_path + '/2.Par/oT_Data_Network_' + args.case + '.csv')
-    #
-    #     ## Running the openStarNet
-    #     oSN       = ConcreteModel()
-    #     execution = 'Network_Line_Out_'+str(count)
-    #     df_Inp, df_Out = ModelRun(oSN, execution, _path, args.dir, args.case, args.solver, dictSets)
-    #     df_input_data  = pd.concat([df_input_data,  df_Inp])
-    #     df_output_data = pd.concat([df_output_data, df_Out])
-    #
-    #     #%% Restoring the dataframes
-    #     df_Network.to_csv(   _path+'/2.Par/oT_Data_Network_'   +args.case+'.csv')
-    #     df_Generation.to_csv(_path+'/2.Par/oT_Data_Generation_'+args.case+'.csv')
 
     clines = [(ni,nf,cc) for (ni,nf,cc) in base_model.la if base_model.pIndBinLineInvest[ni,nf,cc] == 1]
     print(f'Number of candidate lines to be considered: {len(clines)}')
