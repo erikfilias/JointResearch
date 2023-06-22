@@ -379,8 +379,6 @@ def main():
         # defining the variables
         oSN = create_variables(base_model, oSN)
 
-        oSN.vNetworkInvest.pprint()
-
         # defining the constraints
         oSN = create_constraints(base_model, oSN)
 
