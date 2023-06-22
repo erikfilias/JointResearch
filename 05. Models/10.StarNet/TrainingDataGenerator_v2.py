@@ -16,7 +16,7 @@ parser.add_argument('--dir',    type=str, default=None)
 parser.add_argument('--solver', type=str, default=None)
 
 DIR    = os.path.dirname(__file__)
-CASE   = '3-bus'
+CASE   = 'RTS24'
 SOLVER = 'gurobi'
 
 
