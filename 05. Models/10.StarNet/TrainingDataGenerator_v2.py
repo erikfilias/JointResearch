@@ -382,6 +382,12 @@ def main():
         # defining the constraints
         oSN = create_constraints(base_model, oSN)
 
+        # fixing the investment variables
+        oSN.vNetworkInvest[ni,nf,cc].fix(1.0)
+
+        # showing the fixed variables
+        oSN.vNetworkInvest.pprint()
+
         print(f'Number of lines to be considered: {len(base_model.le)+len([(p,ni,nf,cc) for (p,ni,nf,cc) in base_model.plc if oSN.vNetworkInvest[p,ni,nf,cc]() == 1.0])}')
 
         df_Inp, df_Out = ModelRun(base_model, oSN, execution, _path, args.dir, args.case, args.solver)
