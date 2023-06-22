@@ -871,8 +871,8 @@ def data_processing(DirName, CaseName, model):
     model.pLineDelta_S          = Param(model.la,         initialize=0.,                              within=NonNegativeReals,    doc='Delta of Smax splitted by L',           mutable=True )
     model.pLineM                = Param(model.la,model.L, initialize=0.,                              within=NonNegativeReals,    doc='M partitions of Delta Smax',            mutable=True )
 
-    model.pGshb                 = Param(model.shh,    initialize=pGshb.to_dict()                     , within=NonNegativeReals,    doc='Shunt conductance'                                  )
-    model.pBshb                 = Param(model.shh,    initialize=pBshb.to_dict()                     , within=NonNegativeReals,    doc='Shunt susceptance'                                  )
+    model.pGshb                 = Param(model.shh,    initialize=pGshb.to_dict()                     , within=Reals,              doc='Shunt conductance'                                  )
+    model.pBshb                 = Param(model.shh,    initialize=pBshb.to_dict()                     , within=Reals,              doc='Shunt susceptance'                                  )
 
     for la in model.la:
         model.pLineDelta_S[la] = model.pLineNTCFrw[la]   / len(model.L)
