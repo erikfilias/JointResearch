@@ -1090,6 +1090,7 @@ def create_variables(model, optmodel):
                     pInitialUC[go] = 1
                     pSystemOutput = pSystemOutput + pInitialOutput[go]
 
+    model.pInitialUC = pInitialUC
     # fixing the ESS inventory at the last load level of the stage for every period and scenario if between storage limits
     for p,sc,es in model.ps*model.es:
         if model.pInitialInventory[es] >= model.pMinStorage[p,sc,model.n.last(),es] and model.pInitialInventory[es] <= model.pMaxStorage[p,sc,model.n.last(),es]:
