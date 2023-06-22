@@ -383,7 +383,8 @@ def main():
         oSN = create_constraints(base_model, oSN)
 
         # fixing the investment variables
-        oSN.vNetworkInvest[ni,nf,cc].fix(1.0)
+        for p in base_model.p:
+            oSN.vNetworkInvest[p,ni,nf,cc].fix(1.0)
 
         # showing the fixed variables
         oSN.vNetworkInvest.pprint()
