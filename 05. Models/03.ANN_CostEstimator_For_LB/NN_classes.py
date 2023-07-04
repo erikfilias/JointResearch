@@ -1,24 +1,12 @@
 # Define the neural network model
 import torch
 
+
 class ObjectiveEstimator_ANN_Single_layer(torch.nn.Module):
-    def __init__(self, input_size, output_size):
+    def __init__(self, input_size,hidden_sizes, output_size,dropout_ratio=0.0):
         super().__init__()
         self.output_layer = torch.nn.Linear(input_size, output_size)
-
-        # define the device to use (GPU or CPU)
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-    def forward(self, input):
-        output = self.output_layer(input)
-        return output
-
-
-class ObjectiveEstimator_ANN_Single_layer_dropout(torch.nn.Module):
-    def __init__(self, input_size, output_size,do_r):
-        super().__init__()
-        self.output_layer = torch.nn.Linear(input_size, output_size)
-        self.dropout = torch.nn.Dropout(do_r)
+        self.dropout = torch.nn.Dropout(dropout_ratio)
 
         # define the device to use (GPU or CPU)
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -28,57 +16,65 @@ class ObjectiveEstimator_ANN_Single_layer_dropout(torch.nn.Module):
         output = self.output_layer(input)
         return output
 
-
-class ObjectiveEstimator_ANN_3hidden_layer(torch.nn.Module):
-    def __init__(self, input_size, hidden_size1, hidden_size2, hidden_size3, output_size):
-        super().__init__()
-        self.hidden_layer1 = torch.nn.Linear(input_size, hidden_size1)
-        torch.nn.init.kaiming_uniform_(self.hidden_layer1.weight, a=0)
-        self.hidden_layer2 = torch.nn.Linear(hidden_size1, hidden_size2)
-        self.hidden_layer3 = torch.nn.Linear(hidden_size2, hidden_size3)
-        self.output_layer = torch.nn.Linear(hidden_size3, output_size)
-
-        # define the device to use (GPU or CPU)
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-    def forward(self, input):
-        hidden1 = torch.relu(self.hidden_layer1(input))
-        hidden2 = torch.relu(self.hidden_layer2(hidden1))
-        # hidden3 = torch.relu(self.hidden_layer3(hidden2))
-        hidden3 = self.hidden_layer3(hidden2)
-        output = self.output_layer(hidden3)
-        return output
-class ObjectiveEstimator_ANN_2hidden_layer(torch.nn.Module):
-    def __init__(self, input_size, hidden_size1, hidden_size2, output_size):
-        super().__init__()
-        self.hidden_layer1 = torch.nn.Linear(input_size, hidden_size1)
-        torch.nn.init.kaiming_uniform_(self.hidden_layer1.weight, a=0)
-        self.hidden_layer2 = torch.nn.Linear(hidden_size1, hidden_size2)
-        self.output_layer = torch.nn.Linear(hidden_size2, output_size)
-
-        # define the device to use (GPU or CPU)
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-    def forward(self, input):
-        hidden1 = torch.relu(self.hidden_layer1(input))
-        hidden2 = torch.relu(self.hidden_layer2(hidden1))
-        # hidden3 = torch.relu(self.hidden_layer3(hidden2))
-        output = self.output_layer(hidden2)
-        return output
 class ObjectiveEstimator_ANN_1hidden_layer(torch.nn.Module):
-    def __init__(self, input_size, hidden_size1, output_size):
+    def __init__(self, input_size, hidden_sizes, output_size, dropout_ratio=0.0):
         super().__init__()
+        hidden_size1 = hidden_sizes[0]
         self.hidden_layer1 = torch.nn.Linear(input_size, hidden_size1)
+        self.dropout = torch.nn.Dropout(dropout_ratio)
         self.output_layer = torch.nn.Linear(hidden_size1, output_size)
 
-        # define the device to use (GPU or CPU)
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     def forward(self, input):
         hidden1 = torch.relu(self.hidden_layer1(input))
-        output = self.output_layer(hidden1)
+        hidden1_dropout = self.dropout(hidden1)
+        output = self.output_layer(hidden1_dropout)
         return output
 
+class ObjectiveEstimator_ANN_2hidden_layer(torch.nn.Module):
+    def __init__(self, input_size, hidden_sizes, output_size, dropout_ratio=0.0):
+        super().__init__()
+        hidden_size1 = hidden_sizes[0]
+        hidden_size2 = hidden_sizes[1]
+        self.hidden_layer1 = torch.nn.Linear(input_size, hidden_size1)
+        self.hidden_layer2 = torch.nn.Linear(hidden_size1, hidden_size2)
+        self.dropout = torch.nn.Dropout(dropout_ratio)
+        self.output_layer = torch.nn.Linear(hidden_size2, output_size)
+
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+    def forward(self, input):
+        hidden1 = torch.relu(self.hidden_layer1(input))
+        hidden1_dropout = self.dropout(hidden1)
+        hidden2 = torch.relu(self.hidden_layer2(hidden1_dropout))
+        hidden2_dropout = self.dropout(hidden2)
+        output = self.output_layer(hidden2_dropout)
+        return output
+
+class ObjectiveEstimator_ANN_3hidden_layer(torch.nn.Module):
+    def __init__(self, input_size, hidden_sizes, output_size, dropout_ratio=0.0):
+        super().__init__()
+        hidden_size1 = hidden_sizes[0]
+        hidden_size2 = hidden_sizes[1]
+        hidden_size3 = hidden_sizes[2]
+        self.hidden_layer1 = torch.nn.Linear(input_size, hidden_size1)
+        self.hidden_layer2 = torch.nn.Linear(hidden_size1, hidden_size2)
+        self.hidden_layer3 = torch.nn.Linear(hidden_size2, hidden_size3)
+        self.dropout = torch.nn.Dropout(dropout_ratio)
+        self.output_layer = torch.nn.Linear(hidden_size3, output_size)
+
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+    def forward(self, input):
+        hidden1 = torch.relu(self.hidden_layer1(input))
+        hidden1_dropout = self.dropout(hidden1)
+        hidden2 = torch.relu(self.hidden_layer2(hidden1_dropout))
+        hidden2_dropout = self.dropout(hidden2)
+        hidden3 = torch.relu(self.hidden_layer3(hidden2_dropout))
+        hidden3_dropout = self.dropout(hidden3)
+        output = self.output_layer(hidden3_dropout)
+        return output
 
 def train_and_get_loss(model,tr_in,tr_out,nb_epochs,lr,print_ = False):
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)

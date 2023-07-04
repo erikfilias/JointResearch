@@ -61,7 +61,7 @@ def train_one_epoch(model, training_loader, epoch_index, optimizer, loss_fn,f_pr
 
     return losses
 
-def train_multiple_epochs(nb_epochs,model,training_loader,validation_loader,loss_fn,optimizer,model_name, save_trained=True):
+def train_multiple_epochs(nb_epochs,model,training_loader,validation_loader,loss_fn,optimizer,model_name, folder=None):
     # Initializing in a separate cell so we can easily add more epochs to the same run
     epoch_number = 0
 
@@ -101,8 +101,8 @@ def train_multiple_epochs(nb_epochs,model,training_loader,validation_loader,loss
         # Track best performance, and save the model's state
         if avg_vloss < best_vloss:
             best_vloss = avg_vloss
-            if save_trained:
-                min_val_model_path = 'trained_models/min_val/model_{}.pth'.format(model_name)
+            if not(folder == None):
+                min_val_model_path = 'trained_models/{}/min_val/model_{}.pth'.format(folder,model_name)
                 torch.save(model.state_dict(), min_val_model_path)
 
 
@@ -110,7 +110,8 @@ def train_multiple_epochs(nb_epochs,model,training_loader,validation_loader,loss
 
 
         epoch_number += 1
-    model_path = 'trained_models/all_epochs/model_{}.pth'.format(model_name)
-    torch.save(model.state_dict(), model_path)
+    model_path = 'trained_models/{}/all_epochs/model_{}.pth'.format(folder,model_name)
+    if not (folder == None):
+        torch.save(model.state_dict(), model_path)
 
     return best_vloss,model_path,model

@@ -4,7 +4,7 @@ from sklearn.model_selection import train_test_split
 import os
 import numpy as np
 def list_executions(per,sc,folder):
-    filenames = os.listdir(f"Data/{folder}")
+    filenames = os.listdir(f"{folder}")
     executions = [fn.split(per)[0].split(sc)[1][1:-1] for fn in filenames]
     return np.unique(executions)
 
@@ -13,10 +13,10 @@ def load_data(folder,executions,period,sc):
     dfs_out = dict()
     for execution in executions:
         # Read the data from desired execution
-        df_in_e = pd.read_csv(f"Data/{folder}/input_f_{sc}_{execution}_{period}.csv", header=[0],index_col=0)
-        df_out_e = pd.read_csv(f"Data/{folder}/output_f_{sc}_{execution}_{period}.csv", header=[0],index_col=0)
+        df_in_e = pd.read_csv(f"{folder}/input_f_{sc}_{execution}_{period}.csv", header=[0],index_col=0)
+        df_out_e = pd.read_csv(f"{folder}/output_f_{sc}_{execution}_{period}.csv", header=[0],index_col=0)
 
-        print(f"Data/input_f_{sc}_{execution}_{period}.csv")
+        print(f"input_f_{sc}_{execution}_{period}.csv")
 
         # And order the variables:
 
