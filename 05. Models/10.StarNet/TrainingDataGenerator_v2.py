@@ -117,7 +117,11 @@ def ModelRun(model, optmodel, execution, path, dir, case, solver):
     print('Getting the Y matrix                   ... ', round(data_time), 's')
 
     # Extracting the maximum power generation data
-    df_max_power = pd.Series(data=[model.pMaxPower[p,sc,n,g] for p,sc,n,g in model.psng], index=pd.MultiIndex.from_tuples(model.psng))
+    dict_techs = [tg for  tg     in model.gt  if tg in ['Hydro','Solar','Wind']]
+    dict_gens  = [gg for (tg,gg) in model.t2g if tg in dict_techs]
+    dict_gens.sort()
+    List1 = [(p,sc,n,g) for p,sc,n in model.psn for g in dict_gens]
+    df_max_power = pd.Series(data=[model.pMaxPower[p,sc,n,g] for p,sc,n,g in List1], index=pd.MultiIndex.from_tuples(List1))
     df_max_power.index.names = ['Period', 'Scenario', 'LoadLevel', 'Variable']
     df_max_power = df_max_power.reset_index().pivot_table(index=['Period', 'Scenario', 'LoadLevel', 'Variable'], values=0)
     df_max_power.rename(columns={0: 'Value'}, inplace=True)
