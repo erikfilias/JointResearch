@@ -765,9 +765,6 @@ def data_processing(DirName, CaseName, model):
     model.pDuration             = Param(model.n,     initialize=pDuration.to_dict()                 , within=PositiveIntegers,    doc='Duration',                               mutable=True)
     model.pNodeLon              = Param(model.nd,    initialize=pNodeLon.to_dict()                  ,                             doc='Longitude'                                           )
     model.pNodeLat              = Param(model.nd,    initialize=pNodeLat.to_dict()                  ,                             doc='Latitude'                                            )
-    # model.pSystemInertia        = Param(model.psnar, initialize=pSystemInertia.stack().to_dict()    , within=NonNegativeReals,    doc='System inertia'                                      )
-    # model.pOperReserveUp        = Param(model.psnar, initialize=pOperReserveUp.stack().to_dict()    , within=NonNegativeReals,    doc='Upward   operating reserve'                          )
-    # model.pOperReserveDw        = Param(model.psnar, initialize=pOperReserveDw.stack().to_dict()    , within=NonNegativeReals,    doc='Downward operating reserve'                          )
     model.pMinPower             = Param(model.psngg, initialize=pMinPower                           , within=NonNegativeReals,    doc='Minimum power'                                       )
     model.pMaxPower             = Param(model.psngg, initialize=pMaxPower                           , within=NonNegativeReals,    doc='Maximum power'                                       )
     model.pMinCharge            = Param(model.psngg, initialize=pMinCharge                          , within=NonNegativeReals,    doc='Minimum charge'                                      )
@@ -778,51 +775,33 @@ def data_processing(DirName, CaseName, model):
     model.pEnergyOutflows       = Param(model.psngg, initialize=pEnergyOutflows                     , within=NonNegativeReals,    doc='Energy outflows',                        mutable=True)
     model.pMinStorage           = Param(model.psngg, initialize=pMinStorage                         , within=NonNegativeReals,    doc='ESS Minimum storage capacity'                        )
     model.pMaxStorage           = Param(model.psngg, initialize=pMaxStorage                         , within=NonNegativeReals,    doc='ESS Maximum storage capacity'                        )
-    # model.pMinEnergy            = Param(model.psngg, initialize=pVariableMinEnergy.stack().to_dict(), within=NonNegativeReals,    doc='Unit minimum energy demand'                          )
-    # model.pMaxEnergy            = Param(model.psngg, initialize=pVariableMaxEnergy.stack().to_dict(), within=NonNegativeReals,    doc='Unit maximum energy demand'                          )
     model.pRatedMaxPowerP       = Param(model.gg,    initialize=pRatedMaxPowerP.to_dict()           , within=NonNegativeReals,    doc='Rated maximum power'                                 )
     model.pRatedMaxPowerQ       = Param(model.gg,    initialize=pRatedMaxPowerQ.to_dict()           , within=           Reals,    doc='Rated maximum power'                                 )
     model.pRatedMinPowerQ       = Param(model.gg,    initialize=pRatedMinPowerQ.to_dict()           , within=           Reals,    doc='Rated minimum power'                                 )
     model.pRatedMaxCharge       = Param(model.gg,    initialize=pRatedMaxCharge.to_dict()           , within=NonNegativeReals,    doc='Rated maximum charge'                                )
     model.pMustRun              = Param(model.gg,    initialize=pMustRun.to_dict()                  , within=Binary          ,    doc='must-run unit'                                       )
-    # model.pInertia              = Param(model.gg,    initialize=pInertia.to_dict()                  , within=NonNegativeReals,    doc='unit inertia constant'                               )
     model.pPeriodIniGen         = Param(model.gg,    initialize=pPeriodIniGen.to_dict()             , within=PositiveIntegers,    doc='installation year',                                  )
     model.pPeriodFinGen         = Param(model.gg,    initialize=pPeriodFinGen.to_dict()             , within=PositiveIntegers,    doc='retirement   year',                                  )
     model.pAvailability         = Param(model.gg,    initialize=pAvailability.to_dict()             , within=UnitInterval    ,    doc='unit availability',                      mutable=True)
     model.pEFOR                 = Param(model.gg,    initialize=pEFOR.to_dict()                     , within=UnitInterval    ,    doc='EFOR'                                                )
-    # model.pRatedLinearVarCost   = Param(model.gg,    initialize=pRatedLinearVarCost.to_dict()       , within=NonNegativeReals,    doc='Linear   variable cost'                              )
-    # model.pRatedConstantVarCost = Param(model.gg,    initialize=pRatedConstantVarCost.to_dict()     , within=NonNegativeReals,    doc='Constant variable cost'                              )
     model.pLinearVarCost        = Param(model.gg,    initialize=pLinearVarCost.to_dict()            , within=NonNegativeReals,    doc='Linear   variable cost'                              )
     model.pConstantVarCost      = Param(model.gg,    initialize=pConstantVarCost.to_dict()          , within=NonNegativeReals,    doc='Constant variable cost'                              )
     model.pLinearOMCost         = Param(model.gg,    initialize=pLinearOMCost.to_dict()             , within=NonNegativeReals,    doc='Linear   O&M      cost'                              )
-    # # model.pOperReserveCost      = Param(model.gg,    initialize=pOperReserveCost.to_dict()          , within=NonNegativeReals,    doc='Operating reserve cost'                              )
     model.pCO2EmissionCost      = Param(model.gg,    initialize=pCO2EmissionCost.to_dict()          , within=Reals,               doc='CO2 Emission      cost'                              )
-    # model.pCO2EmissionRate      = Param(model.gg,    initialize=pCO2EmissionRate.to_dict()          , within=Reals,               doc='CO2 Emission      rate'                              )
     model.pStartUpCost          = Param(model.gg,    initialize=pStartUpCost.to_dict()              , within=NonNegativeReals,    doc='Startup  cost'                                       )
     model.pShutDownCost         = Param(model.gg,    initialize=pShutDownCost.to_dict()             , within=NonNegativeReals,    doc='Shutdown cost'                                       )
-    # model.pRampUp               = Param(model.gg,    initialize=pRampUp.to_dict()                   , within=NonNegativeReals,    doc='Ramp up   rate'                                      )
-    # model.pRampDw               = Param(model.gg,    initialize=pRampDw.to_dict()                   , within=NonNegativeReals,    doc='Ramp down rate'                                      )
-    # model.pUpTime               = Param(model.gg,    initialize=pUpTime.to_dict()                   , within=NonNegativeIntegers, doc='Up    time'                                          )
-    # model.pDwTime               = Param(model.gg,    initialize=pDwTime.to_dict()                   , within=NonNegativeIntegers, doc='Down  time'                                          )
-    # model.pShiftTime            = Param(model.gg,    initialize=pShiftTime.to_dict()                , within=NonNegativeIntegers, doc='Shift time'                                          )
     model.pGenInvestCost        = Param(model.gg,    initialize=pGenInvestCost.to_dict()            , within=NonNegativeReals,    doc='Generation fixed cost'                               )
-    # model.pGenRetireCost        = Param(model.gg,    initialize=pGenRetireCost.to_dict()            , within=Reals           ,    doc='Generation fixed retire cost'                        )
     model.pIndBinUnitInvest     = Param(model.gg,    initialize=pIndBinUnitInvest.to_dict()         , within=Binary          ,    doc='Binary investment decision'                          )
-    # model.pIndBinUnitRetire     = Param(model.gg,    initialize=pIndBinUnitRetire.to_dict()         , within=Binary          ,    doc='Binary retirement decision'                          )
     model.pIndBinUnitCommit     = Param(model.gg,    initialize=pIndBinUnitCommit.to_dict()         , within=Binary          ,    doc='Binary commitment decision'                          )
     model.pIndBinStorInvest     = Param(model.gg,    initialize=pIndBinStorInvest.to_dict()         , within=Binary          ,    doc='Storage linked to generation investment'             )
-    # model.pIndOperReserve       = Param(model.gg,    initialize=pIndOperReserve.to_dict()           , within=Binary          ,    doc='Indicator of operating reserve'                      )
     model.pEfficiency           = Param(model.gg,    initialize=pEfficiency.to_dict()               , within=UnitInterval    ,    doc='Round-trip efficiency'                               )
     model.pCycleTimeStep        = Param(model.gg,    initialize=pCycleTimeStep.to_dict()            , within=PositiveIntegers,    doc='ESS Storage cycle'                                   )
     model.pOutflowsTimeStep     = Param(model.gg,    initialize=pOutflowsTimeStep.to_dict()         , within=PositiveIntegers,    doc='ESS Outflows cycle'                                  )
-    # model.pEnergyTimeStep       = Param(model.gg,    initialize=pEnergyTimeStep.to_dict()           , within=PositiveIntegers,    doc='Unit energy cycle'                                   )
     model.pIniInventory         = Param(model.psngg, initialize=pIniInventory                       , within=NonNegativeReals,    doc='ESS Initial storage',                    mutable=True)
     model.pInitialInventory     = Param(model.gg,    initialize=pInitialInventory.to_dict()         , within=NonNegativeReals,    doc='ESS Initial storage without load levels'             )
     model.pStorageType          = Param(model.gg,    initialize=pStorageType.to_dict()              , within=Any             ,    doc='ESS Storage type'                                    )
     model.pGenLoInvest          = Param(model.gg,    initialize=pGenLoInvest.to_dict()              , within=NonNegativeReals,    doc='Lower bound of the investment decision', mutable=True)
     model.pGenUpInvest          = Param(model.gg,    initialize=pGenUpInvest.to_dict()              , within=NonNegativeReals,    doc='Upper bound of the investment decision', mutable=True)
-    # model.pGenLoRetire          = Param(model.gg,    initialize=pGenLoRetire.to_dict()              , within=NonNegativeReals,    doc='Lower bound of the retirement decision', mutable=True)
-    # model.pGenUpRetire          = Param(model.gg,    initialize=pGenUpRetire.to_dict()              , within=NonNegativeReals,    doc='Upper bound of the retirement decision', mutable=True)
     model.pGenSensitivity       = Param(model.gg,    initialize=pGenSensitivity.to_dict()           , within=NonNegativeReals,    doc='Sensitivity of the investment decision', mutable=True)
     model.pGenFxInvest          = Param(model.gg,    initialize=pGenFxInvest.to_dict()              , within=NonNegativeReals,    doc='Fixed investment cost',                  mutable=True)
     model.pGenSensiGroup        = Param(model.gg,    initialize=pGenSensiGroup.to_dict()            , within=Any             ,    doc='Sensitivity group',                      mutable=True)
@@ -854,9 +833,6 @@ def data_processing(DirName, CaseName, model):
     # model.pLineNTCBck           = Param(model.ln,    initialize=pLineNTCBck.to_dict()               , within=NonNegativeReals,    doc='NTC backward'                                        )
     model.pNetFixedCost         = Param(model.ln,    initialize=pNetFixedCost.to_dict()             , within=NonNegativeReals,    doc='Network fixed cost'                                  )
     model.pIndBinLineInvest     = Param(model.ln,    initialize=pIndBinLineInvest.to_dict()         , within=Binary          ,    doc='Binary investment decision'                          )
-    # model.pIndBinLineSwitch     = Param(model.ln,    initialize=pIndBinLineSwitch.to_dict()         , within=Binary          ,    doc='Binary switching  decision'                          )
-    # model.pSwOnTime             = Param(model.ln,    initialize=pSwitchOnTime.to_dict()             , within=NonNegativeIntegers, doc='Minimum switching on  time'                          )
-    # model.pSwOffTime            = Param(model.ln,    initialize=pSwitchOffTime.to_dict()            , within=NonNegativeIntegers, doc='Minimum switching off time'                          )
     # model.pBigMFlowBck          = Param(model.ln,    initialize=pBigMFlowBck.to_dict()              , within=NonNegativeReals,    doc='Maximum backward capacity',              mutable=True)
     model.pBigMFlowFrw          = Param(model.ln,    initialize=pBigMFlowFrw.to_dict()              , within=NonNegativeReals,    doc='Maximum forward  capacity',              mutable=True)
     model.pMaxTheta             = Param(model.psnnd, initialize=pMaxTheta                           , within=NonNegativeReals,    doc='Maximum voltage angle',                  mutable=True)
@@ -887,7 +863,7 @@ def data_processing(DirName, CaseName, model):
             model.pLineM1[ni,nf,l] = (2*l-1)*model.pLineDelta_V[ni,nf]
 
     for la in model.la:
-        model.pLineDelta_S[la] = model.pLineNTCFrw[la]*1.25 / len(model.L)
+        model.pLineDelta_S[la]  = model.pLineNTCFrw[la]*1.25 / len(model.L)
         for l in model.L:
             model.pLineM2[la,l] = (2*l-1)*model.pLineDelta_S[la]
 
@@ -975,12 +951,6 @@ def create_variables(model, optmodel):
             optmodel.vWP[p,sc,n,nd,ni,nf,cc].fix(1.0)
 
     if model.pIndBinSingleNode() == 0:
-        # optmodel.vS      = Var(model.ps, model.n, model.la, within=Reals,            bounds=lambda optmodel,p,sc,n,*la: (            -pLineNTCFrw[la]      ,pLineNTCFrw[la]    ),    doc='Sine term          [p.u.]')
-        # optmodel.vC      = Var(model.ps, model.n, model.la, within=Reals,            bounds=lambda optmodel,p,sc,n,*la: (            -pLineNTCFrw[la]      ,pLineNTCFrw[la]    ),    doc='Cosine term        [p.u.]')
-        # optmodel.vPfr    = Var(model.ps, model.n, model.la, within=Reals,            bounds=lambda optmodel,p,sc,n,*la: (            -pLineNTCFrw[la]      ,pLineNTCFrw[la]    ),    doc='P flow from i to j [p.u.]')
-        # optmodel.vPto    = Var(model.ps, model.n, model.la, within=Reals,            bounds=lambda optmodel,p,sc,n,*la: (            -pLineNTCFrw[la]      ,pLineNTCFrw[la]    ),    doc='P flow from j to i [p.u.]')
-        # optmodel.vQfr    = Var(model.ps, model.n, model.la, within=Reals,            bounds=lambda optmodel,p,sc,n,*la: (            -pLineNTCFrw[la]      ,pLineNTCFrw[la]    ),    doc='Q flow from i to j [p.u.]')
-        # optmodel.vQto    = Var(model.ps, model.n, model.la, within=Reals,            bounds=lambda optmodel,p,sc,n,*la: (            -pLineNTCFrw[la]      ,pLineNTCFrw[la]    ),    doc='Q flow from j to i [p.u.]')
         optmodel.vS         = Var(model.ps, model.n, model.br,          initialize= 0.0, within=Reals,                                                                                                         doc='Sine term          [p.u.]')
         optmodel.vC         = Var(model.ps, model.n, model.br,          initialize= 1.0, within=Reals,                                                                                                         doc='Cosine term        [p.u.]')
         optmodel.vSS        = Var(model.ps, model.n, model.lca,         initialize= 0.0, within=Reals,                                                                                                         doc='Sine term          [p.u.]')
@@ -1139,10 +1109,10 @@ def create_variables(model, optmodel):
                 optmodel.vEnergyOutflows[p,sc,n,es].fix(0.0)
 
     # fixing the voltage angle of the reference node for each scenario, period, and load level
-    # if pIndBinSingleNode == 0:
-    #     for p,sc,n in model.psn:
-    #         # optmodel.vTheta[p,sc,n,optmodel.rf.first()].fix(0.0)
-    #         optmodel.vW    [p,sc,n,optmodel.rf.first()].fix(1.1025)
+    if model.pIndBinSingleNode() == 0:
+        for p,sc,n in model.psn:
+            # optmodel.vTheta[p,sc,n,optmodel.rf.first()].fix(0.0)
+            optmodel.vW    [p,sc,n,optmodel.rf.first()].fix(1.0)
 
     # fixing the ENS in nodes with no demand
     for p,sc,n,nd in model.psnnd:
