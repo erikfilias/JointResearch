@@ -1,5 +1,6 @@
 # Define the neural network model
 import torch
+import math
 
 
 class ObjectiveEstimator_ANN_Single_layer(torch.nn.Module):
@@ -96,3 +97,28 @@ def train_and_get_loss(model,tr_in,tr_out,nb_epochs,lr,print_ = False):
     train_predictions = model(tr_in.float())
     train_loss = torch.nn.MSELoss()(train_predictions.float().squeeze(), tr_out.float())
     return train_loss
+
+def create_model(nb_hidden, input_size, dropout_ratio):
+    hidden_sizes = []
+    if nb_hidden == 0:
+        hidden_sizes.append(input_size)
+    elif nb_hidden == 1:
+        hidden_sizes.extend([int(math.sqrt(input_size))])
+    elif nb_hidden == 2:
+        hidden_sizes.extend([int(math.sqrt(input_size)), int(math.sqrt(math.sqrt(input_size)))])
+    elif nb_hidden == 3:
+        hidden_sizes.extend([int(input_size / 4), int(input_size / 16), int(input_size / 64)])
+
+
+
+    if nb_hidden == 0:
+        model_class = ObjectiveEstimator_ANN_Single_layer
+    elif nb_hidden == 1:
+        model_class = ObjectiveEstimator_ANN_1hidden_layer
+    elif nb_hidden == 2:
+        model_class = ObjectiveEstimator_ANN_2hidden_layer
+    elif nb_hidden == 3:
+        model_class = ObjectiveEstimator_ANN_3hidden_layer
+    model = model_class(input_size=input_size, hidden_sizes=hidden_sizes, output_size=1, dropout_ratio=dropout_ratio)
+    print(model,dropout_ratio,nb_hidden)
+    return model
