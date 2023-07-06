@@ -3,6 +3,8 @@
 
 #%% Imports
 import argparse
+import itertools
+import math
 import os
 import time
 import torch
@@ -51,6 +53,8 @@ def main():
     initial_time = time.time()
     df = PINT_approach(args.dir, args.case)
 
+    df.to_csv(_path + '/3.Out' + '/oT_Benefit_Line_PINT_' + args.case + '.csv')
+
 def PINT_approach(DirName, CaseName):
     # building the path to the data
     _path = os.path.join(DirName, CaseName)
@@ -92,6 +96,7 @@ def PINT_approach(DirName, CaseName):
     df_Network.to_csv(os.path.join(_path, '2.Par','oT_Data_Network_'+CaseName+'.csv'))
     print(f'Time for getting the dataset using only existing lines: {round(time.time() - start_time)} s')
 
+    counter1 = 0
     # getting the line benefits per candidate line
     for (ni,nf,cc) in dict_lc:
         start_time = time.time()
@@ -111,11 +116,12 @@ def PINT_approach(DirName, CaseName):
         df_Network_candidate = df_Network_candidate.loc[elines]
         print(f'Number of lines to be considered: {len(df_Network_candidate.index)}')
 
-        # Saving the CSV file with the existing network
+        # Saving the CSV file with the current network
         df_Network_candidate.to_csv(_path + '/2.Par/oT_Data_Network_'+CaseName+'.csv')
 
         # getting the dataset for the especific candidate line
         df_line = Input_Dataset_Generator(DirName, CaseName)
+        df_line.to_csv(_path + '/2.Par/oT_Data_Line_'+CaseName+'.csv')
 
         # getting the line benefits
         for nn in dictSets['nn']:
@@ -123,12 +129,14 @@ def PINT_approach(DirName, CaseName):
             df_cline = df_line.loc[nn]
             x1_eline = torch.from_numpy(df_eline.values)
             x2_cline = torch.from_numpy(df_cline.values)
-            model    = NN.ObjectiveEstimator_ANN_3hidden_layer(input_size=x1_eline.shape[0],
-                                                               hidden_size1=int(x1_eline.shape[0] / 4),
-                                                               hidden_size2=int(x1_eline.shape[0] / 16),  # 16
-                                                               hidden_size3=int(x1_eline.shape[0] / 64),  # 64
-                                                               output_size=1)
-            model.load_state_dict(torch.load('24_bus_3h.pth'))
+            InputSizes  = x1_eline.shape[0]
+            HiddenSizes = []
+            HiddenSizes.extend([int(math.sqrt(InputSizes)), int(math.sqrt(math.sqrt(InputSizes)))])
+            OutputSizes = 1
+            model    = NN.ObjectiveEstimator_ANN_2hidden_layer(input_size   = InputSizes,
+                                                               hidden_sizes = HiddenSizes,
+                                                               output_size  = OutputSizes)
+            model.load_state_dict(torch.load('model_OE_2h_12e_0.01lr_0dor.pth'))
             model.eval()
             y1_eline = model(x1_eline.float())
             y2_cline = model(x2_cline.float())
@@ -144,7 +152,12 @@ def PINT_approach(DirName, CaseName):
         # restoring the original network
         print('Restoring the original network')
         df_Network.to_csv(os.path.join(_path, '2.Par', 'oT_Data_Network_' + CaseName + '.csv'))
-        print(f'Time for getting the dataset using only existing lines: {round(time.time() - start_time)} s')
+        print(f'Time for getting the dataset for a particular line: {round(time.time() - start_time)} s')
+
+        counter1 += 1
+        print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
+        print(f'Remaining lines: {len(dict_lc)-counter1}')
+        print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
 
 
 
@@ -173,8 +186,9 @@ def Input_Dataset_Generator(DirName, CaseName):
     map_gen = df_gen['Technology'].to_dict()
 
     # Dynamic sets
-    dict_techs = [tg for tg in dictSets['tg'] if tg in ['Hydro','Solar','Wind']]
+    dict_techs = [tg for tg in dictSets['tg'] if tg in ['Oil','Coal','Gas','Nuclear','Hydro','Solar','Wind']]
     dict_gens  = [gg for gg in dictSets['gg'] if map_gen[gg] in dict_techs]
+    # dict_gens  = [gg for gg in dictSets['gg']]
 
     # combined sets
     dict_ps   = list(it.product(dictSets['pp'], dictSets['sc']))
@@ -189,8 +203,9 @@ def Input_Dataset_Generator(DirName, CaseName):
     # reading active power demand data
     df_org_demand = pd.read_csv(os.path.join(_path, '2.Par','oT_Data_Demand_'+CaseName+'.csv'), index_col=[0,1,2])
     df_org_demand = df_org_demand.stack().to_frame(name='Value').rename_axis(['Period','Scenario','LoadLevel','Variable'], axis=0)
-    df_org_demand['Dataset'] = 'ElectricityDemand'
-    df_org_demand = df_org_demand.reset_index().pivot_table(index=['LoadLevel'], columns=['Dataset','Variable'], values='Value')
+    # df_org_demand['Dataset'] = 'ElectricityDemand'
+    # df_org_demand = df_org_demand.reset_index().pivot_table(index=['LoadLevel'], columns=['Dataset','Variable'], values='Value')
+    df_org_demand = df_org_demand.reset_index().pivot_table(index=['LoadLevel'], columns=['Variable'], values='Value')
 
     reading_sets_time = time.time() - start_time
     start_time        = time.time()
@@ -209,8 +224,9 @@ def Input_Dataset_Generator(DirName, CaseName):
     pMaxPower           = pVariableMaxPower.where         (pVariableMaxPower < pMaxPower, other=pMaxPower)
     pMaxPower           = pMaxPower.where                 (pMaxPower         > 0.0,       other=0.0)
     df_org_max_power    = pMaxPower.stack().to_frame(name='Value').rename_axis(['Period','Scenario','LoadLevel','Variable'], axis=0)
-    df_org_max_power['Dataset'] = 'MaxPowerGeneration'
-    df_org_max_power    = df_org_max_power.reset_index().pivot_table(index=['LoadLevel'], columns=['Dataset','Variable'], values='Value')
+    # df_org_max_power['Dataset'] = 'MaxPowerGeneration'
+    # df_org_max_power    = df_org_max_power.reset_index().pivot_table(index=['LoadLevel'], columns=['Dataset','Variable'], values='Value')
+    df_org_max_power    = df_org_max_power.reset_index().pivot_table(index=['LoadLevel'], columns=['Variable'], values='Value')
 
     reading_sets_time = time.time() - start_time
     start_time        = time.time()
@@ -229,7 +245,7 @@ def Input_Dataset_Generator(DirName, CaseName):
     # Iterate over each row in the DataFrame and populate the admittance matrix
     dict_la = [(ni,nf,cc) for (ni,nf,cc) in df_Network.index if df_Network['Reactance'][ni,nf,cc] != 0.0 and df_Network['TTC'][ni,nf,cc] > 0.0 and df_Network['InitialPeriod'][ni,nf,cc] <= dictSets['pp'][-1] and df_Network['FinalPeriod'][ni,nf,cc] >= dictSets['pp'][0]]
     print(dict_la)
-    for (ni, nf, cc) in dict_la:
+    for (ni,nf,cc) in dict_la:
         index_1 = 0
         index_2 = 0
         reactance   = df_Network['Reactance' ][ni,nf,cc]
@@ -247,45 +263,46 @@ def Input_Dataset_Generator(DirName, CaseName):
     # Calculate the diagonal elements
     for i in range(size):
         for (ni,nf,cc) in dict_la:
-            index_1 = 0
-            index_2 = 0
-            index_1 = nodes.index(ni)
-            index_2 = nodes.index(nf)
+            index_1     = 0
+            index_2     = 0
             susceptance = df_Network['Susceptance'][ni,nf,cc]
             tap         = df_Network['Tap'        ][ni,nf,cc]
+            index_1     = nodes.index(ni)
+            index_2     = nodes.index(nf)
+
             if index_1 == i:
                 admittance_matrix[i][i] = admittance_matrix[i][i] + admittance_matrix[index_1][index_2] * tap ** 2 + susceptance * 1j
             elif index_2 == i:
-                admittance_matrix[i][i] = admittance_matrix[i][i] + admittance_matrix[index_1][index_2]            + susceptance * 1j
+                admittance_matrix[i][i] = admittance_matrix[i][i] + admittance_matrix[index_1][index_2] + susceptance * 1j
 
-    df = pd.DataFrame(admittance_matrix).stack().reset_index()
-    df.columns = ['Node1', 'Node2', 'Admittance']
-    df.set_index(['Node1', 'Node2'], inplace=True)
+    admittance_matrix[np.isnan(admittance_matrix)] = 0
+    # df = pd.DataFrame(admittance_matrix).stack().reset_index()
+    # df.columns = ['Node1', 'Node2', 'Admittance']
+    # df.set_index(['Node1', 'Node2'], inplace=True)
     df_Y_matrix_real = pd.DataFrame(index=pd.MultiIndex.from_tuples(dict_psn))
     df_Y_matrix_imag = pd.DataFrame(index=pd.MultiIndex.from_tuples(dict_psn))
 
-    for (ni, nf) in df.index:
-        df1 = pd.DataFrame([np.real(df['Admittance'][ni, nf])]*len(dict_psn), columns=['Node_' + str(ni + 1) + '_Node_' + str(nf + 1)] ,index=pd.MultiIndex.from_tuples(dict_psn))
-        df2 = pd.DataFrame([np.imag(df['Admittance'][ni, nf])]*len(dict_psn), columns=['Node_' + str(ni + 1) + '_Node_' + str(nf + 1)] ,index=pd.MultiIndex.from_tuples(dict_psn))
+    for (ni,nf) in itertools.product(range(admittance_matrix.shape[0]), range(admittance_matrix.shape[1])):
+        # df1 = pd.DataFrame([np.real(df['Admittance'][ni, nf])]*len(dict_psn), columns=['Node_' + str(ni + 1) + '_Node_' + str(nf + 1)] ,index=pd.MultiIndex.from_tuples(dict_psn))
+        # df2 = pd.DataFrame([np.imag(df['Admittance'][ni, nf])]*len(dict_psn), columns=['Node_' + str(ni + 1) + '_Node_' + str(nf + 1)] ,index=pd.MultiIndex.from_tuples(dict_psn))
+        df1 = pd.DataFrame([np.real(admittance_matrix[ni][nf])]*len(dict_psn), columns=['Node_' + str(ni + 1) + '_Node_' + str(nf + 1)] ,index=pd.MultiIndex.from_tuples(dict_psn))
+        df2 = pd.DataFrame([np.imag(admittance_matrix[ni][nf])]*len(dict_psn), columns=['Node_' + str(ni + 1) + '_Node_' + str(nf + 1) + '_I'] ,index=pd.MultiIndex.from_tuples(dict_psn))
         df_Y_matrix_real = pd.concat([df_Y_matrix_real, df1], axis=1)
         df_Y_matrix_imag = pd.concat([df_Y_matrix_imag, df2], axis=1)
 
     df_Y_matrix_real = df_Y_matrix_real.stack()
     df_Y_matrix_real.index.names = ['Period', 'Scenario', 'LoadLevel', 'Variable']
     df_Y_matrix_real = df_Y_matrix_real.to_frame(name='Value')
-    df_Y_matrix_real['Dataset'] = 'MatrixYReal'
-    df_Y_matrix_real = df_Y_matrix_real.reset_index().pivot_table(index=['LoadLevel'], columns=['Dataset','Variable'], values='Value')
+    # df_Y_matrix_real['Dataset'] = 'MatrixYReal'
+    # df_Y_matrix_real = df_Y_matrix_real.reset_index().pivot_table(index=['LoadLevel'], columns=['Dataset','Variable'], values='Value')
+    df_Y_matrix_real = df_Y_matrix_real.reset_index().pivot_table(index=['LoadLevel'], columns=['Variable'], values='Value')
 
     df_Y_matrix_imag = df_Y_matrix_imag.stack()
     df_Y_matrix_imag.index.names = ['Period', 'Scenario', 'LoadLevel', 'Variable']
     df_Y_matrix_imag = df_Y_matrix_imag.to_frame(name='Value')
-    df_Y_matrix_imag['Dataset'] = 'MatrixYImag'
-    # df_Y_matrix_imag['Execution'] = execution
-    df_Y_matrix_imag = df_Y_matrix_imag.reset_index().pivot_table(index=['LoadLevel'], columns=['Dataset','Variable'], values='Value')
-
-    # for (p, sc, n) in dict_psn:
-    #     for (ni, nf) in df.index:
-    #         df_Y_matrix.loc[(p, sc, n), 'Node_' + str(ni + 1) + '_Node_' + str(nf + 1)] = df['Admittance'][ni, nf]
+    # df_Y_matrix_imag['Dataset'] = 'MatrixYImag'
+    # df_Y_matrix_imag = df_Y_matrix_imag.reset_index().pivot_table(index=['LoadLevel'], columns=['Dataset','Variable'], values='Value')
+    df_Y_matrix_imag = df_Y_matrix_imag.reset_index().pivot_table(index=['LoadLevel'], columns=['Variable'], values='Value')
 
     reading_sets_time = time.time() - start_time
     start_time        = time.time()
@@ -293,15 +310,16 @@ def Input_Dataset_Generator(DirName, CaseName):
 
     # Merging all the data
     df_input_data = pd.concat([df_org_demand, df_Y_matrix_real, df_Y_matrix_imag, df_org_max_power], axis=1)
+    df_input_data = df_input_data.reindex(sorted(df_input_data.columns), axis=1)
 
     # Normalizing the data
-    for col1,col2 in df_input_data.columns:
-        min_value = df_input_data[col1,col2].min()
-        max_value = df_input_data[col1,col2].max()
+    for col1 in df_input_data.columns:
+        min_value = df_input_data[col1].min()
+        max_value = df_input_data[col1].max()
         if max_value != min_value:
-            df_input_data[col1,col2] = (df_input_data[col1,col2] - min_value) / (max_value - min_value)
+            df_input_data[col1] = (df_input_data[col1] - min_value) / (max_value - min_value)
         else:
-            df_input_data[col1,col2] = df_input_data[col1,col2] / max_value
+            df_input_data[col1] = df_input_data[col1] / max_value
 
     reading_sets_time = time.time() - initial_time
     print('Dataset generation                    ... ', round(reading_sets_time), 's')
