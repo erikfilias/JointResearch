@@ -178,4 +178,4 @@ def concat_and_normalize_split_by_exec(ts_in,ts_out,executions):
     d_ft_in = {"train": tr_in,"val": val_in,"test": te_in}
     d_ft_out = {"train": tr_out,"val": val_out,"test": te_out}
 
-    return d_ft_in,d_ft_out
+    return d_ft_in,d_ft_out,maxs
