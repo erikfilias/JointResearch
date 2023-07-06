@@ -1874,9 +1874,9 @@ def create_constraints(model, optmodel):
 
     def eInv_vWP2_UpperBound(optmodel,p,sc,st,n,nd,ni,nf,cc):
         if   (st,n) in model.s2n and (nd == ni):
-            return (optmodel.vWP[p,sc,n,ni,ni,nf,cc] - optmodel.vW[p,sc,n,ni] <= -model.pVmin[p,sc,n,ni]**2*(1-optmodel.vNetworkInvest[p,ni,nf,cc]))
+            return (optmodel.vWP[p,sc,n,ni,ni,nf,cc] - optmodel.vW[p,sc,n,ni] <=  model.pVmax[p,sc,n,ni]**2*(1-optmodel.vNetworkInvest[p,ni,nf,cc]))
         elif (st,n) in model.s2n and (nd == nf):
-            return (optmodel.vWP[p,sc,n,nf,ni,nf,cc] - optmodel.vW[p,sc,n,nf] <= -model.pVmin[p,sc,n,ni]**2*(1-optmodel.vNetworkInvest[p,ni,nf,cc]))
+            return (optmodel.vWP[p,sc,n,nf,ni,nf,cc] - optmodel.vW[p,sc,n,nf] <=  model.pVmax[p,sc,n,ni]**2*(1-optmodel.vNetworkInvest[p,ni,nf,cc]))
         else:
             return Constraint.Skip
     optmodel.eInv_vWP2_UpperBound = Constraint(model.ps, model.st, model.n, model.nd, model.lca, rule=eInv_vWP2_UpperBound)
