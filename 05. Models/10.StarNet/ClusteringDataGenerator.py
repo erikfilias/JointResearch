@@ -290,7 +290,7 @@ def TOOT_approach(DirName, CaseName):
         print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
 
     final_time = time.time() - initial_time
-    print('Total time for PINT approach:             ', round(final_time), 's')
+    print('Total time for TOOT approach:             ', round(final_time), 's')
 
     return df
 
