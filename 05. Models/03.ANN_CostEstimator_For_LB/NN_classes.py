@@ -134,7 +134,7 @@ def create_model(nb_hidden, input_size, dropout_ratio,relu_out=False):
     elif nb_hidden == 3:
         model_class = ObjectiveEstimator_ANN_3hidden_layer
     model = model_class(input_size=input_size, hidden_sizes=hidden_sizes, output_size=1, dropout_ratio=dropout_ratio,relu_out=relu_out)
-    print(model,dropout_ratio,nb_hidden,relu_out)
+    #print(model,dropout_ratio,nb_hidden,relu_out)
     return model
 
 def create_loss_fn(penalize_negative=0):

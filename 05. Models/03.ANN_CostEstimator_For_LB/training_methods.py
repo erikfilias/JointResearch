@@ -17,15 +17,15 @@ def train_and_get_loss(model,tr_in,tr_out,nb_epochs,lr,print_ = False):
         # optimizer.zero_grad()
         train_loss.backward()
         optimizer.step()
-        #Print the training loss every 10 epochs
-        if print_ and (epoch + 1) % 10 == 0:
-            print(f'Epoch {epoch + 1}, Train Loss: {train_loss.item()}')
+        # #Print the training loss every 10 epochs
+        # if print_ and (epoch + 1) % 10 == 0:
+        #     print(f'Epoch {epoch + 1}, Train Loss: {train_loss.item()}')
     train_predictions = model(tr_in.float())
     train_loss = torch.nn.MSELoss()(train_predictions.float().squeeze(), tr_out.float())
     return train_loss
 
 
-def train_one_epoch(model, training_loader, epoch_index, optimizer, loss_fn,f_print = 100):
+def train_one_epoch(model, training_loader, epoch_index, optimizer, loss_fn,f_print = np.inf):
     running_loss = 0.
     last_loss = 0.
 
@@ -53,11 +53,11 @@ def train_one_epoch(model, training_loader, epoch_index, optimizer, loss_fn,f_pr
         # Gather data and report
         running_loss += loss.item()
         losses.append(loss.item())
-        if i % f_print == 0:
-            last_loss = running_loss / f_print # loss per batch
-            print('  batch {} loss: {}'.format(i + 1, last_loss))
-            # tb_writer.add_scalar('Loss/train', last_loss, tb_x)
-            running_loss = 0.
+        # if i % f_print == 0:
+        #     last_loss = running_loss / f_print # loss per batch
+        #     print('  batch {} loss: {}'.format(i + 1, last_loss))
+        #     # tb_writer.add_scalar('Loss/train', last_loss, tb_x)
+        #     running_loss = 0.
 
     return losses
 
