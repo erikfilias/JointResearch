@@ -451,8 +451,8 @@ def main():
 
 
 
-    #pool.starmap(solve_and_save, [(ni,nf,cc,df_input_data,df_output_data) for (ni,nf,cc) in clines])
-    pool.starmap(print_time_for_test, [(t_start,ni, nf, cc, df_input_data, df_output_data) for (ni, nf, cc) in clines])
+    pool.starmap(solve_and_save, [(ni,nf,cc,df_input_data,df_output_data) for (ni,nf,cc) in clines])
+    #pool.starmap(print_time_for_test, [(t_start,ni, nf, cc, df_input_data, df_output_data) for (ni, nf, cc) in clines])
     pool.close()
     # %% Restoring the dataframes
     df_Network.to_csv(_path + '/2.Par/oT_Data_Network_' + args.case + '.csv')
