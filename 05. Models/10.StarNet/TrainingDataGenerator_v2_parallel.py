@@ -243,6 +243,103 @@ def print_time_for_test(t_start,ni, nf, cc, df_input_data, df_output_data):
     t_stop = time.time()
     print(t_stop - t_start)
 
+
+def solve_and_save(ni, nf, cc, df_input_data, df_output_data):
+    print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
+    print(f"Line {ni} {nf} {cc}")
+    print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
+    print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
+    print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
+    print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
+    print("Starting Solve and Save")
+    print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
+    print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
+    print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
+    print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
+    print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
+
+# Adding the line to the network
+    elines = [(ni, nf, cc) for (ni, nf, cc) in base_model.le if base_model.pIndBinLineInvest[ni, nf, cc] != 1]
+    print(f'Number of existing lines to be considered: {len(elines)}')
+    elines.append((ni, nf, cc))
+
+    # removing the sets
+    base_model.del_component(base_model.la)
+    base_model.del_component(base_model.lc)
+    base_model.del_component(base_model.lca)
+    base_model.del_component(base_model.laa)
+    base_model.del_component(base_model.plc)
+    base_model.del_component(base_model.psnla)
+    # redefining the sets
+    d_lc = [(ni, nf, cc)]
+
+    base_model.la = Set(initialize=elines, ordered=True)
+    base_model.lc = Set(initialize=d_lc, ordered=True)
+
+    base_model.plc = [(p, ni, nf, cc) for p, ni, nf, cc in base_model.p * base_model.lc]
+    base_model.psnla = [(p, sc, n, ni, nf, cc) for p, sc, n, ni, nf, cc in base_model.psn * base_model.la]
+
+    # define AC candidate lines
+    base_model.lca = Set(initialize=base_model.la, ordered=False, doc='AC candidate lines and     switchable lines',
+                         filter=lambda base_model, *lc: lc in base_model.lc and (lc, 'AC') in base_model.pLineType)
+    base_model.laa = base_model.lea | base_model.lca
+
+    # create the model
+    oSN = ConcreteModel()
+    execution = 'Network_Line_In_' + str(ni) + '_' + str(nf) + '_' + str(cc)
+
+    # defining the variables
+    oSN = create_variables(base_model, oSN)
+
+    # defining the constraints
+    oSN = create_constraints(base_model, oSN)
+
+    # fixing the investment variables
+    for p in base_model.p:
+        oSN.vNetworkInvest[p, ni, nf, cc].fix(1.0)
+
+    # showing the fixed variables
+    oSN.vNetworkInvest.pprint()
+
+    print(
+        f'Number of lines to be considered: {len(base_model.le) + len([(p, ni, nf, cc) for (p, ni, nf, cc) in base_model.plc if oSN.vNetworkInvest[p, ni, nf, cc]() == 1.0])}')
+
+    df_Inp, df_Out = ModelRun(base_model, oSN, execution, _path, args.dir, args.case, args.solver)
+
+    df_Inp.to_csv(_path + '/3.Out/oT_Input_Data_' + args.case + '_' + execution + '.csv')
+    df_Out.to_csv(_path + '/3.Out/oT_Output_Data_' + args.case + '_' + execution + '.csv')
+
+    df_input_data = pd.concat([df_input_data, df_Inp])
+    df_output_data = pd.concat([df_output_data, df_Out])
+
+    ## restoring the candidate lines
+    # removing the sets
+    base_model.del_component(base_model.la)
+    base_model.del_component(base_model.lc)
+    base_model.del_component(base_model.lca)
+    base_model.del_component(base_model.laa)
+    base_model.del_component(base_model.plc)
+    base_model.del_component(base_model.psnla)
+
+    base_model.la = Set(initialize=dict_la, ordered=True)
+    base_model.lc = Set(initialize=dict_lc, ordered=True)
+
+    base_model.plc = [(p, ni, nf, cc) for p, ni, nf, cc in base_model.p * base_model.lc]
+    base_model.psnla = [(p, sc, n, ni, nf, cc) for p, sc, n, ni, nf, cc in base_model.psn * base_model.la]
+
+    # define AC candidate lines
+    base_model.lca = Set(initialize=base_model.la, ordered=False, doc='AC candidate lines and     switchable lines',
+                         filter=lambda base_model, *lc: lc in base_model.lc and (lc, 'AC') in base_model.pLineType)
+    base_model.laa = base_model.lea | base_model.lca
+
+    counter1 += 1
+    print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
+    print(f'Remaining lines: {len(clines) - counter1}')
+    print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
+
+    ###################################################################################################################
+
+
 # Calling the main function
 def main():
     args = parser.parse_args()
@@ -353,92 +450,6 @@ def main():
     print(f'Number of candidate lines to be considered: {len(clines)}')
     counter1 = 0
 
-    def solve_and_save(ni,nf,cc,df_input_data,df_output_data):
-        print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
-        print(f"Line {ni} {nf} {cc}")
-        print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
-
-        # Adding the line to the network
-        elines = [(ni, nf, cc) for (ni, nf, cc) in base_model.le if base_model.pIndBinLineInvest[ni, nf, cc] != 1]
-        print(f'Number of existing lines to be considered: {len(elines)}')
-        elines.append((ni, nf, cc))
-
-        # removing the sets
-        base_model.del_component(base_model.la)
-        base_model.del_component(base_model.lc)
-        base_model.del_component(base_model.lca)
-        base_model.del_component(base_model.laa)
-        base_model.del_component(base_model.plc)
-        base_model.del_component(base_model.psnla)
-        # redefining the sets
-        d_lc = [(ni, nf, cc)]
-
-        base_model.la = Set(initialize=elines, ordered=True)
-        base_model.lc = Set(initialize=d_lc, ordered=True)
-
-        base_model.plc = [(p, ni, nf, cc) for p, ni, nf, cc in base_model.p * base_model.lc]
-        base_model.psnla = [(p, sc, n, ni, nf, cc) for p, sc, n, ni, nf, cc in base_model.psn * base_model.la]
-
-        # define AC candidate lines
-        base_model.lca = Set(initialize=base_model.la, ordered=False, doc='AC candidate lines and     switchable lines',
-                             filter=lambda base_model, *lc: lc in base_model.lc and (lc, 'AC') in base_model.pLineType)
-        base_model.laa = base_model.lea | base_model.lca
-
-        # create the model
-        oSN = ConcreteModel()
-        execution = 'Network_Line_In_' + str(ni) + '_' + str(nf) + '_' + str(cc)
-
-        # defining the variables
-        oSN = create_variables(base_model, oSN)
-
-        # defining the constraints
-        oSN = create_constraints(base_model, oSN)
-
-        # fixing the investment variables
-        for p in base_model.p:
-            oSN.vNetworkInvest[p, ni, nf, cc].fix(1.0)
-
-        # showing the fixed variables
-        oSN.vNetworkInvest.pprint()
-
-        print(
-            f'Number of lines to be considered: {len(base_model.le) + len([(p, ni, nf, cc) for (p, ni, nf, cc) in base_model.plc if oSN.vNetworkInvest[p, ni, nf, cc]() == 1.0])}')
-
-        df_Inp, df_Out = ModelRun(base_model, oSN, execution, _path, args.dir, args.case, args.solver)
-
-        df_Inp.to_csv(_path + '/3.Out/oT_Input_Data_' + args.case + '_' + execution + '.csv')
-        df_Out.to_csv(_path + '/3.Out/oT_Output_Data_' + args.case + '_' + execution + '.csv')
-
-        df_input_data = pd.concat([df_input_data, df_Inp])
-        df_output_data = pd.concat([df_output_data, df_Out])
-
-        ## restoring the candidate lines
-        # removing the sets
-        base_model.del_component(base_model.la)
-        base_model.del_component(base_model.lc)
-        base_model.del_component(base_model.lca)
-        base_model.del_component(base_model.laa)
-        base_model.del_component(base_model.plc)
-        base_model.del_component(base_model.psnla)
-
-        base_model.la = Set(initialize=dict_la, ordered=True)
-        base_model.lc = Set(initialize=dict_lc, ordered=True)
-
-        base_model.plc = [(p, ni, nf, cc) for p, ni, nf, cc in base_model.p * base_model.lc]
-        base_model.psnla = [(p, sc, n, ni, nf, cc) for p, sc, n, ni, nf, cc in base_model.psn * base_model.la]
-
-        # define AC candidate lines
-        base_model.lca = Set(initialize=base_model.la, ordered=False, doc='AC candidate lines and     switchable lines',
-                             filter=lambda base_model, *lc: lc in base_model.lc and (lc, 'AC') in base_model.pLineType)
-        base_model.laa = base_model.lea | base_model.lca
-
-        counter1 += 1
-        print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
-        print(f'Remaining lines: {len(clines) - counter1}')
-        print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
-
-        ###################################################################################################################
-
     df_input_data.to_csv(_path + '/3.Out/oT_Result_NN_Input_' + args.case + '.csv', index=True)
     df_output_data.to_csv(_path + '/3.Out/oT_Result_NN_Output_' + args.case + '.csv', index=True)
 
@@ -446,12 +457,16 @@ def main():
     #for (ni,nf,cc) in clines:
     t_start = time.time()
     print(mp.cpu_count())
-
+    #nb_req = 4
+    #pool = mp.Pool(int(mp.cpu_count()/nb_req))
     pool = mp.Pool(mp.cpu_count())
 
 
 
-    pool.starmap(solve_and_save, [(ni,nf,cc,df_input_data,df_output_data) for (ni,nf,cc) in clines])
+
+    #pool.starmap(solve_and_save, [(ni,nf,cc,df_input_data,df_output_data,base_model) for (ni,nf,cc) in clines])
+    pool.starmap(solve_and_save, [(ni,nf,cc,df_input_data,df_output_data,base_model) for (ni,nf,cc) in clines])
+
     #pool.starmap(print_time_for_test, [(t_start,ni, nf, cc, df_input_data, df_output_data) for (ni, nf, cc) in clines])
     pool.close()
     # %% Restoring the dataframes
