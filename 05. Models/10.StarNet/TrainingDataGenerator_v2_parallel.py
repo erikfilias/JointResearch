@@ -247,7 +247,7 @@ def print_time_for_test(t_start,ni, nf, cc, df_input_data, df_output_data):
     t_stop = time.time()
     print(t_stop - t_start)
 
-def solve_and_save(ni, nf, cc, df_input_data, df_output_data,base_model,_path,args):
+def solve_and_save(ni, nf, cc, df_input_data, df_output_data,base_model,_path,args,dict_la,dict_lc):
 
     print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
     print(f"Line {ni} {nf} {cc}")
@@ -336,16 +336,16 @@ def solve_and_save(ni, nf, cc, df_input_data, df_output_data,base_model,_path,ar
                          filter=lambda base_model, *lc: lc in base_model.lc and (lc, 'AC') in base_model.pLineType)
     base_model.laa = base_model.lea | base_model.lca
 
-    counter1 += 1
-    print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
-    print(f'Remaining lines: {len(clines) - counter1}')
-    print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
+    # counter1 += 1
+    # print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
+    # print(f'Remaining lines: {len(clines) - counter1}')
+    # print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
 
     ###################################################################################################################
 
 def solve_and_save_dill(args):
-    ni, nf, cc, df_input_data, df_output_data, base_model,_path,args_ = args
-    return solve_and_save(ni, nf, cc, df_input_data, df_output_data, base_model,_path,args_)
+    ni, nf, cc, df_input_data, df_output_data, base_model,_path,args_,dict_la,dict_lc = args
+    return solve_and_save(ni, nf, cc, df_input_data, df_output_data, base_model,_path,args_,dict_la,dict_lc)
 
 # Calling the main function
 def main():
@@ -478,7 +478,7 @@ def main():
 
     print("Starting parallel executions")
     #pool.starmap(solve_and_save, [(ni,nf,cc,df_input_data,df_output_data,base_model) for (ni,nf,cc) in clines])
-    pool.map(solve_and_save_dill, [(ni, nf, cc, df_input_data, df_output_data, base_model,_path,args) for (ni, nf, cc) in clines])
+    pool.map(solve_and_save_dill, [(ni, nf, cc, df_input_data, df_output_data, base_model,_path,args,dict_la,dict_lc) for (ni, nf, cc) in clines])
     #pool.starmap(solve_and_save, [(ni,nf,cc,df_input_data,df_output_data,base_model) for (ni,nf,cc) in clines],pickler = dill)
 
     # with mp.Pool(4, initargs=(dill,)) as pool:
