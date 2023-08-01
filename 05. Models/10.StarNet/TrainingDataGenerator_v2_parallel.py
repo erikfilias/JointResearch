@@ -7,8 +7,12 @@ import pandas        as pd
 import time          # count clock time
 from   collections   import defaultdict
 from   pyomo.environ import ConcreteModel, Set, Param, Var, Objective, minimize, Constraint, DataPortal, PositiveIntegers, NonNegativeIntegers, Boolean, NonNegativeReals, UnitInterval, PositiveReals, Any, Binary, Reals, Suffix
-from   oSN_Main_v2   import *
+# from   oSN_Main_v2_parallel_compatible   import data_processing,create_variables,create_constraints,solving_model
+from   oSN_Main_v2  import data_processing,create_variables,create_constraints,solving_model
+
 import multiprocessing as mp
+from pathos.multiprocessing import ProcessingPool
+#import multiprocessing_on_dill as mp
 
 
 #%% Defining metadata
@@ -243,8 +247,8 @@ def print_time_for_test(t_start,ni, nf, cc, df_input_data, df_output_data):
     t_stop = time.time()
     print(t_stop - t_start)
 
+def solve_and_save(ni, nf, cc, df_input_data, df_output_data,base_model,_path,args):
 
-def solve_and_save(ni, nf, cc, df_input_data, df_output_data):
     print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
     print(f"Line {ni} {nf} {cc}")
     print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
@@ -339,9 +343,13 @@ def solve_and_save(ni, nf, cc, df_input_data, df_output_data):
 
     ###################################################################################################################
 
+def solve_and_save_dill(args):
+    ni, nf, cc, df_input_data, df_output_data, base_model,_path,args_ = args
+    return solve_and_save(ni, nf, cc, df_input_data, df_output_data, base_model,_path,args_)
 
 # Calling the main function
 def main():
+
     args = parser.parse_args()
     # if args.dir is None:
     #     args.dir    = input('Input Dir    Name (Default {}): '.format(DIR))
@@ -457,21 +465,33 @@ def main():
     #for (ni,nf,cc) in clines:
     t_start = time.time()
     print(mp.cpu_count())
-    #nb_req = 4
+    nb_req = 4
     #pool = mp.Pool(int(mp.cpu_count()/nb_req))
-    pool = mp.Pool(mp.cpu_count())
+    # pool = mp.Pool(mp.cpu_count())
+    #pool = ProcessingPool(int(mp.cpu_count()/nb_req))
+    pool = ProcessingPool(2)
 
 
 
 
+
+
+    print("Starting parallel executions")
     #pool.starmap(solve_and_save, [(ni,nf,cc,df_input_data,df_output_data,base_model) for (ni,nf,cc) in clines])
-    pool.starmap(solve_and_save, [(ni,nf,cc,df_input_data,df_output_data,base_model) for (ni,nf,cc) in clines])
+    pool.map(solve_and_save_dill, [(ni, nf, cc, df_input_data, df_output_data, base_model,_path,args) for (ni, nf, cc) in clines])
+    #pool.starmap(solve_and_save, [(ni,nf,cc,df_input_data,df_output_data,base_model) for (ni,nf,cc) in clines],pickler = dill)
+
+    # with mp.Pool(4, initargs=(dill,)) as pool:
+    #     results = pool.map(solve_and_save_dill, clines)
+    #
+
 
     #pool.starmap(print_time_for_test, [(t_start,ni, nf, cc, df_input_data, df_output_data) for (ni, nf, cc) in clines])
     pool.close()
+    print("Parallel executions complete")
     # %% Restoring the dataframes
-    df_Network.to_csv(_path + '/2.Par/oT_Data_Network_' + args.case + '.csv')
-    df_Generation.to_csv(_path + '/2.Par/oT_Data_Generation_' + args.case + '.csv')
+    # df_Network.to_csv(_path + '/2.Par/oT_Data_Network_' + args.case + '.csv')
+    # df_Generation.to_csv(_path + '/2.Par/oT_Data_Generation_' + args.case + '.csv')
 
     total_time = time.time() - initial_time
     print('########################################################')
@@ -481,4 +501,5 @@ def main():
 
 
 if __name__ == '__main__':
+    #mp.set_start_method('spawn')
     main()
