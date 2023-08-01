@@ -143,7 +143,7 @@ def ModelRun(model, optmodel, execution, path, dir, case, solver):
     # Merging all the data
     # df_input_data = pd.concat([df_demand, df_Y_matrix_real, df_Y_matrix_imag, df_max_power], axis=1)
     df_input_data = pd.concat([df_demand, df_Y_matrix_real, df_Y_matrix_imag, df_max_power])
-    # df_input_data.to_csv(_path + '/3.Out/oT_Result_NN_Input_' + args.case + '.csv', index=True)
+    # df_input_data.to_csv(_path + '/3.Out/0.WoParallel/oT_Result_NN_Input_' + args.case + '.csv', index=True)
 
     data_time = time.time() - start_time
     start_time = time.time()
@@ -236,7 +236,7 @@ def ModelRun(model, optmodel, execution, path, dir, case, solver):
     # df_output_data = pd.concat([df_total_costs, df_dual_eBalance, df_dual_eNetCapacity1, df_dual_eNetCapacity2, df_dual_eGenCapacity1, df_dual_eGenCapacity2])
     df_output_data = pd.concat([df_total_costs, df_dual_eBalance, df_dual_eNetCapacity1, df_dual_eNetCapacity2, df_dual_eGenCapacity2])
     # df_output_data = df_total_costs
-    # df_output_data.to_csv(_path + '/3.Out/oT_Result_NN_Output_' + args.case + '.csv', index=True)
+    # df_output_data.to_csv(_path + '/3.Out/0.WoParallel/oT_Result_NN_Output_' + args.case + '.csv', index=True)
 
     data_time = time.time() - start_time
     print('Getting the output data file           ... ', round(data_time), 's')
@@ -328,8 +328,8 @@ def main():
     df_output_data = df_Out
 
     # saving the input and output data
-    df_Inp.to_csv(_path + '/3.Out/oT_Input_Data_'  + args.case + '_' + execution + '.csv')
-    df_Out.to_csv(_path + '/3.Out/oT_Output_Data_' + args.case + '_' + execution + '.csv')
+    df_Inp.to_csv(_path + '/3.Out/0.WoParallel/oT_Input_Data_'  + args.case + '_' + execution + '.csv')
+    df_Out.to_csv(_path + '/3.Out/0.WoParallel/oT_Output_Data_' + args.case + '_' + execution + '.csv')
 
     ## restoring the candidate lines
     # removing the sets
@@ -407,8 +407,8 @@ def main():
 
         df_Inp, df_Out = ModelRun(base_model, oSN, execution, _path, args.dir, args.case, args.solver)
 
-        df_Inp.to_csv(_path + '/3.Out/oT_Input_Data_' + args.case + '_' + execution + '.csv')
-        df_Out.to_csv(_path + '/3.Out/oT_Output_Data_' + args.case + '_' + execution + '.csv')
+        df_Inp.to_csv(_path + '/3.Out/0.WoParallel/oT_Input_Data_' + args.case + '_' + execution + '.csv')
+        df_Out.to_csv(_path + '/3.Out/0.WoParallel/oT_Output_Data_' + args.case + '_' + execution + '.csv')
 
         df_input_data = pd.concat([df_input_data, df_Inp])
         df_output_data = pd.concat([df_output_data, df_Out])
@@ -440,8 +440,8 @@ def main():
 
         ####################################################################################################################
 
-    df_input_data.to_csv(_path + '/3.Out/oT_Result_NN_Input_' + args.case + '.csv', index=True)
-    df_output_data.to_csv(_path + '/3.Out/oT_Result_NN_Output_' + args.case + '.csv', index=True)
+    df_input_data.to_csv(_path + '/3.Out/0.WoParallel/oT_Result_NN_Input_' + args.case + '.csv', index=True)
+    df_output_data.to_csv(_path + '/3.Out/0.WoParallel/oT_Result_NN_Output_' + args.case + '.csv', index=True)
 
     # #%% Restoring the dataframes
     # df_Network.to_csv(   _path+'/2.Par/oT_Data_Network_'   +args.case+'.csv')
