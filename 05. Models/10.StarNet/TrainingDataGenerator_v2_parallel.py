@@ -464,12 +464,14 @@ def main():
 
     #for (ni,nf,cc) in clines:
     t_start = time.time()
-    print(mp.cpu_count())
+
     nb_req = 4
     #pool = mp.Pool(int(mp.cpu_count()/nb_req))
     # pool = mp.Pool(mp.cpu_count())
     #pool = ProcessingPool(int(mp.cpu_count()/nb_req))
-    pool = ProcessingPool(2)
+    nb_pool = int(mp.cpu_count()/nb_req)
+    print(f"Number of available cores: {mp.cpu_count()}, using {nb_req} cores per process, executing {nb_pool} processes in parallel" )
+    pool = ProcessingPool(nb_pool)
 
 
 
@@ -502,4 +504,9 @@ def main():
 
 if __name__ == '__main__':
     #mp.set_start_method('spawn')
+    t_start = time.time()
     main()
+    total_time = time.time() - t_start
+    print('########################################################')
+    print('Total time                            ... ', round(total_time), 's')
+    print('########################################################')

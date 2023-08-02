@@ -23,7 +23,7 @@ parser.add_argument('--dir',    type=str, default=None)
 parser.add_argument('--solver', type=str, default=None)
 
 DIR    = os.path.dirname(__file__)
-CASE   = 'RTS24'
+CASE   = '3-bus'
 SOLVER = 'gurobi'
 
 
@@ -352,9 +352,8 @@ def main():
 
     clines = [(ni,nf,cc) for (ni,nf,cc) in base_model.la if base_model.pIndBinLineInvest[ni,nf,cc] == 1]
     print(f'Number of candidate lines to be considered: {len(clines)}')
-    counter1 = 0
-    @background
-    def solve_and_save(ni,nf,cc,df_input_data,df_output_data):
+
+    def solve_and_save(ni,nf,cc,df_input_data,df_output_data,counter1):
         print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
         print(f"Line {ni} {nf} {cc}")
         print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
@@ -451,9 +450,15 @@ def main():
     print('########################################################')
     print('Total time                            ... ', round(total_time), 's')
     print('########################################################')
+    counter1 = 0
     for (ni,nf,cc) in clines:
-        solve_and_save(ni,nf,cc,df_input_data,df_output_data)
+        solve_and_save(ni,nf,cc,df_input_data,df_output_data,counter1)
 
 
 if __name__ == '__main__':
+    t_start = time.time()
     main()
+    total_time = time.time() - t_start
+    print('########################################################')
+    print('Total time                            ... ', round(total_time), 's')
+    print('########################################################')
