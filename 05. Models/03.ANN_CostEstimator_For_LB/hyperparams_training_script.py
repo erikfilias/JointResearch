@@ -121,7 +121,9 @@ if __name__ == '__main__':
                               "V_l_t_mse": validation_loss_t_mse.item(),
                               "Tr_l_ret": train_loss_1.item(),
                               "Train_time": t_train,
-                              "Eval_time": t_eval
+                              "Eval_time": t_eval,
+                              "Test size": te_s,
+                              "Val size": val_s
                               }
                              , index=[i])
             i += 1
