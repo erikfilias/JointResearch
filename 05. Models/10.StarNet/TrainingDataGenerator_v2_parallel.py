@@ -172,6 +172,28 @@ def ModelRun(model, optmodel, execution, path, dir, case, solver):
     start_time = time.time()
     print('Getting the total costs                ... ', round(data_time), 's')
 
+    # Power outputs
+    df_power_output = pd.Series(data=[model.vTotalOutput[p,sc,n,g]() for p,sc,n,g in model.psng], index=pd.MultiIndex.from_tuples(model.psnng))
+    df_power_output = df_power_output.to_frame(name='Value').rename_axis(['Period', 'Scenario', 'LoadLevel', 'Variable'], axis=0).reset_index().pivot_table(index=['Period', 'Scenario', 'LoadLevel','Variable'], values='Value', aggfunc=sum)
+    df_power_output['Dataset'] = 'PowerOutput'
+    df_power_output['Execution'] = execution
+
+    data_time = time.time() - start_time
+    start_time = time.time()
+    print('Getting the power output               ... ', round(data_time), 's')
+
+    # Power flows
+    df_power_flow = pd.Series(data=[model.vFlow[p,sc,n,ni,nf,cc]() for p,sc,n,ni,nf,cc in model.psnla], index=pd.MultiIndex.from_tuples(model.psnla))
+    df_power_flow = df_power_flow.to_frame(name='Value').rename_axis(['Period', 'Scenario', 'LoadLevel', 'InitialNode', 'FinalNode', 'Circuit'], axis=0).reset_index()
+    df_power_flow['Variable'] = df_power_flow['InitialNode'] + '_' + df_power_flow['FinalNode'] + '_' + df_power_flow['Circuit']
+    df_power_flow = df_power_flow.pivot_table(index=['Period','Scenario','LoadLevel','Variable'], values='Value' , aggfunc=sum)
+    df_power_flow['Dataset']   = 'PowerFlow'
+    df_power_flow['Execution'] = execution
+
+    data_time = time.time() - start_time
+    start_time = time.time()
+    print('Getting the power flow                 ... ', round(data_time), 's')
+
     # # Dual eBalance
     # incoming and outgoing lines (lin) (lout)
     lin   = defaultdict(list)
@@ -182,7 +204,7 @@ def ModelRun(model, optmodel, execution, path, dir, case, solver):
 
     List1 = [(p,sc,n,nd,st) for (p,sc,n,nd,st) in model.psnnd*model.st if (st,n) in model.s2n and sum(1 for g in model.g if (nd,g) in model.n2g) + sum(1 for lout in lout[nd]) + sum(1 for ni,cc in lin[nd])]
     df_dual_eBalance = pd.Series(data=[model_p.dual[model_p.eBalanceP[p,sc,st,n,nd]]*1e3 for p,sc,n,nd,st in List1], index=pd.MultiIndex.from_tuples(List1))
-    df_dual_eBalance = df_dual_eBalance.to_frame(name='Value').rename_axis(['Period', 'Scenario', 'LoadLevel', 'Variable','Stage'], axis=0).reset_index().pivot_table(index=['Period','Scenario','LoadLevel','Variable'], values='Value' , aggfunc=sum)
+    df_dual_eBalance = df_dual_eBalance.to_frame(name='Value').rename_axis(['Period', 'Scenario', 'LoadLevel', 'Variable','Stage'], axis=0).reset_index().pivot_table(index=['Period','Scenario','LoadLevel','Variable'], values='Value', aggfunc=sum)
     df_dual_eBalance['Dataset']   = 'Dual_eBalance'
     df_dual_eBalance['Execution'] = execution
 
@@ -232,8 +254,8 @@ def ModelRun(model, optmodel, execution, path, dir, case, solver):
     print('Getting the reduced cost: vTotalOutput ... ', round(data_time), 's')
 
     # Merging all the data
-    # df_output_data = pd.concat([df_total_costs, df_dual_eBalance, df_dual_eNetCapacity1, df_dual_eNetCapacity2, df_dual_eGenCapacity1, df_dual_eGenCapacity2])
-    df_output_data = pd.concat([df_total_costs, df_dual_eBalance, df_dual_eNetCapacity1, df_dual_eNetCapacity2, df_dual_eGenCapacity2])
+    # df_output_data = pd.concat([df_total_costs, df_power_output, df_power_flow, df_dual_eBalance, df_dual_eNetCapacity1, df_dual_eNetCapacity2, df_dual_eGenCapacity1, df_dual_eGenCapacity2])
+    df_output_data = pd.concat([df_total_costs, df_power_output, df_power_flow, df_dual_eBalance, df_dual_eNetCapacity1, df_dual_eNetCapacity2, df_dual_eGenCapacity2])
     # df_output_data = df_total_costs
     # df_output_data.to_csv(_path + '/3.Out/1.WParallel/oT_Result_NN_Output_' + args.case + '.csv', index=True)
 
