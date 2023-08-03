@@ -2,6 +2,7 @@ import torch
 from datetime import datetime
 from torch.utils.tensorboard import SummaryWriter
 import numpy as np
+import os
 
 def train_and_get_loss(model,tr_in,tr_out,nb_epochs,lr,print_ = False):
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
@@ -101,17 +102,17 @@ def train_multiple_epochs(nb_epochs,model,training_loader,validation_loader,loss
         # Track best performance, and save the model's state
         if avg_vloss < best_vloss:
             best_vloss = avg_vloss
-            if not(folder == None):
-                min_val_model_path = 'trained_models/{}/min_val/model_{}.pth'.format(folder,model_name)
+            if folder is not None:
+                min_val_model_dir = 'trained_models/{}/min_val'.format(folder)
+                os.makedirs(min_val_model_dir, exist_ok=True)  # Create the directory if it doesn't exist
+                min_val_model_path = os.path.join(min_val_model_dir, 'model_{}.pth'.format(model_name))
                 torch.save(model.state_dict(), min_val_model_path)
 
-
-
-
-
         epoch_number += 1
-    model_path = 'trained_models/{}/all_epochs/model_{}.pth'.format(folder,model_name)
-    if not (folder == None):
-        torch.save(model.state_dict(), model_path)
+    # model_path = 'trained_models/{}/all_epochs/model_{}.pth'.format(folder,model_name)if folder is not None:
+    model_dir = 'trained_models/{}/all_epochs'.format(folder)
+    os.makedirs(model_dir, exist_ok=True)  # Create the directory if it doesn't exist
+    model_path = os.path.join(model_dir, 'model_{}.pth'.format(model_name))
+    torch.save(model.state_dict(), model_path)
 
     return best_vloss,model_path,model

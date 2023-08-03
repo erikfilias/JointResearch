@@ -90,7 +90,6 @@ class ObjectiveEstimator_ANN_3hidden_layer(torch.nn.Module):
             output = self.output_layer(hidden3_dropout)
         return output
 
-
 def train_and_get_loss(model,tr_in,tr_out,nb_epochs,lr,print_ = False):
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
 
