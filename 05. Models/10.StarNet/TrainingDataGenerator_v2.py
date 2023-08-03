@@ -174,7 +174,7 @@ def ModelRun(model, optmodel, execution, path, dir, case, solver):
     print('Getting the total costs                ... ', round(data_time), 's')
 
     # Power outputs
-    df_power_output = pd.Series(data=[model_p.vTotalOutput[p,sc,n,g]() for p,sc,n,g in model.psng], index=pd.MultiIndex.from_tuples(model.psnng))
+    df_power_output = pd.Series(data=[model_p.vTotalOutputP[p,sc,n,g]() for p,sc,n,g in model.psng], index=pd.MultiIndex.from_tuples(model.psng))
     df_power_output = df_power_output.to_frame(name='Value').rename_axis(['Period', 'Scenario', 'LoadLevel', 'Variable'], axis=0).reset_index().pivot_table(index=['Period', 'Scenario', 'LoadLevel','Variable'], values='Value', aggfunc=sum)
     df_power_output['Dataset'] = 'PowerOutput'
     df_power_output['Execution'] = execution
@@ -184,7 +184,7 @@ def ModelRun(model, optmodel, execution, path, dir, case, solver):
     print('Getting the power output               ... ', round(data_time), 's')
 
     # Power flows
-    df_power_flow = pd.Series(data=[model_p.vFlow[p,sc,n,ni,nf,cc]() for p,sc,n,ni,nf,cc in model.psnla], index=pd.MultiIndex.from_tuples(model.psnla))
+    df_power_flow = pd.Series(data=[model_p.vPfr[p,sc,n,ni,nf,cc]() for p,sc,n,ni,nf,cc in model.psnla], index=pd.MultiIndex.from_tuples(model.psnla))
     df_power_flow = df_power_flow.to_frame(name='Value').rename_axis(['Period', 'Scenario', 'LoadLevel', 'InitialNode', 'FinalNode', 'Circuit'], axis=0).reset_index()
     df_power_flow['Variable'] = df_power_flow['InitialNode'] + '_' + df_power_flow['FinalNode'] + '_' + df_power_flow['Circuit']
     df_power_flow = df_power_flow.pivot_table(index=['Period','Scenario','LoadLevel','Variable'], values='Value' , aggfunc=sum)
