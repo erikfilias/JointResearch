@@ -22,7 +22,7 @@ parser.add_argument('--dir',    type=str, default=None)
 parser.add_argument('--solver', type=str, default=None)
 
 DIR    = os.path.dirname(__file__)
-CASE   = '3-bus'
+CASE   = 'RTS24'
 SOLVER = 'gurobi'
 
 
@@ -453,9 +453,15 @@ def main():
     df_input_data  = df_Inp
     df_output_data = df_Out
 
-    # saving the input and output data
-    df_Inp.to_csv(_path + '/3.Out/1.WParallel/oT_Input_Data_'  + args.case + '_' + execution + '.csv')
-    df_Out.to_csv(_path + '/3.Out/1.WParallel/oT_Output_Data_' + args.case + '_' + execution + '.csv')
+
+    # Create the directory if it does not exist
+    output_directory = _path + '/3.Out/1.WParallel/'
+    if not os.path.exists(output_directory):
+        os.makedirs(output_directory)
+
+    # Save the input and output data
+    df_Inp.to_csv(output_directory + 'oT_Input_Data_' + args.case + '_' + execution + '.csv')
+    df_Out.to_csv(output_directory + 'oT_Output_Data_' + args.case + '_' + execution + '.csv')
 
     ## restoring the candidate lines
     # removing the sets
@@ -487,11 +493,12 @@ def main():
     #for (ni,nf,cc) in clines:
     t_start = time.time()
 
-    nb_req = 4
+    nb_req = 8
+    provided_cores = 72
     #pool = mp.Pool(int(mp.cpu_count()/nb_req))
     # pool = mp.Pool(mp.cpu_count())
     #pool = ProcessingPool(int(mp.cpu_count()/nb_req))
-    nb_pool = int(mp.cpu_count()/nb_req)
+    nb_pool = int(provided_cores/nb_req)
     print(f"Number of available cores: {mp.cpu_count()}, using {nb_req} cores per process, executing {nb_pool} processes in parallel" )
     pool = ProcessingPool(nb_pool)
 
