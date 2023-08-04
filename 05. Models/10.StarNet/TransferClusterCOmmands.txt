@@ -1,22 +1,41 @@
-scp -r OneDrive\ -\ KU\ Leuven/JointResearch/JointResearch/05.\ Models/10.StarNet/ vsc34888@hpc:/data/leuven/348/vsc34888/JointResearch/05.Models/10.StarNet/
+#####################################
+## Upload entire folder (initial use)
+#####################################
 
+#Starnet
+
+scp -r OneDrive\ -\ KU\ Leuven/JointResearch/JointResearch/05.\ Models/10.StarNet/ vsc34888@hpc:/data/leuven/348/vsc34888/JointResearch/05.Models/10.StarNet/
 
 rsync --ignore-existing  -r  OneDrive\ -\ KU\ Leuven/JointResearch2023_new/JointResearch/05.\ Models/10.StarNet/ vsc34888@hpc:/data/leuven/348/vsc34888/JointResearch/05.Models/10.StarNet/
 
+#Training NN 
 
-scp -r  vsc34888@hpc:/data/leuven/348/vsc34888/JointResearch/05.Models/10.StarNet/3-bus/3.Out/ OneDrive\ -\ KU\ Leuven/JointResearch/05.\ Models/10.StarNet/3-bus/ClusterResults
-
-
-
-scp OneDrive\ -\ KU\ Leuven/JointResearch/JointResearch/05.\ Models/10.StarNet/ vsc34888@hpc:/data/leuven/348/vsc34888/JointResearch/05.Models/10.StarNet/
-
-
-scp -r  vsc34888@hpc:/data/leuven/348/vsc34888/JointResearch/05.Models/10.StarNet/slurm-* OneDrive\ -\ KU\ Leuven/JointResearch/05.\ Models/10.StarNet/slurm_output/
-
-scp OneDrive\ -\ KU\ Leuven/JointResearch/05.\ Models/10.StarNet/TrainingDataGEnerator vsc34888@hpc:/data/leuven/348/vsc34888/JointResearch/05.Models/10.StarNet/
-
+scp -r OneDrive\ -\ KU\ Leuven/JointResearch/05.\ Models/Data/ vsc34888@hpc:/data/leuven/348/vsc34888/JointResearch/05.Models/
 
 scp -r OneDrive\ -\ KU\ Leuven/JointResearch/05.\ Models/03.ANN_CostEstimator_For_LB/ vsc34888@hpc:/data/leuven/348/vsc34888/JointResearch/05.Models/
 
 
-scp -r OneDrive\ -\ KU\ Leuven/JointResearch/05.\ Models/Data/ vsc34888@hpc:/data/leuven/348/vsc34888/JointResearch/05.Models/
+
+
+#####################################
+## Upload/update specific scripts or files
+#####################################
+
+scp OneDrive\ -\ KU\ Leuven/JointResearch/05.\ Models/10.StarNet/TrainingDataGEnerator vsc34888@hpc:/data/leuven/348/vsc34888/JointResearch/05.Models/10.StarNet/
+
+scp -r OneDrive\ -\ KU\ Leuven/JointResearch/05.\ Models/03.ANN_CostEstimator_For_LB/hyper vsc34888@hpc:/data/leuven/348/vsc34888/JointResearch/05.Models/03.ANN_CostEstimator_For_LB/
+
+
+
+########################
+##Download results 
+#########################
+
+#Starnet
+scp -r  vsc34888@hpc:/data/leuven/348/vsc34888/JointResearch/05.Models/10.StarNet/3-bus/3.Out/ OneDrive\ -\ KU\ Leuven/JointResearch/05.\ Models/10.StarNet/3-bus/ClusterResults
+
+scp -r  vsc34888@hpc:/data/leuven/348/vsc34888/JointResearch/05.Models/10.StarNet/slurm-* OneDrive\ -\ KU\ Leuven/JointResearch/05.\ Models/10.StarNet/slurm_output/
+
+
+#Training
+

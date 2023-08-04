@@ -20,7 +20,7 @@ if __name__ == '__main__':
     te_s = 0.3
     val_s = 0.4
 
-    exec_name = f"All_Exec_split_by_exec_t{te_s}_v{val_s}"
+    exec_name = f"All_Exec_split_by_exec_llr_t{te_s}_v{val_s}"
     folder_to_save = f"RTS24_AC_12w_split_by_exec_{executions_start}_{executions_end}"
 
     #Load inputs and outputs in dataframes
@@ -41,7 +41,7 @@ if __name__ == '__main__':
     relu_outs = [False]
 
     batch_sizes = [32, 64, 128,256]
-    learning_rates = [0.0025 * 4 ** i for i in range(1, 4, 1)]
+    learning_rates = [0.0025 * 4 ** i for i in range(-2, 2, 1)]
     nbs_e = [4, 8, 16, 32, 64]  # ,8]
     negative_penalisations = [0]
 
@@ -50,7 +50,7 @@ if __name__ == '__main__':
     hp_sets = ((nb_h, dor, relu_out, bs, lr, nb_e, np) for nb_h in nbs_hidden for dor in dors for relu_out in relu_outs
                for bs in batch_sizes for lr in learning_rates for nb_e in nbs_e for np in negative_penalisations)
 
-    print("Number of hyperparameter combinations to be considered:", len(list(hp_sets)),f" {len(nbs_e)} in the epochs dim")
+    #print("Number of hyperparameter combinations to be considered:", len(list(hp_sets)),f" {len(nbs_e)} in the epochs dim")
 
     for hp_set in hp_sets:
         print("Current set of hyperparameters:")
