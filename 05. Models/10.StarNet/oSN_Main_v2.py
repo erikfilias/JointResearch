@@ -1870,7 +1870,7 @@ def create_constraints(model, optmodel):
     optmodel.eNetFixedInvestment       = Constraint(model.plc, rule=eNetFixedInvestment, doc='Fixing the investment decision to a specific value [p.u.]')
 
     def eNetSensiGroup(optmodel,p,ni,nf,cc,sg):
-        if model.pNetSensitivity[ni,nf,cc]() and (sg,ni,nf,cc) in optmodel.sg2la:
+        if model.pNetSensitivity[ni,nf,cc]() and (sg,ni,nf,cc) in model.sg2la:
             return optmodel.vNetSensiGr[p,sg] == optmodel.vNetSensi[p,ni,nf,cc]
         else:
             return Constraint.Skip
@@ -1878,7 +1878,7 @@ def create_constraints(model, optmodel):
 
     def eNetSensiGroupValue(optmodel,p,sg):
         if sg != 'Gr0':
-            return optmodel.vNetSensiGr[p,sg] == sum(model.pNetSensiGroupValue[ni,nf,cc] for (ni,nf,cc) in model.lc if (sg,ni,nf,cc) in optmodel.sg2la)/len([(ni,nf,cc) for (ni,nf,cc) in model.lc if (sg,ni,nf,cc) in optmodel.sg2la])
+            return optmodel.vNetSensiGr[p,sg] == sum(model.pNetSensiGroupValue[ni,nf,cc] for (ni,nf,cc) in model.lc if (sg,ni,nf,cc) in model.sg2la)/len([(ni,nf,cc) for (ni,nf,cc) in model.lc if (sg,ni,nf,cc) in model.sg2la])
         else:
             return Constraint.Skip
     optmodel.eNetSensiGroupValue       = Constraint(model.p, model.ns, rule=eNetSensiGroupValue, doc='Fixing the variable [p.u.]')
