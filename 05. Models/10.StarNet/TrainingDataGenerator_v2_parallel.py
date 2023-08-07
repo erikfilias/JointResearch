@@ -483,8 +483,7 @@ def main():
     base_model.laa = base_model.lea | base_model.lca
 
     clines = [(ni,nf,cc) for (ni,nf,cc) in base_model.la if base_model.pIndBinLineInvest[ni,nf,cc] == 1]
-    print(f'Number of candidate lines to be considered: {len(clines)}')
-    counter1 = 0
+
 
     df_input_data.to_csv(_path + '/3.Out/1.WParallel/oT_Result_NN_Input_' + args.case + '.csv', index=True)
     df_output_data.to_csv(_path + '/3.Out/1.WParallel/oT_Result_NN_Output_' + args.case + '.csv', index=True)
@@ -493,21 +492,19 @@ def main():
     #for (ni,nf,cc) in clines:
     t_start = time.time()
 
-    nb_req = 8
+    nb_req = 9
     provided_cores = 72
     #pool = mp.Pool(int(mp.cpu_count()/nb_req))
     # pool = mp.Pool(mp.cpu_count())
     #pool = ProcessingPool(int(mp.cpu_count()/nb_req))
-    nb_pool = int(provided_cores/nb_req)
+    print(f'Number of candidate lines to be considered: {len(clines)}')
+    counter1 = 0
     print(f"Number of available cores: {mp.cpu_count()}, using {nb_req} cores per process, executing {nb_pool} processes in parallel" )
-    pool = ProcessingPool(nb_pool)
-
-
-
-
-
-
     print("Starting parallel executions")
+
+
+    nb_pool = int(provided_cores/nb_req)
+    pool = ProcessingPool(nb_pool)
     #pool.starmap(solve_and_save, [(ni,nf,cc,df_input_data,df_output_data,base_model) for (ni,nf,cc) in clines])
     pool.map(solve_and_save_dill, [(ni, nf, cc, df_input_data, df_output_data, base_model,_path,args,dict_la,dict_lc) for (ni, nf, cc) in clines])
     #pool.starmap(solve_and_save, [(ni,nf,cc,df_input_data,df_output_data,base_model) for (ni,nf,cc) in clines],pickler = dill)
@@ -519,6 +516,7 @@ def main():
 
     #pool.starmap(print_time_for_test, [(t_start,ni, nf, cc, df_input_data, df_output_data) for (ni, nf, cc) in clines])
     pool.close()
+    pool.join()
     print("Parallel executions complete")
     # %% Restoring the dataframes
     # df_Network.to_csv(_path + '/2.Par/oT_Data_Network_' + args.case + '.csv')
