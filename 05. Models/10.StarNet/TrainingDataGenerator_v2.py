@@ -475,6 +475,7 @@ def main():
     counter1 = 0
     for (ni,nf,cc) in clines:
         solve_and_save(ni,nf,cc,df_input_data,df_output_data,counter1)
+        counter1 += 1
 
 
 if __name__ == '__main__':
