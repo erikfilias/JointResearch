@@ -381,7 +381,7 @@ def main():
         print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
 
         # Adding the line to the network
-        elines = [(ni, nf, cc) for (ni, nf, cc) in base_model.le if base_model.pIndBinLineInvest[ni, nf, cc] != 1]
+        elines = [(x, y, z) for (x, y, z) in base_model.le if base_model.pIndBinLineInvest[x, y, z] != 1]
         print(f'Number of existing lines to be considered: {len(elines)}')
         elines.append((ni, nf, cc))
 
@@ -398,8 +398,8 @@ def main():
         base_model.la = Set(initialize=elines, ordered=True)
         base_model.lc = Set(initialize=d_lc, ordered=True)
 
-        base_model.plc = [(p, ni, nf, cc) for p, ni, nf, cc in base_model.p * base_model.lc]
-        base_model.psnla = [(p, sc, n, ni, nf, cc) for p, sc, n, ni, nf, cc in base_model.psn * base_model.la]
+        base_model.plc = [(p, x, y, z) for p, x, y, z in base_model.p * base_model.lc]
+        base_model.psnla = [(p, sc, n, x, y, z) for p, sc, n, x, y, z in base_model.psn * base_model.la]
 
         # define AC candidate lines
         base_model.lca = Set(initialize=base_model.la, ordered=False, doc='AC candidate lines and     switchable lines',
@@ -424,7 +424,7 @@ def main():
         oSN.vNetworkInvest.pprint()
 
         print(
-            f'Number of lines to be considered: {len(base_model.le) + len([(p, ni, nf, cc) for (p, ni, nf, cc) in base_model.plc if oSN.vNetworkInvest[p, ni, nf, cc]() == 1.0])}')
+            f'Number of lines to be considered: {len(base_model.le) + len([(p, x, y, z) for (p, x, y, z) in base_model.plc if oSN.vNetworkInvest[p, x, y, z]() == 1.0])}')
 
         df_Inp, df_Out = ModelRun(base_model, oSN, execution, _path, args.dir, args.case, args.solver)
 
@@ -475,6 +475,7 @@ def main():
     counter1 = 0
     for (ni,nf,cc) in clines:
         solve_and_save(ni,nf,cc,df_input_data,df_output_data,counter1)
+        counter1 += 1
 
 
 if __name__ == '__main__':
