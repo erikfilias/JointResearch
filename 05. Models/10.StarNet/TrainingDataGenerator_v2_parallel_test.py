@@ -22,7 +22,7 @@ parser.add_argument('--dir',    type=str, default=None)
 parser.add_argument('--solver', type=str, default=None)
 
 DIR    = os.path.dirname(__file__)
-CASE   = '3-bus'
+CASE   = 'RTS24'
 SOLVER = 'gurobi'
 counter = 0
 
@@ -287,7 +287,7 @@ def solve_and_save(ni, nf, cc, df_input_data, df_output_data,base_model,_path,ar
 
 #
 # # Adding the line to the network
-#     elines = [(ni, nf, cc) for (ni, nf, cc) in base_model.le if base_model.pIndBinLineInvest[ni, nf, cc] != 1]
+#     elines = [(x, y, z) for (x, y, z) in base_model.le if base_model.pIndBinLineInvest[x, y, z] != 1]
 #     print(f'Number of existing lines to be considered: {len(elines)}')
 #     elines.append((ni, nf, cc))
 #
@@ -304,8 +304,8 @@ def solve_and_save(ni, nf, cc, df_input_data, df_output_data,base_model,_path,ar
 #     base_model.la = Set(initialize=elines, ordered=True)
 #     base_model.lc = Set(initialize=d_lc, ordered=True)
 #
-#     base_model.plc = [(p, ni, nf, cc) for p, ni, nf, cc in base_model.p * base_model.lc]
-#     base_model.psnla = [(p, sc, n, ni, nf, cc) for p, sc, n, ni, nf, cc in base_model.psn * base_model.la]
+#     base_model.plc = [(p, x, y, z) for p, x, y, z in base_model.p * base_model.lc]
+#     base_model.psnla = [(p, sc, n, x, y, z) for p, sc, n, x, y, z in base_model.psn * base_model.la]
 #
 #     # define AC candidate lines
 #     base_model.lca = Set(initialize=base_model.la, ordered=False, doc='AC candidate lines and     switchable lines',
@@ -477,8 +477,8 @@ def main():
     base_model.la    = Set(initialize=dict_la, ordered=True)
     base_model.lc    = Set(initialize=dict_lc, ordered=True)
 
-    base_model.plc   = [(p,     ni,nf,cc) for p,     ni,nf,cc in base_model.p   * base_model.lc]
-    base_model.psnla = [(p,sc,n,ni,nf,cc) for p,sc,n,ni,nf,cc in base_model.psn * base_model.la]
+    base_model.plc = [(p, x, y, z) for p, x, y, z in base_model.p * base_model.lc]
+    base_model.psnla = [(p, sc, n, x, y, z) for p, sc, n, x, y, z in base_model.psn * base_model.la]
 
     # define AC candidate lines
     base_model.lca = Set(initialize=base_model.la, ordered=False, doc='AC candidate lines and     switchable lines', filter=lambda base_model, *lc: lc in base_model.lc and (lc, 'AC') in base_model.pLineType)
