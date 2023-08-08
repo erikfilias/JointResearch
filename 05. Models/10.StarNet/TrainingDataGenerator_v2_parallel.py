@@ -20,9 +20,10 @@ parser = argparse.ArgumentParser(description='Introducing main parameters...')
 parser.add_argument('--case',   type=str, default=None)
 parser.add_argument('--dir',    type=str, default=None)
 parser.add_argument('--solver', type=str, default=None)
+parser.add_argument('--cpucount', type=str, default=None)
 
 DIR    = os.path.dirname(__file__)
-CASE   = 'RTS24'
+#CASE   = 'RTS24'
 SOLVER = 'gurobi'
 
 
@@ -377,10 +378,15 @@ def main():
     #     args.dir    = input('Input Dir    Name (Default {}): '.format(DIR))
     #     if args.dir == '':
     args.dir = DIR
-    # if args.case is None:
-    #     args.case   = input('Input Case   Name (Default {}): '.format(CASE))
-    #     if args.case == '':
-    args.case = CASE
+    if args.case is None:
+        args.case   = input('Input Case   Name (Default {}): '.format(CASE))
+        args.case = CASE
+    if args.cpucount is None:
+        provided_cores = 36
+    else:
+        provided_cores = args.cpucount
+
+
     # if args.solver is None:
     #     args.solver = input('Input Solver Name (Default {}): '.format(SOLVER))
     #     if args.solver == '':
@@ -493,17 +499,14 @@ def main():
     t_start = time.time()
 
     nb_req = 9
-    provided_cores = 72
-    #pool = mp.Pool(int(mp.cpu_count()/nb_req))
-    # pool = mp.Pool(mp.cpu_count())
-    #pool = ProcessingPool(int(mp.cpu_count()/nb_req))
+    nb_pool = int(int(provided_cores) / nb_req)
+
     print(f'Number of candidate lines to be considered: {len(clines)}')
-    counter1 = 0
-    print(f"Number of available cores: {mp.cpu_count()}, using {nb_req} cores per process, executing {nb_pool} processes in parallel" )
+    print(f"Number of available cores: {provided_cores}, using {nb_req} cores per process, executing {nb_pool} processes in parallel" )
     print("Starting parallel executions")
 
 
-    nb_pool = int(provided_cores/nb_req)
+
     pool = ProcessingPool(nb_pool)
     #pool.starmap(solve_and_save, [(ni,nf,cc,df_input_data,df_output_data,base_model) for (ni,nf,cc) in clines])
     pool.map(solve_and_save_dill, [(ni, nf, cc, df_input_data, df_output_data, base_model,_path,args,dict_la,dict_lc) for (ni, nf, cc) in clines])
