@@ -30,6 +30,46 @@ def load_data(folder,executions,period,sc):
         dfs_out[execution] = df_out_e
     return dfs_in,dfs_out
 
+def load_data_ext_out(folder, executions, period, sc, il_os=None):
+    dfs_in = dict()
+    dfs_out = dict()
+    dfs_inter = dict()
+    for execution in executions:
+        # Read the data from desired execution
+        df_in_e = pd.read_csv(f"{folder}/input_f_{sc}_{execution}_{period}.csv", header=[0], index_col=0)
+        df_out_e = pd.read_csv(f"{folder}/output_f_{sc}_{execution}_{period}_SystemCosts.csv", header=[0], index_col=0)
+
+        print(f"input_f_{sc}_{execution}_{period}.csv")
+
+        # And order the variables:
+
+        print(len(df_in_e.columns))
+        for col in df_out_e.columns:
+            df_out_e[col] = df_out_e[col].astype(float)
+        for col in df_in_e.columns:
+            df_in_e[col] = df_in_e[col].astype(float)
+
+        if il_os != None:
+            dfs_ilo = dict()
+            for il_o in il_os:
+                df_inter = pd.read_csv(f"{folder}/output_f_{sc}_{execution}_{period}_{il_o}.csv", header=[0],
+                                       index_col=0)
+                for col in df_inter.columns:
+                    df_inter[col] = df_inter[col].astype(float)
+                dfs_ilo[il_o] = df_inter
+            dfs_inter[execution] = dfs_ilo
+
+        dfs_in[execution] = df_in_e
+        dfs_out[execution] = df_out_e
+
+    return dfs_in, dfs_out, dfs_inter
+
+def join_frames_inter_layer(dfs_inter):
+    dfs_inter_j = dict()
+    for execution in dfs_inter.keys():
+        dfs_inter_j[execution] = pd.concat([dfs_inter[execution][t] for t in dfs_inter[execution].keys()],axis=1)
+    return dfs_inter_j
+
 def split_tr_val_te(dfs_in,dfs_out,executions,te_s,val_s):
     ts_in = dict()
     ts_out = dict()
@@ -63,6 +103,49 @@ def split_tr_val_te(dfs_in,dfs_out,executions,te_s,val_s):
         ts_in["train"][execution], ts_in["val"][execution], ts_out["train"][execution], ts_out["val"][
             execution] = train_test_split(train_in, train_out, test_size=validation_size, shuffle=False)
     return ts_in,ts_out
+
+def split_tr_val_te_ext_out(dfs_in, dfs_out, dfs_inter_j, executions, te_s, val_s):
+    ts_in = dict()
+    ts_out = dict()
+    ts_inter = dict()
+
+    ts_in["train"] = dict()
+    ts_in["test"] = dict()
+    ts_in["val"] = dict()
+
+    ts_out["train"] = dict()
+    ts_out["test"] = dict()
+    ts_out["val"] = dict()
+
+    ts_inter["train"] = dict()
+    ts_inter["test"] = dict()
+    ts_inter["val"] = dict()
+
+    # Test size as fraction of full dataset, validation size as fraction of training data set
+    test_size, validation_size = te_s, val_s
+
+    for execution in executions:
+        # Convert input dataframes numpy arrays sum the columns of the output:
+        np_in = dfs_in[execution].to_numpy()
+        np_out = dfs_out[execution].to_numpy().sum(axis=1)
+        np_inter = dfs_inter_j[execution].to_numpy()
+
+        # We don't normalize the separate runs, but will do it afterward, all together
+
+        # Convert to torch tensors
+        t_in = torch.from_numpy(np_in)
+        t_out = torch.from_numpy(np_out)
+        t_inter = torch.from_numpy(np_inter)
+
+        # And split into train, validation, and test set:
+        train_in, ts_in["test"][execution], train_out, ts_out["test"][execution], train_inter, ts_inter["test"][
+            execution] = train_test_split(t_in, t_out, t_inter,
+                                          test_size=test_size,
+                                          shuffle=False)
+        ts_in["train"][execution], ts_in["val"][execution], ts_out["train"][execution], ts_out["val"][
+            execution], ts_inter["train"][execution], ts_inter["val"][
+            execution] = train_test_split(train_in, train_out, train_inter, test_size=validation_size, shuffle=False)
+    return ts_in, ts_out, ts_inter
 
 def split_tr_val_te_by_exec(dfs_in,dfs_out,executions,te_s,val_s,randomized = False):
     ts_in = dict()
@@ -141,6 +224,55 @@ def concat_and_normalize(ts_in,ts_out,executions):
     d_ft_out = {"train": tr_out,"val": val_out,"test": te_out}
 
     return d_ft_in,d_ft_out
+
+def concat_and_normalize_ext_out(ts_in, ts_out, ts_inter, executions):
+    # concatenate all the training and testing sets to a single tensor, and normalize:
+    first = True
+    for execution in executions:
+        if first:
+            tr_in = ts_in["train"][execution]
+            tr_out = ts_out["train"][execution]
+            tr_inter = ts_inter["train"][execution]
+
+            te_in = ts_in["test"][execution]
+            te_out = ts_out["test"][execution]
+            te_inter = ts_inter["test"][execution]
+
+            val_in = ts_in["val"][execution]
+            val_out = ts_out["val"][execution]
+            val_inter = ts_inter["val"][execution]
+            first = False
+        else:
+            tr_in = torch.cat((tr_in, ts_in["train"][execution]))
+            tr_out = torch.cat((tr_out, ts_out["train"][execution]))
+            tr_inter = torch.cat((tr_inter, ts_inter["train"][execution]))
+
+            te_in = torch.cat((te_in, ts_in["test"][execution]))
+            te_out = torch.cat((te_out, ts_out["test"][execution]))
+            te_inter = torch.cat((te_inter, ts_inter["test"][execution]))
+
+            val_in = torch.cat((val_in, ts_in["val"][execution]))
+            val_out = torch.cat((val_out, ts_out["val"][execution]))
+            val_inter = torch.cat((val_inter, ts_inter["val"][execution]))
+
+    maxs = dict()
+    maxs["in"] = torch.cat((tr_in, te_in, val_in)).abs().max(dim=0).values
+    maxs["inter"] = torch.cat((tr_inter, te_inter, val_inter)).abs().max(dim=0).values
+    # maxs_te = te_in.abs().max(dim = 0).values
+
+    tr_in = torch.nan_to_num(tr_in / maxs["in"])
+    te_in = torch.nan_to_num(te_in / maxs["in"])
+    val_in = torch.nan_to_num(val_in / maxs["in"])
+
+    tr_inter = torch.nan_to_num(tr_inter / maxs["inter"])
+    te_inter = torch.nan_to_num(te_inter / maxs["inter"])
+    val_inter = torch.nan_to_num(val_inter / maxs["inter"])
+
+    d_ft_in = {"train": tr_in, "val": val_in, "test": te_in}
+    d_ft_out = {"train": tr_out, "val": val_out, "test": te_out}
+    d_ft_inter = {"train": tr_inter, "val": val_inter, "test": te_inter}
+
+    return d_ft_in, d_ft_out, d_ft_inter
 
 def concat_and_normalize_split_by_exec(ts_in,ts_out,executions):
     # concatenate all the training and testing sets to a single tensor, and normalize:
