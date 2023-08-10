@@ -8,7 +8,6 @@ class ObjectiveEstimator_ANN_Single_layer(torch.nn.Module):
         super().__init__()
         self.output_layer = torch.nn.Linear(input_size, output_size)
         self.dropout = torch.nn.Dropout(dropout_ratio)
-
         # define the device to use (GPU or CPU)
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
