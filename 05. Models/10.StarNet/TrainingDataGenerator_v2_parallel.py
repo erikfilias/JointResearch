@@ -498,7 +498,7 @@ def main():
     #for (ni,nf,cc) in clines:
     t_start = time.time()
 
-    nb_req = 9
+    nb_req = 36
     nb_pool = int(int(provided_cores) / nb_req)
 
     print(f'Number of candidate lines to be considered: {len(clines)}')
