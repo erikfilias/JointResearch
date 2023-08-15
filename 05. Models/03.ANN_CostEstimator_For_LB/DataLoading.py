@@ -311,3 +311,9 @@ def concat_and_normalize_split_by_exec(ts_in,ts_out,executions):
     d_ft_out = {"train": tr_out,"val": val_out,"test": te_out}
 
     return d_ft_in,d_ft_out,maxs
+
+def trim_columns_to_common(dfs_inter_j):
+    common_columns = list(set.intersection(*(set(df.columns) for df in dfs_inter_j.values())))
+    # Filter DataFrames to keep only common columns
+    filtered_dataframes_dict = {name: df[common_columns] for name, df in dfs_inter_j.items()}
+    return filtered_dataframes_dict

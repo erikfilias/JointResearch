@@ -62,7 +62,43 @@ def train_one_epoch(model, training_loader, epoch_index, optimizer, loss_fn,f_pr
 
     return losses
 
-def train_multiple_epochs(nb_epochs,model,training_loader,validation_loader,loss_fn,optimizer,model_name, folder=None):
+def train_one_epoch_inter(model, training_loader, epoch_index, optimizer, loss_fn,f_print = np.inf):
+    running_loss = 0.
+    last_loss = 0.
+
+    # Here, we use enumerate(training_loader) instead of
+    # iter(training_loader) so that we can track the batch
+    # index and do some intra-epoch reporting
+    losses = []
+    for i, data in enumerate(training_loader):
+        # Every data instance is an input + label pair
+        inputs, labels,labels_inter = data
+
+        # Zero your gradients for every batch!
+        optimizer.zero_grad()
+
+        # Make predictions for this batch
+        outputs,inter = model(inputs)
+
+        # Compute the loss and its gradients
+        loss = loss_fn(outputs.squeeze().float(), labels.float(),inter.squeeze().float(),labels_inter.float())
+        loss.backward()
+
+        # Adjust learning weights
+        optimizer.step()
+
+        # Gather data and report
+        running_loss += loss.item()
+        losses.append(loss.item())
+        # if i % f_print == 0:
+        #     last_loss = running_loss / f_print # loss per batch
+        #     print('  batch {} loss: {}'.format(i + 1, last_loss))
+        #     # tb_writer.add_scalar('Loss/train', last_loss, tb_x)
+        #     running_loss = 0.
+
+    return losses
+
+def train_multiple_epochs(nb_epochs,model,training_loader,validation_loader,loss_fn,optimizer,model_name, folder=None,inter=False):
     # Initializing in a separate cell so we can easily add more epochs to the same run
     epoch_number = 0
 
@@ -72,7 +108,10 @@ def train_multiple_epochs(nb_epochs,model,training_loader,validation_loader,loss
 
         # Make sure gradient tracking is on, and do a pass over the data
         model.train(True)
-        one_epoch_losses = train_one_epoch(model,training_loader,epoch_number,optimizer,loss_fn)
+        if inter:
+            one_epoch_losses = train_one_epoch_inter(model,training_loader,epoch_number,optimizer,loss_fn)
+        else:
+            one_epoch_losses = train_one_epoch(model,training_loader,epoch_number,optimizer,loss_fn)
         avg_loss = np.mean(one_epoch_losses)
 
 
@@ -83,11 +122,19 @@ def train_multiple_epochs(nb_epochs,model,training_loader,validation_loader,loss
 
         # Disable gradient computation and reduce memory consumption.
         with torch.no_grad():
-            for i, vdata in enumerate(validation_loader):
-                vinputs, vlabels = vdata
-                voutputs = model(vinputs)
-                vloss = loss_fn(voutputs.squeeze(), vlabels)
-                running_vloss += vloss
+            if inter:
+                for i, vdata in enumerate(validation_loader):
+                    vinputs, vlabels,vlabels_inter = vdata
+                    voutputs,vinter = model(vinputs)
+                    vloss = loss_fn(voutputs.squeeze().float(), vlabels.float(),vinter.squeeze().float(),vlabels_inter.float())
+                    running_vloss += vloss
+
+            else:
+                for i, vdata in enumerate(validation_loader):
+                    vinputs, vlabels = vdata
+                    voutputs = model(vinputs)
+                    vloss = loss_fn(voutputs.squeeze(), vlabels)
+                    running_vloss += vloss
 
         avg_vloss = running_vloss / (i + 1)
         print('LOSS train {} valid {}'.format(np.mean(avg_loss), avg_vloss))
@@ -116,3 +163,4 @@ def train_multiple_epochs(nb_epochs,model,training_loader,validation_loader,loss
     torch.save(model.state_dict(), model_path)
 
     return best_vloss,model_path,model
+
