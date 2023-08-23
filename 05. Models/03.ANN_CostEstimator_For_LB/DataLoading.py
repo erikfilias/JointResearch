@@ -104,7 +104,7 @@ def split_tr_val_te(dfs_in,dfs_out,executions,te_s,val_s):
             execution] = train_test_split(train_in, train_out, test_size=validation_size, shuffle=False)
     return ts_in,ts_out
 
-def split_tr_val_te_ext_out(dfs_in, dfs_out, dfs_inter_j, executions, te_s, val_s):
+def split_tr_val_te_ext_out(dfs_in, dfs_out, dfs_inter_j, executions, te_s, val_s,shuffle = True):
     ts_in = dict()
     ts_out = dict()
     ts_inter = dict()
@@ -124,11 +124,26 @@ def split_tr_val_te_ext_out(dfs_in, dfs_out, dfs_inter_j, executions, te_s, val_
     # Test size as fraction of full dataset, validation size as fraction of training data set
     test_size, validation_size = te_s, val_s
 
+
+
+
     for execution in executions:
         # Convert input dataframes numpy arrays sum the columns of the output:
         np_in = dfs_in[execution].to_numpy()
         np_out = dfs_out[execution].to_numpy().sum(axis=1)
         np_inter = dfs_inter_j[execution].to_numpy()
+
+        if shuffle:
+            seed = 0
+            rng = np.random.default_rng(seed)
+            np_in = rng.permutation(np_in,axis=0)
+
+            rng = np.random.default_rng(seed)
+            np_out = rng.permutation(np_out, axis=0)
+
+            rng = np.random.default_rng(seed)
+            np_inter = rng.permutation(np_inter, axis=0)
+
 
         # We don't normalize the separate runs, but will do it afterward, all together
 

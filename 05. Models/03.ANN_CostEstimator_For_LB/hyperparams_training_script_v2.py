@@ -18,8 +18,8 @@ if __name__ == '__main__':
     te_s = 0.3
     val_s = 0.4
 
-    exec_name = f"RTS24_AC_12w_dummy_{te_s}_v{val_s}_PF_sa_v2"
-    folder_to_save = f"{exec_name}_{executions_start}_{executions_end}"
+    exec_name = f"RTS24_AC_12w_dummy_{te_s}_v{val_s}_PF_sa_test_local_{executions_start}_{executions_end}"
+    folder_to_save = f"{exec_name}"
 
     #Load inputs and outputs in dataframes
     dfs_in, dfs_out, dfs_inter = DataLoading.load_data_ext_out(folder, executions, period, sc, ["PowerFlow"])
@@ -43,7 +43,7 @@ if __name__ == '__main__':
     dors = [0]  # ,0.05,0.1]#,0.05]
     relu_outs = [False,True]
 
-    batch_sizes = [32, 64, 128]
+    batch_sizes = [32, 64]
     #batch_sizes = [64]
     learning_rates = [0.0025 * 4 ** i for i in range(-1, 2, 1)]
     #learning_rates = [0.0025 * 4 ** i for i in range(-1, 0, 1)]
@@ -51,9 +51,10 @@ if __name__ == '__main__':
     #nbs_e = [8]  # ,8]
     negative_penalisations = [0]
     alphas = [0, 0.01,0.04,0.16]
-    #alphas = [0, 0.02]
+    #alphas = [0, 0.04]
     beta = 1
     MAEs = [True,False]
+    #MAEs = [True]
     results = pd.DataFrame()
 
     hp_sets = ((nb_h, dor, relu_out, bs, lr, nb_e, np, alpha,MAE) for nb_h in nbs_hidden for dor in dors for relu_out in
