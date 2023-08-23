@@ -272,7 +272,7 @@ def concat_and_normalize_ext_out(ts_in, ts_out, ts_inter, executions):
     d_ft_out = {"train": tr_out, "val": val_out, "test": te_out}
     d_ft_inter = {"train": tr_inter, "val": val_inter, "test": te_inter}
 
-    return d_ft_in, d_ft_out, d_ft_inter
+    return d_ft_in, d_ft_out, d_ft_inter,maxs
 
 def concat_and_normalize_split_by_exec(ts_in,ts_out,executions):
     # concatenate all the training and testing sets to a single tensor, and normalize:
