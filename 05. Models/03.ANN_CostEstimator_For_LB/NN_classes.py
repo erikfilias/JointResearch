@@ -335,7 +335,7 @@ def create_model_OC_only(nb_hidden, input_size, dropout_ratio,relu_out):
 
 def create_model_inter(nb_hidden,input_size,inter_size,dropout_ratio,relu_out =False,hidden_sizes = None):
     #assert(type(hidden_sizes) == tuple)
-
+    #print(nb_hidden)
     if hidden_sizes == None:
         hidden_sizes = []
         if nb_hidden == (0,0):
@@ -419,19 +419,19 @@ def create_custom_loss(alpha,beta,MAE=False):
 
         return total_loss
 
-    def custom_loss_MAE(output, target_output, hidden_layer_representation, target_hidden, alpha=0.0, beta=1):
+    def custom_loss_MAE(output, target_output, hidden_layer_representation, target_hidden):
         # Compute the standard loss (e.g., mean squared error) for the output layer
-        standard_loss = torch.nn.L1Loss(output.squeeze(), target_output)
+        standard_loss = F.l1_loss(output.squeeze(), target_output)
 
         # Compute a loss term based on the hidden layer representation and its target
-        hidden_loss = torch.nn.L1Loss(hidden_layer_representation, target_hidden)
+        hidden_loss = F.l1_loss(hidden_layer_representation, target_hidden)
 
         # Combine the two loss terms with a weighting factor alpha
         total_loss = beta * standard_loss + alpha * hidden_loss
 
         return total_loss
 
-    if MAE:
+    if not MAE:
         loss = custom_loss
     else:
         loss = custom_loss_MAE
