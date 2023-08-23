@@ -8,8 +8,6 @@ import time
 
 if __name__ == '__main__':
     #Some initialising stuff
-
-
     sc = "sc01"
     period = "2030"
     folder = "../Data/RTS24_AC_12w"
@@ -27,6 +25,10 @@ if __name__ == '__main__':
     dfs_in, dfs_out = DataLoading.load_data(folder, executions, period, sc)
     #Convert to pytorch tensors
     ts_in, ts_out = DataLoading.split_tr_val_te_by_exec(dfs_in, dfs_out, executions, te_s, val_s, False)
+
+
+
+
     #Create dataloaders and store the maxs for normalisation
     d_ft_in, d_ft_out, maxs = DataLoading.concat_and_normalize_split_by_exec(ts_in, ts_out, executions)
 
@@ -45,12 +47,17 @@ if __name__ == '__main__':
     nbs_e = [4, 8, 16, 32, 64]  # ,8]
     negative_penalisations = [0]
 
+
+
     results = pd.DataFrame()
 
     hp_sets = ((nb_h, dor, relu_out, bs, lr, nb_e, np) for nb_h in nbs_hidden for dor in dors for relu_out in relu_outs
                for bs in batch_sizes for lr in learning_rates for nb_e in nbs_e for np in negative_penalisations)
 
     #print("Number of hyperparameter combinations to be considered:", len(list(hp_sets)),f" {len(nbs_e)} in the epochs dim")
+
+
+
 
     for hp_set in hp_sets:
         print("Current set of hyperparameters:")

@@ -18,8 +18,8 @@ if __name__ == '__main__':
     te_s = 0.3
     val_s = 0.4
 
-    exec_name = f"All_Exec_dummy_t{te_s}_v{val_s}_PF_sa_MAE"
-    folder_to_save = f"RTS24_AC_12w_dummy_{exec_name}_{executions_start}_{executions_end}"
+    exec_name = f"RTS24_AC_12w_dummy_{te_s}_v{val_s}_PF_sa_v2"
+    folder_to_save = f"{exec_name}_{executions_start}_{executions_end}"
 
     #Load inputs and outputs in dataframes
     dfs_in, dfs_out, dfs_inter = DataLoading.load_data_ext_out(folder, executions, period, sc, ["PowerFlow"])
@@ -30,7 +30,7 @@ if __name__ == '__main__':
     ts_in, ts_out, ts_inter = DataLoading.split_tr_val_te_ext_out(dfs_in, dfs_out, dfs_inter_j, executions, te_s, val_s)
 
     #Create dataloaders
-    d_ft_in, d_ft_out, d_ft_inter = DataLoading.concat_and_normalize_ext_out(ts_in, ts_out, ts_inter, executions)
+    d_ft_in, d_ft_out, d_ft_inter,maxs = DataLoading.concat_and_normalize_ext_out(ts_in, ts_out, ts_inter, executions)
 
     #Create TensorDatasets
     train = TensorDataset(d_ft_in['train'].float(), d_ft_out['train'].float(), d_ft_inter['train'])
@@ -39,33 +39,40 @@ if __name__ == '__main__':
     #Perform the actual loop that checks multiple hyperparams
     i = 0
     nbs_hidden = [(2, 0),(3, 0),(3, 1),(3, 2)]#
+    #nbs_hidden = [(2, 0)]
     dors = [0]  # ,0.05,0.1]#,0.05]
-    relu_outs = [False]
+    relu_outs = [False,True]
 
     batch_sizes = [32, 64, 128]
-    learning_rates = [0.0025 * 4 ** i for i in range(-1, 3, 1)]
-    nbs_e = [4, 8, 16, 32, 64]  # ,8]
+    #batch_sizes = [64]
+    learning_rates = [0.0025 * 4 ** i for i in range(-1, 2, 1)]
+    #learning_rates = [0.0025 * 4 ** i for i in range(-1, 0, 1)]
+    nbs_e = [16, 32, 64]  # ,8]
+    #nbs_e = [8]  # ,8]
     negative_penalisations = [0]
-    alphas = [0, 0.01, 0.02, 0.04,0.08]
+    alphas = [0, 0.01,0.04,0.16]
+    #alphas = [0, 0.02]
     beta = 1
-    MAE = True
-
+    MAEs = [True,False]
     results = pd.DataFrame()
 
-    hp_sets = ((nb_h, dor, relu_out, bs, lr, nb_e, np, alpha) for nb_h in nbs_hidden for dor in dors for relu_out in
+    hp_sets = ((nb_h, dor, relu_out, bs, lr, nb_e, np, alpha,MAE) for nb_h in nbs_hidden for dor in dors for relu_out in
                relu_outs for bs in batch_sizes for lr in learning_rates for nb_e in nbs_e for np in
-               negative_penalisations for alpha in alphas)
+               negative_penalisations for alpha in alphas for MAE in MAEs)
 
     inter_size = dfs_inter_j["Network_Existing_Generation_Full"].shape[1]
 
-    # print(f"Number of hyperparameter combinations to be considered: {len(list(hp_sets))}, {len(nbs_e)} in the epochs dim")
+    print(f"Number of hyperparameter combinations to be considered: {len(list(hp_sets))}, {len(nbs_e)} in the epochs dim")
+    hp_sets = ((nb_h, dor, relu_out, bs, lr, nb_e, np, alpha,MAE) for nb_h in nbs_hidden for dor in dors for relu_out in
+               relu_outs for bs in batch_sizes for lr in learning_rates for nb_e in nbs_e for np in
+               negative_penalisations for alpha in alphas for MAE in MAEs)
     print("test")
     counter = 0
     for hp_set in hp_sets:
         counter+=1
         print(hp_set, "Counter:",counter)
-        nb_hidden, dor, relu_out, bs, lr, nb_e, np, alpha = hp_set[0], hp_set[1], hp_set[2], hp_set[3], hp_set[4], hp_set[
-            5], hp_set[6], hp_set[7]
+        nb_hidden, dor, relu_out, bs, lr, nb_e, np, alpha,MAE = hp_set[0], hp_set[1], hp_set[2], hp_set[3], hp_set[4], hp_set[
+            5], hp_set[6], hp_set[7],hp_set[8]
 
         # Create training and validation loaders based on batch size
         training_loader = DataLoader(train, batch_size=bs)
@@ -74,12 +81,13 @@ if __name__ == '__main__':
         # Initialize loss functions
         loss_fn = NN_classes.create_custom_loss(alpha=alpha, beta=beta,MAE=MAE)
         loss_t_mse = torch.nn.MSELoss()
+        loss_mae = torch.nn.L1Loss()
 
         # Create model based on hyperparameter set
         m = NN_classes.create_model(nb_hidden, d_ft_in['train'].shape[1], dropout_ratio=dor, relu_out=relu_out, inter=True,
                                     inter_size=inter_size)
         # Create model name for saving and loading
-        m_name = f"OE_{nb_hidden}h_{nb_e}e_{lr}lr_{dor}dor_{np}np_{relu_out}_ro_{bs}bs"
+        m_name = f"OE_{nb_hidden}h_{nb_e}e_{lr}lr_{dor}dor_{np}np_{relu_out}ro_{bs}bs_{alpha}ill_{MAE}MAE"
         # Create optimizer based on learning rate
         optimizer = torch.optim.Adam(m.parameters(), lr=lr)
         # Train the actual model
@@ -103,21 +111,26 @@ if __name__ == '__main__':
             test_loss = loss_fn(test_predictions[0].squeeze(), d_ft_out["test"], test_predictions[1].squeeze(),
                                 d_ft_inter["test"])
             test_loss_t_mse = loss_t_mse(test_predictions[0].squeeze(), d_ft_out["test"])
+            test_loss_mae = loss_mae(test_predictions[0].squeeze(), d_ft_out["test"])
 
             train_predictions = m(d_ft_in["train"].float())
             train_loss = loss_fn(train_predictions[0].squeeze(), d_ft_out["train"], train_predictions[1].squeeze(),
                                  d_ft_inter["train"])
             train_loss_t_mse = loss_t_mse(train_predictions[0].squeeze(), d_ft_out["train"])
+            train_loss_mae = loss_mae(train_predictions[0].squeeze(), d_ft_out["train"])
 
             validation_prediction = m(d_ft_in["val"].float())
             validation_loss = loss_fn(validation_prediction[0].squeeze(), d_ft_out["val"],
                                       validation_prediction[1].squeeze(), d_ft_inter["val"])
             validation_loss_t_mse = loss_t_mse(validation_prediction[0].squeeze(), d_ft_out["val"])
+            validation_loss_mae = loss_mae(validation_prediction[0].squeeze(), d_ft_out["val"])
+
             t_stop_eval = time.perf_counter()
 
             # Calculate some calculation times
             t_train = t_stop_train - t_start_train
             t_eval = t_stop_eval - t_start_eval
+
 
             # Finally, save all desired values in a dataframe
             r = pd.DataFrame({"Model_type": [nb_hidden],
@@ -134,11 +147,15 @@ if __name__ == '__main__':
                               "Tr_l_t_mse": train_loss_t_mse.item(),
                               "Te_l_t_mse": test_loss_t_mse.item(),
                               "V_l_t_mse": validation_loss_t_mse.item(),
+                              "Tr_l_mae": train_loss_mae.item(),
+                              "Te_l_mae": test_loss_mae.item(),
+                              "V_l_mae": validation_loss_mae.item(),
                               "Tr_l_ret": train_loss_1.item(),
                               "Train_time": t_train,
                               "Eval_time": t_eval,
                               "alpha": alpha,
                               "beta": beta,
+                              "MAE": MAE,
                               "Test size": te_s,
                               "Val size": val_s
                               }
