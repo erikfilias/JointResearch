@@ -30,14 +30,14 @@ def load_data(folder,executions,period,sc):
         dfs_out[execution] = df_out_e
     return dfs_in,dfs_out
 
-def load_data_ext_out(folder, executions, period, sc, il_os=None):
+def load_data_ext_out(folder, executions, period, sc, il_os=None,output = "SystemCosts"):
     dfs_in = dict()
     dfs_out = dict()
     dfs_inter = dict()
     for execution in executions:
         # Read the data from desired execution
         df_in_e = pd.read_csv(f"{folder}/input_f_{sc}_{execution}_{period}.csv", header=[0], index_col=0)
-        df_out_e = pd.read_csv(f"{folder}/output_f_{sc}_{execution}_{period}_SystemCosts.csv", header=[0], index_col=0)
+        df_out_e = pd.read_csv(f"{folder}/output_f_{sc}_{execution}_{period}_{output}.csv", header=[0], index_col=0)
 
         print(f"input_f_{sc}_{execution}_{period}.csv")
 
