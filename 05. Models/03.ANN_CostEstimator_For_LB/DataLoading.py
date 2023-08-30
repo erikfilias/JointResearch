@@ -30,14 +30,14 @@ def load_data(folder,executions,period,sc):
         dfs_out[execution] = df_out_e
     return dfs_in,dfs_out
 
-def load_data_ext_out(folder, executions, period, sc, il_os=None):
+def load_data_ext_out(folder, executions, period, sc, il_os=None,output = "SystemCosts"):
     dfs_in = dict()
     dfs_out = dict()
     dfs_inter = dict()
     for execution in executions:
         # Read the data from desired execution
         df_in_e = pd.read_csv(f"{folder}/input_f_{sc}_{execution}_{period}.csv", header=[0], index_col=0)
-        df_out_e = pd.read_csv(f"{folder}/output_f_{sc}_{execution}_{period}_SystemCosts.csv", header=[0], index_col=0)
+        df_out_e = pd.read_csv(f"{folder}/output_f_{sc}_{execution}_{period}_{output}.csv", header=[0], index_col=0)
 
         print(f"input_f_{sc}_{execution}_{period}.csv")
 
@@ -104,7 +104,7 @@ def split_tr_val_te(dfs_in,dfs_out,executions,te_s,val_s):
             execution] = train_test_split(train_in, train_out, test_size=validation_size, shuffle=False)
     return ts_in,ts_out
 
-def split_tr_val_te_ext_out(dfs_in, dfs_out, dfs_inter_j, executions, te_s, val_s):
+def split_tr_val_te_ext_out(dfs_in, dfs_out, dfs_inter_j, executions, te_s, val_s,shuffle = True):
     ts_in = dict()
     ts_out = dict()
     ts_inter = dict()
@@ -124,11 +124,26 @@ def split_tr_val_te_ext_out(dfs_in, dfs_out, dfs_inter_j, executions, te_s, val_
     # Test size as fraction of full dataset, validation size as fraction of training data set
     test_size, validation_size = te_s, val_s
 
+
+
+
     for execution in executions:
         # Convert input dataframes numpy arrays sum the columns of the output:
         np_in = dfs_in[execution].to_numpy()
         np_out = dfs_out[execution].to_numpy().sum(axis=1)
         np_inter = dfs_inter_j[execution].to_numpy()
+
+        if shuffle:
+            seed = 0
+            rng = np.random.default_rng(seed)
+            np_in = rng.permutation(np_in,axis=0)
+
+            rng = np.random.default_rng(seed)
+            np_out = rng.permutation(np_out, axis=0)
+
+            rng = np.random.default_rng(seed)
+            np_inter = rng.permutation(np_inter, axis=0)
+
 
         # We don't normalize the separate runs, but will do it afterward, all together
 
@@ -272,7 +287,7 @@ def concat_and_normalize_ext_out(ts_in, ts_out, ts_inter, executions):
     d_ft_out = {"train": tr_out, "val": val_out, "test": te_out}
     d_ft_inter = {"train": tr_inter, "val": val_inter, "test": te_inter}
 
-    return d_ft_in, d_ft_out, d_ft_inter
+    return d_ft_in, d_ft_out, d_ft_inter,maxs
 
 def concat_and_normalize_split_by_exec(ts_in,ts_out,executions):
     # concatenate all the training and testing sets to a single tensor, and normalize:
