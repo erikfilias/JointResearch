@@ -64,6 +64,23 @@ def load_data_ext_out(folder, executions, period, sc, il_os=None,output = "Syste
 
     return dfs_in, dfs_out, dfs_inter
 
+def load_data_input_only(folder, executions, period, sc):
+    dfs_in = dict()
+
+    for execution in executions:
+        # Read the data from desired execution
+        df_in_e = pd.read_csv(f"{folder}/input_f_{sc}_{execution}_{period}.csv", header=[0], index_col=0)
+
+        print(f"input_f_{sc}_{execution}_{period}.csv")
+
+        print(len(df_in_e.columns))
+        for col in df_in_e.columns:
+            df_in_e[col] = df_in_e[col].astype(float)
+
+        dfs_in[execution] = df_in_e
+
+    return dfs_in
+
 def join_frames_inter_layer(dfs_inter):
     dfs_inter_j = dict()
     for execution in dfs_inter.keys():
