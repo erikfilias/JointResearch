@@ -40,20 +40,21 @@ if __name__ == '__main__':
     #Perform the actual loop that checks multiple hyperparams
     i = 0
     #nbs_hidden = [(2, 0),(3, 0),(3, 1),(3, 2)]#
-    nbs_hidden = [(3,0),(3, 2)]
-    dors = [0,0.05,0.25]  # ,0.05,0.1]#,0.05]
+    nbs_hidden = [(2, 0)]
+    #dors = [0,0.05,0.25]  # ,0.05,0.1]#,0.05]
+    dors = [0]
     #relu_outs = [False,True]
     relu_outs = [False]
 
-    batch_sizes = [32,64]
+    batch_sizes = [64]
     #batch_sizes = [64]
-    learning_rates = [0.0025 * 4 ** i for i in range(-2, 1, 1)]
-    #learning_rates = [0.0025 * 4 ** i for i in range(-1, 0, 1)]
-    nbs_e = [32, 64]  # ,8]
-    #nbs_e = [8,16]  # ,8]
+    #learning_rates = [0.0025 * 4 ** i for i in range(-2, 0, 1)]
+    learning_rates = [0.0025 * 4 ** i for i in range(-1, 0, 1)]
+    #nbs_e = [32]  # ,8]
+    nbs_e = [8]  # ,8]
     negative_penalisations = [0]
     #alphas = [0, 0.01,0.04,0.16]
-    alphas = [0,0.16]
+    alphas = [0,0.04]
     beta = 1
     MAEs = [True,False]
     #MAEs = [True]
