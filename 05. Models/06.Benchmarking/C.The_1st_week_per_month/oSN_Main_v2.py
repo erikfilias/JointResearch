@@ -110,9 +110,18 @@ openStarNet = ConcreteModel('openStarNet - Open Version of the StartNetLite Mode
 def main(cmodel):
     initial_time = time.time()
     args = parser.parse_args()
-    args.dir = DIR
-    args.case = CASE
-    args.solver = SOLVER
+    if args.dir is None:
+        args.dir    = input('Input Dir    Name (Default {}): '.format(DIR))
+        if args.dir == '':
+            args.dir = DIR
+    if args.case is None:
+        args.case   = input('Input Case   Name (Default {}): '.format(CASE))
+        if args.case == '':
+            args.case = CASE
+    if args.solver is None:
+        args.solver = input('Input Solver Name (Default {}): '.format(SOLVER))
+        if args.solver == '':
+            args.solver = SOLVER
     print(args.case)
     print(args.dir)
     print(args.solver)
@@ -282,6 +291,7 @@ def data_processing(DirName, CaseName, model):
     pRatedMaxPowerQ     = dfGeneration  ['MaximumReactivePower'  ] * 1e-3 * (1.0-dfGeneration['EFOR'])                                        # rated reactive maximum power                [GVAr]
     pLinearFuelCost     = dfGeneration  ['LinearTerm'            ] * 1e-3 *      dfGeneration['FuelCost']                                     # fuel     term variable cost                 [MEUR/GWh]
     pLinearOMCost       = dfGeneration  ['OMVariableCost'        ] * 1e-3                                                                     # O&M      term variable cost                 [MEUR/GWh]
+    pLCOE               = dfGeneration  ['LCOE'                  ] * 1e-3                                                                     # LCOE                                       [MEUR/GWh]
     pConstantVarCost    = dfGeneration  ['ConstantTerm'          ] * 1e-6 *      dfGeneration['FuelCost']                                     # constant term variable cost                 [MEUR/h]
     pStartUpCost        = dfGeneration  ['StartUpCost'           ]                                                                            # startup  cost                               [MEUR]
     pShutDownCost       = dfGeneration  ['ShutDownCost'          ]                                                                            # shutdown cost                               [MEUR]
@@ -789,6 +799,7 @@ def data_processing(DirName, CaseName, model):
     # model.pRatedConstantVarCost = Param(model.gg,    initialize=pRatedConstantVarCost.to_dict()     , within=NonNegativeReals,    doc='Constant variable cost'                              )
     model.pLinearVarCost        = Param(model.gg,    initialize=pLinearVarCost.to_dict()            , within=NonNegativeReals,    doc='Linear   variable cost'                              )
     model.pConstantVarCost      = Param(model.gg,    initialize=pConstantVarCost.to_dict()          , within=NonNegativeReals,    doc='Constant variable cost'                              )
+    model.pLCOE                 = Param(model.gg,      initialize=pLCOE.to_dict()                   , within=NonNegativeReals,    doc='Levelized cost of energy'                            )
     model.pLinearOMCost         = Param(model.gg,    initialize=pLinearOMCost.to_dict()             , within=NonNegativeReals,    doc='Linear   O&M      cost'                              )
     # # model.pOperReserveCost      = Param(model.gg,    initialize=pOperReserveCost.to_dict()          , within=NonNegativeReals,    doc='Operating reserve cost'                              )
     model.pCO2EmissionCost      = Param(model.gg,    initialize=pCO2EmissionCost.to_dict()          , within=Reals,               doc='CO2 Emission      cost'                              )
@@ -1174,11 +1185,12 @@ def create_constraints(model, optmodel):
 
     def eTotalGCost(optmodel,p,sc,st,n):
         if (st,n) in model.s2n:
-            return optmodel.vTotalGCost[p,sc,n] == (sum(model.pLoadLevelDuration[n] * model.pLinearVarCost  [nr] * optmodel.vTotalOutputP[p,sc,n,nr]                      +
-                                                        model.pLoadLevelDuration[n] * model.pConstantVarCost[nr] * optmodel.vCommitment [p,sc,n,nr]                      +
-                                                        model.pLoadLevelDuration[n] * model.pStartUpCost    [nr] * optmodel.vStartUp [p,sc,n,nr]                         +
-                                                        model.pLoadLevelDuration[n] * model.pShutDownCost   [nr] * optmodel.vShutDown[p,sc,n,nr]    for nr in model.nr)  +
-                                                    sum(model.pLoadLevelDuration[n] * model.pLinearOMCost   [r ] * optmodel.vTotalOutputP[p,sc,n,r] for r  in model.r ) )
+            # return optmodel.vTotalGCost[p,sc,n] == (sum(model.pLoadLevelDuration[n] * model.pLinearVarCost  [nr] * optmodel.vTotalOutputP[p,sc,n,nr]                      +
+            #                                             model.pLoadLevelDuration[n] * model.pConstantVarCost[nr] * optmodel.vCommitment [p,sc,n,nr]                      +
+            #                                             model.pLoadLevelDuration[n] * model.pStartUpCost    [nr] * optmodel.vStartUp [p,sc,n,nr]                         +
+            #                                             model.pLoadLevelDuration[n] * model.pShutDownCost   [nr] * optmodel.vShutDown[p,sc,n,nr]    for nr in model.nr)  +
+            #                                         sum(model.pLoadLevelDuration[n] * model.pLinearOMCost   [r ] * optmodel.vTotalOutputP[p,sc,n,r] for r  in model.r ) )
+            return optmodel.vTotalGCost[p,sc,n] == (sum(model.pLoadLevelDuration[n] * model.pLCOE  [nr] * optmodel.vTotalOutputP[p,sc,n,nr] for nr in model.nr) )
         else:
             return Constraint.Skip
     optmodel.eTotalGCost            = Constraint(model.ps, model.st, model.n, rule=eTotalGCost, doc='system variable generation operation cost [MEUR]')
