@@ -307,7 +307,7 @@ class ObjectiveEstimator_ANN_inter_3_2(torch.nn.Module):
         return output, hidden4
 
 def create_model_OC_only(nb_hidden, input_size, dropout_ratio,relu_out):
-    print("Creating model ebjective estimator only")
+    print("Creating model objective estimator only")
     hidden_sizes = []
     if nb_hidden == 0:
         hidden_sizes.append(input_size)
@@ -347,9 +347,9 @@ def create_model_inter(nb_hidden,input_size,inter_size,dropout_ratio,relu_out =F
         elif nb_hidden == (3,0):
             hidden_sizes.extend([int(input_size*2), int(input_size *3), int((input_size + inter_size)/2),inter_size])
         elif nb_hidden == (3,1):
-            hidden_sizes.extend([int(input_size*2), int(input_size *3), int((input_size + inter_size)/2),inter_size,int((inter_size)/2)])
+            hidden_sizes.extend([int(input_size*2), int(input_size *3), int((input_size + inter_size)/2),inter_size,max(int((inter_size)/2),1)])
         elif nb_hidden == (3,2):
-            hidden_sizes.extend([int(input_size*2), int(input_size *3), int((input_size + inter_size)/2),inter_size,int((inter_size)/2),int((inter_size)/4)])
+            hidden_sizes.extend([int(input_size*2), int(input_size *3), int((input_size + inter_size)/2),inter_size,int((inter_size)/2),max(1,int((inter_size)/4))])
     print(hidden_sizes)
     if nb_hidden == (0,0):
         model_class = ObjectiveEstimator_ANN_inter_0_0

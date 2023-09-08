@@ -10,16 +10,18 @@ if __name__ == '__main__':
     #Some initialising stuff
     sc = "sc01"
     period = "2030"
-    folder = "../Data/RTS24_AC_12w_ext_o_dummy"
-    all_executions = DataLoading.list_executions(folder="../Data/RTS24_AC_12w_ext_o_dummy", per=period, sc=sc)
+    #folder = "../Data/RTS24_AC_12w_ext_o_dummy"
+    folder = "../Data/3-bus_AC_12w_ext_o_dummy_LCOE"
+    all_executions = DataLoading.list_executions(folder=folder, per=period, sc=sc)
     executions_start = 0
     executions_end = len(all_executions)
     executions = all_executions[executions_start:executions_end]
     te_s = 0.3
     val_s = 0.4
-    outp = "LCOE"
+    outp = "SystemCosts"
 
-    exec_name = f"RTS24_AC_12w_dummy_{te_s}_v{val_s}_PF_LCOE_{executions_start}_{executions_end}"
+    #exec_name = f"RTS24_AC_12w_dummy_{te_s}_v{val_s}_PF_LCOE_{executions_start}_{executions_end}"
+    exec_name = f"3-bus_AC_12w_dummy_{te_s}_v{val_s}_PF_LCOE_{executions_start}_{executions_end}"
     folder_to_save = f"{exec_name}"
 
     #Load inputs and outputs in dataframes
@@ -39,22 +41,21 @@ if __name__ == '__main__':
 
     #Perform the actual loop that checks multiple hyperparams
     i = 0
-    #nbs_hidden = [(2, 0),(3, 0),(3, 1),(3, 2)]#
-    nbs_hidden = [(2, 0)]
+    nbs_hidden = [(2, 0),(3, 0),(3, 1),(3, 2)]#
+    #nbs_hidden = [(2, 0),(3,2)]
     #dors = [0,0.05,0.25]  # ,0.05,0.1]#,0.05]
-    dors = [0]
+    dors = [0,0.05,0.1,0.2]
     #relu_outs = [False,True]
-    relu_outs = [False]
+    relu_outs = [True,False]
 
     batch_sizes = [64]
-    #batch_sizes = [64]
     #learning_rates = [0.0025 * 4 ** i for i in range(-2, 0, 1)]
-    learning_rates = [0.0025 * 4 ** i for i in range(-1, 0, 1)]
+    learning_rates = [0.0025 * 4 ** i for i in range(-1, 1, 1)]
     #nbs_e = [32]  # ,8]
-    nbs_e = [8]  # ,8]
+    nbs_e = [32,64,128]  # ,8]
     negative_penalisations = [0]
     #alphas = [0, 0.01,0.04,0.16]
-    alphas = [0,0.04]
+    alphas = [0,0.04,0.16]
     beta = 1
     MAEs = [True,False]
     #MAEs = [True]
