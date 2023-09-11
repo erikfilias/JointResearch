@@ -43,20 +43,20 @@ def create_model_and_load_state_from_row(row, input_size, inter_size, hyperloop_
 
     model_type = row.Model_type.item()
     model_type = tuple(map(int, model_type.replace("(", "").replace(")", "").split(', ')))
-    dor = row.Dor.item()
+    str_dor = dor = row.Dor.item()
     lr = row.Lr.item()
     nb_e = row.Epochs.item()
 
     relu_out = row.Relu_out.item()
     np = row.Np.item()
     bs = row.Batch_size.item()
-    alpha = row.alpha.item()
+    str_alpha = alpha = row.alpha.item()
     MAE = row.MAE.item()
 
     if str(alpha) == "0.0":
-        alpha = "0"
+        str_alpha = "0"
     if str(dor) == "0.0":
-        dor = "0"
+        str_dor = "0"
 
     if row.Min_val.item():
         mt = "min_val"
@@ -70,7 +70,7 @@ def create_model_and_load_state_from_row(row, input_size, inter_size, hyperloop_
     # Finally, extract model state from dict
 
     # m_name = f"OE_{model_type}h_{nb_e}e_{lr}lr_{dor}dor_{np}np_{relu_out}_ro_{bs}bs"
-    m_name = f"OE_{model_type}h_{nb_e}e_{lr}lr_{dor}dor_{np}np_{relu_out}ro_{bs}bs_{alpha}ill_{MAE}MAE"
+    m_name = f"OE_{model_type}h_{nb_e}e_{lr}lr_{str_dor}dor_{np}np_{relu_out}ro_{bs}bs_{str_alpha}ill_{MAE}MAE"
 
     if cluster_run:
         # m_name = f"OE_{model_type}h_{nb_e}e_{lr}lr_{dor}dor_{np}np_{relu_out}_ro_{bs}bs"
@@ -97,7 +97,7 @@ def get_lb_est_and_actual(m, ex, dfs_in, dfs_out):
     return lb_est.flatten(), lb_actual.flatten()
 
 
-def get_NN_estimates_from_dfs_in(m, ex, dfs_in):
+def get_NN_estimates_from_dfs_in(m, ex, dfs_in,maxs):
     ex_in_e = torch.nan_to_num(dfs_in[ex].to_numpy() / maxs["in"])
     prediction_e = m(ex_in_e.float())[0].detach().numpy()
     return prediction_e.flatten()
