@@ -101,7 +101,7 @@ parser.add_argument('--dir',    type=str, default=None)
 parser.add_argument('--solver', type=str, default=None)
 
 DIR    = os.path.dirname(__file__)
-CASE   = '9n'
+default_CASE   = '9n'
 SOLVER = 'gurobi'
 
 # %% model declaration
@@ -111,7 +111,9 @@ def main(cmodel):
     initial_time = time.time()
     args = parser.parse_args()
     args.dir = DIR
-    args.case = CASE
+    if args.case is None:
+        args.case = input('Input Case   Name (Default {}): '.format(CASE))
+        args.case = default_CASE
     args.solver = SOLVER
     print(args.case)
     print(args.dir)
