@@ -1,0 +1,188 @@
+SLURM_JOB_ID: 55210973
+SLURM_JOB_USER: vsc34888
+SLURM_JOB_ACCOUNT: lp_elect_gen_modeling
+SLURM_JOB_NAME: 3_bus
+SLURM_CLUSTER_NAME: genius
+SLURM_JOB_PARTITION: batch
+SLURM_NNODES: 1
+SLURM_NODELIST: r26i13n14
+SLURM_JOB_CPUS_PER_NODE: 36
+Date: Thu Sep  7 09:43:00 CEST 2023
+Walltime: 00-06:00:00
+========================================================================
+Activation OK
+Starting runs
+
+ #### Academic research license - for non-commercial use only #### 
+
+3-bus
+/vsc-hard-mounts/leuven-data/348/vsc34888/JointResearch/05.Models/06.Benchmarking/C.The_1st_week_per_month
+gurobi
+['TrainingDataGenerator_v2.py', '--case', '3-bus']
+Namespace(case='3-bus', dir='/vsc-hard-mounts/leuven-data/348/vsc34888/JointResearch/05.Models/06.Benchmarking/C.The_1st_week_per_month', solver='gurobi')
+Reading    input data                 ...  0 s
+Number of lines in the network:  12
+―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+Sequence of the existing network and generation
+―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+Setting up input data                 ...  0 s
+vNetworkInvest : network    investment decision exists in a year {0,1}
+    Size=0, Index=vNetworkInvest_index
+    Key : Lower : Value : Upper : Fixed : Stale : Domain
+Generating objective function         ...  0 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  0 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  0 s
+Generating generation capacity        ...  0 s
+Generating net P capacity bounds      ...  0 s
+Generating net Q capacity bounds      ...  0 s
+Generating net P constraints          ...  0 s
+Generating net Q constraints          ...  0 s
+Generating net voltage bounds         ...  0 s
+Generating net non negative losses    ...  0 s
+Generating net linear SOC2            ...  0 s
+Generating net gshb injection         ...  0 s
+Generating net bshb injection         ...  0 s
+Econometric analysis  constraints     ...  0 s
+Set parameter Username
+Set parameter TokenServer to value "SET-S-ME-LM3.luna.kuleuven.be"
+Read LP format model from file /tmp/tmpi3h9h8km.pyomo.lp
+Reading time = 0.03 seconds
+x1: 12435 rows, 6976 columns, 34109 nonzeros
+Set parameter QCPDual to value 1
+Set parameter LogFile to value "/vsc-hard-mounts/leuven-data/348/vsc34888/JointResearch/05.Models/06.Benchmarking/C.The_1st_week_per_month/3-bus/openStarNet_3-bus.log"
+Set parameter Method to value 2
+Set parameter MIPFocus to value 1
+Set parameter Presolve to value 2
+Set parameter RINS to value 100
+Set parameter MIPGap to value 0.01
+Set parameter Threads to value 36
+Set parameter TimeLimit to value 76000
+Set parameter IterationLimit to value 76000000
+Gurobi Optimizer version 9.5.0 build v9.5.0rc5 (linux64)
+Thread count: 36 physical cores, 36 logical processors, using up to 36 threads
+Optimize a model with 12435 rows, 6976 columns and 34109 nonzeros
+Model fingerprint: 0x2f0cce51
+Coefficient statistics:
+  Matrix range     [1e-02, 4e+02]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [2e-05, 1e+00]
+  RHS range        [2e-05, 1e+00]
+Presolve removed 9411 rows and 3028 columns
+Presolve time: 0.03s
+Presolved: 3024 rows, 3948 columns, 13020 nonzeros
+
+Ordering time: 0.00s
+
+Barrier statistics:
+ AA' NZ     : 1.126e+04
+ Factor NZ  : 2.873e+04 (roughly 3 MB of memory)
+ Factor Ops : 3.543e+05 (less than 1 second per iteration)
+ Threads    : 1
+
+                  Objective                Residual
+Iter       Primal          Dual         Primal    Dual     Compl     Time
+   0   1.99595695e+03 -4.44083716e+04  2.93e-01 3.31e+00  8.38e+00     0s
+   1   2.14435762e+02 -4.30948614e+03  3.73e-02 2.85e-14  7.54e-01     0s
+   2   4.81981566e+01 -4.30024262e+02  2.94e-03 2.04e-14  5.28e-02     0s
+   3   6.83771239e+00 -3.84185628e+00  4.53e-12 5.15e-14  1.14e-03     0s
+   4   4.96235972e+00 -1.36460566e-01  2.16e-12 2.31e-14  5.42e-04     0s
+   5   3.75548358e+00  1.80783537e+00  4.16e-13 8.88e-15  2.07e-04     0s
+   6   3.28714569e+00  2.49260358e+00  8.50e-14 4.44e-15  8.45e-05     0s
+   7   3.18702295e+00  3.00282461e+00  7.21e-15 7.11e-15  1.96e-05     0s
+   8   3.17231531e+00  3.16902712e+00  2.47e-15 7.11e-15  3.50e-07     0s
+   9   3.17122905e+00  3.17112454e+00  1.54e-14 7.11e-15  1.11e-08     0s
+  10   3.17117909e+00  3.17117076e+00  1.26e-13 7.11e-15  8.86e-10     0s
+  11   3.17117848e+00  3.17117843e+00  2.32e-14 3.55e-15  5.29e-12     0s
+  12   3.17117847e+00  3.17117847e+00  4.58e-15 7.11e-15  5.29e-15     0s
+
+Barrier solved model in 12 iterations and 0.08 seconds (0.04 work units)
+Optimal objective 3.17117847e+00
+
+Crossover log...
+
+     141 DPushes remaining with DInf 0.0000000e+00                 0s
+       0 DPushes remaining with DInf 0.0000000e+00                 0s
+
+      46 PPushes remaining with PInf 0.0000000e+00                 0s
+       0 PPushes remaining with PInf 0.0000000e+00                 0s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 1.7257029e-14      0s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+      68    3.1711785e+00   0.000000e+00   0.000000e+00      0s
+
+Solved in 68 iterations and 0.09 seconds (0.04 work units)
+Optimal objective  3.171178469e+00
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 3.1711784690639893
+  Upper bound: 3.1711784690639893
+  Number of objectives: 1
+  Number of constraints: 12435
+  Number of variables: 6976
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 6976
+  Number of nonzeros: 34109
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.0877988338470459
+  Error rc: 0
+  Time: 0.43430066108703613
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+Number of fixed variables:  0
+# ============================================================================= #
+# ============================================================================= #
+Solving                               ...  1 s
+Objective function value                   3.17 M€
+Reading    the parameters of the model ...  1 s
+Getting the electricity demand         ...  0 s
+la : Size=1, Index=None, Ordered=Insertion
+    Key  : Dimen : Domain : Size : Members
+    None :     3 :    Any :    3 : {('Node_1', 'Node_3', 'eac1'), ('Node_1', 'Node_2', 'eac1'), ('Node_2', 'Node_3', 'eac1')}
+Getting the Y matrix                   ...  0 s
+Getting the max power generation       ...  0 s
+Getting the input data file            ...  0 s
+Getting the total costs                ...  0 s
+Getting the power output               ...  0 s
+Getting the power flow                 ...  0 s
+Getting the dual variable: eBalance    ...  0 s
+Traceback (most recent call last):
+  File "/vsc-hard-mounts/leuven-data/348/vsc34888/JointResearch/05.Models/06.Benchmarking/C.The_1st_week_per_month/TrainingDataGenerator_v2.py", line 483, in <module>
+    main()
+  File "/vsc-hard-mounts/leuven-data/348/vsc34888/JointResearch/05.Models/06.Benchmarking/C.The_1st_week_per_month/TrainingDataGenerator_v2.py", line 347, in main
+    df_Inp, df_Out = ModelRun(base_model, oSN, execution, _path, args.dir, args.case, args.solver)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vsc-hard-mounts/leuven-data/348/vsc34888/JointResearch/05.Models/06.Benchmarking/C.The_1st_week_per_month/TrainingDataGenerator_v2.py", line 218, in ModelRun
+    df_dual_eNetCapacity1 = pd.Series(data=[model_p.dual[model_p.eLineCapacityFr_LP[p,sc,st,n,ni,nf,cc]]*1e3 for (p,sc,st,n,ni,nf,cc) in List2], index=pd.MultiIndex.from_tuples(List2))
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vsc-hard-mounts/leuven-data/348/vsc34888/JointResearch/05.Models/06.Benchmarking/C.The_1st_week_per_month/TrainingDataGenerator_v2.py", line 218, in <listcomp>
+    df_dual_eNetCapacity1 = pd.Series(data=[model_p.dual[model_p.eLineCapacityFr_LP[p,sc,st,n,ni,nf,cc]]*1e3 for (p,sc,st,n,ni,nf,cc) in List2], index=pd.MultiIndex.from_tuples(List2))
+                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/leuven/348/vsc34888/miniconda3/envs/Jr23/lib/python3.11/site-packages/pyomo/core/base/block.py", line 559, in __getattr__
+    raise AttributeError(
+AttributeError: 'ConcreteModel' object has no attribute 'eLineCapacityFr_LP'

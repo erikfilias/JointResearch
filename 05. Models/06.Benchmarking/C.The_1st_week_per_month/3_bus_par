@@ -1,0 +1,20 @@
+#!/bin/bash -l
+
+
+#SBATCH --cluster="wice"
+#SBATCH --job-name="parallel_3_bus_w"
+#SBATCH --nodes="1"
+#SBATCH --mail-user="kristof.phillips@kuleuven.be"
+#SBATCH --mail-type=BEGIN,END,FAIL
+#SBATCH --time="4:00:00"
+#SBATCH --ntasks-per-node="36"
+#SBATCH --account="lp_elect_gen_modeling"
+#SBATCH --partition="batch"
+      
+source activate Jr23
+echo "Activation OK"
+cd $VSC_DATA/JointResearch/05.Models/10.StarNet/
+
+echo "Starting runs"
+
+python TrainingDataGenerator_v2_parallel.py --case 3-bus --cpucount 36
