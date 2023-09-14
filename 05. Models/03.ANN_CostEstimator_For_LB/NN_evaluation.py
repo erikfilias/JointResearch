@@ -84,7 +84,7 @@ def create_model_and_load_state_from_row(row, input_size, inter_size, hyperloop_
     return m
 
 
-def get_lb_est_and_actual(m, ex, dfs_in, dfs_out):
+def get_lb_est_and_actual(m, ex, dfs_in, dfs_out,all_executions,maxs):
     negf = all_executions[0]
     ex_in_e = torch.nan_to_num(dfs_in[ex].to_numpy() / maxs["in"])
     ex_in_negf = torch.nan_to_num(dfs_in[negf].to_numpy() / maxs["in"])
@@ -93,7 +93,7 @@ def get_lb_est_and_actual(m, ex, dfs_in, dfs_out):
     prediction_negf = m(ex_in_negf.float())[0].detach().numpy()
 
     lb_est = prediction_negf - prediction_e
-    lb_actual = calculate_lb_from_dfs_out(dfs_out, ex).to_numpy()
+    lb_actual = calculate_lb_from_dfs_out(dfs_out, ex)
     return lb_est.flatten(), lb_actual.flatten()
 
 
