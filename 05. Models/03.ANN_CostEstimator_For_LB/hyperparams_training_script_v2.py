@@ -24,7 +24,7 @@ if __name__ == '__main__':
 
     #exec_name = f"RTS24_AC_12w_dummy_{te_s}_v{val_s}_PF_LCOE_{executions_start}_{executions_end}"
     #exec_name = f"3-bus_AC_12w_dummy_{te_s}_v{val_s}_PF_LCOE_{executions_start}_{executions_end}"
-    exec_name = f"9n_AC_12w_dummy_{te_s}_v{val_s}_PF_LCOE_{executions_start}_{executions_end}"
+    exec_name = f"9n_AC_12w_dummy_{te_s}_v{val_s}_PF_LCOE_{executions_start}_{executions_end}_v2"
 
     folder_to_save = f"{exec_name}"
 
@@ -55,7 +55,7 @@ if __name__ == '__main__':
 
     batch_sizes = [64]
     #learning_rates = [0.0025 * 4 ** i for i in range(-2, 0, 1)]
-    learning_rates = [0.0025 * 4 ** i for i in range(-1, 1, 1)]
+    learning_rates = [0.0025 * 4 ** i for i in range(-1, 2, 1)]
     #nbs_e = [32,64,128]  # ,8]
     nbs_e = [8,16,32,64,128]  # ,8]
     negative_penalisations = [0]
