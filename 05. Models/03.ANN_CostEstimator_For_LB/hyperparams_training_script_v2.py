@@ -10,9 +10,9 @@ if __name__ == '__main__':
     #Some initialising stuff
     sc = "sc01"
     period = "2030"
+    folder = "../Data/3-bus_AC_12w_ext_o_dummy_LCOE"
+    #folder = "../Data/9n_AC_12w_ext_o_dummy_LCOE"
     #folder = "../Data/RTS24_AC_12w_ext_o_dummy"
-    # folder = "../Data/3-bus_AC_12w_ext_o_dummy_LCOE"
-    folder = "../Data/9n_AC_12w_ext_o_dummy_LCOE"
 
     all_executions = DataLoading.list_executions(folder=folder, per=period, sc=sc)
     executions_start = 0
@@ -22,9 +22,9 @@ if __name__ == '__main__':
     val_s = 0.4
     outp = "SystemCosts"
 
+    exec_name = f"3-bus_AC_12w_dummy_{te_s}_v{val_s}_PF_LCOE_{executions_start}_{executions_end}"
+    #exec_name = f"9n_AC_12w_dummy_{te_s}_v{val_s}_PF_LCOE_{executions_start}_{executions_end}_v2"
     #exec_name = f"RTS24_AC_12w_dummy_{te_s}_v{val_s}_PF_LCOE_{executions_start}_{executions_end}"
-    #exec_name = f"3-bus_AC_12w_dummy_{te_s}_v{val_s}_PF_LCOE_{executions_start}_{executions_end}"
-    exec_name = f"9n_AC_12w_dummy_{te_s}_v{val_s}_PF_LCOE_{executions_start}_{executions_end}_v2"
 
     folder_to_save = f"{exec_name}"
 
@@ -50,14 +50,14 @@ if __name__ == '__main__':
     #dors = [0,0.05,0.25]  # ,0.05,0.1]#,0.05]
     dors = [0,0.05,0.1,0.2]
     #dors = [0]
-    #relu_outs = [False,True]
-    relu_outs = [True]
+    relu_outs = [False,True]
+    #relu_outs = [True]
 
     batch_sizes = [64]
     #learning_rates = [0.0025 * 4 ** i for i in range(-2, 0, 1)]
     learning_rates = [0.0025 * 4 ** i for i in range(-1, 2, 1)]
     #nbs_e = [32,64,128]  # ,8]
-    nbs_e = [8,16,32,64,128]  # ,8]
+    nbs_e = [16,32,64,128]  # ,8]
     negative_penalisations = [0]
     #alphas = [0, 0.01,0.04,0.16]
     alphas = [0,0.04,0.16]
