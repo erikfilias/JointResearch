@@ -23,7 +23,9 @@ def list_investments_candidates_from_execs(executions):
 
 case = "9n"
 folder_read = "../06.Benchmarking/C.The_1st_week_per_month/9n/3.Out/0.WoParallel"
+folder_read = "../06.Benchmarking/E.Representative_days_based_on_Line_Benefits_OptModel/9n/3.Out/0.WoParallel"
 folder_write = "9n_AC_12w_ext_o_dummy_LCOE"
+folder_write = "9n_AC_fy_ext_o_dummy_LCOE"
 input_export = True
 output_export = True
 executions = list_executions_from_Starnet_results(folder_read, case)
