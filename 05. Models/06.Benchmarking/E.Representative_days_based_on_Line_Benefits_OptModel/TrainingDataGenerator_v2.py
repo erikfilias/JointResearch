@@ -273,10 +273,10 @@ def main():
     #     args.dir    = input('Input Dir    Name (Default {}): '.format(DIR))
     #     if args.dir == '':
     args.dir = DIR
-    # if args.case is None:
-    #     args.case   = input('Input Case   Name (Default {}): '.format(CASE))
-    #     if args.case == '':
-    args.case = CASE
+    if args.case is None:
+        args.case   = input('Input Case   Name (Default {}): '.format(CASE))
+    if args.case == '':
+        args.case = CASE
     # if args.solver is None:
     #     args.solver = input('Input Solver Name (Default {}): '.format(SOLVER))
     #     if args.solver == '':
