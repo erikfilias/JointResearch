@@ -10,8 +10,8 @@ if __name__ == '__main__':
     #Some initialising stuff
     sc = "sc01"
     period = "2030"
-    folder = "../Data/3-bus_AC_12w_ext_o_dummy_LCOE"
-    #folder = "../Data/9n_AC_12w_ext_o_dummy_LCOE"
+    #folder = "../Data/3-bus_AC_12w_ext_o_dummy_LCOE"
+    folder = "../Data/9n_AC_12w_ext_o_dummy_LCOE"
     #folder = "../Data/RTS24_AC_12w_ext_o_dummy"
 
     all_executions = DataLoading.list_executions(folder=folder, per=period, sc=sc)
@@ -22,8 +22,8 @@ if __name__ == '__main__':
     val_s = 0.4
     outp = "SystemCosts"
 
-    exec_name = f"3-bus_AC_12w_dummy_{te_s}_v{val_s}_PF_LCOE_{executions_start}_{executions_end}"
-    #exec_name = f"9n_AC_12w_dummy_{te_s}_v{val_s}_PF_LCOE_{executions_start}_{executions_end}_v2"
+    # exec_name = f"3-bus_AC_12w_dummy_{te_s}_v{val_s}_PF_LCOE_{executions_start}_{executions_end}"
+    exec_name = f"9n_AC_12w_dummy_{te_s}_v{val_s}_PF_LCOE_{executions_start}_{executions_end}"
     #exec_name = f"RTS24_AC_12w_dummy_{te_s}_v{val_s}_PF_LCOE_{executions_start}_{executions_end}"
 
     folder_to_save = f"{exec_name}"
@@ -48,7 +48,7 @@ if __name__ == '__main__':
     nbs_hidden = [(2, 0),(3, 0),(3, 1),(3, 2)] #
     #nbs_hidden = [(2, 0),(3,2)]
     #dors = [0,0.05,0.25]  # ,0.05,0.1]#,0.05]
-    dors = [0,0.05,0.1,0.2]
+    dors = [0]
     #dors = [0]
     relu_outs = [False,True]
     #relu_outs = [True]
