@@ -33,9 +33,10 @@ def extract_model_params_from_row(row):
     bs = row.Batch_size.item()
     alpha = row.alpha.item()
     MAE = row.MAE.item()
+    min_val = row.Min_val.item()
 
     return {"Model_type": model_type, "nb_e": nb_e, "lr": lr, "dor": dor, "np": np, "ro": relu_out, "bs": bs,
-            "alpha": alpha, "MAE": MAE}
+            "alpha": alpha, "MAE": MAE,"Min_val":min_val}
 
 
 def create_model_and_load_state_from_row(row, input_size, inter_size, hyperloop_name, cluster_run=True):
