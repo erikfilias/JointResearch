@@ -10,9 +10,10 @@ if __name__ == '__main__':
     #Some initialising stuff
     sc = "sc01"
     period = "2030"
+    case = "RTS24"
     #folder = "../Data/3-bus_AC_12w_ext_o_dummy_LCOE"
-    folder = "../Data/9n_AC_12w_ext_o_dummy_LCOE"
-    #folder = "../Data/RTS24_AC_12w_ext_o_dummy"
+    #folder = "../Data/9n_AC_12w_ext_o_dummy_LCOE"
+    folder = f"../Data/{case}_AC_12w_ext_o_dummy_LCOE"
 
     all_executions = DataLoading.list_executions(folder=folder, per=period, sc=sc)
     executions_start = 0
@@ -23,7 +24,7 @@ if __name__ == '__main__':
     outp = "SystemCosts"
 
     # exec_name = f"3-bus_AC_12w_dummy_{te_s}_v{val_s}_PF_LCOE_{executions_start}_{executions_end}"
-    exec_name = f"9n_AC_12w_dummy_{te_s}_v{val_s}_PF_LCOE_{executions_start}_{executions_end}"
+    exec_name = f"{case}_AC_12w_dummy_{te_s}_v{val_s}_PF_LCOE_{executions_start}_{executions_end}"
     #exec_name = f"RTS24_AC_12w_dummy_{te_s}_v{val_s}_PF_LCOE_{executions_start}_{executions_end}"
 
     folder_to_save = f"{exec_name}"
@@ -60,7 +61,7 @@ if __name__ == '__main__':
     nbs_e = [16,32,64,128]  # ,8]
     negative_penalisations = [0]
     #alphas = [0, 0.01,0.04,0.16]
-    alphas = [0,0.04,0.16]
+    alphas = [0,0.16]
     #alphas = [0]
 
     beta = 1
