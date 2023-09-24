@@ -21,22 +21,22 @@ def list_investments_candidates_from_execs(executions):
 # folder_read = "../06.Benchmarking/C.The_1st_week_per_month/3-bus/3.Out/0.WoParallel"
 # folder_read = "../06.Benchmarking/E.Representative_days_based_on_Line_Benefits_OptModel/3-bus/3.Out/0.WoParallel"
 
-case = "RTS24"
+case = "9n"
 # folder_read = "../06.Benchmarking/C.The_1st_week_per_month/3-bus/3.Out/0.WoParallel"
 #folder_read = "../06.Benchmarking/C.The_1st_week_per_month/9n/3.Out/0.WoParallel"
-folder_read = f"../06.Benchmarking/C.The_1st_week_per_month/{case}/3.Out/0.WoParallel"
+#folder_read = f"../06.Benchmarking/C.The_1st_week_per_month/{case}/3.Out/0.WoParallel"
 
 # folder_read = f"../06.Benchmarking/E.Representative_days_based_on_Line_Benefits_OptModel/{case}/3.Out/0.WoParallel"
-# folder_read = "../06.Benchmarking/E.Representative_days_based_on_Line_Benefits_OptModel/9n/3.Out/0.WoParallel"
+folder_read = "../06.Benchmarking/E.Representative_days_based_on_Line_Benefits_OptModel/9n/3.Out/0.WoParallel"
 
 # folder_write = "3-bus_AC_12w_ext_o_dummy_LCOE"
 #folder_write = "9n_AC_12w_ext_o_dummy_LCOE"
-folder_write = f"{case}_AC_12w_ext_o_dummy_LCOE"
+#folder_write = f"{case}_AC_12w_ext_o_dummy_LCOE"
 
 #folder_write = f"{case}_AC_fy_ext_o_dummy_LCOE"
-# folder_write = "9n_AC_fy_ext_o_dummy_LCOE"
+folder_write = "9n_AC_fy_ext_o_dummy_LCOE"
 
-input_export = True
+input_export = False
 output_export = True
 executions = list_executions_from_Starnet_results(folder_read, case)
 print(executions)
