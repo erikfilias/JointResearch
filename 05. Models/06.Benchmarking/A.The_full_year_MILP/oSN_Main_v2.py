@@ -1814,6 +1814,10 @@ def saving_results(DirName, CaseName, SolverName, model, optmodel):
     StartTime              = time.time()
     print('Writing           investment results  ... ', round(WritingInvResultsTime), 's')
 
+    #%% outputting the generation cost
+    OutputResults = pd.Series(data=[model.pDiscountFactor[p]*model.pScenProb[p,sc]()*(optmodel.vTotalGCost[p,sc,n]()+optmodel.vTotalCCost[p,sc,n]()+optmodel.vTotalECost[p,sc,n]()+optmodel.vTotalRCost[p,sc,n]()) for p,sc,n in model.psn], index=pd.MultiIndex.from_tuples(model.psn))
+    OutputResults.to_frame(name='MEUR').rename_axis(['Period','Scenario','LoadLevel'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_GenerationCost_'+CaseName+'.csv', index=False, sep=',')
+
     #%%  Power balance per period, scenario, and load level
     # incoming and outgoing lines (lin) (lout)
     lin   = defaultdict(list)
