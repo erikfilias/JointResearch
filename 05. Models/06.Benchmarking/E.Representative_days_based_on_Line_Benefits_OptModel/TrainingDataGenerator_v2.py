@@ -461,8 +461,8 @@ def main():
 
         ####################################################################################################################
 
-    df_input_data.to_csv(_path + '/3.Out/0.WoParallel/oT_Result_NN_Input_' + args.case + '.csv', index=True)
-    df_output_data.to_csv(_path + '/3.Out/0.WoParallel/oT_Result_NN_Output_' + args.case + '.csv', index=True)
+    df_input_data.to_csv(_path + '/3.Out/0.WoParallel_2/oT_Result_NN_Input_' + args.case + '.csv', index=True)
+    df_output_data.to_csv(_path + '/3.Out/0.WoParallel_2/oT_Result_NN_Output_' + args.case + '.csv', index=True)
 
     # #%% Restoring the dataframes
     # df_Network.to_csv(   _path+'/2.Par/oT_Data_Network_'   +args.case+'.csv')
