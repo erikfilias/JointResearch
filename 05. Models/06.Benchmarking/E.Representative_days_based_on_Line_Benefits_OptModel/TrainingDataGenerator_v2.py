@@ -350,8 +350,8 @@ def main():
     df_output_data = df_Out
 
     # saving the input and output data
-    df_Inp.to_csv(_path + '/3.Out/0.WoParallel/oT_Input_Data_'  + args.case + '_' + execution + '.csv')
-    df_Out.to_csv(_path + '/3.Out/0.WoParallel/oT_Output_Data_' + args.case + '_' + execution + '.csv')
+    df_Inp.to_csv(_path + '/3.Out/0.WoParallel_2/oT_Input_Data_'  + args.case + '_' + execution + '.csv')
+    df_Out.to_csv(_path + '/3.Out/0.WoParallel_2/oT_Output_Data_' + args.case + '_' + execution + '.csv')
 
     ## restoring the candidate lines
     # removing the sets
@@ -473,7 +473,7 @@ def main():
     print('Total time                            ... ', round(total_time), 's')
     print('########################################################')
     counter1 = 0
-    for (ni,nf,cc) in clines[int(len(clines)/2):]:
+    for (ni,nf,cc) in clines[int(len(clines)/2)+2:]:
         solve_and_save(ni,nf,cc,df_input_data,df_output_data,counter1)
         counter1 += 1
 
