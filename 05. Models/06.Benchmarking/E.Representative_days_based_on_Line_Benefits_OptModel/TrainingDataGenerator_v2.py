@@ -428,8 +428,8 @@ def main():
 
         df_Inp, df_Out = ModelRun(base_model, oSN, execution, _path, args.dir, args.case, args.solver)
 
-        df_Inp.to_csv(_path + '/3.Out/0.WoParallel/oT_Input_Data_' + args.case + '_' + execution + '.csv')
-        df_Out.to_csv(_path + '/3.Out/0.WoParallel/oT_Output_Data_' + args.case + '_' + execution + '.csv')
+        df_Inp.to_csv(_path + '/3.Out/0.WoParallel_2/oT_Input_Data_' + args.case + '_' + execution + '.csv')
+        df_Out.to_csv(_path + '/3.Out/0.WoParallel_2/oT_Output_Data_' + args.case + '_' + execution + '.csv')
 
         df_input_data = pd.concat([df_input_data, df_Inp])
         df_output_data = pd.concat([df_output_data, df_Out])
