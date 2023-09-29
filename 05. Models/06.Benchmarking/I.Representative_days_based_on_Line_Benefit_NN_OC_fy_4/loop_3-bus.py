@@ -1,6 +1,5 @@
 import os
 
-CASE   = '3-bus_ByStages_nc20'
 
 path_to_scan = os.path.dirname(__file__)
 filter = '3-bus_ByStages_nc'
