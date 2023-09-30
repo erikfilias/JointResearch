@@ -70,6 +70,11 @@ def load_data_input_only(folder, executions, period, sc):
     for execution in executions:
         # Read the data from desired execution
         df_in_e = pd.read_csv(f"{folder}/input_f_{sc}_{execution}_{period}.csv", header=[0], index_col=0)
+        #Quick fix for incomplete number of executions
+        df_in_e["extra_dummy_1"] = 0
+        df_in_e["extra_dummy_2"] = 0
+        df_in_e["extra_dummy_3"] = 0
+        df_in_e["extra_dummy_4"] = 0
 
         print(f"input_f_{sc}_{execution}_{period}.csv")
 
