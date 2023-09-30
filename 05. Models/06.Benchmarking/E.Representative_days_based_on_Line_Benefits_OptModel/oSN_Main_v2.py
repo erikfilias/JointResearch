@@ -113,7 +113,7 @@ def main(cmodel):
     args.dir = DIR
     if args.case is None:
         args.case = input('Input Case   Name (Default {}): '.format(CASE))
-        args.case = default_CASE
+        # args.case = default_CASE
     args.solver = SOLVER
     print(args.case)
     print(args.dir)
