@@ -110,18 +110,18 @@ openStarNet = ConcreteModel('openStarNet - Open Version of the StartNetLite Mode
 def main(cmodel):
     initial_time = time.time()
     args = parser.parse_args()
-    if args.dir is None:
-        args.dir    = input('Input Dir    Name (Default {}): '.format(DIR))
-        if args.dir == '':
-            args.dir = DIR
+    # if args.dir is None:
+    #     args.dir    = input('Input Dir    Name (Default {}): '.format(DIR))
+    #     if args.dir == '':
+    args.dir = DIR
     if args.case is None:
         args.case   = input('Input Case   Name (Default {}): '.format(CASE))
         if args.case == '':
             args.case = CASE
-    if args.solver is None:
-        args.solver = input('Input Solver Name (Default {}): '.format(SOLVER))
-        if args.solver == '':
-            args.solver = SOLVER
+    # if args.solver is None:
+    #     args.solver = input('Input Solver Name (Default {}): '.format(SOLVER))
+    #     if args.solver == '':
+    args.solver = SOLVER
     print(args.case)
     print(args.dir)
     print(args.solver)
