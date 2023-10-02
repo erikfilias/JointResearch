@@ -30,7 +30,7 @@ def load_data(folder,executions,period,sc):
         dfs_out[execution] = df_out_e
     return dfs_in,dfs_out
 
-def load_data_ext_out(folder, executions, period, sc, il_os=None,output = "SystemCosts"):
+def load_data_ext_out(folder, executions, period, sc, il_os=None,output = "SystemCosts",include_inv_dummies =False):
     dfs_in = dict()
     dfs_out = dict()
     dfs_inter = dict()
@@ -40,6 +40,11 @@ def load_data_ext_out(folder, executions, period, sc, il_os=None,output = "Syste
         df_out_e = pd.read_csv(f"{folder}/output_f_{sc}_{execution}_{period}_{output}.csv", header=[0], index_col=0)
 
         print(f"input_f_{sc}_{execution}_{period}.csv")
+
+        #Drop the clumns that are related to the investment dummy variables
+        if not include_inv_dummies:
+            print
+            df_in_e = df_in_e[df_in_e.columns.drop(list(df_in_e.filter(regex='Network_Line_In')))]
 
         # And order the variables:
 
