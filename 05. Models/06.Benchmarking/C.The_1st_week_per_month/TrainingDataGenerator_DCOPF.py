@@ -25,7 +25,7 @@ parser.add_argument('--solver', type=str, default=None)
 DIR    = os.path.dirname(__file__)
 CASE   = '9n'
 SOLVER = 'gurobi'
-
+folder_out = "DC_OPF"
 
 def ModelRun(model, optmodel, execution, path, dir, case, solver):
 
@@ -353,9 +353,10 @@ def main():
     df_input_data  = df_Inp
     df_output_data = df_Out
 
+
     # saving the input and output data
-    df_Inp.to_csv(_path + '/3.Out/0.WoParallel/oT_Input_Data_'  + args.case + '_' + execution + '.csv')
-    df_Out.to_csv(_path + '/3.Out/0.WoParallel/oT_Output_Data_' + args.case + '_' + execution + '.csv')
+    df_Inp.to_csv(_path + f'/3.Out/{folder_out}/oT_Input_Data_'  + args.case + '_' + execution + '.csv')
+    df_Out.to_csv(_path + f'/3.Out/{folder_out}/oT_Output_Data_' + args.case + '_' + execution + '.csv')
 
     ## restoring the candidate lines
     # removing the sets
@@ -432,8 +433,8 @@ def main():
 
         df_Inp, df_Out = ModelRun(base_model, oSN, execution, _path, args.dir, args.case, args.solver)
 
-        df_Inp.to_csv(_path + '/3.Out/0.WoParallel/oT_Input_Data_' + args.case + '_' + execution + '.csv')
-        df_Out.to_csv(_path + '/3.Out/0.WoParallel/oT_Output_Data_' + args.case + '_' + execution + '.csv')
+        df_Inp.to_csv(_path + f'/3.Out/{folder_out}/oT_Input_Data_' + args.case + '_' + execution + '.csv')
+        df_Out.to_csv(_path + f'/3.Out/{folder_out}/oT_Output_Data_' + args.case + '_' + execution + '.csv')
 
         df_input_data = pd.concat([df_input_data, df_Inp])
         df_output_data = pd.concat([df_output_data, df_Out])
@@ -465,8 +466,8 @@ def main():
 
         ####################################################################################################################
 
-    df_input_data.to_csv(_path + '/3.Out/0.WoParallel/oT_Result_NN_Input_' + args.case + '.csv', index=True)
-    df_output_data.to_csv(_path + '/3.Out/0.WoParallel/oT_Result_NN_Output_' + args.case + '.csv', index=True)
+    df_input_data.to_csv(_path + f'/3.Out/{folder_out}/oT_Result_NN_Input_' + args.case + '.csv', index=True)
+    df_output_data.to_csv(_path + f'/3.Out/{folder_out}/oT_Result_NN_Output_' + args.case + '.csv', index=True)
 
     # #%% Restoring the dataframes
     # df_Network.to_csv(   _path+'/2.Par/oT_Data_Network_'   +args.case+'.csv')
