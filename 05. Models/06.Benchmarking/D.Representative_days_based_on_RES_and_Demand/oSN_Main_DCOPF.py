@@ -1340,7 +1340,7 @@ def create_constraints(model, optmodel):
             return optmodel.vFlow[p,sc,n,ni,nf,cc] / model.pLineNTCFrw[ni,nf,cc] >= - 1
         else:
             return Constraint.Skip
-    model.eNetCapacity1          = Constraint(model.ps, model.st, model.n, model.la, rule=eNetCapacity1, doc='maximum flow by existing network capacity [p.u.]')
+    optmodel.eNetCapacity1          = Constraint(model.ps, model.st, model.n, model.la, rule=eNetCapacity1, doc='maximum flow by existing network capacity [p.u.]')
 
     def eNetCapacity2(optmodel,p,sc,st,n,ni,nf,cc):
         if (st,n) in model.s2n and model.pIndBinSingleNode() == 0 and (ni,nf,cc) in model.lc:
@@ -1349,7 +1349,7 @@ def create_constraints(model, optmodel):
             return optmodel.vFlow[p,sc,n,ni,nf,cc] / model.pLineNTCFrw[ni,nf,cc] <=   1
         else:
             return Constraint.Skip
-    model.eNetCapacity2          = Constraint(model.ps, model.st, model.n, model.la, rule=eNetCapacity2, doc='maximum flow by existing network capacity [p.u.]')
+    optmodel.eNetCapacity2          = Constraint(model.ps, model.st, model.n, model.la, rule=eNetCapacity2, doc='maximum flow by existing network capacity [p.u.]')
 
     CheckpointTime   = time.time() - StartTime
     StartTime        = time.time()
@@ -1364,7 +1364,7 @@ def create_constraints(model, optmodel):
             return optmodel.vFlow[p,sc,n,ni,nf,cc] / model.pBigMFlowFrw[ni,nf,cc] -  optmodel.vLineX[p,sc,n,ni,nf,cc] / model.pLineX[ni,nf,cc]   / model.pBigMFlowFrw[ni,nf,cc] * model.pSBase >= - 1 + optmodel.vNetworkInvest[p,ni,nf,cc]
         else:
             return Constraint.Skip
-    model.eKirchhoff2ndLaw1      = Constraint(model.ps, model.st, model.n, model.laa, rule=eKirchhoff2ndLaw1, doc='flow for each AC candidate line [rad]')
+    optmodel.eKirchhoff2ndLaw1      = Constraint(model.ps, model.st, model.n, model.laa, rule=eKirchhoff2ndLaw1, doc='flow for each AC candidate line [rad]')
 
     def eKirchhoff2ndLaw2(optmodel,p,sc,st,n,ni,nf,cc):
         if   (st,n) in model.s2n and model.pIndBinSingleNode() == 0 and model.pPeriodIniNet[ni,nf,cc] <= p and model.pPeriodFinNet[ni,nf,cc] >= p and model.pLineX[ni,nf,cc] > 0.0 and (ni,nf,cc) in model.lca and model.pLineXNetInv == 0:
@@ -1373,35 +1373,35 @@ def create_constraints(model, optmodel):
             return optmodel.vFlow[p,sc,n,ni,nf,cc] / model.pBigMFlowFrw[ni,nf,cc] -  optmodel.vLineX[p,sc,n,ni,nf,cc] / model.pLineX[ni,nf,cc] / model.pBigMFlowFrw[ni,nf,cc] * model.pSBase <=   1 - model.vNetworkInvest[p,ni,nf,cc]
         else:
             return Constraint.Skip
-    model.eKirchhoff2ndLaw2      = Constraint(model.ps, model.st, model.n, model.laa, rule=eKirchhoff2ndLaw2, doc='flow for each AC candidate line [rad]')
+    optmodel.eKirchhoff2ndLaw2      = Constraint(model.ps, model.st, model.n, model.laa, rule=eKirchhoff2ndLaw2, doc='flow for each AC candidate line [rad]')
 
     def eMaxVoltageAngle1(optmodel,p,sc,st,n,ni,nf,cc):
         if (st,n) in model.s2n and model.pIndBinSingleNode() == 0 and (ni,nf,cc) in model.lca and model.pLineXNetInv == 1:
             return optmodel.vLineX[p,sc,n,ni,nf,cc] / model.pLineX[ni,nf,cc] / model.pLineNTCFrw[ni,nf,cc] * model.pSBase >= - optmodel.vNetworkInvest[p,ni,nf,cc]
         else:
             return Constraint.Skip
-    model.eMaxVoltageAngle1      = Constraint(model.ps, model.st, model.n, model.la, rule=eMaxVoltageAngle1, doc='maximum voltage angle by network capacity [p.u.]')
+    optmodel.eMaxVoltageAngle1      = Constraint(model.ps, model.st, model.n, model.la, rule=eMaxVoltageAngle1, doc='maximum voltage angle by network capacity [p.u.]')
 
     def eMaxVoltageAngle2(optmodel,p,sc,st,n,ni,nf,cc):
         if (st,n) in model.s2n and model.pIndBinSingleNode() == 0 and (ni,nf,cc) in model.lca and model.pLineXNetInv == 1:
             return optmodel.vLineX[p,sc,n,ni,nf,cc] / model.pLineX[ni,nf,cc] / model.pLineNTCFrw[ni,nf,cc] * model.pSBase <=   optmodel.vNetworkInvest[p,ni,nf,cc]
         else:
             return Constraint.Skip
-    model.eMaxVoltageAngle2      = Constraint(model.ps, model.st, model.n, model.la, rule=eMaxVoltageAngle2, doc='maximum voltage angle by network capacity [p.u.]')
+    optmodel.eMaxVoltageAngle2      = Constraint(model.ps, model.st, model.n, model.la, rule=eMaxVoltageAngle2, doc='maximum voltage angle by network capacity [p.u.]')
 
     def eMaxVoltageAngle3(optmodel,p,sc,st,n,ni,nf,cc):
         if   (st,n) in model.s2n and model.pIndBinSingleNode() == 0 and model.pPeriodIniNet[ni,nf,cc] <= p and model.pPeriodFinNet[ni,nf,cc] >= p and model.pLineX[ni,nf,cc] > 0.0 and (ni,nf,cc) in model.lca and model.pLineXNetInv == 1:
             return optmodel.vLineX[p,sc,n,ni,nf,cc] / model.pLineX[ni,nf,cc] / model.pLineNTCFrw[ni,nf,cc] * model.pSBase - (optmodel.vTheta[p,sc,n,ni] - optmodel.vTheta[p,sc,n,nf]) / model.pLineX[ni,nf,cc] / model.pLineNTCFrw[ni,nf,cc] * model.pSBase >= - 1 + optmodel.vNetworkInvest[p,ni,nf,cc]
         else:
             return Constraint.Skip
-    model.eMaxVoltageAngle3      = Constraint(model.ps, model.st, model.n, model.laa, rule=eMaxVoltageAngle3, doc='flow for each AC candidate line [rad]')
+    optmodel.eMaxVoltageAngle3      = Constraint(model.ps, model.st, model.n, model.laa, rule=eMaxVoltageAngle3, doc='flow for each AC candidate line [rad]')
 
     def eMaxVoltageAngle4(optmodel,p,sc,st,n,ni,nf,cc):
         if   (st,n) in model.s2n and model.pIndBinSingleNode() == 0 and model.pPeriodIniNet[ni,nf,cc] <= p and model.pPeriodFinNet[ni,nf,cc] >= p and model.pLineX[ni,nf,cc] > 0.0 and (ni,nf,cc) in model.lca and model.pLineXNetInv == 1:
             return optmodel.vLineX[p,sc,n,ni,nf,cc] / model.pLineX[ni,nf,cc] / model.pLineNTCFrw[ni,nf,cc] * model.pSBase - (optmodel.vTheta[p,sc,n,ni] - optmodel.vTheta[p,sc,n,nf]) / model.pLineX[ni,nf,cc] / model.pLineNTCFrw[ni,nf,cc] * model.pSBase <=   1 - optmodel.vNetworkInvest[p,ni,nf,cc]
         else:
             return Constraint.Skip
-    model.eMaxVoltageAngle4      = Constraint(model.ps, model.st, model.n, model.laa, rule=eMaxVoltageAngle4, doc='flow for each AC candidate line [rad]')
+    optmodel.eMaxVoltageAngle4      = Constraint(model.ps, model.st, model.n, model.laa, rule=eMaxVoltageAngle4, doc='flow for each AC candidate line [rad]')
 
     GeneratingNetTime = time.time() - StartTime
     StartTime         = time.time()
@@ -1413,21 +1413,21 @@ def create_constraints(model, optmodel):
             return optmodel.vGenerationInvest[p,gc] == model.pGenFxInvest[gc]
         else:
             return Constraint.Skip
-    model.eGenFixedInvestment       = Constraint(model.pgc, rule=eGenFixedInvestment, doc='Fixing the investment decision to a specific value [p.u.]')
+    optmodel.eGenFixedInvestment       = Constraint(model.pgc, rule=eGenFixedInvestment, doc='Fixing the investment decision to a specific value [p.u.]')
 
     def eGenSensiGroup(optmodel,p,gc,sg):
         if model.pGenSensitivity[gc]() and (sg,gc) in model.sg2g:
             return optmodel.vGenSensiGr[p,sg] == optmodel.vGenSensi[p,gc]
         else:
             return Constraint.Skip
-    model.eGenSensiGroup            = Constraint(model.pgc, model.gs, rule=eGenSensiGroup, doc='Coupling the sensitivities per group [p.u.]')
+    optmodel.eGenSensiGroup            = Constraint(model.pgc, model.gs, rule=eGenSensiGroup, doc='Coupling the sensitivities per group [p.u.]')
 
     def eGenSensiGroupValue(optmodel,p,gc,sg):
         if model.pGenSensitivity[gc]() and (sg, gc) in model.sg2g:
             return optmodel.vGenSensiGr[p,sg] == model.pGenSensiGroupValue[gc]
         else:
             return Constraint.Skip
-    model.eGenSensiGroupValue       = Constraint(model.pgc, model.gs, rule=eGenSensiGroupValue, doc='Fixing the variable [p.u.]')
+    optmodel.eGenSensiGroupValue       = Constraint(model.pgc, model.gs, rule=eGenSensiGroupValue, doc='Fixing the variable [p.u.]')
 
     def eNetFixedInvestment(optmodel,p,ni,nf,cc):
         if model.pIndBinSingleNode() == 0 and model.pNetSensitivity[ni,nf,cc]():
@@ -1437,21 +1437,21 @@ def create_constraints(model, optmodel):
             # return model.vNetworkInvest[p, ni, nf, cc] <= pNetFxInvest[ni, nf, cc] * 0.99999999
         else:
             return Constraint.Skip
-    model.eNetFixedInvestment       = Constraint(model.plc, rule=eNetFixedInvestment, doc='Fixing the investment decision to a specific value [p.u.]')
+    optmodel.eNetFixedInvestment       = Constraint(model.plc, rule=eNetFixedInvestment, doc='Fixing the investment decision to a specific value [p.u.]')
 
     def eNetSensiGroup(optmodel,p,ni,nf,cc,sg):
         if model.pNetSensitivity[ni,nf,cc]() and (sg,ni,nf,cc) in model.sg2la:
             return optmodel.vNetSensiGr[p,sg] == optmodel.vNetSensi[p,ni,nf,cc]
         else:
             return Constraint.Skip
-    model.eNetSensiGroup            = Constraint(model.plc, model.ns, rule=eNetSensiGroup, doc='Coupling the sensitivities per group [p.u.]')
+    optmodel.eNetSensiGroup            = Constraint(model.plc, model.ns, rule=eNetSensiGroup, doc='Coupling the sensitivities per group [p.u.]')
 
     def eNetSensiGroupValue(optmodel,p,sg):
         if sg != 'Gr0':
             return optmodel.vNetSensiGr[p,sg] == sum(model.pNetSensiGroupValue[ni,nf,cc] for (ni,nf,cc) in model.lc if (sg,ni,nf,cc) in model.sg2la)/len([(ni,nf,cc) for (ni,nf,cc) in model.lc if (sg,ni,nf,cc) in model.sg2la])
         else:
             return Constraint.Skip
-    model.eNetSensiGroupValue       = Constraint(model.p, model.ns, rule=eNetSensiGroupValue, doc='Fixing the variable [p.u.]')
+    optmodel.eNetSensiGroupValue       = Constraint(model.p, model.ns, rule=eNetSensiGroupValue, doc='Fixing the variable [p.u.]')
 
     GeneratingEATime = time.time() - StartTime
     StartTime         = time.time()

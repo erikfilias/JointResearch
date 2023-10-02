@@ -297,6 +297,9 @@ def main():
     # create the base model
     base_model = ConcreteModel()
 
+    # Activating the variable reactance
+    base_model.pLineXNetInv = 0
+
     # Reading and data processing
     base_model = data_processing(args.dir, args.case, base_model)
 
