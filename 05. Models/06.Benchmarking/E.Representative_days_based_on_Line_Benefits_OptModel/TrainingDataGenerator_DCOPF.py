@@ -23,7 +23,7 @@ parser.add_argument('--dir',    type=str, default=None)
 parser.add_argument('--solver', type=str, default=None)
 
 DIR    = os.path.dirname(__file__)
-CASE   = '9n'
+CASE   = '3-bus'
 SOLVER = 'gurobi'
 folder_out = "DC_OPF"
 
