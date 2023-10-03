@@ -476,7 +476,7 @@ def main():
         oSN.vNetworkInvest.pprint()
 
         print(
-            f'Number of lines to be considered: {len(base_model.le) + len([(p, x, y, z) for (p, x, y, z) in base_model.plc if oSN.vNetworkInvest[p, x, y, z]() == 1.0])}')
+            f'Number of lines to be considered: {len(base_model.la) + len([(p, x, y, z) for (p, x, y, z) in base_model.plc if oSN.vNetworkInvest[p, x, y, z]() == 1.0])}')
 
         df_Inp, df_Out = ModelRun(base_model, oSN, execution, _path, args.dir, args.case, args.solver)
 
