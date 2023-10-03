@@ -112,7 +112,7 @@ def main(cmodel):
     args = parser.parse_args()
     args.dir = DIR
     if args.case is None:
-        args.case = input('Input Case   Name (Default {}): '.format(CASE))
+        args.case = input('Input Case   Name (Default {}): '.format(default_CASE))
         args.case = default_CASE
     args.solver = SOLVER
     print(args.case)
@@ -1504,9 +1504,9 @@ def create_constraints(model, optmodel):
 
     def ePfrUpperBound(optmodel,p,sc,st,n,ni,nf,cc):
         if   (st,n) in model.s2n and model.pIndBinSingleNode() == 0 and (ni,nf,cc) in model.lc:
-            return optmodel.vPfr[p,sc,n,ni,nf,cc] - model.pLineG[ni,nf,cc]                     *model.pLineTAP[ni,nf,cc]**2*optmodel.vW[p,sc,n,ni] + model.pLineTAP[ni,nf,cc]*model.pLineG[ni,nf,cc]*optmodel.vWC[p,sc,n,ni,nf] + model.pLineTAP[ni,nf,cc]*model.pLineB[ni,nf,cc]*optmodel.vWS[p,sc,n,ni,nf] <=  model.pLineNTCFrw[ni,nf,cc]*(1 - optmodel.vNetworkInvest[p,ni,nf,cc])
+            return (optmodel.vPfr[p,sc,n,ni,nf,cc] - model.pLineG[ni,nf,cc]                     *model.pLineTAP[ni,nf,cc]**2*optmodel.vW[p,sc,n,ni] + model.pLineTAP[ni,nf,cc]*model.pLineG[ni,nf,cc]*optmodel.vWC[p,sc,n,ni,nf] + model.pLineTAP[ni,nf,cc]*model.pLineB[ni,nf,cc]*optmodel.vWS[p,sc,n,ni,nf])/model.pLineNTCFrw[ni,nf,cc] <=  (1 - optmodel.vNetworkInvest[p,ni,nf,cc])
         elif (st,n) in model.s2n and model.pIndBinSingleNode() == 0 and (ni,nf,cc) not in model.lc:
-            return optmodel.vPfr[p,sc,n,ni,nf,cc] - model.pLineG[ni,nf,cc]                     *model.pLineTAP[ni,nf,cc]**2*optmodel.vW[p,sc,n,ni] + model.pLineTAP[ni,nf,cc]*model.pLineG[ni,nf,cc]*optmodel.vWC[p,sc,n,ni,nf] + model.pLineTAP[ni,nf,cc]*model.pLineB[ni,nf,cc]*optmodel.vWS[p,sc,n,ni,nf] <= 0
+            return (optmodel.vPfr[p,sc,n,ni,nf,cc] - model.pLineG[ni,nf,cc]                     *model.pLineTAP[ni,nf,cc]**2*optmodel.vW[p,sc,n,ni] + model.pLineTAP[ni,nf,cc]*model.pLineG[ni,nf,cc]*optmodel.vWC[p,sc,n,ni,nf] + model.pLineTAP[ni,nf,cc]*model.pLineB[ni,nf,cc]*optmodel.vWS[p,sc,n,ni,nf]) <= 0
         else:
             return Constraint.Skip
     optmodel.ePfrUpperBound          = Constraint(model.ps, model.st, model.n, model.la, rule=ePfrUpperBound, doc='maximum flow by existing network capacity [p.u.]')
@@ -1514,27 +1514,27 @@ def create_constraints(model, optmodel):
 
     def ePfrLowerBound(optmodel,p,sc,st,n,ni,nf,cc):
         if   (st,n) in model.s2n and model.pIndBinSingleNode() == 0 and (ni,nf,cc) in model.lc:
-            return optmodel.vPfr[p,sc,n,ni,nf,cc] - model.pLineG[ni,nf,cc]                     *model.pLineTAP[ni,nf,cc]**2*optmodel.vW[p,sc,n,ni] + model.pLineTAP[ni,nf,cc]*model.pLineG[ni,nf,cc]*optmodel.vWC[p,sc,n,ni,nf] + model.pLineTAP[ni,nf,cc]*model.pLineB[ni,nf,cc]*optmodel.vWS[p,sc,n,ni,nf] >= -model.pLineNTCFrw[ni,nf,cc]*(1 - optmodel.vNetworkInvest[p,ni,nf,cc])
+            return (optmodel.vPfr[p,sc,n,ni,nf,cc] - model.pLineG[ni,nf,cc]                     *model.pLineTAP[ni,nf,cc]**2*optmodel.vW[p,sc,n,ni] + model.pLineTAP[ni,nf,cc]*model.pLineG[ni,nf,cc]*optmodel.vWC[p,sc,n,ni,nf] + model.pLineTAP[ni,nf,cc]*model.pLineB[ni,nf,cc]*optmodel.vWS[p,sc,n,ni,nf])/model.pLineNTCFrw[ni,nf,cc] >= -(1 - optmodel.vNetworkInvest[p,ni,nf,cc])
         elif (st,n) in model.s2n and model.pIndBinSingleNode() == 0 and (ni,nf,cc) not in model.lc:
-            return optmodel.vPfr[p,sc,n,ni,nf,cc] - model.pLineG[ni,nf,cc]                     *model.pLineTAP[ni,nf,cc]**2*optmodel.vW[p,sc,n,ni] + model.pLineTAP[ni,nf,cc]*model.pLineG[ni,nf,cc]*optmodel.vWC[p,sc,n,ni,nf] + model.pLineTAP[ni,nf,cc]*model.pLineB[ni,nf,cc]*optmodel.vWS[p,sc,n,ni,nf] >= 0
+            return (optmodel.vPfr[p,sc,n,ni,nf,cc] - model.pLineG[ni,nf,cc]                     *model.pLineTAP[ni,nf,cc]**2*optmodel.vW[p,sc,n,ni] + model.pLineTAP[ni,nf,cc]*model.pLineG[ni,nf,cc]*optmodel.vWC[p,sc,n,ni,nf] + model.pLineTAP[ni,nf,cc]*model.pLineB[ni,nf,cc]*optmodel.vWS[p,sc,n,ni,nf]) >= 0
         else:
             return Constraint.Skip
     optmodel.ePfrLowerBound          = Constraint(model.ps, model.st, model.n, model.la, rule=ePfrLowerBound, doc='maximum flow by existing network capacity [p.u.]')
 
     def ePtoUpperBound(optmodel,p,sc,st,n,ni,nf,cc):
         if   (st,n) in model.s2n and model.pIndBinSingleNode() == 0 and (ni,nf,cc) in model.lc:
-            return optmodel.vPto[p,sc,n,ni,nf,cc] - model.pLineG[ni,nf,cc]                                          *optmodel.vW[p,sc,n,nf] + model.pLineTAP[ni,nf,cc]*model.pLineG[ni,nf,cc]*optmodel.vWC[p,sc,n,ni,nf] - model.pLineTAP[ni,nf,cc]*model.pLineB[ni,nf,cc]*optmodel.vWS[p,sc,n,ni,nf] <=  model.pLineNTCFrw[ni,nf,cc]*(1 - optmodel.vNetworkInvest[p,ni,nf,cc])
+            return (optmodel.vPto[p,sc,n,ni,nf,cc] - model.pLineG[ni,nf,cc]                                                 *optmodel.vW[p,sc,n,nf] + model.pLineTAP[ni,nf,cc]*model.pLineG[ni,nf,cc]*optmodel.vWC[p,sc,n,ni,nf] - model.pLineTAP[ni,nf,cc]*model.pLineB[ni,nf,cc]*optmodel.vWS[p,sc,n,ni,nf])/model.pLineNTCFrw[ni,nf,cc] <=  (1 - optmodel.vNetworkInvest[p,ni,nf,cc])
         elif (st,n) in model.s2n and model.pIndBinSingleNode() == 0 and (ni,nf,cc) not in model.lc:
-            return optmodel.vPto[p,sc,n,ni,nf,cc] - model.pLineG[ni,nf,cc]                                          *optmodel.vW[p,sc,n,nf] + model.pLineTAP[ni,nf,cc]*model.pLineG[ni,nf,cc]*optmodel.vWC[p,sc,n,ni,nf] - model.pLineTAP[ni,nf,cc]*model.pLineB[ni,nf,cc]*optmodel.vWS[p,sc,n,ni,nf] <= 0
+            return (optmodel.vPto[p,sc,n,ni,nf,cc] - model.pLineG[ni,nf,cc]                                                 *optmodel.vW[p,sc,n,nf] + model.pLineTAP[ni,nf,cc]*model.pLineG[ni,nf,cc]*optmodel.vWC[p,sc,n,ni,nf] - model.pLineTAP[ni,nf,cc]*model.pLineB[ni,nf,cc]*optmodel.vWS[p,sc,n,ni,nf]) <= 0
         else:
             return Constraint.Skip
     optmodel.ePtoUpperBound          = Constraint(model.ps, model.st, model.n, model.la, rule=ePtoUpperBound, doc='maximum flow by existing network capacity [p.u.]')
 
     def ePtoLowerBound(optmodel,p,sc,st,n,ni,nf,cc):
         if   (st,n) in model.s2n and model.pIndBinSingleNode() == 0 and (ni,nf,cc) in model.lc:
-            return optmodel.vPto[p,sc,n,ni,nf,cc] - model.pLineG[ni,nf,cc]                                          *optmodel.vW[p,sc,n,nf] + model.pLineTAP[ni,nf,cc]*model.pLineG[ni,nf,cc]*optmodel.vWC[p,sc,n,ni,nf] - model.pLineTAP[ni,nf,cc]*model.pLineB[ni,nf,cc]*optmodel.vWS[p,sc,n,ni,nf] >= -model.pLineNTCFrw[ni,nf,cc]*(1 - optmodel.vNetworkInvest[p,ni,nf,cc])
+            return (optmodel.vPto[p,sc,n,ni,nf,cc] - model.pLineG[ni,nf,cc]                                                 *optmodel.vW[p,sc,n,nf] + model.pLineTAP[ni,nf,cc]*model.pLineG[ni,nf,cc]*optmodel.vWC[p,sc,n,ni,nf] - model.pLineTAP[ni,nf,cc]*model.pLineB[ni,nf,cc]*optmodel.vWS[p,sc,n,ni,nf])/model.pLineNTCFrw[ni,nf,cc] >= -(1 - optmodel.vNetworkInvest[p,ni,nf,cc])
         elif (st,n) in model.s2n and model.pIndBinSingleNode() == 0 and (ni,nf,cc) not in model.lc:
-            return optmodel.vPto[p,sc,n,ni,nf,cc] - model.pLineG[ni,nf,cc]                                          *optmodel.vW[p,sc,n,nf] + model.pLineTAP[ni,nf,cc]*model.pLineG[ni,nf,cc]*optmodel.vWC[p,sc,n,ni,nf] - model.pLineTAP[ni,nf,cc]*model.pLineB[ni,nf,cc]*optmodel.vWS[p,sc,n,ni,nf] >= 0
+            return (optmodel.vPto[p,sc,n,ni,nf,cc] - model.pLineG[ni,nf,cc]                                                 *optmodel.vW[p,sc,n,nf] + model.pLineTAP[ni,nf,cc]*model.pLineG[ni,nf,cc]*optmodel.vWC[p,sc,n,ni,nf] - model.pLineTAP[ni,nf,cc]*model.pLineB[ni,nf,cc]*optmodel.vWS[p,sc,n,ni,nf]) >= 0
         else:
             return Constraint.Skip
     optmodel.ePtoLowerBound          = Constraint(model.ps, model.st, model.n, model.la, rule=ePtoLowerBound, doc='maximum flow by existing network capacity [p.u.]')
@@ -1545,36 +1545,36 @@ def create_constraints(model, optmodel):
 
     def eQfrLowerBound(optmodel,p,sc,st,n,ni,nf,cc):
         if   (st,n) in model.s2n and model.pIndBinSingleNode() == 0 and (ni,nf,cc) in model.lc:
-            return optmodel.vQfr[p,sc,n,ni,nf,cc] + (model.pLineB[ni,nf,cc]+model.pLineBsh[ni,nf,cc])*model.pLineTAP[ni,nf,cc]**2*optmodel.vW[p,sc,n,ni] + model.pLineTAP[ni,nf,cc]*model.pLineG[ni,nf,cc]*optmodel.vWS[p,sc,n,ni,nf] - model.pLineTAP[ni,nf,cc]*model.pLineB[ni,nf,cc]*optmodel.vWC[p,sc,n,ni,nf] >= -(model.pLineNTCFrw[ni,nf,cc]*1.25)*(1 - optmodel.vNetworkInvest[p,ni,nf,cc])
+            return (optmodel.vQfr[p,sc,n,ni,nf,cc] + (model.pLineB[ni,nf,cc]+model.pLineBsh[ni,nf,cc])*model.pLineTAP[ni,nf,cc]**2*optmodel.vW[p,sc,n,ni] + model.pLineTAP[ni,nf,cc]*model.pLineG[ni,nf,cc]*optmodel.vWS[p,sc,n,ni,nf] - model.pLineTAP[ni,nf,cc]*model.pLineB[ni,nf,cc]*optmodel.vWC[p,sc,n,ni,nf])/model.pLineNTCFrw[ni,nf,cc] >= -(1 - optmodel.vNetworkInvest[p,ni,nf,cc])
         elif (st,n) in model.s2n and model.pIndBinSingleNode() == 0 and (ni,nf,cc) not in model.lc:
-            return optmodel.vQfr[p,sc,n,ni,nf,cc] + (model.pLineB[ni,nf,cc]+model.pLineBsh[ni,nf,cc])*model.pLineTAP[ni,nf,cc]**2*optmodel.vW[p,sc,n,ni] + model.pLineTAP[ni,nf,cc]*model.pLineG[ni,nf,cc]*optmodel.vWS[p,sc,n,ni,nf] - model.pLineTAP[ni,nf,cc]*model.pLineB[ni,nf,cc]*optmodel.vWC[p,sc,n,ni,nf] >= 0
+            return (optmodel.vQfr[p,sc,n,ni,nf,cc] + (model.pLineB[ni,nf,cc]+model.pLineBsh[ni,nf,cc])*model.pLineTAP[ni,nf,cc]**2*optmodel.vW[p,sc,n,ni] + model.pLineTAP[ni,nf,cc]*model.pLineG[ni,nf,cc]*optmodel.vWS[p,sc,n,ni,nf] - model.pLineTAP[ni,nf,cc]*model.pLineB[ni,nf,cc]*optmodel.vWC[p,sc,n,ni,nf]) >= 0
         else:
             return Constraint.Skip
     optmodel.eQfrLowerBound          = Constraint(model.ps, model.st, model.n, model.la, rule=eQfrLowerBound, doc='maximum flow by existing network capacity [p.u.]')
 
     def eQfrUpperBound(optmodel,p,sc,st,n,ni,nf,cc):
         if   (st,n) in model.s2n and model.pIndBinSingleNode() == 0 and (ni,nf,cc) in model.lc:
-            return optmodel.vQfr[p,sc,n,ni,nf,cc] + (model.pLineB[ni,nf,cc]+model.pLineBsh[ni,nf,cc])*model.pLineTAP[ni,nf,cc]**2*optmodel.vW[p,sc,n,ni] + model.pLineTAP[ni,nf,cc]*model.pLineG[ni,nf,cc]*optmodel.vWS[p,sc,n,ni,nf] - model.pLineTAP[ni,nf,cc]*model.pLineB[ni,nf,cc]*optmodel.vWC[p,sc,n,ni,nf] <=  (model.pLineNTCFrw[ni,nf,cc]*1.25)*(1 - optmodel.vNetworkInvest[p,ni,nf,cc])
+            return (optmodel.vQfr[p,sc,n,ni,nf,cc] + (model.pLineB[ni,nf,cc]+model.pLineBsh[ni,nf,cc])*model.pLineTAP[ni,nf,cc]**2*optmodel.vW[p,sc,n,ni] + model.pLineTAP[ni,nf,cc]*model.pLineG[ni,nf,cc]*optmodel.vWS[p,sc,n,ni,nf] - model.pLineTAP[ni,nf,cc]*model.pLineB[ni,nf,cc]*optmodel.vWC[p,sc,n,ni,nf])/model.pLineNTCFrw[ni,nf,cc] <=  (1 - optmodel.vNetworkInvest[p,ni,nf,cc])
         elif (st,n) in model.s2n and model.pIndBinSingleNode() == 0 and (ni,nf,cc) not in model.lc:
-            return optmodel.vQfr[p,sc,n,ni,nf,cc] + (model.pLineB[ni,nf,cc]+model.pLineBsh[ni,nf,cc])*model.pLineTAP[ni,nf,cc]**2*optmodel.vW[p,sc,n,ni] + model.pLineTAP[ni,nf,cc]*model.pLineG[ni,nf,cc]*optmodel.vWS[p,sc,n,ni,nf] - model.pLineTAP[ni,nf,cc]*model.pLineB[ni,nf,cc]*optmodel.vWC[p,sc,n,ni,nf] <= 0
+            return (optmodel.vQfr[p,sc,n,ni,nf,cc] + (model.pLineB[ni,nf,cc]+model.pLineBsh[ni,nf,cc])*model.pLineTAP[ni,nf,cc]**2*optmodel.vW[p,sc,n,ni] + model.pLineTAP[ni,nf,cc]*model.pLineG[ni,nf,cc]*optmodel.vWS[p,sc,n,ni,nf] - model.pLineTAP[ni,nf,cc]*model.pLineB[ni,nf,cc]*optmodel.vWC[p,sc,n,ni,nf]) <= 0
         else:
             return Constraint.Skip
     optmodel.eQfrUpperBound          = Constraint(model.ps, model.st, model.n, model.la, rule=eQfrUpperBound, doc='maximum flow by existing network capacity [p.u.]')
 
     def eQtoLowerBound(optmodel,p,sc,st,n,ni,nf,cc):
         if   (st,n) in model.s2n and model.pIndBinSingleNode() == 0 and (ni,nf,cc) in model.lc:
-            return optmodel.vQto[p,sc,n,ni,nf,cc] + (model.pLineB[ni,nf,cc]+model.pLineBsh[ni,nf,cc])                     *optmodel.vW[p,sc,n,nf] - model.pLineTAP[ni,nf,cc]*model.pLineG[ni,nf,cc]*optmodel.vWS[p,sc,n,ni,nf] - model.pLineTAP[ni,nf,cc]*model.pLineB[ni,nf,cc]*optmodel.vWC[p,sc,n,ni,nf] >= -(model.pLineNTCFrw[ni,nf,cc]*1.25)*(1 - optmodel.vNetworkInvest[p,ni,nf,cc])
+            return (optmodel.vQto[p,sc,n,ni,nf,cc] + (model.pLineB[ni,nf,cc]+model.pLineBsh[ni,nf,cc])                     *optmodel.vW[p,sc,n,nf] - model.pLineTAP[ni,nf,cc]*model.pLineG[ni,nf,cc]*optmodel.vWS[p,sc,n,ni,nf] - model.pLineTAP[ni,nf,cc]*model.pLineB[ni,nf,cc]*optmodel.vWC[p,sc,n,ni,nf])/model.pLineNTCFrw[ni,nf,cc] >= -(1 - optmodel.vNetworkInvest[p,ni,nf,cc])
         elif (st,n) in model.s2n and model.pIndBinSingleNode() == 0 and (ni,nf,cc) not in model.lc:
-            return optmodel.vQto[p,sc,n,ni,nf,cc] + (model.pLineB[ni,nf,cc]+model.pLineBsh[ni,nf,cc])                     *optmodel.vW[p,sc,n,nf] - model.pLineTAP[ni,nf,cc]*model.pLineG[ni,nf,cc]*optmodel.vWS[p,sc,n,ni,nf] - model.pLineTAP[ni,nf,cc]*model.pLineB[ni,nf,cc]*optmodel.vWC[p,sc,n,ni,nf] >= 0
+            return (optmodel.vQto[p,sc,n,ni,nf,cc] + (model.pLineB[ni,nf,cc]+model.pLineBsh[ni,nf,cc])                     *optmodel.vW[p,sc,n,nf] - model.pLineTAP[ni,nf,cc]*model.pLineG[ni,nf,cc]*optmodel.vWS[p,sc,n,ni,nf] - model.pLineTAP[ni,nf,cc]*model.pLineB[ni,nf,cc]*optmodel.vWC[p,sc,n,ni,nf]) >= 0
         else:
             return Constraint.Skip
     optmodel.eQtoLowerBound          = Constraint(model.ps, model.st, model.n, model.la, rule=eQtoLowerBound, doc='maximum flow by existing network capacity [p.u.]')
 
     def eQtoUpperBound(optmodel,p,sc,st,n,ni,nf,cc):
         if   (st,n) in model.s2n and model.pIndBinSingleNode() == 0 and (ni,nf,cc) in model.lc:
-            return optmodel.vQto[p,sc,n,ni,nf,cc] + (model.pLineB[ni,nf,cc]+model.pLineBsh[ni,nf,cc])                     *optmodel.vW[p,sc,n,nf] - model.pLineTAP[ni,nf,cc]*model.pLineG[ni,nf,cc]*optmodel.vWS[p,sc,n,ni,nf] - model.pLineTAP[ni,nf,cc]*model.pLineB[ni,nf,cc]*optmodel.vWC[p,sc,n,ni,nf] <=  (model.pLineNTCFrw[ni,nf,cc]*1.25)*(1 - optmodel.vNetworkInvest[p,ni,nf,cc])
+            return (optmodel.vQto[p,sc,n,ni,nf,cc] + (model.pLineB[ni,nf,cc]+model.pLineBsh[ni,nf,cc])                     *optmodel.vW[p,sc,n,nf] - model.pLineTAP[ni,nf,cc]*model.pLineG[ni,nf,cc]*optmodel.vWS[p,sc,n,ni,nf] - model.pLineTAP[ni,nf,cc]*model.pLineB[ni,nf,cc]*optmodel.vWC[p,sc,n,ni,nf])/model.pLineNTCFrw[ni,nf,cc] <=  (1 - optmodel.vNetworkInvest[p,ni,nf,cc])
         elif (st,n) in model.s2n and model.pIndBinSingleNode() == 0 and (ni,nf,cc) not in model.lc:
-            return optmodel.vQto[p,sc,n,ni,nf,cc] + (model.pLineB[ni,nf,cc]+model.pLineBsh[ni,nf,cc])                     *optmodel.vW[p,sc,n,nf] - model.pLineTAP[ni,nf,cc]*model.pLineG[ni,nf,cc]*optmodel.vWS[p,sc,n,ni,nf] - model.pLineTAP[ni,nf,cc]*model.pLineB[ni,nf,cc]*optmodel.vWC[p,sc,n,ni,nf] <= 0
+            return (optmodel.vQto[p,sc,n,ni,nf,cc] + (model.pLineB[ni,nf,cc]+model.pLineBsh[ni,nf,cc])                     *optmodel.vW[p,sc,n,nf] - model.pLineTAP[ni,nf,cc]*model.pLineG[ni,nf,cc]*optmodel.vWS[p,sc,n,ni,nf] - model.pLineTAP[ni,nf,cc]*model.pLineB[ni,nf,cc]*optmodel.vWC[p,sc,n,ni,nf]) <= 0
         else:
             return Constraint.Skip
     optmodel.eQtoUpperBound          = Constraint(model.ps, model.st, model.n, model.la, rule=eQtoUpperBound, doc='maximum flow by existing network capacity [p.u.]')
