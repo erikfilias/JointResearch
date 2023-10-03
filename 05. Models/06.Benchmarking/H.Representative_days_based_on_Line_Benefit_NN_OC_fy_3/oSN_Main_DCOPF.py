@@ -1101,12 +1101,12 @@ def create_constraints(model, optmodel):
 
     def eTotalGCost(optmodel,p,sc,st,n):
         if (st,n) in model.s2n:
-            # return optmodel.vTotalGCost[p,sc,n] == (sum(model.pLoadLevelDuration[n] * model.pLinearVarCost  [nr] * optmodel.vTotalOutputP[p,sc,n,nr]                      +
-            #                                             model.pLoadLevelDuration[n] * model.pConstantVarCost[nr] * optmodel.vCommitment [p,sc,n,nr]                      +
-            #                                             model.pLoadLevelDuration[n] * model.pStartUpCost    [nr] * optmodel.vStartUp [p,sc,n,nr]                         +
-            #                                             model.pLoadLevelDuration[n] * model.pShutDownCost   [nr] * optmodel.vShutDown[p,sc,n,nr]    for nr in model.nr)  +
-            #                                         sum(model.pLoadLevelDuration[n] * model.pLinearOMCost   [r ] * optmodel.vTotalOutputP[p,sc,n,r] for r  in model.r ) )
-            return optmodel.vTotalGCost[p,sc,n] == (sum(model.pLoadLevelDuration[n] * model.pLCOE  [nr] * optmodel.vTotalOutputP[p,sc,n,nr] for nr in model.nr) )
+            return optmodel.vTotalGCost[p,sc,n] == (sum(model.pLoadLevelDuration[n] * model.pLinearVarCost  [nr] * optmodel.vTotalOutputP[p,sc,n,nr]                      +
+                                                        model.pLoadLevelDuration[n] * model.pConstantVarCost[nr] * optmodel.vCommitment [p,sc,n,nr]                      +
+                                                        model.pLoadLevelDuration[n] * model.pStartUpCost    [nr] * optmodel.vStartUp [p,sc,n,nr]                         +
+                                                        model.pLoadLevelDuration[n] * model.pShutDownCost   [nr] * optmodel.vShutDown[p,sc,n,nr]    for nr in model.nr)  +
+                                                    sum(model.pLoadLevelDuration[n] * model.pLinearOMCost   [r ] * optmodel.vTotalOutputP[p,sc,n,r] for r  in model.r ) )
+            # return optmodel.vTotalGCost[p,sc,n] == (sum(model.pLoadLevelDuration[n] * model.pLCOE  [nr] * optmodel.vTotalOutputP[p,sc,n,nr] for nr in model.nr) )
         else:
             return Constraint.Skip
     optmodel.eTotalGCost            = Constraint(model.ps, model.st, model.n, rule=eTotalGCost, doc='system variable generation operation cost [MEUR]')
