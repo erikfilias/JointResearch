@@ -132,7 +132,7 @@ def main(cmodel):
     # defining the objective function and constraints
     model = create_constraints(model, model)
     # solving the model
-    pWrittingLPFile = 1
+    pWrittingLPFile = 0
     model = solving_model( args.dir, args.case, args.solver, model, pWrittingLPFile)
     model = saving_results(args.dir, args.case, args.solver, model, model)
     print('Elapsed time: {} seconds'.format(round(time.time() - initial_time), 2))
