@@ -530,7 +530,7 @@ def main():
         solve_and_save_PINT(ni,nf,cc,df_input_data,df_output_data,counter1)
         solve_and_save_TOOT(ni,nf,cc,df_input_data,df_output_data,counter2)
         counter1 += 1
-        counter1 += 2
+        counter1 += 1
 
 
 if __name__ == '__main__':
