@@ -427,7 +427,7 @@ def main():
 
         ####################################################################################################################
 
-    def solve_and_save_TOOT(ni,nf,cc,df_input_data,df_output_data,counter1):
+    def solve_and_save_TOOT(ni,nf,cc,df_input_data,df_output_data,counter2):
         print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
         print(f"TOOT: Line {ni} {nf} {cc}")
         print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
@@ -506,9 +506,9 @@ def main():
                              filter=lambda base_model, *lc: lc in base_model.lc and (lc, 'AC') in base_model.pLineType)
         base_model.laa = base_model.lea | base_model.lca
 
-        counter1 += 1
+        counter2 += 1
         print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
-        print(f'Remaining lines: {len(clines) - counter1}')
+        print(f'Remaining lines: {len(clines) - counter2}')
         print("――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――")
 
         ####################################################################################################################
@@ -530,7 +530,7 @@ def main():
         solve_and_save_PINT(ni,nf,cc,df_input_data,df_output_data,counter1)
         solve_and_save_TOOT(ni,nf,cc,df_input_data,df_output_data,counter2)
         counter1 += 1
-        counter1 += 1
+        counter2 += 1
 
 
 if __name__ == '__main__':
