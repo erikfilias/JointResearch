@@ -31,7 +31,7 @@ def list_executions(per,sc,folder):
 #         dfs_out[execution] = df_out_e
 #     return dfs_in,dfs_out
 
-def load_data_ext_out(folder, executions, period, sc, il_os=None,output = "SystemCosts",include_inv_dummies =False):
+def load_data_ext_out(folder, executions, period, sc, il_os=None,output = "SystemCosts",include_inv_dummies =True):
     dfs_in = dict()
     dfs_out = dict()
     dfs_inter = dict()
