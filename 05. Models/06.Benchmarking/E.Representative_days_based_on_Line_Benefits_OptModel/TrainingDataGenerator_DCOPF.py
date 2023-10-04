@@ -25,7 +25,7 @@ parser.add_argument('--solver', type=str, default=None)
 DIR    = os.path.dirname(__file__)
 CASE   = '3-bus'
 SOLVER = 'gurobi'
-folder_out = "DC_OPF"
+folder_out = "DCOPF"
 
 def ModelRun(model, optmodel, execution, path, dir, case, solver):
 
