@@ -358,31 +358,86 @@ def trim_columns_to_common(dfs_inter_j):
 #Methods for random selection of training data#
 ###############################################
 
-def get_random_week_each_month():
-    pass
-def get_random_days():
-    pass
+def generate_one_week_per_month_indices(date_indices):
+    """
+    Generate a list of indices, one from each month, representing one random week.
+
+    Parameters:
+        date_indices (pd.Index): A pandas datetime index.
+
+    Returns:
+        list of int: A list of indices, one from each month, representing one random week.
+    """
+    # Create a DataFrame with the date indices
+    df = pd.DataFrame({'Date': date_indices})
+
+    # Group the date indices by month
+    grouped = df.groupby(df['Date'].dt.to_period('M'))
+
+    # Initialize a list to store the selected indices
+    selected_indices = []
+
+    # Select one random week index from each month
+    for _, group in grouped:
+        if len(group) >= 7:
+            random_week_index = random.randint(0, len(group) // 7 - 1)
+            selected_indices.append(group.index[random_week_index * 7:random_week_index * (14)])
+
+    return selected_indices
+
+
+# Example usage:
+date_indices = pd.date_range(start='2023-01-01', periods=365, freq='D')
+selected_indices = generate_one_week_per_month_indices(date_indices)
+
+# Print or use the list of selected indices
+print("Selected indices, one from each month, representing one random week:", selected_indices)
+#This method generates a list of indices for a given number of days of given length, out of a list of periods of given length.
+#The days alwas start at the first period of a day, and no two identical days are returned.
+def get_random_days_slicer(hours_available,nb_selected,hours_in_day=24,sorted = True):
+    assert(hours_available>=nb_selected*hours_in_day)
+
+    index_list = []
+    for i in range(nb_selected):
+        r = random.randint(0, hours_available)
+        i = hours_in_day * round(r/hours_in_day)
+
+        while i in index_list:
+            r = random.randint(0, hours_available)
+            i = hours_in_day * round(r/hours_in_day)
+        this_index_list = [i+j for j in range(hours_in_day)]
+        index_list.append(this_index_list)
+    if sorted:
+        return np.sort((np.array(index_list)).flatten())
+    else:
+        return np.array(index_list).flatten()
 
 def get_random_adj_period_slicer(nb_available,nb_selected,period_length,sorted = True):
     start_idxs = get_random_hours_slicer(nb_available-period_length,nb_selected,sorted=sorted)
     if sorted:
         start_idxs = np.sort(start_idxs)
-    index_list = [[si+i for i in period_length] for i in start_idxs]
+    index_list = [[si+i for i in period_length] for si in start_idxs]
     return index_list.flatten()
 
-
-
-
-
-
-def get_random_hours_slicer(nb_available,nb_selected,sorted = True):
-    index_list = [random.randint(0,nb_available) for i in range(0,nb_selected)]
+def get_random_hours_slicer(nb_available,nb_selected,min_offset = 1,sorted = True):
+    assert(nb_available>=nb_selected*min_offset)
+    idx_l_size = 0
+    index_list = []
+    counter = 0
+    while idx_l_size < nb_selected:
+        r = random.randint(0, nb_available)
+        after = list(range(r,r+min_offset))
+        before = list(range(r-min_offset+1,r+1))
+        if set(index_list).isdisjoint(before) and set(index_list).isdisjoint(after):
+            idx_l_size += 1
+            index_list.append(r)
+            counter = 0
+        counter += 1
+        assert(counter <1e7)
     if sorted:
         return np.sort(index_list)
     else:
         return index_list
-
-
 
 #################################################
 #Methods for single execution (operational cost)#
