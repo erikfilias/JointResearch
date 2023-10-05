@@ -128,6 +128,28 @@ def join_frames_inter_layer(dfs_inter):
 #             execution] = train_test_split(train_in, train_out, test_size=validation_size, shuffle=False)
 #     return ts_in,ts_out
 
+def concat_all_exec_fy(dfs_in, dfs_out, dfs_inter_j):
+    executions = dfs_in.keys()
+    first = True
+    for execution in executions:
+        np_in = dfs_in[execution].to_numpy()
+        np_out = dfs_out[execution].to_numpy().sum(axis=1)
+        np_inter = dfs_inter_j[execution].to_numpy()
+
+        t_in = torch.from_numpy(np_in)
+        t_out = torch.from_numpy(np_out)
+        t_inter = torch.from_numpy(np_inter)
+        if first:
+            t_in_fy = t_in
+            t_out_fy = t_out
+            t_inter_fy = t_inter
+            first = False
+        else:
+            t_in_fy = torch.cat((t_in_fy,t_in))
+            t_out_fy = torch.cat((t_out_fy, t_out))
+            t_inter_fy = torch.cat((t_inter_fy,t_inter))
+    return t_in_fy,t_out_fy,t_inter_fy
+
 def split_tr_val_te_ext_out(dfs_in, dfs_out, dfs_inter_j, executions, te_s, val_s,shuffle = True):
     ts_in = dict()
     ts_out = dict()
@@ -455,7 +477,7 @@ def get_random_hours_indices(nb_available,nb_selected,min_offset = 1,sorted = Tr
     index_list = []
     counter = 0
     while idx_l_size < nb_selected:
-        r = random.randint(0, nb_available)
+        r = random.randint(0, nb_available-1)
         after = list(range(r,r+min_offset))
         before = list(range(r-min_offset+1,r+1))
         if set(index_list).isdisjoint(before) and set(index_list).isdisjoint(after):
@@ -469,6 +491,39 @@ def get_random_hours_indices(nb_available,nb_selected,min_offset = 1,sorted = Tr
     else:
         return index_list
 
+def return_selection(dfs_dict_list, indices):
+    """
+    Select specific rows from a list of dictionaries containing DataFrames.
+
+    Given a list of dictionaries where each dictionary represents different executions with DataFrames,
+    this function selects DataFrames from each execution based on the provided indices.
+
+    Parameters:
+    - dfs_dict_list (list of dict): A list of dictionaries, where each dictionary contains DataFrames.
+    - indices (list or slice): Indices to select from each DataFrame in the dictionaries.
+
+    Returns:
+    - selections (list of dict): A list of dictionaries, where each dictionary contains the selected DataFrames
+      based on the provided indices.
+
+    Raises:
+    - AssertionError: If the keys (executions) in the dictionaries are not equal across all dictionaries.
+    """
+    selections = list()
+    first_dict_keys = set(dfs_dict_list[0].keys())
+
+    for i, d in enumerate(dfs_dict_list):
+        d_sel = dict()
+
+        if set(d.keys()) != first_dict_keys:
+            raise AssertionError("Keys in the dictionaries are not equal")
+
+        for exe in first_dict_keys:
+            d_sel[exe] = dfs_dict_list[i][exe].iloc[indices, :]
+
+        selections.append(d_sel)
+
+    return selections
 #################################################
 #Methods for single execution (operational cost)#
 #################################################
