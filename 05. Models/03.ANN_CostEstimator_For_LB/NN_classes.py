@@ -1,9 +1,10 @@
-# Define the neural network model
 import torch
 import math
 import torch.nn.functional as F
 
-
+######################
+##Model constructors #
+######################
 
 class ObjectiveEstimator_ANN_Single_layer(torch.nn.Module):
     def __init__(self, input_size,hidden_sizes, output_size,dropout_ratio=0.0):
@@ -91,29 +92,6 @@ class ObjectiveEstimator_ANN_3hidden_layer(torch.nn.Module):
             output = self.output_layer(hidden3_dropout)
         return output
 
-
-
-def train_and_get_loss(model,tr_in,tr_out,nb_epochs,lr,print_ = False):
-    optimizer = torch.optim.Adam(model.parameters(), lr=lr)
-
-    for epoch in range(nb_epochs):
-        model.train()
-        optimizer.zero_grad()
-        # Forward pass
-        train_predictions = model(tr_in.float())
-        train_loss = torch.nn.MSELoss()(train_predictions.float().squeeze(), tr_out.float())
-
-        # Backward pass
-        # optimizer.zero_grad()
-        train_loss.backward()
-        optimizer.step()
-        #Print the training loss every 10 epochs
-        if print_ and (epoch + 1) % 10 == 0:
-            print(f'Epoch {epoch + 1}, Train Loss: {train_loss.item()}')
-    train_predictions = model(tr_in.float())
-    train_loss = torch.nn.MSELoss()(train_predictions.float().squeeze(), tr_out.float())
-    return train_loss
-
 class ObjectiveEstimator_ANN_inter_0_0(torch.nn.Module):
     def __init__(self, input_size, hidden_sizes, output_size, dropout_ratio=0.0, relu_out=False):
         super().__init__()
@@ -183,9 +161,9 @@ class ObjectiveEstimator_ANN_inter_1_1(torch.nn.Module):
         hidden3 = torch.relu(self.hidden_layer3(hidden2_dropout))
         hidden3_dropout = self.dropout(hidden3)
         if (self.relu_out):
-            output = torch.relu(self.output_layer(hidden2_dropout))
+            output = torch.relu(self.output_layer(hidden3_dropout))
         else:
-            output = self.output_layer(hidden2_dropout)
+            output = self.output_layer(hidden3_dropout)
         return output, hidden2
 
 class ObjectiveEstimator_ANN_inter_2_0(torch.nn.Module):
@@ -371,7 +349,7 @@ def create_model_inter(nb_hidden,input_size,inter_size,dropout_ratio,relu_out =F
         elif nb_hidden == (1,0):
             hidden_sizes.extend([int((input_size + inter_size)/2),inter_size])
         elif nb_hidden == (1,1):
-            hidden_sizes.extend([int((input_size + inter_size)/2),inter_size,int((input_size + inter_size)/2)])
+            hidden_sizes.extend([int((input_size + inter_size)/2),inter_size,int((1 + inter_size)/2)])
         elif nb_hidden == (2,0):
             hidden_sizes.extend([int(input_size)*2, int((input_size + inter_size)/2), inter_size])
         elif nb_hidden == (3,0):
@@ -407,6 +385,10 @@ def create_model(nb_hidden, input_size, dropout_ratio,relu_out=False,inter =Fals
             raise ValueError("Please provide a valid size for the intermediate layer")
         model = create_model_inter(nb_hidden=nb_hidden, input_size=input_size, dropout_ratio=dropout_ratio,hidden_sizes=hidden_sizes,inter_size=inter_size)
     return model
+
+##################
+##Loss functions #
+##################
 def create_loss_fn(penalize_negative=0):
     def my_loss(output, target):
         MSE_l = torch.mean((output - target) ** 2)
@@ -492,3 +474,24 @@ def custom_loss_MAE(output, target_output, hidden_layer_representation, target_h
     total_loss = beta*standard_loss + alpha * hidden_loss
 
     return total_loss
+
+# def train_and_get_loss(model,tr_in,tr_out,nb_epochs,lr,print_ = False):
+#     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
+#
+#     for epoch in range(nb_epochs):
+#         model.train()
+#         optimizer.zero_grad()
+#         # Forward pass
+#         train_predictions = model(tr_in.float())
+#         train_loss = torch.nn.MSELoss()(train_predictions.float().squeeze(), tr_out.float())
+#
+#         # Backward pass
+#         # optimizer.zero_grad()
+#         train_loss.backward()
+#         optimizer.step()
+#         #Print the training loss every 10 epochs
+#         if print_ and (epoch + 1) % 10 == 0:
+#             print(f'Epoch {epoch + 1}, Train Loss: {train_loss.item()}')
+#     train_predictions = model(tr_in.float())
+#     train_loss = torch.nn.MSELoss()(train_predictions.float().squeeze(), tr_out.float())
+#     return train_loss
