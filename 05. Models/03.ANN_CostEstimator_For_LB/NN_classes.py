@@ -160,6 +160,34 @@ class ObjectiveEstimator_ANN_inter_1_0(torch.nn.Module):
             output = self.output_layer(hidden2_dropout)
         return output, hidden2
 
+class ObjectiveEstimator_ANN_inter_1_1(torch.nn.Module):
+    def __init__(self, input_size, hidden_sizes, output_size, dropout_ratio=0., relu_out=False):
+        super().__init__()
+        hidden_size1 = hidden_sizes[0]
+        hidden_size2 = hidden_sizes[1]
+        hidden_size3 = hidden_sizes[2]
+        self.hidden_layer1 = torch.nn.Linear(input_size, hidden_size1)
+        self.hidden_layer2 = torch.nn.Linear(hidden_size1, hidden_size2)
+        self.hidden_layer3 = torch.nn.Linear(hidden_size2, hidden_size3)
+        self.dropout = torch.nn.Dropout(dropout_ratio)
+        self.output_layer = torch.nn.Linear(hidden_size3, output_size)
+
+        self.relu_out = relu_out
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+    def forward(self, input):
+        hidden1 = torch.relu(self.hidden_layer1(input))
+        hidden1_dropout = self.dropout(hidden1)
+        hidden2 = torch.relu(self.hidden_layer2(hidden1_dropout))
+        hidden2_dropout = self.dropout(hidden2)
+        hidden3 = torch.relu(self.hidden_layer3(hidden2_dropout))
+        hidden3_dropout = self.dropout(hidden3)
+        if (self.relu_out):
+            output = torch.relu(self.output_layer(hidden2_dropout))
+        else:
+            output = self.output_layer(hidden2_dropout)
+        return output, hidden2
+
 class ObjectiveEstimator_ANN_inter_2_0(torch.nn.Module):
     def __init__(self, input_size, hidden_sizes, output_size, dropout_ratio=0.0, relu_out=False):
         super().__init__()
@@ -342,6 +370,8 @@ def create_model_inter(nb_hidden,input_size,inter_size,dropout_ratio,relu_out =F
             hidden_sizes.append(inter_size)
         elif nb_hidden == (1,0):
             hidden_sizes.extend([int((input_size + inter_size)/2),inter_size])
+        elif nb_hidden == (1,1):
+            hidden_sizes.extend([int((input_size + inter_size)/2),inter_size,int((input_size + inter_size)/2)])
         elif nb_hidden == (2,0):
             hidden_sizes.extend([int(input_size)*2, int((input_size + inter_size)/2), inter_size])
         elif nb_hidden == (3,0):
@@ -355,6 +385,8 @@ def create_model_inter(nb_hidden,input_size,inter_size,dropout_ratio,relu_out =F
         model_class = ObjectiveEstimator_ANN_inter_0_0
     elif nb_hidden == (1,0):
         model_class = ObjectiveEstimator_ANN_inter_1_0
+    elif nb_hidden == (1,1):
+        model_class = ObjectiveEstimator_ANN_inter_1_1
     elif nb_hidden == (2,0):
         model_class = ObjectiveEstimator_ANN_inter_2_0
     elif nb_hidden == (3,0):
@@ -366,7 +398,6 @@ def create_model_inter(nb_hidden,input_size,inter_size,dropout_ratio,relu_out =F
     model = model_class(input_size=input_size, hidden_sizes=hidden_sizes, output_size=1, dropout_ratio=dropout_ratio,relu_out=relu_out)
     #print(model,dropout_ratio,nb_hidden,relu_out)
     return model
-    pass
 
 def create_model(nb_hidden, input_size, dropout_ratio,relu_out=False,inter =False,hidden_sizes=None,inter_size = None):
     if not(inter):
