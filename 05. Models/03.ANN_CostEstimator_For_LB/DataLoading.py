@@ -358,47 +358,60 @@ def trim_columns_to_common(dfs_inter_j):
 #Methods for random selection of training data#
 ###############################################
 
-def generate_one_week_per_month_indices(date_indices):
+def get_random_week_per_month_indices(df, hours_in_day=24, days_in_week=7):
     """
     Generate a list of indices, one from each month, representing one random week.
 
     Parameters:
-        date_indices (pd.Index): A pandas datetime index.
+        df. A dataframe, with an index assumed to be a string representing a date in format: %m-%d %H:%M:%S%z
 
     Returns:
-        list of int: A list of indices, one from each month, representing one random week.
+        list of int: A list of indices, representing one random week for each month.
+        The week always starts on the first hour of a random day.
     """
-    # Create a DataFrame with the date indices
-    df = pd.DataFrame({'Date': date_indices})
+    h_in_w = hours_in_day * days_in_week
+
+    # First, convert the index of the input df to a proper DateTime index
+    dt_index = pd.to_datetime(df.index, format='%m-%d %H:%M:%S%z', utc=True).tz_localize(None) + pd.DateOffset(hours=1)
 
     # Group the date indices by month
-    grouped = df.groupby(df['Date'].dt.to_period('M'))
+    grouped = df.groupby(dt_index.to_period('M'))
 
     # Initialize a list to store the selected indices
     selected_indices = []
-
+    hours_before_month_started = 0
     # Select one random week index from each month
-    for _, group in grouped:
-        if len(group) >= 7:
-            random_week_index = random.randint(0, len(group) // 7 - 1)
-            selected_indices.append(group.index[random_week_index * 7:random_week_index * (14)])
+    for group in grouped:
+        assert (len(group) >= h_in_w)
+        random_week_index = random.randint(0, len(group) // h_in_w - 1)
 
-    return selected_indices
+        for ix in range(random_week_index * h_in_w, random_week_index * (h_in_w) + h_in_w):
+            selected_indices.append(hours_before_month_started + ix)
+        hours_before_month_started += len(group)
 
+    return np.array(selected_indices)
 
-# Example usage:
-date_indices = pd.date_range(start='2023-01-01', periods=365, freq='D')
-selected_indices = generate_one_week_per_month_indices(date_indices)
+def get_random_days_indices(hours_available,nb_selected,hours_in_day=24,sorted = True):
+    """
+        Generates a list of random, non-overlapping time indices for a specified number of days.
 
-# Print or use the list of selected indices
-print("Selected indices, one from each month, representing one random week:", selected_indices)
-#This method generates a list of indices for a given number of days of given length, out of a list of periods of given length.
-#The days alwas start at the first period of a day, and no two identical days are returned.
-def get_random_days_slicer(hours_available,nb_selected,hours_in_day=24,sorted = True):
-    assert(hours_available>=nb_selected*hours_in_day)
+        Parameters:
+            - hours_available (int): Total number of hours available for selection.
+            - nb_selected (int): Number of days to select time indices for.
+            - hours_in_day (int, optional): Number of hours in a day. Default is 24.
+            - sorted (bool, optional): If True, the generated indices are sorted in ascending order.
+                                      If False, they are not sorted. Default is True.
+
+        Returns:
+            - np.ndarray: A numpy array containing the selected time indices.
+
+        Raises:
+            - AssertionError: Raised if hours_available is less than the product of nb_selected and hours_in_day.
+    """
+    assert hours_available>=nb_selected*hours_in_day
 
     index_list = []
-    for i in range(nb_selected):
+    for _ in range(nb_selected):
         r = random.randint(0, hours_available)
         i = hours_in_day * round(r/hours_in_day)
 
@@ -412,15 +425,32 @@ def get_random_days_slicer(hours_available,nb_selected,hours_in_day=24,sorted = 
     else:
         return np.array(index_list).flatten()
 
-def get_random_adj_period_slicer(nb_available,nb_selected,period_length,sorted = True):
-    start_idxs = get_random_hours_slicer(nb_available-period_length,nb_selected,sorted=sorted)
-    if sorted:
-        start_idxs = np.sort(start_idxs)
-    index_list = [[si+i for i in period_length] for si in start_idxs]
-    return index_list.flatten()
+# def get_random_adj_period_slicer(nb_available,nb_selected,period_length,sorted = True):
+#     start_idxs = get_random_hours_slicer(nb_available-period_length,nb_selected,sorted=sorted)
+#     if sorted:
+#         start_idxs = np.sort(start_idxs)
+#     index_list = [[si+i for i in period_length] for si in start_idxs]
+#     return index_list.flatten()
 
-def get_random_hours_slicer(nb_available,nb_selected,min_offset = 1,sorted = True):
-    assert(nb_available>=nb_selected*min_offset)
+def get_random_hours_indices(nb_available,nb_selected,min_offset = 1,sorted = True):
+    """
+    Generates a list of random, non-overlapping indices for a specified number of hours.
+
+    Parameters:
+        - nb_available (int): Total number of available indices for selection.
+        - nb_selected (int): Number of indices to select.
+        - min_offset (int, optional): Minimum separation between selected indices. Default is 1.
+        - sorted (bool, optional): If True, the generated indices are sorted in ascending order.
+                                  If False, they are not sorted. Default is True.
+
+    Returns:
+        - np.ndarray: A numpy array containing the selected indices.
+
+    Raises:
+        - AssertionError: Raised if nb_available is less than the product of nb_selected and min_offset.
+        - AssertionError: Raised if it is not possible to find non-overlapping indices within a reasonable number of attempts.
+    """
+    assert nb_available>=nb_selected*min_offset
     idx_l_size = 0
     index_list = []
     counter = 0
