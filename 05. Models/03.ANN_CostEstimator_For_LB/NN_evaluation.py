@@ -29,19 +29,19 @@ def extract_model_params_from_row(row):
     nb_e = row.Epochs.item()
 
     relu_out = row.Relu_out.item()
-    np = row.Np.item()
+    #np = row.Np.item()
     bs = row.Batch_size.item()
     alpha = row.alpha.item()
     MAE = row.MAE.item()
     min_val = row.Min_val.item()
 
-    return {"Model_type": model_type, "nb_e": nb_e, "lr": lr, "dor": dor, "np": np, "ro": relu_out, "bs": bs,
+    return {"Model_type": model_type, "nb_e": nb_e, "lr": lr, "dor": dor, "ro": relu_out, "bs": bs,
             "alpha": alpha, "MAE": MAE,"Min_val":min_val}
 
 
 def create_model_and_load_state_from_row(row, input_size, inter_size, hyperloop_name, cluster_run=True):
     # First, extract params from row
-
+    nb_hours_used = row.Nb_hours_used.item()
     model_type = row.Model_type.item()
     model_type = tuple(map(int, model_type.replace("(", "").replace(")", "").split(', ')))
     str_dor = dor = row.Dor.item()
@@ -49,7 +49,7 @@ def create_model_and_load_state_from_row(row, input_size, inter_size, hyperloop_
     nb_e = row.Epochs.item()
 
     relu_out = row.Relu_out.item()
-    np = row.Np.item()
+    #np = row.Np.item()
     bs = row.Batch_size.item()
     str_alpha = alpha = row.alpha.item()
     MAE = row.MAE.item()
@@ -71,7 +71,8 @@ def create_model_and_load_state_from_row(row, input_size, inter_size, hyperloop_
     # Finally, extract model state from dict
 
     # m_name = f"OE_{model_type}h_{nb_e}e_{lr}lr_{dor}dor_{np}np_{relu_out}_ro_{bs}bs"
-    m_name = f"OE_{model_type}h_{nb_e}e_{lr}lr_{str_dor}dor_{np}np_{relu_out}ro_{bs}bs_{str_alpha}ill_{MAE}MAE"
+    #m_name = f"OE_{model_type}h_{nb_e}e_{lr}lr_{str_dor}dor_{np}np_{relu_out}ro_{bs}bs_{str_alpha}ill_{MAE}MAE"
+    m_name = f"OE_{nb_hours_used}hours_{model_type}h_{nb_e}e_{lr}lr_{str_dor}dor_{relu_out}ro_{bs}bs_{str_alpha}ill_{MAE}MAE"
 
     if cluster_run:
         # m_name = f"OE_{model_type}h_{nb_e}e_{lr}lr_{dor}dor_{np}np_{relu_out}_ro_{bs}bs"

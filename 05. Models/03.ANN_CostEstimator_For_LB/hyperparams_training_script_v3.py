@@ -20,9 +20,9 @@ te_s = 0.3
 val_s = 0.3
 outp = "SystemCosts"
 #nb_hours_used = 24 * 7 * 12
-nb_hours_list = [100 * i for i in range(1,40,2)]
+nb_hours_list = [10 * i for i in range(1,40,1)]
 print(nb_hours_list)
-exec_name = f"test_rand_hours_{case}_DC_{te_s}_v{val_s}_PF_{executions_start}_{executions_end}"
+exec_name = f"test_rand_hours_low_{case}_DC_{te_s}_v{val_s}_PF_{executions_start}_{executions_end}"
 folder_to_save = f"{exec_name}"
 
 dfs_in_full, dfs_out_full, dfs_inter_full = DataLoading.load_data_ext_out(folder, executions, period, sc, ["PowerFlow"], outp)
