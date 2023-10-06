@@ -148,7 +148,14 @@ def concat_all_exec_fy(dfs_in, dfs_out, dfs_inter_j):
             t_in_fy = torch.cat((t_in_fy,t_in))
             t_out_fy = torch.cat((t_out_fy, t_out))
             t_inter_fy = torch.cat((t_inter_fy,t_inter))
-    return t_in_fy,t_out_fy,t_inter_fy
+    maxs = dict()
+    maxs["in"] = t_in_fy.abs().max(dim=0).values
+    maxs["inter"] = t_inter_fy.abs().max(dim=0).values
+
+    t_in_fy = torch.nan_to_num(t_in_fy / maxs["in"])
+    t_inter_fy = torch.nan_to_num(t_inter_fy / maxs["inter"])
+
+    return t_in_fy,t_out_fy,t_inter_fy,maxs
 
 def split_tr_val_te_ext_out(dfs_in, dfs_out, dfs_inter_j, executions, te_s, val_s,shuffle = True):
     ts_in = dict()
@@ -472,6 +479,7 @@ def get_random_hours_indices(nb_available,nb_selected,min_offset = 1,sorted = Tr
         - AssertionError: Raised if nb_available is less than the product of nb_selected and min_offset.
         - AssertionError: Raised if it is not possible to find non-overlapping indices within a reasonable number of attempts.
     """
+    print(nb_available,nb_selected,min_offset)
     assert nb_available>=nb_selected*min_offset
     idx_l_size = 0
     index_list = []
