@@ -13,7 +13,7 @@
     
 source activate Jr23
 echo "Activation OK"
-cd $VSC_SCRATCH/JointResearch/05.\ Models/06.Benchmarking/A.The_full_year_MILP
+cd $VSC_SCRATCH/JointResearch/05.Models/06.Benchmarking/A.The_full_year_MILP
 
 echo "Starting runs"
 

@@ -32,6 +32,7 @@ dfs_inter_j_full = DataLoading.trim_columns_to_common(dfs_inter_j_full)
 #Save the full datasets as pytorch tensors for informative loss calculation afterwards
 t_in_fy, t_out_fy, t_inter_fy, maxs = DataLoading.concat_all_exec_fy(dfs_in_full, dfs_out_full, dfs_inter_j_full)
 results = pd.DataFrame()
+i = 0
 for nb_hours_used in nb_hours_list:
 
     # Select subset for the training process
@@ -51,13 +52,13 @@ for nb_hours_used in nb_hours_list:
     validation = TensorDataset(d_ft_in['val'].float(), d_ft_out['val'].float(), d_ft_inter['val'].float())
 
     # Perform the actual loop that checks multiple hyperparams
-    i = 0
+
     nbs_hidden = [(1, 1)]  #
     dors = [0]
     relu_outs = [False]
-    batch_sizes = [32,64,128]
+    batch_sizes = [64,128]
     learning_rates = [0.0025 * 4 ** i for i in range(0, 1, 1)]
-    nbs_e = [128]
+    nbs_e = [64,128]
     alphas = [0]
     beta = 1
     MAEs = [False]
@@ -83,7 +84,7 @@ for nb_hours_used in nb_hours_list:
                                     inter_size=dfs_inter_j["Network_Existing_Generation_Full"].shape[1])
 
         # Create model name for saving and loading
-        m_name = f"OE_{nb_hidden}h_{nb_e}e_{lr}lr_{dor}dor_{relu_out}ro_{bs}bs_{alpha}ill_{MAE}MAE"
+        m_name = f"OE_{nb_hours_used}hours_{nb_hidden}h_{nb_e}e_{lr}lr_{dor}dor_{relu_out}ro_{bs}bs_{alpha}ill_{MAE}MAE"
         # Create optimizer based on learning rate
         optimizer = torch.optim.Adam(m.parameters(), lr=lr)
         # Train the actual model
@@ -163,6 +164,6 @@ for nb_hours_used in nb_hours_list:
                               }
                              , index=[i])
             i += 1
-        results = pd.concat([results, r])
-    results.to_csv(f"Loss_results_csv/{exec_name}.csv")
+            results = pd.concat([results, r])
+        results.to_csv(f"Loss_results_csv/{exec_name}.csv")
 
