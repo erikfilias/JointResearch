@@ -1120,8 +1120,8 @@ def create_constraints(model, optmodel):
 
     def eTotalECost(optmodel,p,sc,st,n):
         if (st,n) in model.s2n and sum(model.pCO2EmissionCost[nr] for nr in model.nr):
-            # return optmodel.vTotalECost[p,sc,n] == sum(model.pLoadLevelDuration[n] * model.pCO2EmissionCost[nr] * optmodel.vTotalOutputP  [p,sc,n,nr] for nr in model.nr)
-            return optmodel.vTotalECost[p,sc,n] == 0.0
+            return optmodel.vTotalECost[p,sc,n] == sum(model.pLoadLevelDuration[n] * model.pCO2EmissionCost[nr] * optmodel.vTotalOutputP  [p,sc,n,nr] for nr in model.nr)
+            # return optmodel.vTotalECost[p,sc,n] == 0.0
         else:
             return Constraint.Skip
     optmodel.eTotalECost            = Constraint(model.ps, model.st, model.n, rule=eTotalECost, doc='system emission cost [MEUR]')
