@@ -103,7 +103,7 @@ def train_multiple_epochs(nb_epochs,model,training_loader,validation_loader,loss
 
     best_vloss = 1_000_000.
     for epoch in range(nb_epochs):
-        print('EPOCH {}:'.format(epoch_number + 1))
+        #print('EPOCH {}:'.format(epoch_number + 1))
 
         # Make sure gradient tracking is on, and do a pass over the data
         model.train(True)
@@ -136,7 +136,7 @@ def train_multiple_epochs(nb_epochs,model,training_loader,validation_loader,loss
                     running_vloss += vloss
 
         avg_vloss = running_vloss / (i + 1)
-        print('LOSS train {} valid {}'.format(np.mean(avg_loss), avg_vloss))
+        #print('LOSS train {} valid {}'.format(np.mean(avg_loss), avg_vloss))
 
         # # Log the running loss averaged per batch
         # # for both training and validation

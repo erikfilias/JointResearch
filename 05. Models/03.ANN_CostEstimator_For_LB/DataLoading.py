@@ -128,6 +128,35 @@ def join_frames_inter_layer(dfs_inter):
 #             execution] = train_test_split(train_in, train_out, test_size=validation_size, shuffle=False)
 #     return ts_in,ts_out
 
+def concat_all_exec_fy(dfs_in, dfs_out, dfs_inter_j):
+    executions = dfs_in.keys()
+    first = True
+    for execution in executions:
+        np_in = dfs_in[execution].to_numpy()
+        np_out = dfs_out[execution].to_numpy().sum(axis=1)
+        np_inter = dfs_inter_j[execution].to_numpy()
+
+        t_in = torch.from_numpy(np_in)
+        t_out = torch.from_numpy(np_out)
+        t_inter = torch.from_numpy(np_inter)
+        if first:
+            t_in_fy = t_in
+            t_out_fy = t_out
+            t_inter_fy = t_inter
+            first = False
+        else:
+            t_in_fy = torch.cat((t_in_fy,t_in))
+            t_out_fy = torch.cat((t_out_fy, t_out))
+            t_inter_fy = torch.cat((t_inter_fy,t_inter))
+    maxs = dict()
+    maxs["in"] = t_in_fy.abs().max(dim=0).values
+    maxs["inter"] = t_inter_fy.abs().max(dim=0).values
+
+    t_in_fy = torch.nan_to_num(t_in_fy / maxs["in"])
+    t_inter_fy = torch.nan_to_num(t_inter_fy / maxs["inter"])
+
+    return t_in_fy,t_out_fy,t_inter_fy,maxs
+
 def split_tr_val_te_ext_out(dfs_in, dfs_out, dfs_inter_j, executions, te_s, val_s,shuffle = True):
     ts_in = dict()
     ts_out = dict()
@@ -358,47 +387,60 @@ def trim_columns_to_common(dfs_inter_j):
 #Methods for random selection of training data#
 ###############################################
 
-def generate_one_week_per_month_indices(date_indices):
+def get_random_week_per_month_indices(df, hours_in_day=24, days_in_week=7):
     """
     Generate a list of indices, one from each month, representing one random week.
 
     Parameters:
-        date_indices (pd.Index): A pandas datetime index.
+        df. A dataframe, with an index assumed to be a string representing a date in format: %m-%d %H:%M:%S%z
 
     Returns:
-        list of int: A list of indices, one from each month, representing one random week.
+        list of int: A list of indices, representing one random week for each month.
+        The week always starts on the first hour of a random day.
     """
-    # Create a DataFrame with the date indices
-    df = pd.DataFrame({'Date': date_indices})
+    h_in_w = hours_in_day * days_in_week
+
+    # First, convert the index of the input df to a proper DateTime index
+    dt_index = pd.to_datetime(df.index, format='%m-%d %H:%M:%S%z', utc=True).tz_localize(None) + pd.DateOffset(hours=1)
 
     # Group the date indices by month
-    grouped = df.groupby(df['Date'].dt.to_period('M'))
+    grouped = df.groupby(dt_index.to_period('M'))
 
     # Initialize a list to store the selected indices
     selected_indices = []
-
+    hours_before_month_started = 0
     # Select one random week index from each month
-    for _, group in grouped:
-        if len(group) >= 7:
-            random_week_index = random.randint(0, len(group) // 7 - 1)
-            selected_indices.append(group.index[random_week_index * 7:random_week_index * (14)])
+    for group in grouped:
+        assert (len(group) >= h_in_w)
+        random_week_index = random.randint(0, len(group) // h_in_w - 1)
 
-    return selected_indices
+        for ix in range(random_week_index * h_in_w, random_week_index * (h_in_w) + h_in_w):
+            selected_indices.append(hours_before_month_started + ix)
+        hours_before_month_started += len(group)
 
+    return np.array(selected_indices)
 
-# Example usage:
-date_indices = pd.date_range(start='2023-01-01', periods=365, freq='D')
-selected_indices = generate_one_week_per_month_indices(date_indices)
+def get_random_days_indices(hours_available,nb_selected,hours_in_day=24,sorted = True):
+    """
+        Generates a list of random, non-overlapping time indices for a specified number of days.
 
-# Print or use the list of selected indices
-print("Selected indices, one from each month, representing one random week:", selected_indices)
-#This method generates a list of indices for a given number of days of given length, out of a list of periods of given length.
-#The days alwas start at the first period of a day, and no two identical days are returned.
-def get_random_days_slicer(hours_available,nb_selected,hours_in_day=24,sorted = True):
-    assert(hours_available>=nb_selected*hours_in_day)
+        Parameters:
+            - hours_available (int): Total number of hours available for selection.
+            - nb_selected (int): Number of days to select time indices for.
+            - hours_in_day (int, optional): Number of hours in a day. Default is 24.
+            - sorted (bool, optional): If True, the generated indices are sorted in ascending order.
+                                      If False, they are not sorted. Default is True.
+
+        Returns:
+            - np.ndarray: A numpy array containing the selected time indices.
+
+        Raises:
+            - AssertionError: Raised if hours_available is less than the product of nb_selected and hours_in_day.
+    """
+    assert hours_available>=nb_selected*hours_in_day
 
     index_list = []
-    for i in range(nb_selected):
+    for _ in range(nb_selected):
         r = random.randint(0, hours_available)
         i = hours_in_day * round(r/hours_in_day)
 
@@ -412,20 +454,38 @@ def get_random_days_slicer(hours_available,nb_selected,hours_in_day=24,sorted = 
     else:
         return np.array(index_list).flatten()
 
-def get_random_adj_period_slicer(nb_available,nb_selected,period_length,sorted = True):
-    start_idxs = get_random_hours_slicer(nb_available-period_length,nb_selected,sorted=sorted)
-    if sorted:
-        start_idxs = np.sort(start_idxs)
-    index_list = [[si+i for i in period_length] for si in start_idxs]
-    return index_list.flatten()
+# def get_random_adj_period_slicer(nb_available,nb_selected,period_length,sorted = True):
+#     start_idxs = get_random_hours_slicer(nb_available-period_length,nb_selected,sorted=sorted)
+#     if sorted:
+#         start_idxs = np.sort(start_idxs)
+#     index_list = [[si+i for i in period_length] for si in start_idxs]
+#     return index_list.flatten()
 
-def get_random_hours_slicer(nb_available,nb_selected,min_offset = 1,sorted = True):
-    assert(nb_available>=nb_selected*min_offset)
+def get_random_hours_indices(nb_available,nb_selected,min_offset = 1,sorted = True):
+    """
+    Generates a list of random, non-overlapping indices for a specified number of hours.
+
+    Parameters:
+        - nb_available (int): Total number of available indices for selection.
+        - nb_selected (int): Number of indices to select.
+        - min_offset (int, optional): Minimum separation between selected indices. Default is 1.
+        - sorted (bool, optional): If True, the generated indices are sorted in ascending order.
+                                  If False, they are not sorted. Default is True.
+
+    Returns:
+        - np.ndarray: A numpy array containing the selected indices.
+
+    Raises:
+        - AssertionError: Raised if nb_available is less than the product of nb_selected and min_offset.
+        - AssertionError: Raised if it is not possible to find non-overlapping indices within a reasonable number of attempts.
+    """
+    print(nb_available,nb_selected,min_offset)
+    assert nb_available>=nb_selected*min_offset
     idx_l_size = 0
     index_list = []
     counter = 0
     while idx_l_size < nb_selected:
-        r = random.randint(0, nb_available)
+        r = random.randint(0, nb_available-1)
         after = list(range(r,r+min_offset))
         before = list(range(r-min_offset+1,r+1))
         if set(index_list).isdisjoint(before) and set(index_list).isdisjoint(after):
@@ -439,6 +499,39 @@ def get_random_hours_slicer(nb_available,nb_selected,min_offset = 1,sorted = Tru
     else:
         return index_list
 
+def return_selection(dfs_dict_list, indices):
+    """
+    Select specific rows from a list of dictionaries containing DataFrames.
+
+    Given a list of dictionaries where each dictionary represents different executions with DataFrames,
+    this function selects DataFrames from each execution based on the provided indices.
+
+    Parameters:
+    - dfs_dict_list (list of dict): A list of dictionaries, where each dictionary contains DataFrames.
+    - indices (list or slice): Indices to select from each DataFrame in the dictionaries.
+
+    Returns:
+    - selections (list of dict): A list of dictionaries, where each dictionary contains the selected DataFrames
+      based on the provided indices.
+
+    Raises:
+    - AssertionError: If the keys (executions) in the dictionaries are not equal across all dictionaries.
+    """
+    selections = list()
+    first_dict_keys = set(dfs_dict_list[0].keys())
+
+    for i, d in enumerate(dfs_dict_list):
+        d_sel = dict()
+
+        if set(d.keys()) != first_dict_keys:
+            raise AssertionError("Keys in the dictionaries are not equal")
+
+        for exe in first_dict_keys:
+            d_sel[exe] = dfs_dict_list[i][exe].iloc[indices, :]
+
+        selections.append(d_sel)
+
+    return selections
 #################################################
 #Methods for single execution (operational cost)#
 #################################################
