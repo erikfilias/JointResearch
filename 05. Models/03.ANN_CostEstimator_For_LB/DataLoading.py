@@ -135,7 +135,7 @@ def trim_columns_to_common(dfs_inter_j):
 #             execution] = train_test_split(train_in, train_out, test_size=validation_size, shuffle=False)
 #     return ts_in,ts_out
 
-def concat_all_exec_fy(dfs_in, dfs_out, dfs_inter_j,executions,normalize_out = False):
+def concat_all_exec_fy(dfs_in, dfs_out, dfs_inter_j,executions,normalize_out = True):
     first = True
     for execution in executions:
         np_in = dfs_in[execution].to_numpy()
@@ -350,43 +350,43 @@ def concat_and_normalize_ext_out(ts_in, ts_out, ts_inter, executions,normalize=T
 
     return d_ft_in, d_ft_out, d_ft_inter,maxs
 
-def concat_and_normalize_split_by_exec(ts_in,ts_out,executions):
-    # concatenate all the training and testing sets to a single tensor, and normalize:
-    for set in ["train","test","val"]:
-        first = True
-        for execution in executions:
-            if first:
-                if set == "train":
-                    tr_in = ts_in[set][execution]
-                    tr_out = ts_out[set][execution]
-                elif set == "test":
-                    te_in = ts_in["test"][execution]
-                    te_out = ts_out["test"][execution]
-                elif set == "val":
-                    val_in = ts_in["val"][execution]
-                    val_out = ts_out["val"][execution]
-                first = False
-            else:
-                if set == "train":
-                    tr_in = torch.cat((tr_in, ts_in["train"][execution]))
-                    tr_out = torch.cat((tr_out, ts_out["train"][execution]))
-                elif set == "test":
-                    te_in = torch.cat((te_in, ts_in["test"][execution]))
-                    te_out = torch.cat((te_out, ts_out["test"][execution]))
-                elif set == "val":
-                    val_in = torch.cat((val_in, ts_in["val"][execution]))
-                    val_out = torch.cat((val_out, ts_out["val"][execution]))
-
-    maxs = torch.cat((tr_in, te_in, val_in)).abs().max(dim=0).values
-    # maxs_te = te_in.abs().max(dim = 0).values
-    tr_in = torch.nan_to_num(tr_in / maxs)
-    te_in = torch.nan_to_num(te_in / maxs)
-    val_in = torch.nan_to_num(val_in / maxs)
-
-    d_ft_in = {"train": tr_in,"val": val_in,"test": te_in}
-    d_ft_out = {"train": tr_out,"val": val_out,"test": te_out}
-
-    return d_ft_in,d_ft_out,maxs
+# def concat_and_normalize_split_by_exec(ts_in,ts_out,executions):
+#     # concatenate all the training and testing sets to a single tensor, and normalize:
+#     for set in ["train","test","val"]:
+#         first = True
+#         for execution in executions:
+#             if first:
+#                 if set == "train":
+#                     tr_in = ts_in[set][execution]
+#                     tr_out = ts_out[set][execution]
+#                 elif set == "test":
+#                     te_in = ts_in["test"][execution]
+#                     te_out = ts_out["test"][execution]
+#                 elif set == "val":
+#                     val_in = ts_in["val"][execution]
+#                     val_out = ts_out["val"][execution]
+#                 first = False
+#             else:
+#                 if set == "train":
+#                     tr_in = torch.cat((tr_in, ts_in["train"][execution]))
+#                     tr_out = torch.cat((tr_out, ts_out["train"][execution]))
+#                 elif set == "test":
+#                     te_in = torch.cat((te_in, ts_in["test"][execution]))
+#                     te_out = torch.cat((te_out, ts_out["test"][execution]))
+#                 elif set == "val":
+#                     val_in = torch.cat((val_in, ts_in["val"][execution]))
+#                     val_out = torch.cat((val_out, ts_out["val"][execution]))
+#
+#     maxs = torch.cat((tr_in, te_in, val_in)).abs().max(dim=0).values
+#     # maxs_te = te_in.abs().max(dim = 0).values
+#     tr_in = torch.nan_to_num(tr_in / maxs)
+#     te_in = torch.nan_to_num(te_in / maxs)
+#     val_in = torch.nan_to_num(val_in / maxs)
+#
+#     d_ft_in = {"train": tr_in,"val": val_in,"test": te_in}
+#     d_ft_out = {"train": tr_out,"val": val_out,"test": te_out}
+#
+#     return d_ft_in,d_ft_out,maxs
 
 
 ###############################################

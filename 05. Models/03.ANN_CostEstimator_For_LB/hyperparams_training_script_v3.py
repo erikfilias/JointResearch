@@ -21,7 +21,7 @@ te_s = 0.3
 val_s = 0.3
 outp = "SystemCosts"
 #nb_hours_used = 24 * 7 * 12
-nb_hours_list = [100 * i for i in range(1,20,4)]
+nb_hours_list = [100 * i for i in range(1,30,4)]
 for small_nb_hours in [10 * i for i in range(1,20,1)]:
     nb_hours_list.append(small_nb_hours)
 print(nb_hours_list)
@@ -61,11 +61,11 @@ for nb_hours_used in nb_hours_list:
 
     # Perform the actual loop that checks multiple hyperparams
 
-    nbs_hidden = [(0,0)]#[(0, 0),(1,1)]  #
+    nbs_hidden = [(0, 0),(1,1),(3,1)]  #
     dors = [0]
     relu_outs = [False]
     batch_sizes = [64]
-    learning_rates = [0.0025 * 4 ** i for i in range(0, 1, 1)]
+    learning_rates = [0.0025 * 4 ** i for i in range(-1, 1, 1)]
     nbs_e = [64,128,256]
     alphas = [0]
     beta = 1
