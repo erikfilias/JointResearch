@@ -29,24 +29,25 @@ def extract_model_params_from_row(row):
     nb_e = row.Epochs.item()
 
     relu_out = row.Relu_out.item()
-    #np = row.Np.item()
+    np = row.Np.item()
     bs = row.Batch_size.item()
     alpha = row.alpha.item()
     MAE = row.MAE.item()
     min_val = row.Min_val.item()
 
-    return {"Model_type": model_type, "nb_e": nb_e, "lr": lr, "dor": dor, "ro": relu_out, "bs": bs,
+    return {"Model_type": model_type, "nb_e": nb_e, "lr": lr, "dor": dor, "np": np, "ro": relu_out, "bs": bs,
             "alpha": alpha, "MAE": MAE,"Min_val":min_val}
 
 
 def create_model_and_load_state_from_row(row, input_size, inter_size, hyperloop_name, cluster_run=True):
     # First, extract params from row
-    nb_hours_used = row.Nb_hours_used.item()
+    nb_hours = row.Nb_hours_used.item()
     model_type = row.Model_type.item()
     model_type = tuple(map(int, model_type.replace("(", "").replace(")", "").split(', ')))
     str_dor = dor = row.Dor.item()
     lr = row.Lr.item()
     nb_e = row.Epochs.item()
+    mt = row.Min_val.item()
 
     relu_out = row.Relu_out.item()
     #np = row.Np.item()
@@ -59,10 +60,9 @@ def create_model_and_load_state_from_row(row, input_size, inter_size, hyperloop_
     if str(dor) == "0.0":
         str_dor = "0"
 
-    if row.Min_val.item():
-        mt = "min_val"
-    else:
-        mt = "all_epochs"
+
+
+
 
     # Then create model of given type
     m = NN_classes.create_model(model_type, input_size, dropout_ratio=dor, relu_out=relu_out, inter=True,
@@ -72,13 +72,15 @@ def create_model_and_load_state_from_row(row, input_size, inter_size, hyperloop_
 
     # m_name = f"OE_{model_type}h_{nb_e}e_{lr}lr_{dor}dor_{np}np_{relu_out}_ro_{bs}bs"
     #m_name = f"OE_{model_type}h_{nb_e}e_{lr}lr_{str_dor}dor_{np}np_{relu_out}ro_{bs}bs_{str_alpha}ill_{MAE}MAE"
-    m_name = f"OE_{nb_hours_used}hours_{model_type}h_{nb_e}e_{lr}lr_{str_dor}dor_{relu_out}ro_{bs}bs_{str_alpha}ill_{MAE}MAE"
+    m_name = f"OE_{nb_hours}hours_{model_type}h_{nb_e}e_{lr}lr_{str_dor}dor_{relu_out}ro_{bs}bs_{str_alpha}ill_{MAE}MAE"
 
+    print(m_name,mt)
     if cluster_run:
         # m_name = f"OE_{model_type}h_{nb_e}e_{lr}lr_{dor}dor_{np}np_{relu_out}_ro_{bs}bs"
         path = f"ResultsClusterRuns/trained_models/{hyperloop_name}/{mt}/model_{m_name}.pth"
     else:
         path = f"trained_models/{hyperloop_name}/{mt}/model_{m_name}.pth"
+        print(path)
 
     m.load_state_dict(torch.load(path))
     m.eval()

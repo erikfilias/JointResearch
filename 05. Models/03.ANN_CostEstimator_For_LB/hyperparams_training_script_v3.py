@@ -5,6 +5,7 @@ import pandas as pd
 import NN_classes
 import training_methods
 import time
+import numpy as np
 
 sc = "sc01"
 period = "2030"
@@ -20,17 +21,19 @@ te_s = 0.3
 val_s = 0.3
 outp = "SystemCosts"
 #nb_hours_used = 24 * 7 * 12
-nb_hours_list = [10 * i for i in range(1,40,1)]
+nb_hours_list = [100 * i for i in range(1,20,4)]
+for small_nb_hours in [10 * i for i in range(1,20,1)]:
+    nb_hours_list.append(small_nb_hours)
 print(nb_hours_list)
-exec_name = f"test_rand_hours_low_{case}_DC_{te_s}_v{val_s}_PF_{executions_start}_{executions_end}"
+exec_name = f"test_loss_rand_hours_{case}_DC_{te_s}_v{val_s}_PF_{executions_start}_{executions_end}"
 folder_to_save = f"{exec_name}"
 
 dfs_in_full, dfs_out_full, dfs_inter_full = DataLoading.load_data_ext_out(folder, executions, period, sc, ["PowerFlow"], outp)
-dfs_inter_j_full = DataLoading.join_frames_inter_layer(dfs_inter_full)
+dfs_inter_j_full = DataLoading.join_frames_inter_layer(dfs_inter_full,all_executions)
 dfs_inter_j_full = DataLoading.trim_columns_to_common(dfs_inter_j_full)
 
 #Save the full datasets as pytorch tensors for informative loss calculation afterwards
-t_in_fy, t_out_fy, t_inter_fy, maxs = DataLoading.concat_all_exec_fy(dfs_in_full, dfs_out_full, dfs_inter_j_full)
+t_in_fy, t_out_fy, t_inter_fy, maxs = DataLoading.concat_all_exec_fy(dfs_in_full, dfs_out_full, dfs_inter_j_full,all_executions)
 results = pd.DataFrame()
 i = 0
 for nb_hours_used in nb_hours_list:
@@ -45,7 +48,12 @@ for nb_hours_used in nb_hours_list:
     ts_in, ts_out, ts_inter = DataLoading.split_tr_val_te_ext_out(dfs_in, dfs_out, dfs_inter_j, executions, te_s, val_s)
 
     # Concat and normalize
-    d_ft_in, d_ft_out, d_ft_inter, maxs_1 = DataLoading.concat_and_normalize_ext_out(ts_in, ts_out, ts_inter, executions)
+    d_ft_in, d_ft_out, d_ft_inter, maxs_1 = DataLoading.concat_and_normalize_ext_out(ts_in, ts_out, ts_inter, executions,normalize= False)
+    for setname in ["train","test","val"]:
+        d_ft_in[setname] = torch.nan_to_num(d_ft_in[setname]/maxs["in"])
+        d_ft_inter[setname] = torch.nan_to_num(d_ft_inter[setname]/maxs["inter"])
+        d_ft_out[setname] = torch.nan_to_num(d_ft_out[setname]/maxs["out"])
+
 
     # Create TensorDatasets
     train = TensorDataset(d_ft_in['train'].float(), d_ft_out['train'].float(), d_ft_inter['train'])
@@ -53,15 +61,15 @@ for nb_hours_used in nb_hours_list:
 
     # Perform the actual loop that checks multiple hyperparams
 
-    nbs_hidden = [(1, 1)]  #
+    nbs_hidden = [(0,0)]#[(0, 0),(1,1)]  #
     dors = [0]
     relu_outs = [False]
-    batch_sizes = [64,128]
+    batch_sizes = [64]
     learning_rates = [0.0025 * 4 ** i for i in range(0, 1, 1)]
-    nbs_e = [64,128]
+    nbs_e = [64,128,256]
     alphas = [0]
     beta = 1
-    MAEs = [False]
+    MAEs = [False,True]
 
 
     hp_sets = [(nb_h, dor, relu_out, bs, lr, nb_e, alpha, MAE) for nb_h in nbs_hidden for dor in dors for relu_out in
@@ -108,6 +116,8 @@ for nb_hours_used in nb_hours_list:
                                 d_ft_inter["test"])
             test_loss_t_mse = loss_t_mse(test_predictions[0].squeeze(), d_ft_out["test"])
             test_loss_mae = loss_mae(test_predictions[0].squeeze(), d_ft_out["test"])
+            manual_diff = test_predictions[0].detach().numpy().transpose() - d_ft_out["test"].numpy()
+            Te_l_mae_man = np.mean(np.abs(manual_diff))
 
             train_predictions = m(d_ft_in["train"].float())
             train_loss = loss_fn(train_predictions[0].squeeze(), d_ft_out["train"], train_predictions[1].squeeze(),
@@ -130,9 +140,16 @@ for nb_hours_used in nb_hours_list:
             fy_l_mse = loss_t_mse(fy_prediction[0].squeeze(), t_out_fy)
             fy_l_mae = loss_mae(fy_prediction[0].squeeze(), t_out_fy)
 
+            manual_diff = fy_prediction[0].detach().numpy().transpose() - t_out_fy.numpy()
+            fy_l_mae_man = np.mean(np.abs(manual_diff))
+
             # Calculate some calculation times
             t_train = t_stop_train - t_start_train
             t_eval = t_stop_eval - t_start_eval
+
+            #Calculate some losses manually
+
+
             # Finally, save all desired values in a dataframe
             r = pd.DataFrame({"Model_type": [nb_hidden],
                               "Dor": dor,
@@ -150,10 +167,12 @@ for nb_hours_used in nb_hours_list:
                               "V_l_mse": validation_loss_t_mse.item(),
                               "Tr_l_mae": train_loss_mae.item(),
                               "Te_l_mae": test_loss_mae.item(),
+                              "Te_l_mae_man": Te_l_mae_man ,
                               "V_l_mae": validation_loss_mae.item(),
                               "fy_l":fy_l.item(),
                               "fy_l_mse":fy_l_mse.item(),
                               "fy_l_mae":fy_l_mae.item(),
+                              "fy_l_mae_man":fy_l_mae_man,
                               "Train_time": t_train,
                               "Eval_time": t_eval,
                               "alpha": alpha,

@@ -71,28 +71,35 @@ def load_data_ext_out(folder, executions, period, sc, il_os=None,output = "Syste
 
     return dfs_in, dfs_out, dfs_inter
 
-def load_data_input_only(folder, executions, period, sc):
-    dfs_in = dict()
+# def load_data_input_only(folder, executions, period, sc):
+#     dfs_in = dict()
+#
+#     for execution in executions:
+#         # Read the data from desired execution
+#         df_in_e = pd.read_csv(f"{folder}/input_f_{sc}_{execution}_{period}.csv", header=[0], index_col=0)
+#
+#         print(f"input_f_{sc}_{execution}_{period}.csv")
+#
+#         print(len(df_in_e.columns))
+#         for col in df_in_e.columns:
+#             df_in_e[col] = df_in_e[col].astype(float)
+#
+#         dfs_in[execution] = df_in_e
+#
+#     return dfs_in
 
-    for execution in executions:
-        # Read the data from desired execution
-        df_in_e = pd.read_csv(f"{folder}/input_f_{sc}_{execution}_{period}.csv", header=[0], index_col=0)
-
-        print(f"input_f_{sc}_{execution}_{period}.csv")
-
-        print(len(df_in_e.columns))
-        for col in df_in_e.columns:
-            df_in_e[col] = df_in_e[col].astype(float)
-
-        dfs_in[execution] = df_in_e
-
-    return dfs_in
-
-def join_frames_inter_layer(dfs_inter):
+def join_frames_inter_layer(dfs_inter,executions):
     dfs_inter_j = dict()
-    for execution in dfs_inter.keys():
-        dfs_inter_j[execution] = pd.concat([dfs_inter[execution][t] for t in dfs_inter[execution].keys()],axis=1)
+    for execution in executions:
+        dfs_inter_j[execution] = pd.concat([dfs_inter[execution][t] for t in sorted(dfs_inter[execution].keys())],axis=1)
     return dfs_inter_j
+
+def trim_columns_to_common(dfs_inter_j):
+    common_columns = list(set.intersection(*(set(df.columns) for df in dfs_inter_j.values())))
+    # Filter DataFrames to keep only common columns
+    filtered_dataframes_dict = {name: df[common_columns] for name, df in dfs_inter_j.items()}
+    return filtered_dataframes_dict
+
 
 # def split_tr_val_te(dfs_in,dfs_out,executions,te_s,val_s):
 #     ts_in = dict()
@@ -128,8 +135,7 @@ def join_frames_inter_layer(dfs_inter):
 #             execution] = train_test_split(train_in, train_out, test_size=validation_size, shuffle=False)
 #     return ts_in,ts_out
 
-def concat_all_exec_fy(dfs_in, dfs_out, dfs_inter_j):
-    executions = dfs_in.keys()
+def concat_all_exec_fy(dfs_in, dfs_out, dfs_inter_j,executions,normalize_out = False):
     first = True
     for execution in executions:
         np_in = dfs_in[execution].to_numpy()
@@ -151,9 +157,12 @@ def concat_all_exec_fy(dfs_in, dfs_out, dfs_inter_j):
     maxs = dict()
     maxs["in"] = t_in_fy.abs().max(dim=0).values
     maxs["inter"] = t_inter_fy.abs().max(dim=0).values
+    maxs["out"] = t_out_fy.abs().max(dim=0).values
 
     t_in_fy = torch.nan_to_num(t_in_fy / maxs["in"])
     t_inter_fy = torch.nan_to_num(t_inter_fy / maxs["inter"])
+    if normalize_out:
+        t_out_fy = torch.nan_to_num(t_out_fy / maxs["out"])
 
     return t_in_fy,t_out_fy,t_inter_fy,maxs
 
@@ -212,85 +221,86 @@ def split_tr_val_te_ext_out(dfs_in, dfs_out, dfs_inter_j, executions, te_s, val_
             execution] = train_test_split(train_in, train_out, train_inter, test_size=validation_size, shuffle=False)
     return ts_in, ts_out, ts_inter
 
-def split_tr_val_te_by_exec(dfs_in,dfs_out,executions,te_s,val_s,randomized = False):
-    ts_in = dict()
-    ts_out = dict()
+# def split_tr_val_te_by_exec(dfs_in,dfs_out,executions,te_s,val_s,randomized = False):
+#     ts_in = dict()
+#     ts_out = dict()
+#
+#     ts_in["train"] = dict()
+#     ts_in["test"] = dict()
+#     ts_in["val"] = dict()
+#
+#     ts_out["train"] = dict()
+#     ts_out["test"] = dict()
+#     ts_out["val"] = dict()
+#
+#     nb_executions = len(dfs_in)
+#
+#     # Test size as fraction of full dataset, validation size as fraction of training data set
+#     nb_executions = len(dfs_in)
+#     nb_test = int(round(nb_executions * te_s))
+#     nb_val = int(round((nb_executions - nb_test) * val_s))
+#     nb_train = int(round((nb_executions - nb_test) * (1 - val_s)))
+#     assert (nb_executions == nb_test + nb_train + nb_val)
+#
+#     l_keys = list(dfs_in)
+#     if randomized:
+#         random.shuffle(dfs_in)
+#
+#     for i, execution in enumerate(executions):
+#         # Convert input dataframes numpy arrays sum the columns of the output:
+#         np_in = dfs_in[execution].to_numpy()
+#         np_out = dfs_out[execution].to_numpy().sum(axis=1)
+#         # Convert to torch tensors
+#         t_in = torch.from_numpy(np_in)
+#         t_out = torch.from_numpy(np_out)
+#
+#         if i < nb_train:
+#             ts_in["train"][execution] = t_in
+#             ts_out["train"][execution] = t_out
+#         elif i < nb_train + nb_test:
+#             ts_in["test"][execution] = t_in
+#             ts_out["test"][execution] = t_out
+#         elif i < nb_train + nb_test + nb_val:
+#             ts_in["val"][execution] = t_in
+#             ts_out["val"][execution] = t_out
+#     assert (len(ts_in["train"]) == nb_train)
+#     assert (len(ts_in["test"]) == nb_test)
+#     assert (len(ts_in["val"]) == nb_val)
+#     return ts_in,ts_out
 
-    ts_in["train"] = dict()
-    ts_in["test"] = dict()
-    ts_in["val"] = dict()
+# def concat_and_normalize(ts_in,ts_out,executions):
+#     # concatenate all the training and testing sets to a single tensor, and normalize:
+#     first = True
+#     for execution in executions:
+#         if first:
+#             tr_in = ts_in["train"][execution]
+#             tr_out = ts_out["train"][execution]
+#             te_in = ts_in["test"][execution]
+#             te_out = ts_out["test"][execution]
+#             val_in = ts_in["val"][execution]
+#             val_out = ts_out["val"][execution]
+#             first = False
+#         else:
+#             tr_in = torch.cat((tr_in, ts_in["train"][execution]))
+#             tr_out = torch.cat((tr_out, ts_out["train"][execution]))
+#             te_in = torch.cat((te_in, ts_in["test"][execution]))
+#             te_out = torch.cat((te_out, ts_out["test"][execution]))
+#             val_in = torch.cat((val_in, ts_in["val"][execution]))
+#             val_out = torch.cat((val_out, ts_out["val"][execution]))
+#
+#     maxs = torch.cat((tr_in, te_in, val_in)).abs().max(dim=0).values
+#     # maxs_te = te_in.abs().max(dim = 0).values
+#
+#     tr_in = torch.nan_to_num(tr_in / maxs)
+#     te_in = torch.nan_to_num(te_in / maxs)
+#     val_in = torch.nan_to_num(val_in / maxs)
+#
+#     d_ft_in = {"train": tr_in,"val": val_in,"test": te_in}
+#     d_ft_out = {"train": tr_out,"val": val_out,"test": te_out}
+#
+#     return d_ft_in,d_ft_out
 
-    ts_out["train"] = dict()
-    ts_out["test"] = dict()
-    ts_out["val"] = dict()
-
-    nb_executions = len(dfs_in)
-
-    # Test size as fraction of full dataset, validation size as fraction of training data set
-    nb_executions = len(dfs_in)
-    nb_test = int(round(nb_executions * te_s))
-    nb_val = int(round((nb_executions - nb_test) * val_s))
-    nb_train = int(round((nb_executions - nb_test) * (1 - val_s)))
-    assert (nb_executions == nb_test + nb_train + nb_val)
-
-    l_keys = list(dfs_in)
-    if randomized:
-        random.shuffle(dfs_in)
-
-    for i, execution in enumerate(executions):
-        # Convert input dataframes numpy arrays sum the columns of the output:
-        np_in = dfs_in[execution].to_numpy()
-        np_out = dfs_out[execution].to_numpy().sum(axis=1)
-        # Convert to torch tensors
-        t_in = torch.from_numpy(np_in)
-        t_out = torch.from_numpy(np_out)
-
-        if i < nb_train:
-            ts_in["train"][execution] = t_in
-            ts_out["train"][execution] = t_out
-        elif i < nb_train + nb_test:
-            ts_in["test"][execution] = t_in
-            ts_out["test"][execution] = t_out
-        elif i < nb_train + nb_test + nb_val:
-            ts_in["val"][execution] = t_in
-            ts_out["val"][execution] = t_out
-    assert (len(ts_in["train"]) == nb_train)
-    assert (len(ts_in["test"]) == nb_test)
-    assert (len(ts_in["val"]) == nb_val)
-    return ts_in,ts_out
-
-def concat_and_normalize(ts_in,ts_out,executions):
-    # concatenate all the training and testing sets to a single tensor, and normalize:
-    first = True
-    for execution in executions:
-        if first:
-            tr_in = ts_in["train"][execution]
-            tr_out = ts_out["train"][execution]
-            te_in = ts_in["test"][execution]
-            te_out = ts_out["test"][execution]
-            val_in = ts_in["val"][execution]
-            val_out = ts_out["val"][execution]
-            first = False
-        else:
-            tr_in = torch.cat((tr_in, ts_in["train"][execution]))
-            tr_out = torch.cat((tr_out, ts_out["train"][execution]))
-            te_in = torch.cat((te_in, ts_in["test"][execution]))
-            te_out = torch.cat((te_out, ts_out["test"][execution]))
-            val_in = torch.cat((val_in, ts_in["val"][execution]))
-            val_out = torch.cat((val_out, ts_out["val"][execution]))
-
-    maxs = torch.cat((tr_in, te_in, val_in)).abs().max(dim=0).values
-    # maxs_te = te_in.abs().max(dim = 0).values
-    tr_in = torch.nan_to_num(tr_in / maxs)
-    te_in = torch.nan_to_num(te_in / maxs)
-    val_in = torch.nan_to_num(val_in / maxs)
-
-    d_ft_in = {"train": tr_in,"val": val_in,"test": te_in}
-    d_ft_out = {"train": tr_out,"val": val_out,"test": te_out}
-
-    return d_ft_in,d_ft_out
-
-def concat_and_normalize_ext_out(ts_in, ts_out, ts_inter, executions):
+def concat_and_normalize_ext_out(ts_in, ts_out, ts_inter, executions,normalize=True):
     # concatenate all the training and testing sets to a single tensor, and normalize:
     first = True
     for execution in executions:
@@ -325,13 +335,14 @@ def concat_and_normalize_ext_out(ts_in, ts_out, ts_inter, executions):
     maxs["inter"] = torch.cat((tr_inter, te_inter, val_inter)).abs().max(dim=0).values
     # maxs_te = te_in.abs().max(dim = 0).values
 
-    tr_in = torch.nan_to_num(tr_in / maxs["in"])
-    te_in = torch.nan_to_num(te_in / maxs["in"])
-    val_in = torch.nan_to_num(val_in / maxs["in"])
+    if normalize:
+        tr_in = torch.nan_to_num(tr_in / maxs["in"])
+        te_in = torch.nan_to_num(te_in / maxs["in"])
+        val_in = torch.nan_to_num(val_in / maxs["in"])
 
-    tr_inter = torch.nan_to_num(tr_inter / maxs["inter"])
-    te_inter = torch.nan_to_num(te_inter / maxs["inter"])
-    val_inter = torch.nan_to_num(val_inter / maxs["inter"])
+        tr_inter = torch.nan_to_num(tr_inter / maxs["inter"])
+        te_inter = torch.nan_to_num(te_inter / maxs["inter"])
+        val_inter = torch.nan_to_num(val_inter / maxs["inter"])
 
     d_ft_in = {"train": tr_in, "val": val_in, "test": te_in}
     d_ft_out = {"train": tr_out, "val": val_out, "test": te_out}
@@ -343,7 +354,7 @@ def concat_and_normalize_split_by_exec(ts_in,ts_out,executions):
     # concatenate all the training and testing sets to a single tensor, and normalize:
     for set in ["train","test","val"]:
         first = True
-        for execution in ts_in[set].keys():
+        for execution in executions:
             if first:
                 if set == "train":
                     tr_in = ts_in[set][execution]
@@ -377,11 +388,6 @@ def concat_and_normalize_split_by_exec(ts_in,ts_out,executions):
 
     return d_ft_in,d_ft_out,maxs
 
-def trim_columns_to_common(dfs_inter_j):
-    common_columns = list(set.intersection(*(set(df.columns) for df in dfs_inter_j.values())))
-    # Filter DataFrames to keep only common columns
-    filtered_dataframes_dict = {name: df[common_columns] for name, df in dfs_inter_j.items()}
-    return filtered_dataframes_dict
 
 ###############################################
 #Methods for random selection of training data#
@@ -532,6 +538,8 @@ def return_selection(dfs_dict_list, indices):
         selections.append(d_sel)
 
     return selections
+
+
 #################################################
 #Methods for single execution (operational cost)#
 #################################################
@@ -558,7 +566,7 @@ def load_training_data(folder, period, sc, il_os=None,output = "SystemCosts",exe
     return df_in_e,df_out_e,df_inter
 
 def join_inter(dfs_inter):
-    df_inter_j= pd.concat([dfs_inter[t] for t in dfs_inter.keys()], axis=1)
+    df_inter_j= pd.concat([dfs_inter[t] for t in sorted(dfs_inter.keys())], axis=1)
 
     return df_inter_j
 
