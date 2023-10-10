@@ -35,7 +35,7 @@ def train_one_epoch(model, training_loader, epoch_index, optimizer, loss_fn,f_pr
     losses = []
     for i, data in enumerate(training_loader):
         # Every data instance is an input + label pair
-        inputs, labels = data
+        inputs, labels= data
 
         # Zero your gradients for every batch!
         optimizer.zero_grad()
@@ -44,7 +44,7 @@ def train_one_epoch(model, training_loader, epoch_index, optimizer, loss_fn,f_pr
         outputs = model(inputs)
 
         # Compute the loss and its gradients
-        loss = loss_fn(outputs.squeeze(), labels)
+        loss = loss_fn(outputs[0].squeeze(), labels)
         loss.backward()
 
         # Adjust learning weights
@@ -132,7 +132,7 @@ def train_multiple_epochs(nb_epochs,model,training_loader,validation_loader,loss
                 for i, vdata in enumerate(validation_loader):
                     vinputs, vlabels = vdata
                     voutputs = model(vinputs)
-                    vloss = loss_fn(voutputs.squeeze(), vlabels)
+                    vloss = loss_fn(voutputs[0].squeeze(), vlabels)
                     running_vloss += vloss
 
         avg_vloss = running_vloss / (i + 1)

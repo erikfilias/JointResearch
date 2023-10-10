@@ -68,8 +68,10 @@ def load_data_ext_out(folder, executions, period, sc, il_os=None,output = "Syste
 
         dfs_in[execution] = df_in_e
         dfs_out[execution] = df_out_e
-
-    return dfs_in, dfs_out, dfs_inter
+    if il_os == None:
+        return dfs_in,dfs_out
+    else:
+        return dfs_in, dfs_out, dfs_inter
 
 # def load_data_input_only(folder, executions, period, sc):
 #     dfs_in = dict()
@@ -140,7 +142,13 @@ def concat_all_exec_fy(dfs_in, dfs_out, dfs_inter_j,executions,normalize_out = T
     for execution in executions:
         np_in = dfs_in[execution].to_numpy()
         np_out = dfs_out[execution].to_numpy().sum(axis=1)
-        np_inter = dfs_inter_j[execution].to_numpy()
+        if dfs_inter_j:
+            np_inter = dfs_inter_j[execution].to_numpy()
+        else:
+            #We just give some value here to inter so that we don't have to distinguish between
+            #the cases below, and the concatenation is simply alwas done. However, the resulting tensor
+            # will not be returned by the method.
+            np_inter = np.zeros(2)
 
         t_in = torch.from_numpy(np_in)
         t_out = torch.from_numpy(np_out)
@@ -164,7 +172,10 @@ def concat_all_exec_fy(dfs_in, dfs_out, dfs_inter_j,executions,normalize_out = T
     if normalize_out:
         t_out_fy = torch.nan_to_num(t_out_fy / maxs["out"])
 
-    return t_in_fy,t_out_fy,t_inter_fy,maxs
+    if dfs_inter_j == None:
+        return t_in_fy, t_out_fy, maxs
+    else:
+        return t_in_fy,t_out_fy,t_inter_fy,maxs
 
 def split_tr_val_te_ext_out(dfs_in, dfs_out, dfs_inter_j, executions, te_s, val_s,shuffle = True):
     ts_in = dict()
@@ -190,8 +201,10 @@ def split_tr_val_te_ext_out(dfs_in, dfs_out, dfs_inter_j, executions, te_s, val_
         # Convert input dataframes numpy arrays sum the columns of the output:
         np_in = dfs_in[execution].to_numpy()
         np_out = dfs_out[execution].to_numpy().sum(axis=1)
-        np_inter = dfs_inter_j[execution].to_numpy()
-
+        if dfs_inter_j:
+            np_inter = dfs_inter_j[execution].to_numpy()
+        else:
+            np_inter = np.zeros(len(np_out))
         if shuffle:
             seed = 0
             rng = np.random.default_rng(seed)
@@ -211,15 +224,27 @@ def split_tr_val_te_ext_out(dfs_in, dfs_out, dfs_inter_j, executions, te_s, val_
         t_out = torch.from_numpy(np_out)
         t_inter = torch.from_numpy(np_inter)
 
-        # And split into train, validation, and test set:
-        train_in, ts_in["test"][execution], train_out, ts_out["test"][execution], train_inter, ts_inter["test"][
-            execution] = train_test_split(t_in, t_out, t_inter,
-                                          test_size=test_size,
-                                          shuffle=False)
-        ts_in["train"][execution], ts_in["val"][execution], ts_out["train"][execution], ts_out["val"][
-            execution], ts_inter["train"][execution], ts_inter["val"][
-            execution] = train_test_split(train_in, train_out, train_inter, test_size=validation_size, shuffle=False)
-    return ts_in, ts_out, ts_inter
+
+
+        if dfs_inter_j == None:
+            train_in, ts_in["test"][execution], train_out, ts_out["test"][execution] = train_test_split(t_in, t_out,
+                                              test_size=test_size,
+                                              shuffle=False)
+            ts_in["train"][execution], ts_in["val"][execution], ts_out["train"][execution], ts_out["val"][
+                execution]= train_test_split(train_in, train_out, test_size=validation_size, shuffle=False)
+        else:
+            # And split into train, validation, and test set:
+            train_in, ts_in["test"][execution], train_out, ts_out["test"][execution], train_inter, ts_inter["test"][
+                execution] = train_test_split(t_in, t_out, t_inter,
+                                              test_size=test_size,
+                                              shuffle=False)
+            ts_in["train"][execution], ts_in["val"][execution], ts_out["train"][execution], ts_out["val"][
+                execution], ts_inter["train"][execution], ts_inter["val"][
+                execution] = train_test_split(train_in, train_out, train_inter, test_size=validation_size, shuffle=False)
+    if dfs_inter_j == None:
+        return ts_in, ts_out
+    else:
+        return ts_in,ts_out,ts_inter
 
 # def split_tr_val_te_by_exec(dfs_in,dfs_out,executions,te_s,val_s,randomized = False):
 #     ts_in = dict()
@@ -307,48 +332,59 @@ def concat_and_normalize_ext_out(ts_in, ts_out, ts_inter, executions,normalize=T
         if first:
             tr_in = ts_in["train"][execution]
             tr_out = ts_out["train"][execution]
-            tr_inter = ts_inter["train"][execution]
+
 
             te_in = ts_in["test"][execution]
             te_out = ts_out["test"][execution]
-            te_inter = ts_inter["test"][execution]
+
 
             val_in = ts_in["val"][execution]
             val_out = ts_out["val"][execution]
-            val_inter = ts_inter["val"][execution]
+            if ts_inter!= None:
+                val_inter = ts_inter["val"][execution]
+                tr_inter = ts_inter["train"][execution]
+                te_inter = ts_inter["test"][execution]
             first = False
         else:
             tr_in = torch.cat((tr_in, ts_in["train"][execution]))
             tr_out = torch.cat((tr_out, ts_out["train"][execution]))
-            tr_inter = torch.cat((tr_inter, ts_inter["train"][execution]))
 
             te_in = torch.cat((te_in, ts_in["test"][execution]))
             te_out = torch.cat((te_out, ts_out["test"][execution]))
-            te_inter = torch.cat((te_inter, ts_inter["test"][execution]))
+
 
             val_in = torch.cat((val_in, ts_in["val"][execution]))
             val_out = torch.cat((val_out, ts_out["val"][execution]))
-            val_inter = torch.cat((val_inter, ts_inter["val"][execution]))
+            if ts_inter!= None:
+                val_inter = torch.cat((val_inter, ts_inter["val"][execution]))
+                tr_inter = torch.cat((tr_inter, ts_inter["train"][execution]))
+                te_inter = torch.cat((te_inter, ts_inter["test"][execution]))
+
 
     maxs = dict()
     maxs["in"] = torch.cat((tr_in, te_in, val_in)).abs().max(dim=0).values
-    maxs["inter"] = torch.cat((tr_inter, te_inter, val_inter)).abs().max(dim=0).values
+    if ts_inter != None:
+        maxs["inter"] = torch.cat((tr_inter, te_inter, val_inter)).abs().max(dim=0).values
     # maxs_te = te_in.abs().max(dim = 0).values
 
     if normalize:
         tr_in = torch.nan_to_num(tr_in / maxs["in"])
         te_in = torch.nan_to_num(te_in / maxs["in"])
         val_in = torch.nan_to_num(val_in / maxs["in"])
+        if ts_inter != None:
 
-        tr_inter = torch.nan_to_num(tr_inter / maxs["inter"])
-        te_inter = torch.nan_to_num(te_inter / maxs["inter"])
-        val_inter = torch.nan_to_num(val_inter / maxs["inter"])
+            tr_inter = torch.nan_to_num(tr_inter / maxs["inter"])
+            te_inter = torch.nan_to_num(te_inter / maxs["inter"])
+            val_inter = torch.nan_to_num(val_inter / maxs["inter"])
 
     d_ft_in = {"train": tr_in, "val": val_in, "test": te_in}
     d_ft_out = {"train": tr_out, "val": val_out, "test": te_out}
-    d_ft_inter = {"train": tr_inter, "val": val_inter, "test": te_inter}
+    if ts_inter != None:
+        d_ft_inter = {"train": tr_inter, "val": val_inter, "test": te_inter}
 
-    return d_ft_in, d_ft_out, d_ft_inter,maxs
+        return d_ft_in, d_ft_out, d_ft_inter,maxs
+    else:
+        return  d_ft_in,d_ft_out,maxs
 
 # def concat_and_normalize_split_by_exec(ts_in,ts_out,executions):
 #     # concatenate all the training and testing sets to a single tensor, and normalize:
