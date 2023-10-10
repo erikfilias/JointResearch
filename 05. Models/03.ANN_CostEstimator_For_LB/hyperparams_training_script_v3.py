@@ -20,12 +20,13 @@ executions = all_executions[executions_start:executions_end]
 te_s = 0.3
 val_s = 0.3
 outp = "SystemCosts"
+
 #nb_hours_used = 24 * 7 * 12
 nb_hours_list = [100 * i for i in range(1,30,4)]
 for small_nb_hours in [10 * i for i in range(1,20,1)]:
     nb_hours_list.append(small_nb_hours)
 print(nb_hours_list)
-exec_name = f"test_loss_rand_hours_{case}_DC_{te_s}_v{val_s}_PF_{executions_start}_{executions_end}"
+exec_name = f"rand_days_{case}_DC_{te_s}_v{val_s}_PF_{executions_start}_{executions_end}"
 folder_to_save = f"{exec_name}"
 
 dfs_in_full, dfs_out_full, dfs_inter_full = DataLoading.load_data_ext_out(folder, executions, period, sc, ["PowerFlow"], outp)
@@ -36,6 +37,8 @@ dfs_inter_j_full = DataLoading.trim_columns_to_common(dfs_inter_j_full)
 t_in_fy, t_out_fy, t_inter_fy, maxs = DataLoading.concat_all_exec_fy(dfs_in_full, dfs_out_full, dfs_inter_j_full,all_executions)
 results = pd.DataFrame()
 i = 0
+
+
 for nb_hours_used in nb_hours_list:
 
     # Select subset for the training process
