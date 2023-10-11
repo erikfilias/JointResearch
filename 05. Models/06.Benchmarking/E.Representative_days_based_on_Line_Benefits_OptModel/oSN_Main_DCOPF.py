@@ -358,8 +358,8 @@ def data_processing(DirName, CaseName, model):
     model.n   = Set(initialize=model.nn,          ordered=True , doc='load levels'          , filter=lambda model,nn      :  nn     in model.nn  and pDuration         [nn] >  0  )
     model.n2  = Set(initialize=model.nn,          ordered=True , doc='load levels'          , filter=lambda model,nn      :  nn     in model.nn  and pDuration         [nn] >  0  )
     model.g   = Set(initialize=model.gg,          ordered=False, doc='generating      units', filter=lambda model,gg      :  gg     in model.gg  and (pRatedMaxPowerP  [gg] >   0.0 or  pRatedMaxCharge[gg] >  0.0) and pPeriodIniGen[gg] <= model.p.last() and pPeriodFinGen[gg] >= model.p.first() and pGenToNode.reset_index().set_index(['index']).isin(model.nd)['Node'][gg])  # excludes generators with empty node
-    model.t   = Set(initialize=model.g ,          ordered=False, doc='thermal         units', filter=lambda model,g       :  g      in model.g   and pLinearOperCost   [g ] >  1e-4)
-    model.r   = Set(initialize=model.g ,          ordered=False, doc='RES             units', filter=lambda model,g       :  g      in model.g   and pLinearOperCost   [g ] <= 1e-4 and pRatedMaxStorage[g] == 0.0)
+    model.t   = Set(initialize=model.g ,          ordered=False, doc='thermal         units', filter=lambda model,g       :  g      in model.g   and pLinearOperCost   [g ] >  2e-3)
+    model.r   = Set(initialize=model.g ,          ordered=False, doc='RES             units', filter=lambda model,g       :  g      in model.g   and pLinearOperCost   [g ] <= 2e-3 and pRatedMaxStorage[g] == 0.0)
     model.es  = Set(initialize=model.g ,          ordered=False, doc='ESS             units', filter=lambda model,g       :  g      in model.g   and                                  (pRatedMaxStorage[g] >  0.0   or pRatedMaxCharge[g] > 0.0))
     model.gc  = Set(initialize=model.g ,          ordered=False, doc='candidate       units', filter=lambda model,g       :  g      in model.g   and pGenInvestCost    [g ] >  0.0)
     model.ec  = Set(initialize=model.es,          ordered=False, doc='candidate   ESS units', filter=lambda model,es      :  es     in model.es  and pGenInvestCost    [es] >  0.0)
@@ -1564,8 +1564,8 @@ def saving_results(DirName, CaseName, SolverName, model, optmodel):
     print('Writing           investment results  ... ', round(WritingInvResultsTime), 's')
 
     #%% outputting the generation cost
-    OutputResults = pd.Series(data=[model.pDiscountFactor[p]*model.pScenProb[p,sc]()*(optmodel.vTotalGCost[p,sc,n]()+optmodel.vTotalCCost[p,sc,n]()+optmodel.vTotalECost[p,sc,n]()+optmodel.vTotalRCost[p,sc,n]()) for p,sc,n in model.psn], index=pd.MultiIndex.from_tuples(model.psn))
-    OutputResults.to_frame(name='MEUR').rename_axis(['Period','Scenario','LoadLevel'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_GenerationCost_'+CaseName+'.csv', index=False, sep=',')
+    OutputResults = pd.Series(data=[model.pDiscountFactor[p]*model.pScenProb[p,sc]()*model.pLoadLevelDuration[n]()*(optmodel.vTotalGCost[p,sc,n]()+optmodel.vTotalCCost[p,sc,n]()+optmodel.vTotalECost[p,sc,n]()+optmodel.vTotalRCost[p,sc,n]())*1e3 for p,sc,n in model.psn], index=pd.MultiIndex.from_tuples(model.psn))
+    OutputResults.to_frame(name='mEUR').rename_axis(['Period','Scenario','LoadLevel'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_GenerationCost_'+CaseName+'.csv', index=False, sep=',')
 
     #%%  Power balance per period, scenario, and load level
     # incoming and outgoing lines (lin) (lout)
