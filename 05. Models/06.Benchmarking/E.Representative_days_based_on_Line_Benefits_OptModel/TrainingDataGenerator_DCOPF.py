@@ -96,6 +96,7 @@ def ModelRun(model, optmodel, execution, path, dir, case, solver):
     df_total_costs.index.names = ['Period', 'Scenario', 'LoadLevel', 'Variable']
     df_total_costs['Dataset'] = 'SystemCosts'
     df_total_costs['Execution'] = execution
+    df_total_costs['Value'] = df_total_costs['Value']*1e3
 
     data_time = time.time() - start_time
     start_time = time.time()
