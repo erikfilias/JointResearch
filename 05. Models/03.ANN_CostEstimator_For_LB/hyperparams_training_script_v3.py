@@ -17,17 +17,16 @@ all_executions = DataLoading.list_executions(folder=folder, per=period, sc=sc)
 executions_start = 0
 executions_end = len(all_executions)
 executions = all_executions[executions_start:executions_end]
-te_s = 0.3
-val_s = 0.3
+te_s = 1/4
+val_s = te_s/(1-te_s)
 outp = "SystemCosts"
+val_s_name = round(val_s,2)
 
-#nb_hours_used = 24 * 7 * 12
-nb_hours_list = [100 * i for i in range(1,30,4)]
-for small_nb_hours in [10 * i for i in range(1,20,1)]:
-    nb_hours_list.append(small_nb_hours)
-print(nb_hours_list)
-exec_name = f"rand_days_{case}_DC_{te_s}_v{val_s}_PF_{executions_start}_{executions_end}"
-folder_to_save = f"{exec_name}"
+nb_hours_list = [24 * i for i in range(1,9,2)] + [24 * i for i in range(10,150,10)]
+# nb_hours_list = [24 * i for i in range(1,2,2)]
+#nb_hours_list = [24 * i for i in range(1,3,2)]
+#exec_name = f"rand_days_and_hours_{case}_DC_{te_s}_v{val_s_name}_PF_{executions_start}_{executions_end}"
+
 
 dfs_in_full, dfs_out_full, dfs_inter_full = DataLoading.load_data_ext_out(folder, executions, period, sc, ["PowerFlow"], outp)
 dfs_inter_j_full = DataLoading.join_frames_inter_layer(dfs_inter_full,all_executions)
@@ -38,13 +37,27 @@ t_in_fy, t_out_fy, t_inter_fy, maxs = DataLoading.concat_all_exec_fy(dfs_in_full
 results = pd.DataFrame()
 i = 0
 
+selection_methods = ["Days","Hours"]
+selection_sets = [(selection_method,nb_hours) for nb_hours in nb_hours_list for selection_method in selection_methods]
 
-for nb_hours_used in nb_hours_list:
+print(len(nb_hours_list))
+for selection_set in selection_sets:
+    selection_method,nb_hours = selection_set[0],selection_set[1]
+    exec_name = f"rand_{selection_method}_{case}_DC_{te_s}_v{val_s_name}_PF_{executions_start}_{executions_end}"
+    folder_to_save = f"{exec_name}"
 
     # Select subset for the training process
-    # Method = random hours
-    indices = DataLoading.get_random_hours_indices(nb_available=len(dfs_in_full[executions[0]]), nb_selected=nb_hours_used)
-
+    if selection_method == "Hours":
+        # Method = random hours
+        indices = DataLoading.get_random_hours_indices(nb_available=len(dfs_in_full[executions[0]]), nb_selected=nb_hours)
+        nb_hours_used = nb_hours
+    elif selection_method == "Days":
+        nb_days = int(nb_hours/24)
+        indices = DataLoading.get_random_days_indices(hours_available = len(dfs_in_full[executions[0]]),nb_selected = nb_days,hours_in_day=24,sorted = True)
+        nb_hours_used= nb_days*24
+    else:
+        raise Error("Selection method not implemented")
+    # print(indices)
     dfs_in, dfs_out, dfs_inter_j = DataLoading.return_selection(dfs_dict_list=[dfs_in_full, dfs_out_full, dfs_inter_j_full],
                                                                 indices=indices)
     # Convert to pytorch tensors
@@ -56,6 +69,9 @@ for nb_hours_used in nb_hours_list:
         d_ft_in[setname] = torch.nan_to_num(d_ft_in[setname]/maxs["in"])
         d_ft_inter[setname] = torch.nan_to_num(d_ft_inter[setname]/maxs["inter"])
         d_ft_out[setname] = torch.nan_to_num(d_ft_out[setname]/maxs["out"])
+    # print(d_ft_in["train"].shape)
+    # print(d_ft_in["test"].shape)
+    # print(d_ft_in["val"].shape)
 
 
     # Create TensorDatasets
@@ -65,26 +81,37 @@ for nb_hours_used in nb_hours_list:
     # Perform the actual loop that checks multiple hyperparams
 
     nbs_hidden = [(0, 0),(1,1),(3,1)]  #
-    dors = [0]
+    # nbs_hidden = [(0,0)]
+
+    dors = [0,.05]
     relu_outs = [False]
-    batch_sizes = [64]
+
+    batch_sizes = [64,128]
+    # batch_sizes = [128]
+
     learning_rates = [0.0025 * 4 ** i for i in range(-1, 1, 1)]
-    nbs_e = [64,128,256]
+    # learning_rates = [0.0025*2**i for i in range(0,1,1)]
+
+    nbs_e = [128,256]
+    # nbs_e = [10]
+
     alphas = [0]
     beta = 1
+
     MAEs = [False,True]
 
 
     hp_sets = [(nb_h, dor, relu_out, bs, lr, nb_e, alpha, MAE) for nb_h in nbs_hidden for dor in dors for relu_out in
                relu_outs for bs in batch_sizes for lr in learning_rates for nb_e in nbs_e
                for alpha in alphas for MAE in MAEs]
+    print("Number of hyperparameters: " ,len(hp_sets))
     for hp_set in hp_sets:
         # Initialize hyperparameter from hp_set
         nb_hidden, dor, relu_out, bs, lr, nb_e, alpha, MAE = hp_set
 
         # Create training and validation loaders based on batch size
-        training_loader = DataLoader(train, batch_size=bs)
-        validation_loader = DataLoader(validation, batch_size=bs)
+        training_loader = DataLoader(train, batch_size=bs,shuffle = True)
+        validation_loader = DataLoader(validation, batch_size=bs,shuffle = True)
 
         # Initialize loss functions
         loss_fn = NN_classes.create_custom_loss(alpha=alpha, beta=beta, MAE=MAE)
@@ -162,6 +189,7 @@ for nb_hours_used in nb_hours_list:
                               "Epochs": nb_e,
                               "Min_val": mt,
                               "Nb_hours_used":nb_hours_used,
+                              "Sel_method" : selection_method,
                               "Tr_l": train_loss.item(),
                               "Te_l": test_loss.item(),
                               "V_l": validation_loss.item(),

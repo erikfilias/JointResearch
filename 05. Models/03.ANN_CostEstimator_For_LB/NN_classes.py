@@ -97,8 +97,8 @@ class ObjectiveEstimator_ANN_inter_0_0(torch.nn.Module):
     def __init__(self, input_size, hidden_sizes, output_size, dropout_ratio=0.0, relu_out=False):
         super().__init__()
         hidden_size1 = hidden_sizes[0]
-        print(hidden_size1)
-        print(output_size)
+        # print(hidden_size1)
+        # print(output_size)
         self.hidden_layer1 = torch.nn.Linear(input_size, hidden_size1)
         self.dropout = torch.nn.Dropout(dropout_ratio)
         self.output_layer = torch.nn.Linear(hidden_size1, output_size)
@@ -337,7 +337,7 @@ def create_model_OC_only(nb_hidden, input_size, dropout_ratio,relu_out):
         model_class = ObjectiveEstimator_ANN_3hidden_layer
     model = model_class(input_size=input_size, hidden_sizes=hidden_sizes, output_size=1, dropout_ratio=dropout_ratio,relu_out=relu_out)
     #print(model,dropout_ratio,nb_hidden,relu_out)
-    print(model)
+    print("Model layers: ", model)
     return model
 
 def create_model_inter(nb_hidden,input_size,inter_size,dropout_ratio,relu_out =False,hidden_sizes = None):
@@ -395,23 +395,6 @@ def create_model(nb_hidden, input_size, dropout_ratio,relu_out=False,inter =Fals
 #         MSE_l = torch.mean((output - target) ** 2)
 #         negative_penalization = torch.nan_to_num(torch.mean(-1 * penalize_negative * (output[output < 0])))
 #         # if negative_penalization != 0:
-#         #     print(f"********************")
-#         #     print(f"********************")
-#         #
-#         #     print(f"********************")
-#         #     print(f"********************")
-#         #     print(f"********************")
-#         #     print(f"********************")
-#         #
-#         #     print(f"NP = {negative_penalization}, MSE_l ={MSE_l} ")
-#         #     print(f"********************")
-#         #     print(f"********************")
-#         #     print(f"********************")
-#         #     print(f"********************")
-#         #     print(f"********************")
-#         #     print(f"********************")
-#         #     print(f"********************")
-#         #     print(f"********************")
 #         if negative_penalization != 0:
 #             print(f"NP = {negative_penalization}, MSE_l ={MSE_l} ")
 #
@@ -424,12 +407,16 @@ def create_custom_loss(alpha,beta,MAE=False):
     def custom_loss(output, target_output, hidden_layer_representation=False, target_hidden=None):
         # Compute the standard loss (e.g., mean squared error) for the output layer
         standard_loss = F.mse_loss(output.squeeze(), target_output)
+        #print(standard_loss)
 
-        if hidden_layer_representation != False:
+        if isinstance(hidden_layer_representation,torch.Tensor):
             # Compute a loss term based on the hidden layer representation and its target
             hidden_loss = F.mse_loss(hidden_layer_representation, target_hidden)
-        else:
+            # print(hidden_loss.shape)
+        elif hidden_layer_representation == False:
             hidden_loss = 0
+        else:
+            raise Error("The hidden layer must either be false, or tensor")
 
         # Combine the two loss terms with a weighting factor alpha
         total_loss = beta * standard_loss + alpha * hidden_loss
@@ -441,11 +428,14 @@ def create_custom_loss(alpha,beta,MAE=False):
         standard_loss = F.l1_loss(output.squeeze(), target_output)
 
         # Compute a loss term based on the hidden layer representation and its target
-        if hidden_layer_representation != False:
+        if isinstance(hidden_layer_representation, torch.Tensor):
             # Compute a loss term based on the hidden layer representation and its target
             hidden_loss = F.l1_loss(hidden_layer_representation, target_hidden)
-        else:
+            # print(hidden_loss.shape)
+        elif hidden_layer_representation == False:
             hidden_loss = 0
+        else:
+            raise Error("The hidden layer must either be false, or tensor")
         # Combine the two loss terms with a weighting factor alpha
         total_loss = beta * standard_loss + alpha * hidden_loss
 
@@ -458,29 +448,29 @@ def create_custom_loss(alpha,beta,MAE=False):
     return loss
 
 
-def custom_loss(output, target_output, hidden_layer_representation, target_hidden, alpha=0.0,beta = 1):
-    # Compute the standard loss (e.g., mean squared error) for the output layer
-    standard_loss = F.mse_loss(output.squeeze(), target_output)
+# def custom_loss(output, target_output, hidden_layer_representation, target_hidden, alpha=0.0,beta = 1):
+#     # Compute the standard loss (e.g., mean squared error) for the output layer
+#     standard_loss = F.mse_loss(output.squeeze(), target_output)
+#
+#     # Compute a loss term based on the hidden layer representation and its target
+#     hidden_loss = F.mse_loss(hidden_layer_representation, target_hidden)
+#
+#     # Combine the two loss terms with a weighting factor alpha
+#     total_loss = beta*standard_loss + alpha * hidden_loss
+#
+#     return total_loss
 
-    # Compute a loss term based on the hidden layer representation and its target
-    hidden_loss = F.mse_loss(hidden_layer_representation, target_hidden)
-
-    # Combine the two loss terms with a weighting factor alpha
-    total_loss = beta*standard_loss + alpha * hidden_loss
-
-    return total_loss
-
-def custom_loss_MAE(output, target_output, hidden_layer_representation, target_hidden, alpha=0.0,beta = 1):
-    # Compute the standard loss (e.g., mean squared error) for the output layer
-    standard_loss = torch.nn.L1Loss(output.squeeze(), target_output)
-
-    # Compute a loss term based on the hidden layer representation and its target
-    hidden_loss = torch.nn.L1Loss(hidden_layer_representation, target_hidden)
-
-    # Combine the two loss terms with a weighting factor alpha
-    total_loss = beta*standard_loss + alpha * hidden_loss
-
-    return total_loss
+# def custom_loss_MAE(output, target_output, hidden_layer_representation, target_hidden, alpha=0.0,beta = 1):
+#     # Compute the standard loss (e.g., mean squared error) for the output layer
+#     standard_loss = torch.nn.L1Loss(output.squeeze(), target_output)
+#
+#     # Compute a loss term based on the hidden layer representation and its target
+#     hidden_loss = torch.nn.L1Loss(hidden_layer_representation, target_hidden)
+#
+#     # Combine the two loss terms with a weighting factor alpha
+#     total_loss = beta*standard_loss + alpha * hidden_loss
+#
+#     return total_loss
 
 # def train_and_get_loss(model,tr_in,tr_out,nb_epochs,lr,print_ = False):
 #     optimizer = torch.optim.Adam(model.parameters(), lr=lr)

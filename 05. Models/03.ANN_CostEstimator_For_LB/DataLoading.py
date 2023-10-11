@@ -5,6 +5,15 @@ import os
 import numpy as np
 import random
 
+def list_executions_from_Starnet_results(folder, case):
+    filenames = glob.glob(pathname="*Input_Data*",root_dir=folder)
+    executions = [fn.split("Input")[0][3:] + fn.split(case)[1][1:-4] for fn in filenames]
+    return executions
+
+def list_investments_candidates_from_execs(executions):
+    l = [execution.strip("PINTOOT")[1:] for execution in executions if (execution != "Network_Existing_Generation_Full" and execution != "Network_Full_Generation_Full" )]
+    return np.unique(l)
+
 def list_executions(per,sc,folder):
     filenames = os.listdir(f"{folder}")
     executions = [fn.split(per)[0].split(sc)[1][1:-1] for fn in filenames]
@@ -495,6 +504,8 @@ def get_random_days_indices(hours_available,nb_selected,hours_in_day=24,sorted =
         return np.sort((np.array(index_list)).flatten())
     else:
         return np.array(index_list).flatten()
+
+
 
 # def get_random_adj_period_slicer(nb_available,nb_selected,period_length,sorted = True):
 #     start_idxs = get_random_hours_slicer(nb_available-period_length,nb_selected,sorted=sorted)
