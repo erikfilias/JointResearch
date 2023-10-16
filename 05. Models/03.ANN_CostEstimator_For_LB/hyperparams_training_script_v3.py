@@ -9,7 +9,7 @@ import numpy as np
 
 sc = "sc01"
 period = "2030"
-case = "3-bus"
+case = "RTS24"
 
 folder = f"../Data/{case}_DC_fy"
 
@@ -42,7 +42,7 @@ selection_sets = [(selection_method,nb_hours) for nb_hours in nb_hours_list for 
 selection_sets.append(("Weeks",24*7*12))
 
 print("Amount of nb_hours: ", len(nb_hours_list), nb_hours_list)
-for selection_set in selection_sets:
+for selection_set in selection_sets[-1:]:
     selection_method,nb_hours = selection_set[0],selection_set[1]
     exec_name = f"rand_{selection_method}_{case}_DC_{te_s}_v{val_s_name}_PF_{executions_start}_{executions_end}"
     folder_to_save = f"{exec_name}"
@@ -87,7 +87,7 @@ for selection_set in selection_sets:
 
     # Perform the actual loop that checks multiple hyperparams
 
-    nbs_hidden = [(3,1)]  #
+    nbs_hidden = [(0,0),(3,1)]  #
     # nbs_hidden = [(0,0)]
 
     dors = [0]
@@ -96,13 +96,14 @@ for selection_set in selection_sets:
     batch_sizes = [64]
     # batch_sizes = [128]
 
-    learning_rates = [0.0025 * 2 ** i for i in range(-1, 1, 1)]
-    # learning_rates = [0.0025*2**i for i in range(0,1,1)]
+    #learning_rates = [0.0025 * 2 ** i for i in range(-1, 1, 1)]
+    learning_rates = [0.0025*2**i for i in range(0,1,1)]
 
-    nbs_e = [128,256]
-    # nbs_e = [10]
+    #nbs_e = [128,256]
+    nbs_e = [8,16]
 
-    alphas = [0,1]
+    #alphas = [0,1]
+    alphas = [0]
     beta = 1
 
     MAEs = [False]
@@ -124,9 +125,16 @@ for selection_set in selection_sets:
         loss_fn = NN_classes.create_custom_loss(alpha=alpha, beta=beta, MAE=MAE)
         loss_t_mse = torch.nn.MSELoss()
         loss_mae = torch.nn.L1Loss()
+
+        #Create hidden sizes vector
+        if nb_hidden == (3,1):
+            hs = [60,60,60,38,19]
+        else:
+            hs = None
+
         # Create model based on hyperparameter set
         m = NN_classes.create_model(nb_hidden, d_ft_in['train'].shape[1], dropout_ratio=dor, relu_out=relu_out, inter=True,
-                                    inter_size=dfs_inter_j["Network_Existing_Generation_Full"].shape[1])
+                                    inter_size=dfs_inter_j["Network_Existing_Generation_Full"].shape[1],hidden_sizes = hs)
 
         # Create model name for saving and loading
         m_name = f"OE_{nb_hours_used}hours_{nb_hidden}h_{nb_e}e_{lr}lr_{dor}dor_{relu_out}ro_{bs}bs_{alpha}ill_{MAE}MAE"
