@@ -462,12 +462,13 @@ def get_random_week_per_month_indices(df, hours_in_day=24, days_in_week=7):
     hours_before_month_started = 0
     # Select one random week index from each month
     for group in grouped:
-        assert (len(group) >= h_in_w)
-        random_week_index = random.randint(0, len(group) // h_in_w - 1)
+        #print(len(group),h_in_w)
+        assert (len(group[1]) >= h_in_w)
+        random_week_index = random.randint(0, len(group[1]) // h_in_w - 1)
 
         for ix in range(random_week_index * h_in_w, random_week_index * (h_in_w) + h_in_w):
             selected_indices.append(hours_before_month_started + ix)
-        hours_before_month_started += len(group)
+        hours_before_month_started += len(group[1])
 
     return np.array(selected_indices)
 
@@ -492,7 +493,7 @@ def get_random_days_indices(hours_available,nb_selected,hours_in_day=24,sorted =
 
     index_list = []
     for _ in range(nb_selected):
-        r = random.randint(0, hours_available)
+        r = random.randint(0, hours_available-hours_in_day)
         i = hours_in_day * round(r/hours_in_day)
 
         while i in index_list:
@@ -532,7 +533,7 @@ def get_random_hours_indices(nb_available,nb_selected,min_offset = 1,sorted = Tr
         - AssertionError: Raised if nb_available is less than the product of nb_selected and min_offset.
         - AssertionError: Raised if it is not possible to find non-overlapping indices within a reasonable number of attempts.
     """
-    print(nb_available,nb_selected,min_offset)
+    #print(nb_available,nb_selected,min_offset)
     assert nb_available>=nb_selected*min_offset
     idx_l_size = 0
     index_list = []
