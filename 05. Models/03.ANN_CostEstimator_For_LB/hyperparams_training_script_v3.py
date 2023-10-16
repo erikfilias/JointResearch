@@ -22,7 +22,7 @@ val_s = te_s/(1-te_s)
 outp = "SystemCosts"
 val_s_name = round(val_s,2)
 
-nb_hours_list = [24 * i for i in range(1,9,2)] + [24 * i for i in range(10,150,10)]
+nb_hours_list = [24 * i for i in range(1,9,2)] + [24 * i for i in range(10,250,20)]
 # nb_hours_list = [24 * i for i in range(1,2,2)]
 #nb_hours_list = [24 * i for i in range(1,3,2)]
 #exec_name = f"rand_days_and_hours_{case}_DC_{te_s}_v{val_s_name}_PF_{executions_start}_{executions_end}"
@@ -39,8 +39,9 @@ i = 0
 
 selection_methods = ["Days","Hours"]
 selection_sets = [(selection_method,nb_hours) for nb_hours in nb_hours_list for selection_method in selection_methods]
+selection_sets.append(("Weeks",24*7*12))
 
-print(len(nb_hours_list))
+print("Amount of nb_hours: ", len(nb_hours_list), nb_hours_list)
 for selection_set in selection_sets:
     selection_method,nb_hours = selection_set[0],selection_set[1]
     exec_name = f"rand_{selection_method}_{case}_DC_{te_s}_v{val_s_name}_PF_{executions_start}_{executions_end}"
@@ -55,9 +56,15 @@ for selection_set in selection_sets:
         nb_days = int(nb_hours/24)
         indices = DataLoading.get_random_days_indices(hours_available = len(dfs_in_full[executions[0]]),nb_selected = nb_days,hours_in_day=24,sorted = True)
         nb_hours_used= nb_days*24
+
+        assert(nb_hours_used == len(indices))
+    elif selection_method == "Weeks":
+        indices = DataLoading.get_random_week_per_month_indices(df= dfs_out_full[executions[0]],hours_in_day=24, days_in_week=7)
+        nb_hours_used = len(indices)
     else:
-        raise Error("Selection method not implemented")
+        raise Error(f"Selection method {selection_method} not implemented")
     # print(indices)
+    print(nb_hours_used, len(indices), selection_method)
     dfs_in, dfs_out, dfs_inter_j = DataLoading.return_selection(dfs_dict_list=[dfs_in_full, dfs_out_full, dfs_inter_j_full],
                                                                 indices=indices)
     # Convert to pytorch tensors
@@ -80,25 +87,25 @@ for selection_set in selection_sets:
 
     # Perform the actual loop that checks multiple hyperparams
 
-    nbs_hidden = [(0, 0),(1,1),(3,1)]  #
+    nbs_hidden = [(3,1)]  #
     # nbs_hidden = [(0,0)]
 
-    dors = [0,.05]
+    dors = [0]
     relu_outs = [False]
 
-    batch_sizes = [64,128]
+    batch_sizes = [64]
     # batch_sizes = [128]
 
-    learning_rates = [0.0025 * 4 ** i for i in range(-1, 1, 1)]
+    learning_rates = [0.0025 * 2 ** i for i in range(-1, 1, 1)]
     # learning_rates = [0.0025*2**i for i in range(0,1,1)]
 
     nbs_e = [128,256]
     # nbs_e = [10]
 
-    alphas = [0]
+    alphas = [0,1]
     beta = 1
 
-    MAEs = [False,True]
+    MAEs = [False]
 
 
     hp_sets = [(nb_h, dor, relu_out, bs, lr, nb_e, alpha, MAE) for nb_h in nbs_hidden for dor in dors for relu_out in
