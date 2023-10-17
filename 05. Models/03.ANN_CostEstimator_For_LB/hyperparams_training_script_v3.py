@@ -9,7 +9,7 @@ import numpy as np
 
 sc = "sc01"
 period = "2030"
-case = "RTS24"
+case = "3-bus"
 
 folder = f"../Data/{case}_DC_fy"
 
@@ -22,7 +22,7 @@ val_s = te_s/(1-te_s)
 outp = "SystemCosts"
 val_s_name = round(val_s,2)
 
-nb_hours_list = [24 * i for i in range(1,9,2)] + [24 * i for i in range(10,250,20)]
+nb_hours_list = [24 * i for i in range(1,9,2)] + [24 * i for i in range(10,150,30)]
 # nb_hours_list = [24 * i for i in range(1,2,2)]
 #nb_hours_list = [24 * i for i in range(1,3,2)]
 #exec_name = f"rand_days_and_hours_{case}_DC_{te_s}_v{val_s_name}_PF_{executions_start}_{executions_end}"
@@ -40,11 +40,12 @@ i = 0
 selection_methods = ["Days","Hours"]
 selection_sets = [(selection_method,nb_hours) for nb_hours in nb_hours_list for selection_method in selection_methods]
 selection_sets.append(("Weeks",24*7*12))
+selection_sets = [("Weeks",24*7*12)]
 
 print("Amount of nb_hours: ", len(nb_hours_list), nb_hours_list)
-for selection_set in selection_sets[-1:]:
+for selection_set in selection_sets:
     selection_method,nb_hours = selection_set[0],selection_set[1]
-    exec_name = f"rand_{selection_method}_{case}_DC_{te_s}_v{val_s_name}_PF_{executions_start}_{executions_end}"
+    exec_name = f"rand_{selection_method}_{case}_DC_{te_s}_v{val_s_name}_PF_{executions_start}_{executions_end}_extra"
     folder_to_save = f"{exec_name}"
 
     # Select subset for the training process
@@ -87,7 +88,7 @@ for selection_set in selection_sets[-1:]:
 
     # Perform the actual loop that checks multiple hyperparams
 
-    nbs_hidden = [(0,0),(3,1)]  #
+    nbs_hidden = [(3,1)]  #
     # nbs_hidden = [(0,0)]
 
     dors = [0]
@@ -96,14 +97,14 @@ for selection_set in selection_sets[-1:]:
     batch_sizes = [64]
     # batch_sizes = [128]
 
-    #learning_rates = [0.0025 * 2 ** i for i in range(-1, 1, 1)]
-    learning_rates = [0.0025*2**i for i in range(0,1,1)]
+    learning_rates = [0.0025 * 2 ** i for i in range(-1, 1, 1)]
+    #learning_rates = [0.0025*2**i for i in range(0,1,1)]
 
-    #nbs_e = [128,256]
-    nbs_e = [8,16]
+    nbs_e = [128,256]
+    #nbs_e = [64,128]
 
     #alphas = [0,1]
-    alphas = [0]
+    alphas = [0,1]
     beta = 1
 
     MAEs = [False]
@@ -127,7 +128,7 @@ for selection_set in selection_sets[-1:]:
         loss_mae = torch.nn.L1Loss()
 
         #Create hidden sizes vector
-        if nb_hidden == (3,1):
+        if case == "RTS24" and nb_hidden == (3,1):
             hs = [60,60,60,38,19]
         else:
             hs = None
