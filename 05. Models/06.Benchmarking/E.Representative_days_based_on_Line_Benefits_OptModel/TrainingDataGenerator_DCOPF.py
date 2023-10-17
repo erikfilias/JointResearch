@@ -461,7 +461,7 @@ def main():
 
         # create the model
         oSN = ConcreteModel()
-        execution = 'Network_Line_In_' + str(ni) + '_' + str(nf) + '_' + str(cc)
+        execution = 'Network_Line_Out_' + str(ni) + '_' + str(nf) + '_' + str(cc)
 
         # defining the variables
         oSN = create_variables(base_model, oSN)
