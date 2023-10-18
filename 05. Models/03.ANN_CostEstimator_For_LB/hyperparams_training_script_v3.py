@@ -7,11 +7,22 @@ import NN_classes
 import training_methods
 import time
 import numpy as np
+import argparse
+
+parser = argparse.ArgumentParser(description='Introducing main parameters...')
+parser.add_argument('--case',   type=str, default=None)
+args = parser.parse_args()
 
 sc = "sc01"
 period = "2030"
-case = "3-bus"
+default_case = "3-bus"
 
+if args.case is None:
+    case = default_case
+else:
+    case = args.case
+
+print(case)
 folder = f"../Data/{case}_DC_fy"
 
 all_executions = DataLoading.list_executions(folder=folder, per=period, sc=sc)
@@ -121,126 +132,129 @@ for selection_set in selection_sets:
                relu_outs for bs in batch_sizes for lr in learning_rates for nb_e in nbs_e
                for alpha in alphas for MAE in MAEs]
     print("Number of hyperparameters: " ,len(hp_sets))
-    # for hp_set in hp_sets:
-    #     # Initialize hyperparameter from hp_set
-    #     nb_hidden, dor, relu_out, bs, lr, nb_e, alpha, MAE = hp_set
-    #
-    #     # Create training and validation loaders based on batch size
-    #     training_loader = DataLoader(train, batch_size=bs,shuffle = True)
-    #     validation_loader = DataLoader(validation, batch_size=bs,shuffle = True)
-    #
-    #     # Initialize loss functions
-    #     loss_fn = NN_classes.create_custom_loss(alpha=alpha, beta=beta, MAE=MAE)
-    #     loss_t_mse = torch.nn.MSELoss()
-    #     loss_mae = torch.nn.L1Loss()
-    #
-    #     #Create hidden sizes vector
-    #     if case == "RTS24" and nb_hidden == (3,1):
-    #         hs = [60,60,60,38,19]
-    #     else:
-    #         hs = None
-    #
-    #     # Create model based on hyperparameter set
-    #     m = NN_classes.create_model(nb_hidden, d_ft_in['train'].shape[1], dropout_ratio=dor, relu_out=relu_out, inter=True,
-    #                                 inter_size=dfs_inter_j["Network_Existing_Generation_Full"].shape[1],hidden_sizes = hs)
-    #
-    #     # Create model name for saving and loading
-    #     m_name = f"OE_{nb_hours_used}hours_{nb_hidden}h_{nb_e}e_{lr}lr_{dor}dor_{relu_out}ro_{bs}bs_{alpha}ill_{MAE}MAE"
-    #
-    #     # Create optimizer based on learning rate
-    #     optimizer = torch.optim.Adam(m.parameters(), lr=lr)
-    #     scheduler = StepLR(optimizer, step_size=40, gamma=0.25)
-    #
-    #     # Train the actual model
-    #     t_start_train = time.perf_counter()
-    #     train_loss_1 = training_methods.train_multiple_epochs(
-    #         nb_e, m, training_loader, validation_loader, loss_fn, optimizer,scheduler, m_name,
-    #         folder_to_save, True)[0]
-    #     t_stop_train = time.perf_counter()
-    #
-    #     for mt in ["min_val", "all_epochs"]:
-    #         t_start_eval = time.perf_counter()
-    #         path = f"trained_models/{folder_to_save}/{mt}/model_{m_name}.pth"
-    #
-    #         # Retreive model state and set to evaluation mode
-    #         m.load_state_dict(torch.load(path))
-    #         m.eval()
-    #
-    #         # Calculate losses
-    #         test_predictions = m(d_ft_in["test"].float())
-    #         test_loss = loss_fn(test_predictions[0].squeeze(), d_ft_out["test"], test_predictions[1].squeeze(),
-    #                             d_ft_inter["test"])
-    #         test_loss_t_mse = loss_t_mse(test_predictions[0].squeeze(), d_ft_out["test"])
-    #         test_loss_mae = loss_mae(test_predictions[0].squeeze(), d_ft_out["test"])
-    #         manual_diff = test_predictions[0].detach().numpy().transpose() - d_ft_out["test"].numpy()
-    #         Te_l_mae_man = np.mean(np.abs(manual_diff))
-    #
-    #         train_predictions = m(d_ft_in["train"].float())
-    #         train_loss = loss_fn(train_predictions[0].squeeze(), d_ft_out["train"], train_predictions[1].squeeze(),
-    #                              d_ft_inter["train"])
-    #         train_loss_t_mse = loss_t_mse(train_predictions[0].squeeze(), d_ft_out["train"])
-    #         train_loss_mae = loss_mae(train_predictions[0].squeeze(), d_ft_out["train"])
-    #
-    #         validation_prediction = m(d_ft_in["val"].float())
-    #         validation_loss = loss_fn(validation_prediction[0].squeeze(), d_ft_out["val"],
-    #                                   validation_prediction[1].squeeze(), d_ft_inter["val"])
-    #         validation_loss_t_mse = loss_t_mse(validation_prediction[0].squeeze(), d_ft_out["val"])
-    #         validation_loss_mae = loss_mae(validation_prediction[0].squeeze(), d_ft_out["val"])
-    #
-    #
-    #         t_stop_eval = time.perf_counter()
-    #
-    #         fy_prediction = m(t_in_fy.float())
-    #
-    #         fy_l = loss_fn(fy_prediction[0].squeeze(), t_out_fy,fy_prediction[1].squeeze(),t_inter_fy)
-    #         fy_l_mse = loss_t_mse(fy_prediction[0].squeeze(), t_out_fy)
-    #         fy_l_mae = loss_mae(fy_prediction[0].squeeze(), t_out_fy)
-    #
-    #         manual_diff = fy_prediction[0].detach().numpy().transpose() - t_out_fy.numpy()
-    #         fy_l_mae_man = np.mean(np.abs(manual_diff))
-    #
-    #         # Calculate some calculation times
-    #         t_train = t_stop_train - t_start_train
-    #         t_eval = t_stop_eval - t_start_eval
-    #
-    #         #Calculate some losses manually
-    #
-    #
-    #         # Finally, save all desired values in a dataframe
-    #         r = pd.DataFrame({"Model_type": [nb_hidden],
-    #                           "Dor": dor,
-    #                           "Relu_out": relu_out,
-    #                           "Batch_size": bs,
-    #                           "Lr": lr,
-    #                           "Epochs": nb_e,
-    #                           "Min_val": mt,
-    #                           "Nb_hours_used":nb_hours_used,
-    #                           "Sel_method" : selection_method,
-    #                           "Norm_method": normalization,
-    #                           "Tr_l": train_loss.item(),
-    #                           "Te_l": test_loss.item(),
-    #                           "V_l": validation_loss.item(),
-    #                           "Tr_l_mse": train_loss_t_mse.item(),
-    #                           "Te_l_mse": test_loss_t_mse.item(),
-    #                           "V_l_mse": validation_loss_t_mse.item(),
-    #                           "Tr_l_mae": train_loss_mae.item(),
-    #                           "Te_l_mae": test_loss_mae.item(),
-    #                           "Te_l_mae_man": Te_l_mae_man ,
-    #                           "V_l_mae": validation_loss_mae.item(),
-    #                           "fy_l":fy_l.item(),
-    #                           "fy_l_mse":fy_l_mse.item(),
-    #                           "fy_l_mae":fy_l_mae.item(),
-    #                           "fy_l_mae_man":fy_l_mae_man,
-    #                           "Train_time": t_train,
-    #                           "Eval_time": t_eval,
-    #                           "alpha": alpha,
-    #                           "beta": beta,
-    #                           "MAE": MAE,
-    #                           "Test size": te_s,
-    #                           "Val size": val_s
-    #                           }
-    #                          , index=[i])
-    #         i += 1
-    #         results = pd.concat([results, r])
-    #     results.to_csv(f"Loss_results_csv/{exec_name}.csv")
-    #
+    for hp_set in hp_sets:
+        # Initialize hyperparameter from hp_set
+        nb_hidden, dor, relu_out, bs, lr, nb_e, alpha, MAE = hp_set
+
+        # Create training and validation loaders based on batch size
+        training_loader = DataLoader(train, batch_size=bs,shuffle = True)
+        validation_loader = DataLoader(validation, batch_size=bs,shuffle = True)
+
+        # Initialize loss functions
+        loss_fn = NN_classes.create_custom_loss(alpha=alpha, beta=beta, MAE=MAE)
+        loss_t_mse = torch.nn.MSELoss()
+        loss_mae = torch.nn.L1Loss()
+
+        #Create hidden sizes vector
+        if case == "RTS24" and nb_hidden == (3,1):
+            hs = [60,60,60,38,19]
+        else:
+            hs = None
+
+        # Create model based on hyperparameter set
+        m = NN_classes.create_model(nb_hidden, d_ft_in['train'].shape[1], dropout_ratio=dor, relu_out=relu_out, inter=True,
+                                    inter_size=dfs_inter_j["Network_Existing_Generation_Full"].shape[1],hidden_sizes = hs)
+
+        # Create model name for saving and loading
+        m_name = f"OE_{nb_hours_used}hours_{nb_hidden}h_{nb_e}e_{lr}lr_{dor}dor_{relu_out}ro_{bs}bs_{alpha}ill_{MAE}MAE"
+
+        # Create optimizer based on learning rate
+        optimizer = torch.optim.Adam(m.parameters(), lr=lr[0])
+        scheduler = StepLR(optimizer, step_size=lr[1], gamma=lr[2])
+
+        # Train the actual model
+        t_start_train = time.perf_counter()
+        train_loss_1 = training_methods.train_multiple_epochs(
+            nb_e, m, training_loader, validation_loader, loss_fn, optimizer,scheduler, m_name,
+            folder_to_save, True)[0]
+        t_stop_train = time.perf_counter()
+
+        for mt in ["min_val", "all_epochs"]:
+            t_start_eval = time.perf_counter()
+            path = f"trained_models/{folder_to_save}/{mt}/model_{m_name}.pth"
+
+            # Retreive model state and set to evaluation mode
+            m.load_state_dict(torch.load(path))
+            m.eval()
+
+            # Calculate losses
+            test_predictions = m(d_ft_in["test"].float())
+            test_loss = loss_fn(test_predictions[0].squeeze(), d_ft_out["test"], test_predictions[1].squeeze(),
+                                d_ft_inter["test"])
+            test_loss_t_mse = loss_t_mse(test_predictions[0].squeeze(), d_ft_out["test"])
+            test_loss_mae = loss_mae(test_predictions[0].squeeze(), d_ft_out["test"])
+            manual_diff = test_predictions[0].detach().numpy().transpose() - d_ft_out["test"].numpy()
+            Te_l_mae_man = np.mean(np.abs(manual_diff))
+
+            train_predictions = m(d_ft_in["train"].float())
+            train_loss = loss_fn(train_predictions[0].squeeze(), d_ft_out["train"], train_predictions[1].squeeze(),
+                                 d_ft_inter["train"])
+            train_loss_t_mse = loss_t_mse(train_predictions[0].squeeze(), d_ft_out["train"])
+            train_loss_mae = loss_mae(train_predictions[0].squeeze(), d_ft_out["train"])
+
+            validation_prediction = m(d_ft_in["val"].float())
+            validation_loss = loss_fn(validation_prediction[0].squeeze(), d_ft_out["val"],
+                                      validation_prediction[1].squeeze(), d_ft_inter["val"])
+            validation_loss_t_mse = loss_t_mse(validation_prediction[0].squeeze(), d_ft_out["val"])
+            validation_loss_mae = loss_mae(validation_prediction[0].squeeze(), d_ft_out["val"])
+
+
+            t_stop_eval = time.perf_counter()
+
+            fy_prediction = m(t_in_fy.float())
+
+            fy_l = loss_fn(fy_prediction[0].squeeze(), t_out_fy,fy_prediction[1].squeeze(),t_inter_fy)
+            fy_l_mse = loss_t_mse(fy_prediction[0].squeeze(), t_out_fy)
+            fy_l_mae = loss_mae(fy_prediction[0].squeeze(), t_out_fy)
+
+            manual_diff = fy_prediction[0].detach().numpy().transpose() - t_out_fy.numpy()
+            fy_l_mae_man = np.mean(np.abs(manual_diff))
+
+            # Calculate some calculation times
+            t_train = t_stop_train - t_start_train
+            t_eval = t_stop_eval - t_start_eval
+
+            #Calculate some losses manually
+
+
+            # Finally, save all desired values in a dataframe
+            r = pd.DataFrame({"Model_type": [nb_hidden],
+                              "Dor": dor,
+                              "Relu_out": relu_out,
+                              "Batch_size": bs,
+                              "Lr": [lr],
+                              "Lri": lr[0],
+                              "Lrs": lr[1],
+                              "Lrg": lr[2],
+                              "Epochs": nb_e,
+                              "Min_val": mt,
+                              "Nb_hours_used":nb_hours_used,
+                              "Sel_method" : selection_method,
+                              "Norm_method": normalization,
+                              "Tr_l": train_loss.item(),
+                              "Te_l": test_loss.item(),
+                              "V_l": validation_loss.item(),
+                              "Tr_l_mse": train_loss_t_mse.item(),
+                              "Te_l_mse": test_loss_t_mse.item(),
+                              "V_l_mse": validation_loss_t_mse.item(),
+                              "Tr_l_mae": train_loss_mae.item(),
+                              "Te_l_mae": test_loss_mae.item(),
+                              "Te_l_mae_man": Te_l_mae_man ,
+                              "V_l_mae": validation_loss_mae.item(),
+                              "fy_l":fy_l.item(),
+                              "fy_l_mse":fy_l_mse.item(),
+                              "fy_l_mae":fy_l_mae.item(),
+                              "fy_l_mae_man":fy_l_mae_man,
+                              "Train_time": t_train,
+                              "Eval_time": t_eval,
+                              "alpha": alpha,
+                              "beta": beta,
+                              "MAE": MAE,
+                              "Test size": te_s,
+                              "Val size": val_s
+                              }
+                             , index=[i])
+            i += 1
+            results = pd.concat([results, r])
+        results.to_csv(f"Loss_results_csv/{exec_name}.csv")
+
