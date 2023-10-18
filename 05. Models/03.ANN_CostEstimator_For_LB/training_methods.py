@@ -61,7 +61,7 @@ def train_one_epoch(model, training_loader, epoch_index, optimizer, loss_fn,f_pr
 
     return losses
 
-def train_one_epoch_inter(model, training_loader, epoch_index, optimizer, loss_fn,f_print = np.inf):
+def train_one_epoch_inter(model, training_loader, epoch_index, optimizer, scheduler, loss_fn,f_print = np.inf):
     running_loss = 0.
     last_loss = 0.
 
@@ -97,22 +97,27 @@ def train_one_epoch_inter(model, training_loader, epoch_index, optimizer, loss_f
 
     return losses
 
-def train_multiple_epochs(nb_epochs,model,training_loader,validation_loader,loss_fn,optimizer,model_name, folder=None,inter=False):
+def train_multiple_epochs(nb_epochs,model,training_loader,validation_loader,loss_fn,optimizer, scheduler, model_name, folder=None,inter=False):
     # Initializing in a separate cell so we can easily add more epochs to the same run
     epoch_number = 0
 
     best_vloss = 1_000_000.
-    for epoch in range(nb_epochs):
+    for epoch_number in range(nb_epochs):
         #print('EPOCH {}:'.format(epoch_number + 1))
 
         # Make sure gradient tracking is on, and do a pass over the data
         model.train(True)
         if inter:
-            one_epoch_losses = train_one_epoch_inter(model,training_loader,epoch_number,optimizer,loss_fn)
+            one_epoch_losses = train_one_epoch_inter(model,training_loader,epoch_number,optimizer,scheduler,loss_fn)
         else:
-            one_epoch_losses = train_one_epoch(model,training_loader,epoch_number,optimizer,loss_fn)
+            one_epoch_losses = train_one_epoch(model,training_loader,epoch_number,optimizer,scheduler,loss_fn)
         avg_loss = np.mean(one_epoch_losses)
 
+        #Adjust learning rate
+        scheduler.step()
+
+        # #Checking for now
+        # print(epoch_number,scheduler.get_lr(),optimizer.param_groups[0]['lr'],avg_loss)
 
         running_vloss = 0.0
         # Set the model to evaluation mode, disabling dropout and using population
@@ -154,7 +159,6 @@ def train_multiple_epochs(nb_epochs,model,training_loader,validation_loader,loss
                 min_val_model_path = os.path.join(min_val_model_dir, 'model_{}.pth'.format(model_name))
                 torch.save(model.state_dict(), min_val_model_path)
 
-        epoch_number += 1
     # model_path = 'trained_models/{}/all_epochs/model_{}.pth'.format(folder,model_name)if folder is not None:
     model_dir = 'trained_models/{}/all_epochs'.format(folder)
     os.makedirs(model_dir, exist_ok=True)  # Create the directory if it doesn't exist
