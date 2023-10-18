@@ -11,7 +11,7 @@ def list_executions_from_Starnet_results(folder, case):
     return executions
 
 def list_investments_candidates_from_execs(executions):
-    l = [execution.strip("PINTOOT")[1:] for execution in executions if (execution != "Network_Existing_Generation_Full" and execution != "Network_Full_Generation_Full" )]
+    l = [execution.strip("PINTOOT").strip("_Network_Line").strip("In_").strip("Out_") for execution in executions if (execution != "Network_Existing_Generation_Full" and execution != "Network_Full_Generation_Full" )]
     return np.unique(l)
 
 def list_executions(per,sc,folder):
@@ -395,7 +395,7 @@ def concat_and_normalize_ext_out(ts_in, ts_out, ts_inter, executions,normalize=T
         maxs["in_scalar"] = torch.cat((tr_in, te_in, val_in)).abs().max(dim=0).values
         maxs["out_scalar"] = torch.cat((tr_out, te_out, val_out)).abs().max(dim=0).values
         if ts_inter != None:
-            maxs["inter"] = torch.cat((tr_inter, te_inter, val_inter)).abs().max(dim=0).values
+            maxs["inter_scalar"] = torch.cat((tr_inter, te_inter, val_inter)).abs().max(dim=0).values
 
         maxs["in_shift"] = 0
         maxs["inter_shift"] = 0
