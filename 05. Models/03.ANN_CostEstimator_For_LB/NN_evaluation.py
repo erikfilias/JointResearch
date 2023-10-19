@@ -102,7 +102,7 @@ def get_lb_est_and_actual(m, ex, dfs_in, dfs_out,all_executions,maxs):
 
 
 def get_NN_estimates_from_dfs_in(m, ex, dfs_in,maxs):
-    ex_in_e = torch.nan_to_num(dfs_in[ex].to_numpy() / maxs["in"])
+    ex_in_e = torch.nan_to_num((dfs_in[ex].to_numpy()-maxs["in_shift"]) / maxs["in_scalar"])
     prediction_e = m(ex_in_e.float())[0].detach().numpy()
     return prediction_e.flatten()
 
