@@ -55,6 +55,7 @@ selection_methods = ["Days","Hours"]
 selection_sets = [(selection_method,nb_hours) for nb_hours in nb_hours_list for selection_method in selection_methods]
 selection_sets.append(("Weeks",24*7*12))
 # selection_sets = [("Days",24*10)]
+# selection_sets = [("Days",24*5)]
 
 print("Amount of nb_hours: ", len(nb_hours_list), nb_hours_list)
 for selection_set in selection_sets:
