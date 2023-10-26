@@ -39,7 +39,7 @@ def extract_model_params_from_row(row):
             "alpha": alpha, "MAE": MAE,"Min_val":min_val}
 
 
-def create_model_and_load_state_from_row(row, input_size, inter_size, hyperloop_name, cluster_run=True):
+def create_model_and_load_state_from_row(row, input_size, inter_size, hyperloop_name, cluster_run=True,hidden_sizes=None):
     # First, extract params from row
     nb_hours = row.Nb_hours_used.item()
     model_type = row.Model_type.item()
@@ -65,7 +65,7 @@ def create_model_and_load_state_from_row(row, input_size, inter_size, hyperloop_
 
 
     # Then create model of given type
-    m = NN_classes.create_model(model_type, input_size, dropout_ratio=dor, relu_out=relu_out, inter=True,
+    m = NN_classes.create_model(model_type, input_size, dropout_ratio=dor, relu_out=relu_out, inter=True,hidden_sizes = hidden_sizes,
                                 inter_size=inter_size)
 
     # Finally, extract model state from dict
