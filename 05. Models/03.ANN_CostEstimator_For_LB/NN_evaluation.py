@@ -29,7 +29,7 @@ def extract_model_params_from_row(row):
     nb_e = row.Epochs.item()
 
     relu_out = row.Relu_out.item()
-    np = row.Np.item()
+    #np = row.Np.item()
     bs = row.Batch_size.item()
     alpha = row.alpha.item()
     MAE = row.MAE.item()
