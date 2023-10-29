@@ -38,7 +38,7 @@ nb_hours_list = [24 * i for i in range(1,9,2)] + [24 * i for i in range(28,175,7
 # nb_hours_list = [24 * i for i in range(1,2,2)]
 #nb_hours_list = [24 * i for i in range(1,3,2)]
 #exec_name = f"rand_days_and_hours_{case}_DC_{te_s}_v{val_s_name}_PF_{executions_start}_{executions_end}"
-
+nb_hours_list = [2016,2016]
 
 dfs_in_full, dfs_out_full, dfs_inter_full = DataLoading.load_data_ext_out(folder, executions, period, sc, ["PowerFlow"], outp)
 dfs_inter_j_full = DataLoading.join_frames_inter_layer(dfs_inter_full,all_executions)
@@ -51,7 +51,7 @@ normalization = "min-max"
 t_in_fy, t_out_fy, t_inter_fy, maxs = DataLoading.concat_all_exec_fy(dfs_in_full, dfs_out_full, dfs_inter_j_full,all_executions,normalization=normalization)
 
 
-selection_methods = ["Days","Hours"]
+selection_methods = ["Days"]
 selection_sets = [(selection_method,nb_hours) for nb_hours in nb_hours_list for selection_method in selection_methods]
 selection_sets.append(("Weeks",24*7*12))
 # selection_sets = [("Days",24*10)]
@@ -60,7 +60,7 @@ selection_sets.append(("Weeks",24*7*12))
 print("Amount of nb_hours: ", len(nb_hours_list), nb_hours_list)
 for selection_set in selection_sets:
     selection_method,nb_hours = selection_set[0],selection_set[1]
-    exec_name = f"Decay_rand_{selection_method}_{case}_DC_{te_s}_v{val_s_name}_PF_{executions_start}_{executions_end}"
+    exec_name = f"Decay_2016h_rand_{selection_method}_{case}_DC_{te_s}_v{val_s_name}_PF_{executions_start}_{executions_end}"
     folder_to_save = f"{exec_name}"
 
     # Select subset for the training process
@@ -104,29 +104,29 @@ for selection_set in selection_sets:
 
     # Perform the actual loop that checks multiple hyperparams
 
-    nbs_hidden = [(0,0),(3,1)]  #
+    #nbs_hidden = [(0,0),(3,1)]  #
     nbs_hidden = [(3,1)]
 
-    dors = [0]
+    dors = [0,0.1]
     relu_outs = [False]
 
     batch_sizes = [128]
     # batch_sizes = [128]
 
     #Learning rate combination of initial learning rate, and decay parameters
-    initials = [0.01,0.0025]
+    initials = [0.0025]
     step_size = 32
     gammas = [1,0.25]
     learning_rates = [(initial,step_size,gamma) for initial in initials for gamma in gammas]
 
-    nbs_e = [32,64,128]
+    nbs_e = [128]
     #nbs_e = [64,128]
 
     #alphas = [0,1]
-    alphas = [0]
+    alphas = [0,0.2]
     beta = 1
 
-    MAEs = [False]
+    MAEs = [False,True]
 
 
     hp_sets = [(nb_h, dor, relu_out, bs, lr, nb_e, alpha, MAE) for nb_h in nbs_hidden for dor in dors for relu_out in
