@@ -1,16 +1,28 @@
 import DataLoading
 from torch.utils.data import DataLoader,TensorDataset
+from torch.optim.lr_scheduler import StepLR
 import torch
 import pandas as pd
 import NN_classes
 import training_methods
 import time
 import numpy as np
+import argparse
+
+parser = argparse.ArgumentParser(description='Introducing main parameters...')
+parser.add_argument('--case',   type=str, default=None)
+args = parser.parse_args()
 
 sc = "sc01"
 period = "2030"
-case = "3-bus"
+default_case = "3-bus"
 
+if args.case is None:
+    case = default_case
+else:
+    case = args.case
+
+print(case)
 folder = f"../Data/{case}_DC_fy"
 
 all_executions = DataLoading.list_executions(folder=folder, per=period, sc=sc)
@@ -22,30 +34,33 @@ val_s = te_s/(1-te_s)
 outp = "SystemCosts"
 val_s_name = round(val_s,2)
 
-nb_hours_list = [24 * i for i in range(1,9,2)] + [24 * i for i in range(10,150,30)]
+nb_hours_list = [24 * i for i in range(1,9,2)] + [24 * i for i in range(28,175,7*4)]
 # nb_hours_list = [24 * i for i in range(1,2,2)]
 #nb_hours_list = [24 * i for i in range(1,3,2)]
 #exec_name = f"rand_days_and_hours_{case}_DC_{te_s}_v{val_s_name}_PF_{executions_start}_{executions_end}"
-
+nb_hours_list = [2016,2016]
 
 dfs_in_full, dfs_out_full, dfs_inter_full = DataLoading.load_data_ext_out(folder, executions, period, sc, ["PowerFlow"], outp)
 dfs_inter_j_full = DataLoading.join_frames_inter_layer(dfs_inter_full,all_executions)
 dfs_inter_j_full = DataLoading.trim_columns_to_common(dfs_inter_j_full)
-
-#Save the full datasets as pytorch tensors for informative loss calculation afterwards
-t_in_fy, t_out_fy, t_inter_fy, maxs = DataLoading.concat_all_exec_fy(dfs_in_full, dfs_out_full, dfs_inter_j_full,all_executions)
 results = pd.DataFrame()
 i = 0
 
-selection_methods = ["Days","Hours"]
+normalization = "min-max"
+#Save the full datasets as pytorch tensors for informative loss calculation afterwards
+t_in_fy, t_out_fy, t_inter_fy, maxs = DataLoading.concat_all_exec_fy(dfs_in_full, dfs_out_full, dfs_inter_j_full,all_executions,normalization=normalization)
+
+
+selection_methods = ["Days"]
 selection_sets = [(selection_method,nb_hours) for nb_hours in nb_hours_list for selection_method in selection_methods]
 selection_sets.append(("Weeks",24*7*12))
-selection_sets = [("Weeks",24*7*12)]
+# selection_sets = [("Days",24*10)]
+# selection_sets = [("Days",24*5)]
 
 print("Amount of nb_hours: ", len(nb_hours_list), nb_hours_list)
 for selection_set in selection_sets:
     selection_method,nb_hours = selection_set[0],selection_set[1]
-    exec_name = f"rand_{selection_method}_{case}_DC_{te_s}_v{val_s_name}_PF_{executions_start}_{executions_end}_extra"
+    exec_name = f"Decay_2016h_rand_{selection_method}_{case}_DC_{te_s}_v{val_s_name}_PF_{executions_start}_{executions_end}"
     folder_to_save = f"{exec_name}"
 
     # Select subset for the training process
@@ -63,7 +78,7 @@ for selection_set in selection_sets:
         indices = DataLoading.get_random_week_per_month_indices(df= dfs_out_full[executions[0]],hours_in_day=24, days_in_week=7)
         nb_hours_used = len(indices)
     else:
-        raise Error(f"Selection method {selection_method} not implemented")
+        raise Exception(f"Selection method {selection_method} not implemented")
     # print(indices)
     print(nb_hours_used, len(indices), selection_method)
     dfs_in, dfs_out, dfs_inter_j = DataLoading.return_selection(dfs_dict_list=[dfs_in_full, dfs_out_full, dfs_inter_j_full],
@@ -74,12 +89,13 @@ for selection_set in selection_sets:
     # Concat and normalize
     d_ft_in, d_ft_out, d_ft_inter, maxs_1 = DataLoading.concat_and_normalize_ext_out(ts_in, ts_out, ts_inter, executions,normalize= False)
     for setname in ["train","test","val"]:
-        d_ft_in[setname] = torch.nan_to_num(d_ft_in[setname]/maxs["in"])
-        d_ft_inter[setname] = torch.nan_to_num(d_ft_inter[setname]/maxs["inter"])
-        d_ft_out[setname] = torch.nan_to_num(d_ft_out[setname]/maxs["out"])
+        d_ft_in[setname] = torch.nan_to_num((d_ft_in[setname]-maxs["in_shift"])/maxs["in_scalar"])
+        d_ft_inter[setname] = torch.nan_to_num((d_ft_inter[setname]-maxs["inter_shift"])/maxs["inter_scalar"])
+        d_ft_out[setname] = torch.nan_to_num((d_ft_out[setname]-maxs["out_shift"])/maxs["out_scalar"])
     # print(d_ft_in["train"].shape)
     # print(d_ft_in["test"].shape)
     # print(d_ft_in["val"].shape)
+    #print("Normalized output tensor validation set has mean: ", d_ft_out[setname].mean())
 
 
     # Create TensorDatasets
@@ -88,26 +104,29 @@ for selection_set in selection_sets:
 
     # Perform the actual loop that checks multiple hyperparams
 
-    nbs_hidden = [(3,1)]  #
-    # nbs_hidden = [(0,0)]
+    #nbs_hidden = [(0,0),(3,1)]  #
+    nbs_hidden = [(3,1)]
 
-    dors = [0]
+    dors = [0,0.1]
     relu_outs = [False]
 
-    batch_sizes = [64]
+    batch_sizes = [128]
     # batch_sizes = [128]
 
-    learning_rates = [0.0025 * 2 ** i for i in range(-1, 1, 1)]
-    #learning_rates = [0.0025*2**i for i in range(0,1,1)]
+    #Learning rate combination of initial learning rate, and decay parameters
+    initials = [0.0025]
+    step_size = 32
+    gammas = [1,0.25]
+    learning_rates = [(initial,step_size,gamma) for initial in initials for gamma in gammas]
 
-    nbs_e = [128,256]
+    nbs_e = [128]
     #nbs_e = [64,128]
 
     #alphas = [0,1]
-    alphas = [0,1]
+    alphas = [0,0.2]
     beta = 1
 
-    MAEs = [False]
+    MAEs = [False,True]
 
 
     hp_sets = [(nb_h, dor, relu_out, bs, lr, nb_e, alpha, MAE) for nb_h in nbs_hidden for dor in dors for relu_out in
@@ -139,12 +158,15 @@ for selection_set in selection_sets:
 
         # Create model name for saving and loading
         m_name = f"OE_{nb_hours_used}hours_{nb_hidden}h_{nb_e}e_{lr}lr_{dor}dor_{relu_out}ro_{bs}bs_{alpha}ill_{MAE}MAE"
+
         # Create optimizer based on learning rate
-        optimizer = torch.optim.Adam(m.parameters(), lr=lr)
+        optimizer = torch.optim.Adam(m.parameters(), lr=lr[0])
+        scheduler = StepLR(optimizer, step_size=lr[1], gamma=lr[2])
+
         # Train the actual model
         t_start_train = time.perf_counter()
         train_loss_1 = training_methods.train_multiple_epochs(
-            nb_e, m, training_loader, validation_loader, loss_fn, optimizer, m_name,
+            nb_e, m, training_loader, validation_loader, loss_fn, optimizer,scheduler, m_name,
             folder_to_save, True)[0]
         t_stop_train = time.perf_counter()
 
@@ -201,11 +223,15 @@ for selection_set in selection_sets:
                               "Dor": dor,
                               "Relu_out": relu_out,
                               "Batch_size": bs,
-                              "Lr": lr,
+                              "Lr": [lr],
+                              "Lri": lr[0],
+                              "Lrs": lr[1],
+                              "Lrg": lr[2],
                               "Epochs": nb_e,
                               "Min_val": mt,
                               "Nb_hours_used":nb_hours_used,
                               "Sel_method" : selection_method,
+                              "Norm_method": normalization,
                               "Tr_l": train_loss.item(),
                               "Te_l": test_loss.item(),
                               "V_l": validation_loss.item(),

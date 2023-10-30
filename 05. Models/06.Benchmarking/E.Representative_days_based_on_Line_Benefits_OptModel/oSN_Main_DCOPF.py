@@ -135,7 +135,11 @@ def main(cmodel):
     pWrittingLPFile = 0
     model = solving_model( args.dir, args.case, args.solver, model, pWrittingLPFile)
     model = saving_results(args.dir, args.case, args.solver, model, model)
-    print('Elapsed time: {} seconds'.format(round(time.time() - initial_time), 2))
+    elapsed_time = round(time.time() - initial_time)
+    print('Elapsed time: {} seconds'.format(elapsed_time))
+    path_to_write_time = os.path.join(args.dir,args.case,"3.Out/ComputationTime.txt")
+    with open(path_to_write_time, 'w') as f:
+         f.write(str(elapsed_time))
 
 def data_processing(DirName, CaseName, model):
 

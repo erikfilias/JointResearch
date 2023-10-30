@@ -11,7 +11,7 @@ def list_executions_from_Starnet_results(folder, case):
     return executions
 
 def list_investments_candidates_from_execs(executions):
-    l = [execution.strip("PINTOOT")[1:] for execution in executions if (execution != "Network_Existing_Generation_Full" and execution != "Network_Full_Generation_Full" )]
+    l = [execution.strip("PINTOOT").strip("_Network_Line").strip("In_").strip("Out_") for execution in executions if (execution != "Network_Existing_Generation_Full" and execution != "Network_Full_Generation_Full" )]
     return np.unique(l)
 
 def list_executions(per,sc,folder):
@@ -146,7 +146,7 @@ def trim_columns_to_common(dfs_inter_j):
 #             execution] = train_test_split(train_in, train_out, test_size=validation_size, shuffle=False)
 #     return ts_in,ts_out
 
-def concat_all_exec_fy(dfs_in, dfs_out, dfs_inter_j,executions,normalize_out = True):
+def concat_all_exec_fy(dfs_in, dfs_out, dfs_inter_j,executions,normalize_out = True,normalization = "min-max"):
     first = True
     for execution in executions:
         np_in = dfs_in[execution].to_numpy()
@@ -171,20 +171,41 @@ def concat_all_exec_fy(dfs_in, dfs_out, dfs_inter_j,executions,normalize_out = T
             t_in_fy = torch.cat((t_in_fy,t_in))
             t_out_fy = torch.cat((t_out_fy, t_out))
             t_inter_fy = torch.cat((t_inter_fy,t_inter))
-    maxs = dict()
-    maxs["in"] = t_in_fy.abs().max(dim=0).values
-    maxs["inter"] = t_inter_fy.abs().max(dim=0).values
-    maxs["out"] = t_out_fy.abs().max(dim=0).values
 
-    t_in_fy = torch.nan_to_num(t_in_fy / maxs["in"])
-    t_inter_fy = torch.nan_to_num(t_inter_fy / maxs["inter"])
+    maxs = dict()
+
+    if normalization == "min-max":
+
+        maxs["in_scalar"] = t_in_fy.abs().max(dim=0).values
+        maxs["inter_scalar"] = t_inter_fy.abs().max(dim=0).values
+        maxs["out_scalar"] = t_out_fy.abs().max(dim=0).values
+
+        maxs["in_shift"] = 0
+        maxs["inter_shift"] = 0
+        maxs["out_shift"] = 0
+
+    elif normalization == "z-score":
+        maxs["in_shift"] = t_in_fy.mean(dim=0)
+        maxs["inter_shift"] = t_inter_fy.mean(dim=0)
+        maxs["out_shift"] = t_out_fy.abs().mean(dim=0)
+
+        maxs["in_scalar"] = t_in_fy.std(dim=0)
+        maxs["inter_scalar"] = t_inter_fy.std(dim=0)
+        maxs["out_scalar"] = t_out_fy.std(dim=0)
+    else:
+        print("What rescaling are u using?")
+
+
+    t_in_fy = torch.nan_to_num((t_in_fy - maxs["in_shift"])/maxs["in_scalar"])
+    t_inter_fy = torch.nan_to_num((t_inter_fy - maxs["inter_shift"])/maxs["inter_scalar"])
     if normalize_out:
-        t_out_fy = torch.nan_to_num(t_out_fy / maxs["out"])
+        t_out_fy = torch.nan_to_num((t_out_fy - maxs["out_shift"])/maxs["out_scalar"])
 
     if dfs_inter_j == None:
         return t_in_fy, t_out_fy, maxs
     else:
-        return t_in_fy,t_out_fy,t_inter_fy,maxs
+        return t_in_fy, t_out_fy, t_inter_fy, maxs
+
 
 def split_tr_val_te_ext_out(dfs_in, dfs_out, dfs_inter_j, executions, te_s, val_s,shuffle = True):
     ts_in = dict()
@@ -334,7 +355,7 @@ def split_tr_val_te_ext_out(dfs_in, dfs_out, dfs_inter_j, executions, te_s, val_
 #
 #     return d_ft_in,d_ft_out
 
-def concat_and_normalize_ext_out(ts_in, ts_out, ts_inter, executions,normalize=True):
+def concat_and_normalize_ext_out(ts_in, ts_out, ts_inter, executions,normalize=True,normalization = "min-max"):
     # concatenate all the training and testing sets to a single tensor, and normalize:
     first = True
     for execution in executions:
@@ -342,13 +363,12 @@ def concat_and_normalize_ext_out(ts_in, ts_out, ts_inter, executions,normalize=T
             tr_in = ts_in["train"][execution]
             tr_out = ts_out["train"][execution]
 
-
             te_in = ts_in["test"][execution]
             te_out = ts_out["test"][execution]
 
-
             val_in = ts_in["val"][execution]
             val_out = ts_out["val"][execution]
+
             if ts_inter!= None:
                 val_inter = ts_inter["val"][execution]
                 tr_inter = ts_inter["train"][execution]
@@ -371,20 +391,43 @@ def concat_and_normalize_ext_out(ts_in, ts_out, ts_inter, executions,normalize=T
 
 
     maxs = dict()
-    maxs["in"] = torch.cat((tr_in, te_in, val_in)).abs().max(dim=0).values
-    if ts_inter != None:
-        maxs["inter"] = torch.cat((tr_inter, te_inter, val_inter)).abs().max(dim=0).values
-    # maxs_te = te_in.abs().max(dim = 0).values
+    if normalization == "min-max":
+        maxs["in_scalar"] = torch.cat((tr_in, te_in, val_in)).abs().max(dim=0).values
+        maxs["out_scalar"] = torch.cat((tr_out, te_out, val_out)).abs().max(dim=0).values
+        if ts_inter != None:
+            maxs["inter_scalar"] = torch.cat((tr_inter, te_inter, val_inter)).abs().max(dim=0).values
 
-    if normalize:
-        tr_in = torch.nan_to_num(tr_in / maxs["in"])
-        te_in = torch.nan_to_num(te_in / maxs["in"])
-        val_in = torch.nan_to_num(val_in / maxs["in"])
+        maxs["in_shift"] = 0
+        maxs["inter_shift"] = 0
+        maxs["out_shift"] = 0
+    elif normalization == "z-score":
+        maxs["in_shift"] = torch.cat((tr_in, te_in, val_in)).mean(dim=0)
+        maxs["out_shift"] = torch.cat((tr_out, te_out, val_out)).abs().mean(dim=0)
+
+
+        maxs["in_scalar"] = torch.cat((tr_in, te_in, val_in)).std(dim=0)
+        maxs["out_scalar"] = torch.cat((tr_out, te_out, val_out)).std(dim=0)
         if ts_inter != None:
 
-            tr_inter = torch.nan_to_num(tr_inter / maxs["inter"])
-            te_inter = torch.nan_to_num(te_inter / maxs["inter"])
-            val_inter = torch.nan_to_num(val_inter / maxs["inter"])
+            maxs["inter_scalar"] = torch.cat((tr_inter, te_inter, val_inter)).std(dim=0)
+            maxs["inter_shift"] = torch.cat((tr_inter, te_inter, val_inter)).mean(dim=0)
+        # maxs_te = te_in.abs().max(dim = 0).values
+
+    if normalize:
+        print("Be careful, normalization has not been properly tested in this method")
+        tr_in = torch.nan_to_num((tr_in - maxs["in_shift"])/maxs["in_scalar"])
+        te_in = torch.nan_to_num((te_in - maxs["in_shift"])/maxs["in_scalar"])
+        val_in = torch.nan_to_num((val_in - maxs["in_shift"])/maxs["in_scalar"])
+
+        tr_out = torch.nan_to_num((tr_out - maxs["out_shift"])/maxs["out_scalar"])
+        te_out = torch.nan_to_num((te_out - maxs["out_shift"])/maxs["out_scalar"])
+        val_out = torch.nan_to_num((val_out - maxs["out_shift"])/maxs["out_scalar"])
+
+        if ts_inter != None:
+
+            tr_inter = torch.nan_to_num((tr_inter - maxs["inter_shift"])/maxs["inter_scalar"])
+            te_inter = torch.nan_to_num((te_inter - maxs["inter_shift"])/maxs["inter_scalar"])
+            val_inter = torch.nan_to_num((val_inter - maxs["inter_shift"])/maxs["inter_scalar"])
 
     d_ft_in = {"train": tr_in, "val": val_in, "test": te_in}
     d_ft_out = {"train": tr_out, "val": val_out, "test": te_out}
