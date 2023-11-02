@@ -15,6 +15,6 @@ directories = [os.path.basename(f.path) for f in os.scandir(path_to_scan) if f.i
 
 
 for case in directories:
-    command = f"python oSN_Main_v2.py --case {case}"
+    command = f"python oSN_Main_DCOPF.py --case {case}"
     print(command)
     os.system(command)
