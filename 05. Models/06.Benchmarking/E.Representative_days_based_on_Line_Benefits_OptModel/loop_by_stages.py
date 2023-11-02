@@ -1,8 +1,15 @@
 import os
+import argparse
 
+parser = argparse.ArgumentParser(description='Introducing main parameters...')
+parser.add_argument('--case',   type=str, default=None)
+
+args = parser.parse_args()
+
+case = args.case
 
 path_to_scan = os.path.dirname(__file__)
-filter = '3-bus_ByStages_nc'
+filter = f'{case}_ByStages'
 
 directories = [os.path.basename(f.path) for f in os.scandir(path_to_scan) if f.is_dir() and filter in os.path.basename(f.path)]
 
