@@ -101,7 +101,7 @@ parser.add_argument('--dir',    type=str, default=None)
 parser.add_argument('--solver', type=str, default=None)
 
 DIR    = os.path.dirname(__file__)
-default_CASE   = '9n'
+default_CASE   = '3-bus_ByStages'
 SOLVER = 'gurobi'
 
 # %% model declaration
