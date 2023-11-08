@@ -2,21 +2,19 @@
 
 
 #SBATCH --cluster="genius"
-#SBATCH --job-name="RTS24_NN_OC_fy_1"
+#SBATCH --job-name="RTS24_by_stages_loop_G"
 #SBATCH --nodes="1"
 #SBATCH --mail-user="kristof.phillips@kuleuven.be"
 #SBATCH --mail-type=BEGIN,END,FAIL
-#SBATCH --time="24:00:00"
+#SBATCH --time="36:00:00"
 #SBATCH --ntasks-per-node="36"
 #SBATCH --account="lp_elect_gen_modeling"
 #SBATCH --partition="batch"
       
 source activate Jr23
 echo "Activation OK"
-cd $VSC_DATA/JointResearch/05.Models/06.Benchmarking/G.Representative_days_based_on_Line_Benefit_NN_OC_fy_2
+cd $VSC_SCRATCH/JointResearch/05.Models/06.Benchmarking/G.Representative_days_based_on_Line_Benefit_NN_OC_fy_2
 
 echo "Starting runs"
 
-python oSN_Main_v2.py --case RTS24_ByStages 
-
-# cp RTS24/openS
+python loop_by_stages.py --case RTS24
