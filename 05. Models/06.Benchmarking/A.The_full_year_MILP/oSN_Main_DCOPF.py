@@ -1492,7 +1492,7 @@ def solving_model(DirName, CaseName, SolverName, optmodel, pWriteLP):
         # Solver.options['BarQCPConvTol' ] = 0.025
         Solver.options['MIPGap'        ] = 0.01
         Solver.options['Threads'       ] = int((psutil.cpu_count(logical=True) + psutil.cpu_count(logical=False))/2)
-        Solver.options['TimeLimit'     ] =   604800
+        Solver.options['TimeLimit'     ] =   259200
         Solver.options['IterationLimit'] = 760000000
     idx = 0
     for var in optmodel.component_data_objects(Var, active=False, descend_into=True):
