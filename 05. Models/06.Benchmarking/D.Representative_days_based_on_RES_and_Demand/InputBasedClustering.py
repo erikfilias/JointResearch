@@ -168,6 +168,8 @@ def KMedoidsMethod(OptClusters, Y_sklearn, _path_0, _path_1, CaseName_0, CaseNam
     return kmedoids_pca, dfDuration, dfStages, dict_Stages
 
 def ClusteringProcess(X,y, IndOptCluster, opt_cluster, _path_0, _path_1, CaseName_0, CaseName_1, table, data, cluster_type, procedure_type):
+    # Indicator save figure:
+    IndFigure = 0
     # Prints
     # print(X)
     # print(y)
@@ -211,62 +213,65 @@ def ClusteringProcess(X,y, IndOptCluster, opt_cluster, _path_0, _path_1, CaseNam
     var_exp = var_exp[:min_length]  # Truncate var_exp to the minimum length
     cum_var_exp = cum_var_exp[:min_length]  # Truncate cum_var_exp to the minimum length
 
-    # Proceed with the plot using the adjusted arrays
-    with plt.style.context('tableau-colorblind10'):
-        plt.figure(figsize=(6, 4))
-        plt.axvline(x=i, label='line at x = {}'.format(i), c='r')
-        plt.bar(range(min_length), var_exp, alpha=0.5, align='center', label='individual explained variance')
-        plt.step(range(min_length), cum_var_exp, where='mid', label='cumulative explained variance')
+    if IndFigure == 1:
+        # Proceed with the plot using the adjusted arrays
+        with plt.style.context('tableau-colorblind10'):
+            plt.figure(figsize=(6, 4))
+            plt.axvline(x=i, label='line at x = {}'.format(i), c='r')
+            plt.bar(range(min_length), var_exp, alpha=0.5, align='center', label='individual explained variance')
+            plt.step(range(min_length), cum_var_exp, where='mid', label='cumulative explained variance')
 
-        plt.ylabel('Explained variance ratio')
-        plt.xlabel('Principal components')
-        plt.legend(loc='best')
-        plt.tight_layout()
-        if procedure_type == 0:
-            plt.savefig(_path_1 + '/Fig1p.png', format='png', dpi=1200)
-        elif procedure_type == 1:
-            plt.savefig(_path_1 + '/Fig1n.png', format='png', dpi=1200)
-        elif procedure_type == 2:
-            plt.savefig(_path_1 + '/Fig1i.png', format='png', dpi=1200)
-        # plt.show()
+            plt.ylabel('Explained variance ratio')
+            plt.xlabel('Principal components')
+            plt.legend(loc='best')
+            plt.tight_layout()
+            if procedure_type == 0:
+                plt.savefig(_path_1 + '/Fig1p.png', format='png', dpi=1200)
+            elif procedure_type == 1:
+                plt.savefig(_path_1 + '/Fig1n.png', format='png', dpi=1200)
+            elif procedure_type == 2:
+                plt.savefig(_path_1 + '/Fig1i.png', format='png', dpi=1200)
+            # plt.show()
 
     labels = np.unique(y, axis=0)
 
     sklearn_pca = sklearnPCA(n_components=i)
     Y_sklearn = sklearn_pca.fit_transform(X_std)
 
-    ax = plt.axes(projection='3d')
-    with plt.style.context('tableau-colorblind10'):
-        for lab in labels:
-            zdata = Y_sklearn[y==lab, 2]
-            xdata = Y_sklearn[y==lab, 0]
-            ydata = Y_sklearn[y==lab, 1]
-            ax.scatter3D(xdata, ydata, zdata, c=zdata, label=lab, cmap='twilight');
-        ax.set_xlabel('Principal Component 1')
-        ax.set_ylabel('Principal Component 2')
-        ax.set_zlabel('Principal Component 3')
-        ax.legend(loc="best")
-        if procedure_type == 0:
-            plt.savefig(_path_1+'/Fig2p.png', format='png', dpi=1200)
-        elif procedure_type == 1:
-            plt.savefig(_path_1+'/Fig2n.png', format='png', dpi=1200)
-        elif procedure_type == 2:
-            plt.savefig(_path_1+'/Fig2i.png', format='png', dpi=1200)
-        # plt.show()
+    if IndFigure == 1:
+        ax = plt.axes(projection='3d')
+        with plt.style.context('tableau-colorblind10'):
+            for lab in labels:
+                zdata = Y_sklearn[y==lab, 2]
+                xdata = Y_sklearn[y==lab, 0]
+                ydata = Y_sklearn[y==lab, 1]
+                ax.scatter3D(xdata, ydata, zdata, c=zdata, label=lab, cmap='twilight');
+            ax.set_xlabel('Principal Component 1')
+            ax.set_ylabel('Principal Component 2')
+            ax.set_zlabel('Principal Component 3')
+            ax.legend(loc="best")
+            if procedure_type == 0:
+                plt.savefig(_path_1+'/Fig2p.png', format='png', dpi=1200)
+            elif procedure_type == 1:
+                plt.savefig(_path_1+'/Fig2n.png', format='png', dpi=1200)
+            elif procedure_type == 2:
+                plt.savefig(_path_1+'/Fig2i.png', format='png', dpi=1200)
+            # plt.show()
 
     # Variance of each component
     features = range(sklearn_pca.n_components_)
-    plt.bar(features, sklearn_pca.explained_variance_ratio_, color='black')
-    plt.xlabel('PCA features')
-    plt.ylabel('variance %')
-    plt.xticks(features)
-    if procedure_type == 0:
-        plt.savefig(_path_1+'/Fig3p.png', format='png', dpi=1200)
-    elif procedure_type == 1:
-        plt.savefig(_path_1+'/Fig3n.png', format='png', dpi=1200)
-    elif procedure_type == 2:
-        plt.savefig(_path_1+'/Fig3i.png', format='png', dpi=1200)
-    # plt.show()
+    if IndFigure == 1:
+        plt.bar(features, sklearn_pca.explained_variance_ratio_, color='black')
+        plt.xlabel('PCA features')
+        plt.ylabel('variance %')
+        plt.xticks(features)
+        if procedure_type == 0:
+            plt.savefig(_path_1+'/Fig3p.png', format='png', dpi=1200)
+        elif procedure_type == 1:
+            plt.savefig(_path_1+'/Fig3n.png', format='png', dpi=1200)
+        elif procedure_type == 2:
+            plt.savefig(_path_1+'/Fig3i.png', format='png', dpi=1200)
+        # plt.show()
 
     # Save components to a DataFrame
     PCA_components = pd.DataFrame(Y_sklearn)
@@ -283,18 +288,19 @@ def ClusteringProcess(X,y, IndOptCluster, opt_cluster, _path_0, _path_1, CaseNam
             
             # Append the inertia to the list of inertias
             inertias.append(model.inertia_)
-            
-        plt.plot(ks, inertias, '-o', color='black')
-        plt.xlabel('number of clusters, k')
-        plt.ylabel('inertia')
-        plt.xticks(ks)
-        if procedure_type == 0:
-            plt.savefig(_path_1+'/Fig4p.png', format='png', dpi=1200)
-        elif procedure_type == 1:
-            plt.savefig(_path_1+'/Fig4n.png', format='png', dpi=1200)
-        elif procedure_type == 2:
-            plt.savefig(_path_1+'/Fig4i.png', format='png', dpi=1200)
-        # plt.show()
+
+        if IndFigure == 1:
+            plt.plot(ks, inertias, '-o', color='black')
+            plt.xlabel('number of clusters, k')
+            plt.ylabel('inertia')
+            plt.xticks(ks)
+            if procedure_type == 0:
+                plt.savefig(_path_1+'/Fig4p.png', format='png', dpi=1200)
+            elif procedure_type == 1:
+                plt.savefig(_path_1+'/Fig4n.png', format='png', dpi=1200)
+            elif procedure_type == 2:
+                plt.savefig(_path_1+'/Fig4i.png', format='png', dpi=1200)
+            # plt.show()
 
         opt_cluster = 0
         for k in range(len(inertias)-1):
@@ -305,24 +311,25 @@ def ClusteringProcess(X,y, IndOptCluster, opt_cluster, _path_0, _path_1, CaseNam
                 break
         print("Optimal number of clusters: ", opt_cluster)
 
-        with plt.style.context('tableau-colorblind10'):
-            plt.figure(figsize=(6, 4))
-            plt.axvline(x=opt_cluster, label='Optimal number of clusters at k = {}'.format(opt_cluster), c='r')
-            # plt.bar(range(len(table.columns)-1), var_exp, alpha=0.5, align='center',
-                    # label='individual explained variance')
-            plt.step(range(len(inertias)), inertias, where='mid',
-                     label='cumulative inertia')
-            
-            plt.ylabel('Inertia')
-            plt.xlabel('Number of clusters, k')
-            plt.legend(loc='best')
-            plt.tight_layout()
-        if procedure_type == 0:
-            plt.savefig(_path_1+'/Fig5p.png', format='png', dpi=1200)
-        elif procedure_type == 1:
-            plt.savefig(_path_1+'/Fig5n.png', format='png', dpi=1200)
-        elif procedure_type == 2:
-            plt.savefig(_path_1+'/Fig5i.png', format='png', dpi=1200)
+        if IndFigure == 1:
+            with plt.style.context('tableau-colorblind10'):
+                plt.figure(figsize=(6, 4))
+                plt.axvline(x=opt_cluster, label='Optimal number of clusters at k = {}'.format(opt_cluster), c='r')
+                # plt.bar(range(len(table.columns)-1), var_exp, alpha=0.5, align='center',
+                        # label='individual explained variance')
+                plt.step(range(len(inertias)), inertias, where='mid',
+                         label='cumulative inertia')
+
+                plt.ylabel('Inertia')
+                plt.xlabel('Number of clusters, k')
+                plt.legend(loc='best')
+                plt.tight_layout()
+            if procedure_type == 0:
+                plt.savefig(_path_1+'/Fig5p.png', format='png', dpi=1200)
+            elif procedure_type == 1:
+                plt.savefig(_path_1+'/Fig5n.png', format='png', dpi=1200)
+            elif procedure_type == 2:
+                plt.savefig(_path_1+'/Fig5i.png', format='png', dpi=1200)
     
     #%% Clustering method
     print("Clustering" + CaseName_1 + "..." + str(procedure_type))
@@ -339,11 +346,11 @@ def ClusteringProcess(X,y, IndOptCluster, opt_cluster, _path_0, _path_1, CaseNam
 
 #%% Setting up the path a cases
 # Optimal number of clusters indicator
-IndOptCluster = 1
+IndOptCluster = 0
 
 DirName  = os.getcwd()
 
-opt_cluster = 1000
+opt_cluster = 40
 
 CaseName_Base     = '3-bus'
 
