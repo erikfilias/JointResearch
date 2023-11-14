@@ -346,13 +346,13 @@ def ClusteringProcess(X,y, IndOptCluster, opt_cluster, _path_0, _path_1, CaseNam
 
 #%% Setting up the path a cases
 # Optimal number of clusters indicator
-IndOptCluster = 1
+IndOptCluster = 0
 
 DirName  = os.getcwd()
 
-opt_cluster = 3000
+opt_cluster = 4000
 
-CaseName_Base     = '3-bus'
+CaseName_Base     = '9n'
 
 if IndOptCluster == 1:
     CaseName_ByStages = CaseName_Base+'_ByStages'
