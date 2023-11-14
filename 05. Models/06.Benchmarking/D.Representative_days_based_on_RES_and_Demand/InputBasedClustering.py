@@ -350,7 +350,7 @@ IndOptCluster = 0
 
 DirName  = os.getcwd()
 
-opt_cluster = 40
+opt_cluster = 4000
 
 CaseName_Base     = '3-bus'
 
