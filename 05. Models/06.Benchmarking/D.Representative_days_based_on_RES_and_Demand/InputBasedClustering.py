@@ -339,7 +339,7 @@ def ClusteringProcess(X,y, IndOptCluster, opt_cluster, _path_0, _path_1, CaseNam
 
 #%% Setting up the path a cases
 # Optimal number of clusters indicator
-IndOptCluster = 0
+IndOptCluster = 1
 
 DirName  = os.getcwd()
 
@@ -474,6 +474,10 @@ if IndOptCluster == 0:
     opt_cluster_irrelevant = math.ceil(opt_cluster*len(table_irrelevant)/len(table))
     print('opt_cluster_irrelevant', opt_cluster_irrelevant)
     print('sum of clusters', opt_cluster_positive + opt_cluster_negative + opt_cluster_irrelevant)
+else:
+    opt_cluster_positive = opt_cluster
+    opt_cluster_negative = opt_cluster
+    opt_cluster_irrelevant = opt_cluster
 
 
 X_positive = table_positive.iloc[:,1:len(table_positive.columns)+1].values
