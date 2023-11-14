@@ -53,7 +53,7 @@ t_in_fy, t_out_fy, t_inter_fy, maxs = DataLoading.concat_all_exec_fy(dfs_in_full
 
 selection_methods = ["Days"]
 selection_sets = [(selection_method,nb_hours) for nb_hours in nb_hours_list for selection_method in selection_methods]
-selection_sets.append(("Weeks",24*7*12))
+#selection_sets.append(("Weeks",24*7*12))
 # selection_sets = [("Days",24*10)]
 # selection_sets = [("Days",24*5)]
 
@@ -123,7 +123,7 @@ for selection_set in selection_sets:
     #nbs_e = [64,128]
 
     #alphas = [0,1]
-    alphas = [0,0.2]
+    alphas = [0,0.1,0.2]
     beta = 1
 
     MAEs = [False,True]
@@ -147,14 +147,11 @@ for selection_set in selection_sets:
         loss_mae = torch.nn.L1Loss()
 
         #Create hidden sizes vector
-        if case == "RTS24" and nb_hidden == (3,1):
-            hs = [60,60,60,38,19]
-        else:
-            hs = None
+
 
         # Create model based on hyperparameter set
         m = NN_classes.create_model(nb_hidden, d_ft_in['train'].shape[1], dropout_ratio=dor, relu_out=relu_out, inter=True,
-                                    inter_size=dfs_inter_j["Network_Existing_Generation_Full"].shape[1],hidden_sizes = hs)
+                                    inter_size=dfs_inter_j["Network_Existing_Generation_Full"].shape[1],hidden_sizes = None)
 
         # Create model name for saving and loading
         m_name = f"OE_{nb_hours_used}hours_{nb_hidden}h_{nb_e}e_{lr}lr_{dor}dor_{relu_out}ro_{bs}bs_{alpha}ill_{MAE}MAE"
