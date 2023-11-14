@@ -345,7 +345,7 @@ DirName  = os.getcwd()
 
 opt_cluster = 1000
 
-CaseName_Base     = '9n'
+CaseName_Base     = '3-bus'
 
 if IndOptCluster == 1:
     CaseName_ByStages = CaseName_Base+'_ByStages'
@@ -479,30 +479,88 @@ else:
     opt_cluster_negative = opt_cluster
     opt_cluster_irrelevant = opt_cluster
 
+if len(table_positive):
+    X_positive = table_positive.iloc[:,1:len(table_positive.columns)+1].values
+    y_positive = table_positive.iloc[:,0].values
+    results_positive, dfDuration_positive, dfStages_positive, dictStages_positive = ClusteringProcess(X_positive, y_positive, IndOptCluster, opt_cluster_positive, _path_0, _path_1, CaseName_Base, CaseName_ByStages, table_positive, ddf_1, clustering_type, 0)
+if len(table_negative):
+    X_negative = table_negative.iloc[:,1:len(table_negative.columns)+1].values
+    y_negative = table_negative.iloc[:,0].values
+    results_negative, dfDuration_negative, dfStages_negative, dictStages_negative = ClusteringProcess(X_negative, y_negative, IndOptCluster, opt_cluster_negative, _path_0, _path_1, CaseName_Base, CaseName_ByStages, table_negative, ddf_1, clustering_type, 1)
 
-X_positive = table_positive.iloc[:,1:len(table_positive.columns)+1].values
-y_positive = table_positive.iloc[:,0].values
-results_positive, dfDuration_positive, dfStages_positive, dictStages_positive = ClusteringProcess(X_positive, y_positive, IndOptCluster, opt_cluster_positive, _path_0, _path_1, CaseName_Base, CaseName_ByStages, table_positive, ddf_1, clustering_type, 0)
-
-X_negative = table_negative.iloc[:,1:len(table_negative.columns)+1].values
-y_negative = table_negative.iloc[:,0].values
-results_negative, dfDuration_negative, dfStages_negative, dictStages_negative = ClusteringProcess(X_negative, y_negative, IndOptCluster, opt_cluster_negative, _path_0, _path_1, CaseName_Base, CaseName_ByStages, table_negative, ddf_1, clustering_type, 1)
-
-X_irrelevant = table_irrelevant.iloc[:,1:len(table_irrelevant.columns)+1].values
-y_irrelevant = table_irrelevant.iloc[:,0].values
-results_irrelevant, dfDuration_irrelevant, dfStages_irrelevant, dictStages_irrelevant = ClusteringProcess(X_irrelevant, y_irrelevant, IndOptCluster, opt_cluster_irrelevant, _path_0, _path_1, CaseName_Base, CaseName_ByStages, table_irrelevant, ddf_1, clustering_type, 2)
+if len(table_irrelevant):
+    X_irrelevant = table_irrelevant.iloc[:,1:len(table_irrelevant.columns)+1].values
+    y_irrelevant = table_irrelevant.iloc[:,0].values
+    results_irrelevant, dfDuration_irrelevant, dfStages_irrelevant, dictStages_irrelevant = ClusteringProcess(X_irrelevant, y_irrelevant, IndOptCluster, opt_cluster_irrelevant, _path_0, _path_1, CaseName_Base, CaseName_ByStages, table_irrelevant, ddf_1, clustering_type, 2)
 
 # Merging and ordering the dfDuration dataframes
-dfDuration = pd.concat([dfDuration_positive, dfDuration_negative, dfDuration_irrelevant])
-dfDuration = dfDuration.sort_values(by=['LoadLevel', 'Stage'])
+if len(table_positive) and len(table_negative) and len(table_irrelevant):
+    dfDuration = pd.concat([dfDuration_positive, dfDuration_negative, dfDuration_irrelevant])
+    dfDuration = dfDuration.sort_values(by=['LoadLevel', 'Stage'])
+elif len(table_positive) and len(table_negative):
+    dfDuration = pd.concat([dfDuration_positive, dfDuration_negative])
+    dfDuration = dfDuration.sort_values(by=['LoadLevel', 'Stage'])
+elif len(table_positive) and len(table_irrelevant):
+    dfDuration = pd.concat([dfDuration_positive, dfDuration_irrelevant])
+    dfDuration = dfDuration.sort_values(by=['LoadLevel', 'Stage'])
+elif len(table_negative) and len(table_irrelevant):
+    dfDuration = pd.concat([dfDuration_negative, dfDuration_irrelevant])
+    dfDuration = dfDuration.sort_values(by=['LoadLevel', 'Stage'])
+elif len(table_positive):
+    dfDuration = dfDuration_positive
+    dfDuration = dfDuration.sort_values(by=['LoadLevel', 'Stage'])
+elif len(table_negative):
+    dfDuration = dfDuration_negative
+    dfDuration = dfDuration.sort_values(by=['LoadLevel', 'Stage'])
+elif len(table_irrelevant):
+    dfDuration = dfDuration_irrelevant
+    dfDuration = dfDuration.sort_values(by=['LoadLevel', 'Stage'])
 
 # Merging and ordering the dfStages dataframes
-dfStages = pd.concat([dfStages_positive, dfStages_negative, dfStages_irrelevant])
-dfStages = dfStages.sort_index()
+if len(table_positive) and len(table_negative) and len(table_irrelevant):
+    dfStages = pd.concat([dfStages_positive, dfStages_negative, dfStages_irrelevant])
+    dfStages = dfStages.sort_index()
+elif len(table_positive) and len(table_negative):
+    dfStages = pd.concat([dfStages_positive, dfStages_negative])
+    dfStages = dfStages.sort_index()
+elif len(table_positive) and len(table_irrelevant):
+    dfStages = pd.concat([dfStages_positive, dfStages_irrelevant])
+    dfStages = dfStages.sort_index()
+elif len(table_negative) and len(table_irrelevant):
+    dfStages = pd.concat([dfStages_negative, dfStages_irrelevant])
+    dfStages = dfStages.sort_index()
+elif len(table_positive):
+    dfStages = dfStages_positive
+    dfStages = dfStages.sort_index()
+elif len(table_negative):
+    dfStages = dfStages_negative
+    dfStages = dfStages.sort_index()
+elif len(table_irrelevant):
+    dfStages = dfStages_irrelevant
+    dfStages = dfStages.sort_index()
 
 # Merge the dict_Stages dataframes
-dict_Stages = pd.concat([dictStages_positive, dictStages_negative, dictStages_irrelevant])
-dict_Stages = dict_Stages.sort_index()
+if len(table_positive) and len(table_negative) and len(table_irrelevant):
+    dict_Stages = pd.concat([dictStages_positive, dictStages_negative, dictStages_irrelevant])
+    dict_Stages = dict_Stages.sort_index()
+elif len(table_positive) and len(table_negative):
+    dict_Stages = pd.concat([dictStages_positive, dictStages_negative])
+    dict_Stages = dict_Stages.sort_index()
+elif len(table_positive) and len(table_irrelevant):
+    dict_Stages = pd.concat([dictStages_positive, dictStages_irrelevant])
+    dict_Stages = dict_Stages.sort_index()
+elif len(table_negative) and len(table_irrelevant):
+    dict_Stages = pd.concat([dictStages_negative, dictStages_irrelevant])
+    dict_Stages = dict_Stages.sort_index()
+elif len(table_positive):
+    dict_Stages = dictStages_positive
+    dict_Stages = dict_Stages.sort_index()
+elif len(table_negative):
+    dict_Stages = dictStages_negative
+    dict_Stages = dict_Stages.sort_index()
+elif len(table_irrelevant):
+    dict_Stages = dictStages_irrelevant
+    dict_Stages = dict_Stages.sort_index()
 
 # %%
 # Saving the DataFrames in CSV files
