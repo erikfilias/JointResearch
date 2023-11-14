@@ -272,7 +272,7 @@ def ClusteringProcess(X,y, IndOptCluster, opt_cluster, _path_0, _path_1, CaseNam
     PCA_components = pd.DataFrame(Y_sklearn)
 
     if IndOptCluster == 1:
-        ks = range(1, max_cluster)
+        ks = range(1, min(max_cluster,len(PCA_components.index)))
         inertias = []
         for k in ks:
             # Create a KMeans instance with k clusters: model
@@ -294,7 +294,7 @@ def ClusteringProcess(X,y, IndOptCluster, opt_cluster, _path_0, _path_1, CaseNam
             plt.savefig(_path_1+'/Fig4n.png', format='png', dpi=1200)
         elif procedure_type == 2:
             plt.savefig(_path_1+'/Fig4i.png', format='png', dpi=1200)
-        plt.show()
+        # plt.show()
 
         opt_cluster = 0
         for k in range(len(inertias)-1):
@@ -345,7 +345,7 @@ DirName  = os.getcwd()
 
 opt_cluster = 1000
 
-CaseName_Base     = 'RTS24_mod1'
+CaseName_Base     = '9n'
 
 if IndOptCluster == 1:
     CaseName_ByStages = CaseName_Base+'_ByStages'
