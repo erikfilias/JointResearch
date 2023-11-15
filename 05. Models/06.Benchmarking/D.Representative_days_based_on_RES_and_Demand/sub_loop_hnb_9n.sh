@@ -2,7 +2,7 @@
 
 
 #SBATCH --cluster="genius"
-#SBATCH --job-name="RTS24_by_stages_loop_E"
+#SBATCH --job-name="9n_by_stages_loop_D_hnb"
 #SBATCH --nodes="1"
 #SBATCH --mail-user="kristof.phillips@kuleuven.be"
 #SBATCH --mail-type=BEGIN,END,FAIL
@@ -13,8 +13,8 @@
       
 source activate Jr23
 echo "Activation OK"
-cd $VSC_SCRATCH/JointResearch/05.Models/06.Benchmarking/E.Representative_days_based_on_Line_Benefits_OptModel
+cd $VSC_SCRATCH/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand
 
 echo "Starting runs"
 
-python loop_by_stages.py --case RTS24
+python loop_by_stages.py --case 9n --highnb True
