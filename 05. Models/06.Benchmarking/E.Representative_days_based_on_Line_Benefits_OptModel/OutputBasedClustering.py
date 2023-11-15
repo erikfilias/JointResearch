@@ -1,4 +1,5 @@
 # libraries
+import argparse
 import os
 import time
 import math
@@ -342,17 +343,39 @@ def ClusteringProcess(X,y, IndOptCluster, opt_cluster, _path_0, _path_1, CaseNam
     return results, dfDuration, dfStages, dict_Stages
 
 
-
+parser = argparse.ArgumentParser(description='Introducing main parameters...')
+parser.add_argument('--case',   type=str, default=None)
+parser.add_argument('--dir',    type=str, default=None)
+parser.add_argument('--inc',   type=str, default=None)
 
 #%% Setting up the path a cases
 # Optimal number of clusters indicator
 IndOptCluster = 0
 
 DirName  = os.getcwd()
+CaseName_Base     = '3-bus'
+opt_cluster = 10
 
-opt_cluster = 80
 
-CaseName_Base     = '9n'
+args = parser.parse_args()
+args.dir = DirName
+if args.case is None:
+    args.case = input('Input Case   Name (Default {}): '.format(CaseName_Base))
+    if args.case == '':
+        args.case = CaseName_Base
+if args.inc is None:
+    args.inc = input('Input number of clusters (Default {}): '.format(IndOptCluster))
+    if args.inc == '':
+        args.inc = IndOptCluster
+print(args.case)
+print(args.inc)
+
+if args.inc == 0:
+    IndOptCluster = 0
+else:
+    IndOptCluster = 1
+
+print(IndOptCluster)
 
 if IndOptCluster == 1:
     CaseName_ByStages = CaseName_Base+'_ByStages'
