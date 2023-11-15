@@ -28,4 +28,4 @@ print(directories)
 for case in directories:
     command = f"python oSN_Main_DCOPF.py --case {case}"
     print(command)
-    # os.system(command)
+    os.system(command)
