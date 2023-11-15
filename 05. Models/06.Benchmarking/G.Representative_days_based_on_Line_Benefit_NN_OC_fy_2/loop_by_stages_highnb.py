@@ -12,7 +12,7 @@ path_to_scan = os.path.dirname(__file__)
 filter = f'{case}_ByStages'
 filter_not = f"000"
 
-directories = [os.path.basename(f.path) for f in os.scandir(path_to_scan) if f.is_dir() and filter and not(filter_not) in os.path.basename(f.path)]
+directories = [os.path.basename(f.path) for f in os.scandir(path_to_scan) if f.is_dir() and filter and filter_not in os.path.basename(f.path)]
 
 
 for case in directories:
