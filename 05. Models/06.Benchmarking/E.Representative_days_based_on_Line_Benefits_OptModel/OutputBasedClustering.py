@@ -116,7 +116,7 @@ def KMedoidsMethod(OptClusters, Y_sklearn, _path_0, _path_1, CaseName_0, CaseNam
         if i < 4:
             data.loc[i, 'HourOfYear'] = 0
         else:
-            data.loc[i, 'HourOfYear'] = int(i/4)
+            data.loc[i, 'HourOfYear'] = int(i/len(df['Variable'].unique()))
     if cluster_type == 'hourly':
         dfHourToStage = pd.DataFrame(idx, columns=['Hour'])
         dfHourToStage = dfHourToStage.copy()
