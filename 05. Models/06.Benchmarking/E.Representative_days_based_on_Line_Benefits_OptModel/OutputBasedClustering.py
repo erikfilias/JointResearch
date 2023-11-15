@@ -350,7 +350,7 @@ IndOptCluster = 0
 
 DirName  = os.getcwd()
 
-opt_cluster = 4000
+opt_cluster = 80
 
 CaseName_Base     = '9n'
 
