@@ -369,7 +369,7 @@ if args.inc is None:
     if args.inc == '':
         args.inc = 'Yes'
 if args.nc is None:
-    args.nc = input('Input number of clusters (Default {}): '.format(IndOptCluster))
+    args.nc = input('Input number of clusters (Default {}): ', IndOptCluster)
     if args.nc == '':
         args.nc = IndOptCluster
 print(args.case)
@@ -385,8 +385,8 @@ print(IndOptCluster)
 if IndOptCluster == 1:
     CaseName_ByStages = CaseName_Base+'_ByStages'
 elif IndOptCluster == 0:
-    CaseName_ByStages = CaseName_Base+'_ByStages_nc'+str(opt_cluster)
     opt_cluster = args.nc
+    CaseName_ByStages = CaseName_Base+'_ByStages_nc'+str(opt_cluster)
 
 CSV_name =  'oT_LineBenefit_Data_' + CaseName_Base
 
