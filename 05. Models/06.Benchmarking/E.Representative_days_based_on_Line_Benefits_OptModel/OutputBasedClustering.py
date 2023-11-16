@@ -344,6 +344,7 @@ def ClusteringProcess(X,y, IndOptCluster, opt_cluster, _path_0, _path_1, CaseNam
 
 
 parser = argparse.ArgumentParser(description='Introducing main parameters...')
+parser.add_argument('--cn',   type=str, default=None)
 parser.add_argument('--case',   type=str, default=None)
 parser.add_argument('--dir',    type=str, default=None)
 parser.add_argument('--inc',   type=str, default=None)
@@ -360,6 +361,10 @@ opt_cluster = 10
 
 args = parser.parse_args()
 args.dir = DirName
+if args.cn is None:
+    args.cn = input('Input Case   Name (Default {}): '.format(CaseName_Base))
+    if args.cn == '':
+        args.cn = CaseName_Base
 if args.case is None:
     args.case = input('Input Case   Name (Default {}): '.format(CaseName_Base))
     if args.case == '':
@@ -382,7 +387,7 @@ elif args.inc == 'Yes':
 
 print(IndOptCluster)
 
-CaseName_Base = args.case
+CaseName_Base = args.cn
 
 if IndOptCluster == 1:
     CaseName_ByStages = CaseName_Base+'_ByStages'
