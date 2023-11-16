@@ -382,6 +382,8 @@ elif args.inc == 'Yes':
 
 print(IndOptCluster)
 
+CaseName_Base = args.case
+
 if IndOptCluster == 1:
     CaseName_ByStages = CaseName_Base+'_ByStages'
 elif IndOptCluster == 0:
