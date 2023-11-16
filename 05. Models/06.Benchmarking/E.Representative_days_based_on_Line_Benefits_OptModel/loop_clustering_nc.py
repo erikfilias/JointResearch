@@ -15,7 +15,7 @@ for case in directories:
         print(command)
         os.system(command)
     else:
-        ncluster = int(case[len(filter) + 3:len(case) - 1])
+        ncluster = int(case[len(filter) + 3:len(case)])
         command = f"python OutputBasedClustering.py --case {case} --inc {'No'} --nc {ncluster}"
         print(command)
         os.system(command)
