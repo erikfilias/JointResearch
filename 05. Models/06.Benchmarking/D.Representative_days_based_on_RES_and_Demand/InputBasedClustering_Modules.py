@@ -188,7 +188,7 @@ def ClusteringProcess(X,y, IndOptCluster, opt_cluster, _path_0, _path_1, CaseNam
     eig_pairs.sort(key=lambda x: x[0], reverse=True)
 
     # Visually confirm that the list is correctly sorted by decreasing eigenvalues
-    print('Eigenvalues in descending order:')
+    # print('Eigenvalues in descending order:')
     # for i in eig_pairs:
     #     print(i[0])
 
@@ -204,7 +204,7 @@ def ClusteringProcess(X,y, IndOptCluster, opt_cluster, _path_0, _path_1, CaseNam
         # print(cum, i)
         i += 1
 
-    print(plt.style.available)
+    # print(plt.style.available)
     # Check the lengths of the arrays
     # print(len(var_exp), len(cum_var_exp))
 
@@ -344,14 +344,6 @@ def ClusteringProcess(X,y, IndOptCluster, opt_cluster, _path_0, _path_1, CaseNam
 
 def main(IndOptCluster, DirName, opt_cluster, CaseName_Base):
     #%% Setting up the path a cases
-    # Optimal number of clusters indicator
-    # IndOptCluster = 0
-    #
-    # DirName  = os.getcwd()
-    #
-    # opt_cluster = 4000
-    #
-    # CaseName_Base     = 'RTS24'
 
     if IndOptCluster == 1:
         CaseName_ByStages = CaseName_Base+'_ByStages'
@@ -362,8 +354,6 @@ def main(IndOptCluster, DirName, opt_cluster, CaseName_Base):
 
     _path_0 = os.path.join(DirName, CaseName_Base)
     _path_1 = os.path.join(DirName, CaseName_ByStages)
-
-    # StartTime = time.time()
 
     #%% Selecting the maximum number of cluster to plot
     max_cluster = 300
@@ -572,4 +562,4 @@ def main(IndOptCluster, DirName, opt_cluster, CaseName_Base):
     dfStages.to_csv(os.path.join(_path_1, '2.Par', 'oT_Data_Stage_' + CaseName_ByStages + '.csv'), sep=',')
     dict_Stages.to_csv(os.path.join(_path_1, '1.Set', 'oT_Dict_Stage_' + CaseName_ByStages + '.csv'), sep=',', index=False)
 
-    print('End of the process...')
+    print('End of the process for ' + CaseName_ByStages + '...')

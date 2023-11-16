@@ -33,12 +33,11 @@ StartTime = time.time()
 print('The time for defining the cases is ' + str(CasesTime) + ' seconds')
 
 for i in RangeClusters:
+    print('Clustering of case ' + CaseName_Base + '_ByStages_nc' + str(i) + ' is starting')
     ibc.main(0, DirName, i, CaseName_Base)
-
-
-SavingFilesTime = time.time() - StartTime
-StartTime = time.time()
-print('The time for saving the files is ' + str(SavingFilesTime) + ' seconds')
+    ClusteringTime = time.time() - StartTime
+    StartTime = time.time()
+    print('The time for clustering the case ' + CaseName_Base + '_ByStages_nc' + str(i) + ' is ' + str(ClusteringTime) + ' seconds')
 
 elapsed_time = round(time.time() - InitialTime)
 print('Elapsed time: {} seconds'.format(elapsed_time))
