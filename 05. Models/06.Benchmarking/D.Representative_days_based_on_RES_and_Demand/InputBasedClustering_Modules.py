@@ -562,4 +562,6 @@ def main(IndOptCluster, DirName, opt_cluster, CaseName_Base):
     dfStages.to_csv(os.path.join(_path_1, '2.Par', 'oT_Data_Stage_' + CaseName_ByStages + '.csv'), sep=',')
     dict_Stages.to_csv(os.path.join(_path_1, '1.Set', 'oT_Dict_Stage_' + CaseName_ByStages + '.csv'), sep=',', index=False)
 
+    print('Number of representative stages: ' + str(dfDuration['Duration'].sum()))
+
     print('End of the process for ' + CaseName_ByStages + '...')
