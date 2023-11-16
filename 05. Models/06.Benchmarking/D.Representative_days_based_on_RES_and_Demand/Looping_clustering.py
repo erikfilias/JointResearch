@@ -11,7 +11,7 @@ CaseName_Base = 'IEEE118'
 
 # Defining the case CaseName_ByStages plus the CaseName_ByStages_nc#
 CasesToPaste = []
-CasesToPaste.append(CaseName_Base + '_ByStages')
+# CasesToPaste.append(CaseName_Base + '_ByStages')
 
 RangeClusters = [i for i in range(10, 501, 10)] + [1000, 2000, 4000]
 
