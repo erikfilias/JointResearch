@@ -14,7 +14,7 @@ path_to_scan = os.path.dirname(__file__)
 filter = f'{case}_ByStages'
 filter_high_nb = f"000"
 
-if highnb:
+if highnb == "True":
     directories = [os.path.basename(f.path) for f in os.scandir(path_to_scan) if
                    f.is_dir() and filter in os.path.basename(f.path) and (
                                filter_high_nb in os.path.basename(f.path))]
@@ -22,7 +22,7 @@ else:
     directories = [os.path.basename(f.path) for f in os.scandir(path_to_scan) if
                    f.is_dir() and filter in os.path.basename(f.path) and not (
                                filter_high_nb in os.path.basename(f.path))]
-
+directories.sort()
 print(directories)
 
 for case in directories:
