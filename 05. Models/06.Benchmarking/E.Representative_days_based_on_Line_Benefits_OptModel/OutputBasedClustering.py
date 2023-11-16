@@ -347,6 +347,7 @@ parser = argparse.ArgumentParser(description='Introducing main parameters...')
 parser.add_argument('--case',   type=str, default=None)
 parser.add_argument('--dir',    type=str, default=None)
 parser.add_argument('--inc',   type=str, default=None)
+parser.add_argument('--nc',   type=int, default=None)
 
 #%% Setting up the path a cases
 # Optimal number of clusters indicator
@@ -364,15 +365,19 @@ if args.case is None:
     if args.case == '':
         args.case = CaseName_Base
 if args.inc is None:
-    args.inc = input('Input number of clusters (Default {}): '.format(IndOptCluster))
+    args.inc = input('Input indicator of opt clusters (Default {}): '.format('Yes'))
     if args.inc == '':
-        args.inc = IndOptCluster
+        args.inc = 'Yes'
+if args.nc is None:
+    args.nc = input('Input number of clusters (Default {}): ', IndOptCluster)
+    if args.nc == '':
+        args.nc = IndOptCluster
 print(args.case)
 print(args.inc)
 
-if args.inc == 0:
+if args.inc == 'No':
     IndOptCluster = 0
-else:
+elif args.inc == 'Yes':
     IndOptCluster = 1
 
 print(IndOptCluster)
@@ -380,6 +385,7 @@ print(IndOptCluster)
 if IndOptCluster == 1:
     CaseName_ByStages = CaseName_Base+'_ByStages'
 elif IndOptCluster == 0:
+    opt_cluster = args.nc
     CaseName_ByStages = CaseName_Base+'_ByStages_nc'+str(opt_cluster)
 
 CSV_name =  'oT_LineBenefit_Data_' + CaseName_Base

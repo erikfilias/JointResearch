@@ -11,10 +11,11 @@ print(directories)
 
 for case in directories:
     if case == CaseName+'_ByStages':
-        command = f"python OutputBasedClustering.py --case {case} --inc {1}"
+        command = f"python OutputBasedClustering.py --case {case} --inc {'Yes'} --nc {20}"
         print(command)
         os.system(command)
     else:
-        command = f"python OutputBasedClustering.py --case {case} --inc {0}"
+        ncluster = int(case[len(filter) + 3:len(case)])
+        command = f"python OutputBasedClustering.py --case {case} --inc {'No'} --nc {ncluster}"
         print(command)
         os.system(command)
