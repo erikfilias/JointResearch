@@ -75,8 +75,8 @@ for folder in FoldersToPaste:
             dict_Set[file].to_csv(os.path.join(DirName, folder, case, '1.Set', file.split('_', 3)[0]+'_'+file.split('_', 3)[1]+'_'+file.split('_', 3)[2]+'_'+case+'.csv'), index=False)
         for file in dict_Par:
             print('Copying and pasting the file ' + file + ' from ' + CaseName_Base + ' to ' + case + ' in ' + folder)
-            dict_Set[file].fillna("", inplace=True)
-            dict_Set[file].to_csv(os.path.join(DirName, folder, case, '2.Par', file.split('_', 3)[0]+'_'+file.split('_', 3)[1]+'_'+file.split('_', 3)[2]+'_'+case+'.csv'), index=False)
+            dict_Par[file].fillna("", inplace=True)
+            dict_Par[file].to_csv(os.path.join(DirName, folder, case, '2.Par', file.split('_', 3)[0]+'_'+file.split('_', 3)[1]+'_'+file.split('_', 3)[2]+'_'+case+'.csv'), index=False)
         path_to_ComputationTime_file = os.path.join(DirName, folder, case, '3.Out', 'ComputationTime.txt')
         with open(path_to_ComputationTime_file, 'w') as f:
             f.write(str(0.0))
