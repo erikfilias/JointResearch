@@ -333,7 +333,7 @@ def ClusteringProcess(X,y, IndOptCluster, opt_cluster, _path_0, _path_1, CaseNam
                 plt.savefig(_path_1+'/Fig5i.png', format='png', dpi=1200)
     
     #%% Clustering method
-    print("Clustering" + CaseName_1 + "..." + str(procedure_type))
+    print("Clustering" + "..." + CaseName_1 + "..." + str(procedure_type))
     if cluster_method == 0:
         KMeansMethod(                                               opt_cluster, Y_sklearn, _path_0, _path_1, CaseName_0, CaseName_1, table, data, cluster_type, procedure_type)
     elif cluster_method == 1:
@@ -374,7 +374,7 @@ if args.inc is None:
     if args.inc == '':
         args.inc = 'Yes'
 if args.nc is None:
-    args.nc = input('Input number of clusters (Default {}): ', IndOptCluster)
+    args.nc = input('Input number of clusters (Default {}): '.format(IndOptCluster))
     if args.nc == '':
         args.nc = IndOptCluster
 print(args.case)
@@ -392,7 +392,7 @@ CaseName_Base = args.cn
 if IndOptCluster == 1:
     CaseName_ByStages = CaseName_Base+'_ByStages'
 elif IndOptCluster == 0:
-    opt_cluster = args.nc
+    opt_cluster = int(args.nc)
     CaseName_ByStages = CaseName_Base+'_ByStages_nc'+str(opt_cluster)
 
 CSV_name =  'oT_LineBenefit_Data_' + CaseName_Base
