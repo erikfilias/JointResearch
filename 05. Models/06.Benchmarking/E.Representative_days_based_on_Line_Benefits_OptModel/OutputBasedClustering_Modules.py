@@ -342,7 +342,6 @@ def ClusteringProcess(X,y, IndOptCluster, opt_cluster, _path_0, _path_1, CaseNam
     return results, dfDuration, dfStages, dict_Stages
 
 
-
 def main(IndOptCluster, DirName, opt_cluster, CaseName_Base):
     #%% Setting up the path a cases
 
@@ -358,8 +357,6 @@ def main(IndOptCluster, DirName, opt_cluster, CaseName_Base):
 
     #%% Selecting the maximum number of cluster to plot
     max_cluster = 300
-    #%% Selecting the optimal number of cluster and defining the clustering method (0: k-means; 1:k-medoids)
-    # opt_cluster = 150
 
     # type of cluster method (0: k-means; 1:k-medoids)
     cluster_method = 1
@@ -380,8 +377,6 @@ def main(IndOptCluster, DirName, opt_cluster, CaseName_Base):
 
     diff_df_1['LoadLevel'] = dictSets['n' ]
     diff_df_1.set_index('LoadLevel', inplace=True)
-
-    # -----------------------------------------------------------------------------------------------------
 
     # Create an explicit copy of the DataFrame
     diff_df_1 = diff_df_1.copy()
@@ -410,10 +405,7 @@ def main(IndOptCluster, DirName, opt_cluster, CaseName_Base):
     diff_df_2 = labels
     diff_df_2 = diff_df_2.to_frame(name='Mark') # convert Series to DataFrame
     # diff_df_1 = diff_df_1.join(diff_df_2)
-
-    # drop the column "LineBenefit" in diff_df_1
     diff_df_1 = diff_df_1.drop(columns=['LineBenefit'])
-    # -----------------------------------------------------------------------------------------------------
 
     ddf_1 = diff_df_1.stack()
     ddf_1.index.names = ['LoadLevel', 'Execution']
@@ -569,4 +561,4 @@ def main(IndOptCluster, DirName, opt_cluster, CaseName_Base):
 
     print('Number of representative stages: ' + str(dfDuration['Duration'].sum()))
 
-    print('End of the process...')
+    print('End of the process for ' + CaseName_ByStages + '...')
