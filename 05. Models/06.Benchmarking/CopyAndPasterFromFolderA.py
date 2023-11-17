@@ -6,7 +6,7 @@ InitialTime = time.time()
 
 DirName  = os.getcwd()
 
-CaseName_Base = 'IEEE118'
+CaseName_Base = 'RTS24'
 
 Folder_A = 'A.The_full_year_MILP'
 Folder_D = 'D.Representative_days_based_on_RES_and_Demand'
