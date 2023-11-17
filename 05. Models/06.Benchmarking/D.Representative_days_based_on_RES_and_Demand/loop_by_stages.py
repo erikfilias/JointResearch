@@ -11,7 +11,7 @@ case = args.case
 highnb = args.highnb
 
 path_to_scan = os.path.dirname(__file__)
-filter = f'{case}_ByStages'
+filter = f'{case}_ByStages_nc'
 filter_high_nb = f"000"
 
 if highnb == "True":
