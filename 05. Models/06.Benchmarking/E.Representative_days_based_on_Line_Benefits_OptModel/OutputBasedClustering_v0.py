@@ -352,7 +352,7 @@ DirName  = os.getcwd()
 
 opt_cluster = 90
 
-CaseName_Base     = 'RTS24'
+CaseName_Base     = '9n'
 
 if IndOptCluster == 1:
     CaseName_ByStages = CaseName_Base+'_ByStages'
