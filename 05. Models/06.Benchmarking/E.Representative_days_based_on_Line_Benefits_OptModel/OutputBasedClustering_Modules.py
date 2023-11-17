@@ -71,7 +71,7 @@ def KMeansMethod(OptClusters, Y_sklearn, _path_0, _path_1, CaseName_0, CaseName_
 
 def KMedoidsMethod(OptClusters, Y_sklearn, _path_0, _path_1, CaseName_0, CaseName_1, table, data, cluster_type, procedure_type):
     #
-    print("Kmedoids clustering " + CaseName_1 + "..." + str(procedure_type))
+    print("--- Kmedoids clustering " + CaseName_1 + "..." + str(procedure_type))
     # Running the K-means with the optimal number of clusters. Setting up the initializer and random state.
     # kmedoids_pca = KMedoids(metric="euclidean", n_clusters=OptClusters, init="heuristic", max_iter=2, random_state=42)
     kmedoids_pca = KMedoids(n_clusters=OptClusters, init='k-medoids++')
@@ -80,7 +80,7 @@ def KMedoidsMethod(OptClusters, Y_sklearn, _path_0, _path_1, CaseName_0, CaseNam
     df_segm_pca_kmedoids.columns.values[-3:] = ['Component 1', 'Component 2', 'Component 3']
     df_segm_pca_kmedoids['Segment K-medoids PCA'] = kmedoids_pca.labels_
     # Storing clusters in the first table
-    print("Storing clusters in the first table " + CaseName_1 + "..." + str(procedure_type))
+    print("--- Storing clusters in the first table " + CaseName_1 + "..." + str(procedure_type))
     table = table.copy()
     table['Segment K-medoids PCA'] = 0
     table.loc[:, 'Segment K-medoids PCA'] = kmedoids_pca.labels_
@@ -92,7 +92,7 @@ def KMedoidsMethod(OptClusters, Y_sklearn, _path_0, _path_1, CaseName_0, CaseNam
     elif cluster_type == 'weekly with hourly resolution':
         table = table.set_index(['Week', 'Segment K-medoids PCA'])
     # Stacking the table to also have the lines as index
-    print("Stacking the table to also have the lines as index " + CaseName_1 + "..." + str(procedure_type))
+    print("--- Stacking the table to also have the lines as index " + CaseName_1 + "..." + str(procedure_type))
     df = table.stack()
     df = df.reset_index()
     data = data.set_index(['LoadLevel'])
@@ -102,10 +102,10 @@ def KMedoidsMethod(OptClusters, Y_sklearn, _path_0, _path_1, CaseName_0, CaseNam
     data = data.loc[LoadLevel1]
     # Adding a new column with the cluster for each LoadLevel
     data.reset_index(inplace=True)
-    print("Adding a new column with the cluster for each LoadLevel " + CaseName_1 + "..." + str(procedure_type))
+    print("--- Adding a new column with the cluster for each LoadLevel " + CaseName_1 + "..." + str(procedure_type))
     data['Segment K-medoids PCA'] = np.where(data['Variable'] == df['Variable'], df['Segment K-medoids PCA'], df['Segment K-medoids PCA'])
     # Adding the duration to each LoadLevel
-    print("Adding the duration to each LoadLevel " + CaseName_1 + "..." + str(procedure_type))
+    print("--- Adding the duration to each LoadLevel " + CaseName_1 + "..." + str(procedure_type))
     data['Duration'] = 0
     # Getting only the relevant information to build the new CSV file in CaseName_ByStages
     if procedure_type == 0:
@@ -115,7 +115,7 @@ def KMedoidsMethod(OptClusters, Y_sklearn, _path_0, _path_1, CaseName_0, CaseNam
     elif procedure_type == 2:
         data['Stage'] = data['Segment K-medoids PCA'].map(lambda x: f'sti{x + 1}' if 0 <= x < 8000 else f'sti{x}')
     #
-    print("Getting only the relevant information to build the new CSV file in CaseName_ByStages " + CaseName_1 + "..." + str(procedure_type))
+    print("--- Getting only the relevant information to build the new CSV file in CaseName_ByStages " + CaseName_1 + "..." + str(procedure_type))
     idx = kmedoids_pca.medoid_indices_
     # data['HourOfYear'] = (data['Day']-1)*24 + data['Hour']
     data['HourOfYear'] = 0
@@ -173,12 +173,12 @@ def KMedoidsMethod(OptClusters, Y_sklearn, _path_0, _path_1, CaseName_0, CaseNam
     dict_Stages = pd.DataFrame(Stages, columns=['Stage'])
     # dict_Stages.to_csv(os.path.join(_path_1, '1.Set', 'oT_Dict_Stage_' + CaseName_1 + '.csv'), sep=',', index=False)
 
-    print("End of the Kmedoids clustering" + CaseName_1 + "..." + str(procedure_type))
+    print("--- End of the Kmedoids clustering" + CaseName_1 + "..." + str(procedure_type))
     return kmedoids_pca, dfDuration, dfStages, dict_Stages
 
 def ClusteringProcess(X,y, IndOptCluster, opt_cluster, _path_0, _path_1, CaseName_0, CaseName_1, table, data, cluster_type, procedure_type, max_cluster, cluster_method):
     #
-    print("Clustering" + CaseName_1 + "..." + str(procedure_type))
+    print("-- Clustering" + CaseName_1 + "..." + str(procedure_type))
     # Indicator save figure:
     IndFigure = 0
     # Prints
@@ -320,7 +320,7 @@ def ClusteringProcess(X,y, IndOptCluster, opt_cluster, _path_0, _path_1, CaseNam
                 opt_cluster += 1
             else:
                 break
-        print("Optimal number of clusters: ", opt_cluster)
+        print("-- Optimal number of clusters: ", opt_cluster)
 
         if IndFigure == 1:
             with plt.style.context('tableau-colorblind10'):
@@ -343,13 +343,13 @@ def ClusteringProcess(X,y, IndOptCluster, opt_cluster, _path_0, _path_1, CaseNam
                 plt.savefig(_path_1+'/Fig5i.png', format='png', dpi=1200)
     
     #%% Clustering method
-    print("Starting the clustering method" + CaseName_1 + "..." + str(procedure_type))
+    print("-- Starting the clustering method" + CaseName_1 + "..." + str(procedure_type))
     if cluster_method == 0:
         KMeansMethod(                                               opt_cluster, Y_sklearn, _path_0, _path_1, CaseName_0, CaseName_1, table, data, cluster_type, procedure_type)
     elif cluster_method == 1:
         results, dfDuration, dfStages, dict_Stages = KMedoidsMethod(opt_cluster, Y_sklearn, _path_0, _path_1, CaseName_0, CaseName_1, table, data, cluster_type, procedure_type)
     # print('End of the process...')
-    print("End of the clustering" + CaseName_1 + "..." + str(procedure_type))
+    print("-- End of the clustering" + CaseName_1 + "..." + str(procedure_type))
 
     return results, dfDuration, dfStages, dict_Stages
 
@@ -471,12 +471,12 @@ def main(IndOptCluster, DirName, opt_cluster, CaseName_Base):
     # splitting the opt_cluster in the same proportion of the original table but having the sum equal to opt_cluster
     if IndOptCluster == 0:
         opt_cluster_positive = math.ceil(opt_cluster*len(table_positive)/len(table))
-        print('opt_cluster_positive', opt_cluster_positive)
+        print('- opt_cluster_positive', opt_cluster_positive)
         opt_cluster_negative = math.ceil(opt_cluster*len(table_negative)/len(table))
-        print('opt_cluster_negative', opt_cluster_negative)
+        print('- opt_cluster_negative', opt_cluster_negative)
         opt_cluster_irrelevant = math.ceil(opt_cluster*len(table_irrelevant)/len(table))
-        print('opt_cluster_irrelevant', opt_cluster_irrelevant)
-        print('sum of clusters', opt_cluster_positive + opt_cluster_negative + opt_cluster_irrelevant)
+        print('- opt_cluster_irrelevant', opt_cluster_irrelevant)
+        print('- sum of clusters', opt_cluster_positive + opt_cluster_negative + opt_cluster_irrelevant)
     else:
         opt_cluster_positive = opt_cluster
         opt_cluster_negative = opt_cluster
@@ -571,6 +571,6 @@ def main(IndOptCluster, DirName, opt_cluster, CaseName_Base):
     dfStages.to_csv(os.path.join(_path_1, '2.Par', 'oT_Data_Stage_' + CaseName_ByStages + '.csv'), sep=',')
     dict_Stages.to_csv(os.path.join(_path_1, '1.Set', 'oT_Dict_Stage_' + CaseName_ByStages + '.csv'), sep=',', index=False)
 
-    print('Number of representative stages: ' + str(dfDuration['Duration'].sum()))
+    print('- Number of representative stages: ' + str(dfDuration['Duration'].sum()))
 
-    print('End of the process for ' + CaseName_ByStages + '...')
+    print('- End of the process for ' + CaseName_ByStages + '...')
