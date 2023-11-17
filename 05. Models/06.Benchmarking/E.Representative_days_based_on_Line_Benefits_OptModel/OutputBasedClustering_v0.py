@@ -116,7 +116,7 @@ def KMedoidsMethod(OptClusters, Y_sklearn, _path_0, _path_1, CaseName_0, CaseNam
         if i < 4:
             data.loc[i, 'HourOfYear'] = 0
         else:
-            data.loc[i, 'HourOfYear'] = int(i/4)
+            data.loc[i, 'HourOfYear'] = int(i/len(df['Variable'].unique()))
     if cluster_type == 'hourly':
         dfHourToStage = pd.DataFrame(idx, columns=['Hour'])
         dfHourToStage = dfHourToStage.copy()
@@ -346,13 +346,13 @@ def ClusteringProcess(X,y, IndOptCluster, opt_cluster, _path_0, _path_1, CaseNam
 
 #%% Setting up the path a cases
 # Optimal number of clusters indicator
-IndOptCluster = 1
+IndOptCluster = 0
 
 DirName  = os.getcwd()
 
-opt_cluster = 4000
+opt_cluster = 90
 
-CaseName_Base     = '9n'
+CaseName_Base     = 'RTS24'
 
 if IndOptCluster == 1:
     CaseName_ByStages = CaseName_Base+'_ByStages'
