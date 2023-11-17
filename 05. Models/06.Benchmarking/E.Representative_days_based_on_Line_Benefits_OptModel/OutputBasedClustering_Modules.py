@@ -70,6 +70,8 @@ def KMeansMethod(OptClusters, Y_sklearn, _path_0, _path_1, CaseName_0, CaseName_
 
 
 def KMedoidsMethod(OptClusters, Y_sklearn, _path_0, _path_1, CaseName_0, CaseName_1, table, data, cluster_type, procedure_type):
+    #
+    print("Kmedoids clustering" + CaseName_1 + "..." + str(procedure_type))
     # Running the K-means with the optimal number of clusters. Setting up the initializer and random state.
     # kmedoids_pca = KMedoids(metric="euclidean", n_clusters=OptClusters, init="heuristic", max_iter=2, random_state=42)
     kmedoids_pca = KMedoids(n_clusters=OptClusters, init='k-medoids++')
@@ -165,9 +167,12 @@ def KMedoidsMethod(OptClusters, Y_sklearn, _path_0, _path_1, CaseName_0, CaseNam
     dict_Stages = pd.DataFrame(Stages, columns=['Stage'])
     # dict_Stages.to_csv(os.path.join(_path_1, '1.Set', 'oT_Dict_Stage_' + CaseName_1 + '.csv'), sep=',', index=False)
 
+    print("End of the Kmedoids clustering" + CaseName_1 + "..." + str(procedure_type))
     return kmedoids_pca, dfDuration, dfStages, dict_Stages
 
 def ClusteringProcess(X,y, IndOptCluster, opt_cluster, _path_0, _path_1, CaseName_0, CaseName_1, table, data, cluster_type, procedure_type, max_cluster, cluster_method):
+    #
+    print("Clustering" + CaseName_1 + "..." + str(procedure_type))
     # Indicator save figure:
     IndFigure = 0
     # Prints
@@ -332,12 +337,13 @@ def ClusteringProcess(X,y, IndOptCluster, opt_cluster, _path_0, _path_1, CaseNam
                 plt.savefig(_path_1+'/Fig5i.png', format='png', dpi=1200)
     
     #%% Clustering method
-    print("Clustering" + CaseName_1 + "..." + str(procedure_type))
+    print("Starting the clustering method" + CaseName_1 + "..." + str(procedure_type))
     if cluster_method == 0:
         KMeansMethod(                                               opt_cluster, Y_sklearn, _path_0, _path_1, CaseName_0, CaseName_1, table, data, cluster_type, procedure_type)
     elif cluster_method == 1:
         results, dfDuration, dfStages, dict_Stages = KMedoidsMethod(opt_cluster, Y_sklearn, _path_0, _path_1, CaseName_0, CaseName_1, table, data, cluster_type, procedure_type)
     # print('End of the process...')
+    print("End of the clustering" + CaseName_1 + "..." + str(procedure_type))
 
     return results, dfDuration, dfStages, dict_Stages
 
