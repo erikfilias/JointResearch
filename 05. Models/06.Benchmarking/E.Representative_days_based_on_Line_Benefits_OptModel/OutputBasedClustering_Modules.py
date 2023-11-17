@@ -71,7 +71,7 @@ def KMeansMethod(OptClusters, Y_sklearn, _path_0, _path_1, CaseName_0, CaseName_
 
 def KMedoidsMethod(OptClusters, Y_sklearn, _path_0, _path_1, CaseName_0, CaseName_1, table, data, cluster_type, procedure_type):
     #
-    print("Kmedoids clustering" + CaseName_1 + "..." + str(procedure_type))
+    print("Kmedoids clustering " + CaseName_1 + "..." + str(procedure_type))
     # Running the K-means with the optimal number of clusters. Setting up the initializer and random state.
     # kmedoids_pca = KMedoids(metric="euclidean", n_clusters=OptClusters, init="heuristic", max_iter=2, random_state=42)
     kmedoids_pca = KMedoids(n_clusters=OptClusters, init='k-medoids++')
@@ -80,6 +80,7 @@ def KMedoidsMethod(OptClusters, Y_sklearn, _path_0, _path_1, CaseName_0, CaseNam
     df_segm_pca_kmedoids.columns.values[-3:] = ['Component 1', 'Component 2', 'Component 3']
     df_segm_pca_kmedoids['Segment K-medoids PCA'] = kmedoids_pca.labels_
     # Storing clusters in the first table
+    print("Storing clusters in the first table " + CaseName_1 + "..." + str(procedure_type))
     table = table.copy()
     table['Segment K-medoids PCA'] = 0
     table.loc[:, 'Segment K-medoids PCA'] = kmedoids_pca.labels_
@@ -91,6 +92,7 @@ def KMedoidsMethod(OptClusters, Y_sklearn, _path_0, _path_1, CaseName_0, CaseNam
     elif cluster_type == 'weekly with hourly resolution':
         table = table.set_index(['Week', 'Segment K-medoids PCA'])
     # Stacking the table to also have the lines as index
+    print("Stacking the table to also have the lines as index " + CaseName_1 + "..." + str(procedure_type))
     df = table.stack()
     df = df.reset_index()
     data = data.set_index(['LoadLevel'])
@@ -100,8 +102,10 @@ def KMedoidsMethod(OptClusters, Y_sklearn, _path_0, _path_1, CaseName_0, CaseNam
     data = data.loc[LoadLevel1]
     # Adding a new column with the cluster for each LoadLevel
     data.reset_index(inplace=True)
+    print("Adding a new column with the cluster for each LoadLevel " + CaseName_1 + "..." + str(procedure_type))
     data['Segment K-medoids PCA'] = np.where(data['Variable'] == df['Variable'], df['Segment K-medoids PCA'], df['Segment K-medoids PCA'])
     # Adding the duration to each LoadLevel
+    print("Adding the duration to each LoadLevel " + CaseName_1 + "..." + str(procedure_type))
     data['Duration'] = 0
     # Getting only the relevant information to build the new CSV file in CaseName_ByStages
     if procedure_type == 0:
@@ -111,14 +115,16 @@ def KMedoidsMethod(OptClusters, Y_sklearn, _path_0, _path_1, CaseName_0, CaseNam
     elif procedure_type == 2:
         data['Stage'] = data['Segment K-medoids PCA'].map(lambda x: f'sti{x + 1}' if 0 <= x < 8000 else f'sti{x}')
     #
+    print("Getting only the relevant information to build the new CSV file in CaseName_ByStages " + CaseName_1 + "..." + str(procedure_type))
     idx = kmedoids_pca.medoid_indices_
     # data['HourOfYear'] = (data['Day']-1)*24 + data['Hour']
     data['HourOfYear'] = 0
+    df_split = len(df['Variable'].unique())
     for i in data.index:
-        if i < 4:
+        if i < df_split:
             data.loc[i, 'HourOfYear'] = 0
         else:
-            data.loc[i, 'HourOfYear'] = int(i/len(df['Variable'].unique()))
+            data.loc[i, 'HourOfYear'] = int(i/df_split)
     if cluster_type == 'hourly':
         dfHourToStage = pd.DataFrame(idx, columns=['Hour'])
         dfHourToStage = dfHourToStage.copy()
