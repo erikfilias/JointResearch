@@ -112,11 +112,12 @@ def KMedoidsMethod(OptClusters, Y_sklearn, _path_0, _path_1, CaseName_0, CaseNam
     idx = kmedoids_pca.medoid_indices_
     # data['HourOfYear'] = (data['Day']-1)*24 + data['Hour']
     data['HourOfYear'] = 0
+    df_split = len(df['Variable'].unique())
     for i in data.index:
-        if i < 4:
+        if i < df_split:
             data.loc[i, 'HourOfYear'] = 0
         else:
-            data.loc[i, 'HourOfYear'] = int(i/len(df['Variable'].unique()))
+            data.loc[i, 'HourOfYear'] = int(i/df_split)
     if cluster_type == 'hourly':
         dfHourToStage = pd.DataFrame(idx, columns=['Hour'])
         dfHourToStage = dfHourToStage.copy()
@@ -346,7 +347,7 @@ def ClusteringProcess(X,y, IndOptCluster, opt_cluster, _path_0, _path_1, CaseNam
 
 #%% Setting up the path a cases
 # Optimal number of clusters indicator
-IndOptCluster = 0
+IndOptCluster = 1
 
 DirName  = os.getcwd()
 
