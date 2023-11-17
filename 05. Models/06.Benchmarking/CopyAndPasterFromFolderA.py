@@ -6,7 +6,7 @@ InitialTime = time.time()
 
 DirName  = os.getcwd()
 
-CaseName_Base = 'RTS24'
+CaseName_Base = 'RTS24_mod1'
 
 Folder_A = 'A.The_full_year_MILP'
 Folder_D = 'D.Representative_days_based_on_RES_and_Demand'
@@ -57,10 +57,12 @@ dict_Set = {}
 dict_Par = {}
 for file in os.listdir(os.path.join(DirName, Folder_A, CaseName_Base, '1.Set')):
     if file.endswith(".csv"):
-        dict_Set[file] = pd.read_csv(os.path.join(DirName, Folder_A, CaseName_Base, '1.Set', file))
+        dict_Set[file] = pd.read_csv(os.path.join(DirName, Folder_A, CaseName_Base, '1.Set', file), header=None)
+        dict_Set[file].fillna("", inplace=True)
 for file in os.listdir(os.path.join(DirName, Folder_A, CaseName_Base, '2.Par')):
     if file.endswith(".csv"):
-        dict_Par[file] = pd.read_csv(os.path.join(DirName, Folder_A, CaseName_Base, '2.Par', file))
+        dict_Par[file] = pd.read_csv(os.path.join(DirName, Folder_A, CaseName_Base, '2.Par', file), header=None)
+        dict_Par[file].fillna("", inplace=True)
 
 ReadingFilesTime = time.time() - StartTime
 StartTime = time.time()
@@ -72,11 +74,11 @@ for folder in FoldersToPaste:
         for file in dict_Set:
             print('Copying and pasting the file ' + file + ' from ' + CaseName_Base + ' to ' + case + ' in ' + folder)
             dict_Set[file].fillna("", inplace=True)
-            dict_Set[file].to_csv(os.path.join(DirName, folder, case, '1.Set', file.split('_', 3)[0]+'_'+file.split('_', 3)[1]+'_'+file.split('_', 3)[2]+'_'+case+'.csv'), index=False)
+            dict_Set[file].to_csv(os.path.join(DirName, folder, case, '1.Set', file.split('_', 3)[0]+'_'+file.split('_', 3)[1]+'_'+file.split('_', 3)[2]+'_'+case+'.csv'), index=False, header=False)
         for file in dict_Par:
             print('Copying and pasting the file ' + file + ' from ' + CaseName_Base + ' to ' + case + ' in ' + folder)
             dict_Par[file].fillna("", inplace=True)
-            dict_Par[file].to_csv(os.path.join(DirName, folder, case, '2.Par', file.split('_', 3)[0]+'_'+file.split('_', 3)[1]+'_'+file.split('_', 3)[2]+'_'+case+'.csv'), index=False)
+            dict_Par[file].to_csv(os.path.join(DirName, folder, case, '2.Par', file.split('_', 3)[0]+'_'+file.split('_', 3)[1]+'_'+file.split('_', 3)[2]+'_'+case+'.csv'), index=False, header=False)
         path_to_ComputationTime_file = os.path.join(DirName, folder, case, '3.Out', 'ComputationTime.txt')
         with open(path_to_ComputationTime_file, 'w') as f:
             f.write(str(0.0))
