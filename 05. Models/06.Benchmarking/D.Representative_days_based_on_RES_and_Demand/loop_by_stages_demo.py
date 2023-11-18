@@ -17,7 +17,7 @@ filter_high_nb = f"000"
 # Defining the case CaseName_ByStages plus the CaseName_ByStages_nc#
 CasesToPaste = []
 
-RangeClusters = [i for i in range(30, 101, 10)]
+RangeClusters = [i for i in range(150, 301, 50)]
 
 for i in RangeClusters:
     CasesToPaste.append(str(case) + '_ByStages_nc' + str(i))
