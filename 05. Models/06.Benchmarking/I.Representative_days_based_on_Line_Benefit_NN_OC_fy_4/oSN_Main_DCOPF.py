@@ -634,11 +634,11 @@ def data_processing(DirName, CaseName, model):
     for lea in model.lea:
         pBigMFlowFrw.loc[lea] = pLineNTCFrw[lea]
     for lca in model.lca:
-        pBigMFlowFrw.loc[lca] = pLineNTCFrw[lca]*1.5
+        pBigMFlowFrw.loc[lca] = pLineNTCFrw[lca]
     for led in model.led:
         pBigMFlowFrw.loc[led] = pLineNTCFrw[led]
     for lcd in model.lcd:
-        pBigMFlowFrw.loc[lcd] = pLineNTCFrw[lcd]*1.5
+        pBigMFlowFrw.loc[lcd] = pLineNTCFrw[lcd]
 
     # if BigM are 0.0 then converted to 1.0 to avoid division by 0.0
     pBigMFlowFrw = pBigMFlowFrw.where(pBigMFlowFrw != 0.0, other=1.0)
@@ -895,7 +895,7 @@ def create_variables(model, optmodel):
     if model.pIndBinSingleNode() == 0:
         optmodel.vFlow      = Var(model.ps, model.n, model.la, within=Reals,            bounds=lambda optmodel,p,sc,n,*la: (            -model.pLineNTCFrw[la]      ,model.pLineNTCFrw[la]    ),    doc='flow               [GW]')
         if model.pLineXNetInv == 1:
-            optmodel.vLineX = Var(model.ps, model.n, model.la, within=Reals,            bounds=lambda optmodel,p,sc,n,*la: (            0                           ,model.pLineX[     la]    ),    doc='Reactance variable [GW]')
+            optmodel.vLineX = Var(model.ps, model.n, model.la, within=Reals,                                                                                                                        doc='Reactance variable [GW]')
     else:
         optmodel.vFlow      = Var(model.ps, model.n, model.la, within=Reals,                                                                                                                        doc='flow               [GW]')
     optmodel.vTheta         = Var(model.ps, model.n, model.nd, within=Reals,            bounds=lambda optmodel,p,sc,n, nd: (            -model.pMaxTheta[p,sc,n,nd],model.pMaxTheta[p,sc,n,nd]),    doc='voltage angle     [rad]')
@@ -1022,8 +1022,8 @@ def create_variables(model, optmodel):
 
     # fixing the voltage angle of the reference node for each scenario, period, and load level
     # if pIndBinSingleNode == 0:
-    #     for p,sc,n in model.psn:
-    #         # optmodel.vTheta[p,sc,n,optmodel.rf.first()].fix(0.0)
+    for p,sc,n in model.psn:
+        optmodel.vTheta[p,sc,n,optmodel.rf.first()].fix(0.0)
     #         optmodel.vW    [p,sc,n,optmodel.rf.first()].fix(1.1025)
 
     # fixing the ENS in nodes with no demand
@@ -1492,7 +1492,7 @@ def solving_model(DirName, CaseName, SolverName, optmodel, pWriteLP):
         # Solver.options['BarQCPConvTol' ] = 0.025
         Solver.options['MIPGap'        ] = 0.01
         Solver.options['Threads'       ] = int((psutil.cpu_count(logical=True) + psutil.cpu_count(logical=False))/2)
-        Solver.options['TimeLimit'     ] =   604800
+        Solver.options['TimeLimit'     ] =   259200
         Solver.options['IterationLimit'] = 760000000
     idx = 0
     for var in optmodel.component_data_objects(Var, active=False, descend_into=True):
