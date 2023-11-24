@@ -1023,7 +1023,7 @@ def create_variables(model, optmodel):
     # fixing the voltage angle of the reference node for each scenario, period, and load level
     # if pIndBinSingleNode == 0:
     for p,sc,n in model.psn:
-        optmodel.vTheta[p,sc,n,optmodel.rf.first()].fix(0.0)
+        optmodel.vTheta[p,sc,n,model.rf.first()].fix(0.0)
     #         optmodel.vW    [p,sc,n,optmodel.rf.first()].fix(1.1025)
 
     # fixing the ENS in nodes with no demand
