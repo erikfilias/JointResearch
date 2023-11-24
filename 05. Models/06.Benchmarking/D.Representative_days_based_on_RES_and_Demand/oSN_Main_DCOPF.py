@@ -361,9 +361,9 @@ def data_processing(DirName, CaseName, model):
     model.st  = Set(initialize=model.stt,         ordered=True , doc='stages'               , filter=lambda model,stt     :  stt    in model.stt and pStageWeight     [stt] >  0.0)
     model.n   = Set(initialize=model.nn,          ordered=True , doc='load levels'          , filter=lambda model,nn      :  nn     in model.nn  and pDuration         [nn] >  0  )
     model.n2  = Set(initialize=model.nn,          ordered=True , doc='load levels'          , filter=lambda model,nn      :  nn     in model.nn  and pDuration         [nn] >  0  )
-    model.g   = Set(initialize=model.gg,          ordered=False, doc='generating      units', filter=lambda model,gg      :  gg     in model.gg  and (pRatedMaxPowerP  [gg] >  0.0 or  pRatedMaxCharge[gg] >  0.0) and pPeriodIniGen[gg] <= model.p.last() and pPeriodFinGen[gg] >= model.p.first() and pGenToNode.reset_index().set_index(['index']).isin(model.nd)['Node'][gg])  # excludes generators with empty node
-    model.t   = Set(initialize=model.g ,          ordered=False, doc='thermal         units', filter=lambda model,g       :  g      in model.g   and pLinearOperCost   [g ] >  0.0)
-    model.r   = Set(initialize=model.g ,          ordered=False, doc='RES             units', filter=lambda model,g       :  g      in model.g   and pLinearOperCost   [g ] == 0.0 and pRatedMaxStorage[g] == 0.0)
+    model.g   = Set(initialize=model.gg,          ordered=False, doc='generating      units', filter=lambda model,gg      :  gg     in model.gg  and (pRatedMaxPowerP  [gg] >   0.0 or  pRatedMaxCharge[gg] >  0.0) and pPeriodIniGen[gg] <= model.p.last() and pPeriodFinGen[gg] >= model.p.first() and pGenToNode.reset_index().set_index(['index']).isin(model.nd)['Node'][gg])  # excludes generators with empty node
+    model.t   = Set(initialize=model.g ,          ordered=False, doc='thermal         units', filter=lambda model,g       :  g      in model.g   and pLinearOperCost   [g ] >  2e-3)
+    model.r   = Set(initialize=model.g ,          ordered=False, doc='RES             units', filter=lambda model,g       :  g      in model.g   and pLinearOperCost   [g ] <= 2e-3 and pRatedMaxStorage[g] == 0.0)
     model.es  = Set(initialize=model.g ,          ordered=False, doc='ESS             units', filter=lambda model,g       :  g      in model.g   and                                  (pRatedMaxStorage[g] >  0.0   or pRatedMaxCharge[g] > 0.0))
     model.gc  = Set(initialize=model.g ,          ordered=False, doc='candidate       units', filter=lambda model,g       :  g      in model.g   and pGenInvestCost    [g ] >  0.0)
     model.ec  = Set(initialize=model.es,          ordered=False, doc='candidate   ESS units', filter=lambda model,es      :  es     in model.es  and pGenInvestCost    [es] >  0.0)
@@ -634,11 +634,11 @@ def data_processing(DirName, CaseName, model):
     for lea in model.lea:
         pBigMFlowFrw.loc[lea] = pLineNTCFrw[lea]
     for lca in model.lca:
-        pBigMFlowFrw.loc[lca] = pLineNTCFrw[lca]*1.5
+        pBigMFlowFrw.loc[lca] = pLineNTCFrw[lca]
     for led in model.led:
         pBigMFlowFrw.loc[led] = pLineNTCFrw[led]
     for lcd in model.lcd:
-        pBigMFlowFrw.loc[lcd] = pLineNTCFrw[lcd]*1.5
+        pBigMFlowFrw.loc[lcd] = pLineNTCFrw[lcd]
 
     # if BigM are 0.0 then converted to 1.0 to avoid division by 0.0
     pBigMFlowFrw = pBigMFlowFrw.where(pBigMFlowFrw != 0.0, other=1.0)
@@ -895,7 +895,7 @@ def create_variables(model, optmodel):
     if model.pIndBinSingleNode() == 0:
         optmodel.vFlow      = Var(model.ps, model.n, model.la, within=Reals,            bounds=lambda optmodel,p,sc,n,*la: (            -model.pLineNTCFrw[la]      ,model.pLineNTCFrw[la]    ),    doc='flow               [GW]')
         if model.pLineXNetInv == 1:
-            optmodel.vLineX = Var(model.ps, model.n, model.la, within=Reals,            bounds=lambda optmodel,p,sc,n,*la: (            0                           ,model.pLineX[     la]    ),    doc='Reactance variable [GW]')
+            optmodel.vLineX = Var(model.ps, model.n, model.la, within=Reals,                                                                                                                        doc='Reactance variable [GW]')
     else:
         optmodel.vFlow      = Var(model.ps, model.n, model.la, within=Reals,                                                                                                                        doc='flow               [GW]')
     optmodel.vTheta         = Var(model.ps, model.n, model.nd, within=Reals,            bounds=lambda optmodel,p,sc,n, nd: (            -model.pMaxTheta[p,sc,n,nd],model.pMaxTheta[p,sc,n,nd]),    doc='voltage angle     [rad]')
@@ -1022,8 +1022,8 @@ def create_variables(model, optmodel):
 
     # fixing the voltage angle of the reference node for each scenario, period, and load level
     # if pIndBinSingleNode == 0:
-    #     for p,sc,n in model.psn:
-    #         # optmodel.vTheta[p,sc,n,optmodel.rf.first()].fix(0.0)
+    for p,sc,n in model.psn:
+        optmodel.vTheta[p,sc,n,optmodel.rf.first()].fix(0.0)
     #         optmodel.vW    [p,sc,n,optmodel.rf.first()].fix(1.1025)
 
     # fixing the ENS in nodes with no demand
@@ -1105,11 +1105,11 @@ def create_constraints(model, optmodel):
 
     def eTotalGCost(optmodel,p,sc,st,n):
         if (st,n) in model.s2n:
-            return optmodel.vTotalGCost[p,sc,n] == (sum(model.pLoadLevelDuration[n] * model.pLinearVarCost  [nr] * optmodel.vTotalOutputP[p,sc,n,nr]                      +
-                                                        model.pLoadLevelDuration[n] * model.pConstantVarCost[nr] * optmodel.vCommitment [p,sc,n,nr]                      +
-                                                        model.pLoadLevelDuration[n] * model.pStartUpCost    [nr] * optmodel.vStartUp [p,sc,n,nr]                         +
-                                                        model.pLoadLevelDuration[n] * model.pShutDownCost   [nr] * optmodel.vShutDown[p,sc,n,nr]    for nr in model.nr)  +
-                                                    sum(model.pLoadLevelDuration[n] * model.pLinearOMCost   [r ] * optmodel.vTotalOutputP[p,sc,n,r] for r  in model.r ) )
+            return optmodel.vTotalGCost[p,sc,n] == (sum(model.pLoadLevelDuration[n] * model.pLinearVarCost  [ g] * optmodel.vTotalOutputP[p,sc,n,g] for  g in model.g ) +
+                                                    sum(model.pLoadLevelDuration[n] * model.pConstantVarCost[nr] * optmodel.vCommitment [p,sc,n,nr] for nr in model.nr) +
+                                                    sum(model.pLoadLevelDuration[n] * model.pStartUpCost    [nr] * optmodel.vStartUp [p,sc,n,nr]    for nr in model.nr) +
+                                                    sum(model.pLoadLevelDuration[n] * model.pShutDownCost   [nr] * optmodel.vShutDown[p,sc,n,nr]    for nr in model.nr) +
+                                                    sum(model.pLoadLevelDuration[n] * model.pLinearOMCost   [g ] * optmodel.vTotalOutputP[p,sc,n,g] for  g in model.g ) )
             # return optmodel.vTotalGCost[p,sc,n] == (sum(model.pLoadLevelDuration[n] * model.pLCOE  [nr] * optmodel.vTotalOutputP[p,sc,n,nr] for nr in model.nr) )
         else:
             return Constraint.Skip
@@ -1492,7 +1492,7 @@ def solving_model(DirName, CaseName, SolverName, optmodel, pWriteLP):
         # Solver.options['BarQCPConvTol' ] = 0.025
         Solver.options['MIPGap'        ] = 0.01
         Solver.options['Threads'       ] = int((psutil.cpu_count(logical=True) + psutil.cpu_count(logical=False))/2)
-        Solver.options['TimeLimit'     ] =   604800
+        Solver.options['TimeLimit'     ] =   259200
         Solver.options['IterationLimit'] = 760000000
     idx = 0
     for var in optmodel.component_data_objects(Var, active=False, descend_into=True):
@@ -1568,33 +1568,33 @@ def saving_results(DirName, CaseName, SolverName, model, optmodel):
     print('Writing           investment results  ... ', round(WritingInvResultsTime), 's')
 
     #%% outputting the generation cost
-    OutputResults = pd.Series(data=[model.pDiscountFactor[p]*model.pScenProb[p,sc]()*(optmodel.vTotalGCost[p,sc,n]()+optmodel.vTotalCCost[p,sc,n]()+optmodel.vTotalECost[p,sc,n]()+optmodel.vTotalRCost[p,sc,n]()) for p,sc,n in model.psn], index=pd.MultiIndex.from_tuples(model.psn))
-    OutputResults.to_frame(name='MEUR').rename_axis(['Period','Scenario','LoadLevel'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_GenerationCost_'+CaseName+'.csv', index=False, sep=',')
+    OutputResults = pd.Series(data=[model.pDiscountFactor[p]*model.pScenProb[p,sc]()*model.pLoadLevelDuration[n]()*(optmodel.vTotalGCost[p,sc,n]()+optmodel.vTotalCCost[p,sc,n]()+optmodel.vTotalECost[p,sc,n]()+optmodel.vTotalRCost[p,sc,n]())*1e3 for p,sc,n in model.psn], index=pd.MultiIndex.from_tuples(model.psn))
+    OutputResults.to_frame(name='mEUR').rename_axis(['Period','Scenario','LoadLevel'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_GenerationCost_'+CaseName+'.csv', index=False, sep=',')
 
-    #%%  Power balance per period, scenario, and load level
-    # incoming and outgoing lines (lin) (lout)
-    lin   = defaultdict(list)
-    lout  = defaultdict(list)
-    for ni,nf,cc in model.la:
-        lin  [nf].append((ni,cc))
-        lout [ni].append((nf,cc))
-
-    sPSNARND   = [(p,sc,n,ar,nd)    for p,sc,n,ar,nd    in model.psnar*model.nd if sum(1 for g in model.g if (nd,g) in model.n2g) + sum(1 for lout in lout[nd]) + sum(1 for ni,cc in lin[nd]) and (nd,ar) in model.ndar]
-    sPSNARNDGT = [(p,sc,n,ar,nd,gt) for p,sc,n,ar,nd,gt in sPSNARND*model.gt    if sum(1 for g in model.g if (gt,g) in model.t2g)                                                             and (nd,ar) in model.ndar]
-
-    OutputResults1     = pd.Series(data=[ sum(optmodel.vTotalOutputP  [p,sc,n,g       ]()*model.pLoadLevelDuration[n]() for g  in model.g  if (nd,g ) in model.n2g and (gt,g ) in model.t2g) for p,sc,n,ar,nd,gt in sPSNARNDGT                        ], index=pd.Index(sPSNARNDGT)).to_frame(name='Generation'    ).reset_index().pivot_table(index=['level_0','level_1','level_2','level_3','level_4'], columns='level_5', values='Generation' , aggfunc=sum)
-    OutputResults2     = pd.Series(data=[-sum(optmodel.vESSTotalCharge[p,sc,n,es      ]()*model.pLoadLevelDuration[n]() for es in model.es if (nd,es) in model.n2g and (gt,es) in model.t2g) for p,sc,n,ar,nd,gt in sPSNARNDGT                        ], index=pd.Index(sPSNARNDGT)).to_frame(name='Consumption'   ).reset_index().pivot_table(index=['level_0','level_1','level_2','level_3','level_4'], columns='level_5', values='Consumption', aggfunc=sum)
-    OutputResults3     = pd.Series(data=[     optmodel.vENS           [p,sc,n,nd      ]()*model.pLoadLevelDuration[n]()                                                                      for p,sc,n,ar,nd    in sPSNARND                          ], index=pd.Index(sPSNARND  )).to_frame(name='ENS'           )
-    OutputResults4     = pd.Series(data=[-       model.pDemandP       [p,sc,n,nd      ]  *model.pLoadLevelDuration[n]()                                                                      for p,sc,n,ar,nd    in sPSNARND                          ], index=pd.Index(sPSNARND  )).to_frame(name='EnergyDemand'  )
-    OutputResults5     = pd.Series(data=[-sum(optmodel.vFlow          [p,sc,n,nd,lout ]()*model.pLoadLevelDuration[n]() for lout  in lout [nd] if (nd,nf,cc) in model.la)                    for p,sc,n,ar,nd    in sPSNARND                          ], index=pd.Index(sPSNARND  )).to_frame(name='PowerFlowOut')
-    OutputResults6     = pd.Series(data=[ sum(optmodel.vFlow          [p,sc,n,ni,nd,cc]()*model.pLoadLevelDuration[n]() for ni,cc in lin  [nd] if (ni,nd,cc) in model.la)                    for p,sc,n,ar,nd    in sPSNARND                          ], index=pd.Index(sPSNARND  )).to_frame(name='PowerFlowIn' )
-    OutputResults  = pd.concat([OutputResults1, OutputResults2, OutputResults3, OutputResults4, OutputResults5, OutputResults6], axis=1)
-
-    OutputResults.stack().rename_axis(['Period', 'Scenario', 'LoadLevel', 'Area', 'Node', 'Technology'], axis=0).reset_index().rename(columns={0: 'GWh'}, inplace=False).to_csv(_path+'/3.Out/oT_Result_BalanceEnergy_'+CaseName+'.csv', index=False, sep=',')
-
-    WritingEnergyBalanceTime = time.time() - StartTime
-    StartTime              = time.time()
-    print('Writing       energy balance results  ... ', round(WritingEnergyBalanceTime), 's')
+    # #%%  Power balance per period, scenario, and load level
+    # # incoming and outgoing lines (lin) (lout)
+    # lin   = defaultdict(list)
+    # lout  = defaultdict(list)
+    # for ni,nf,cc in model.la:
+    #     lin  [nf].append((ni,cc))
+    #     lout [ni].append((nf,cc))
+    #
+    # sPSNARND   = [(p,sc,n,ar,nd)    for p,sc,n,ar,nd    in model.psnar*model.nd if sum(1 for g in model.g if (nd,g) in model.n2g) + sum(1 for lout in lout[nd]) + sum(1 for ni,cc in lin[nd]) and (nd,ar) in model.ndar]
+    # sPSNARNDGT = [(p,sc,n,ar,nd,gt) for p,sc,n,ar,nd,gt in sPSNARND*model.gt    if sum(1 for g in model.g if (gt,g) in model.t2g)                                                             and (nd,ar) in model.ndar]
+    #
+    # OutputResults1     = pd.Series(data=[ sum(optmodel.vTotalOutputP  [p,sc,n,g       ]()*model.pLoadLevelDuration[n]() for g  in model.g  if (nd,g ) in model.n2g and (gt,g ) in model.t2g) for p,sc,n,ar,nd,gt in sPSNARNDGT                        ], index=pd.Index(sPSNARNDGT)).to_frame(name='Generation'    ).reset_index().pivot_table(index=['level_0','level_1','level_2','level_3','level_4'], columns='level_5', values='Generation' , aggfunc=sum)
+    # OutputResults2     = pd.Series(data=[-sum(optmodel.vESSTotalCharge[p,sc,n,es      ]()*model.pLoadLevelDuration[n]() for es in model.es if (nd,es) in model.n2g and (gt,es) in model.t2g) for p,sc,n,ar,nd,gt in sPSNARNDGT                        ], index=pd.Index(sPSNARNDGT)).to_frame(name='Consumption'   ).reset_index().pivot_table(index=['level_0','level_1','level_2','level_3','level_4'], columns='level_5', values='Consumption', aggfunc=sum)
+    # OutputResults3     = pd.Series(data=[     optmodel.vENS           [p,sc,n,nd      ]()*model.pLoadLevelDuration[n]() * model.pDemandP[p,sc,n,nd]                                          for p,sc,n,ar,nd    in sPSNARND                          ], index=pd.Index(sPSNARND  )).to_frame(name='ENS'           )
+    # OutputResults4     = pd.Series(data=[-       model.pDemandP       [p,sc,n,nd      ]  *model.pLoadLevelDuration[n]()                                                                      for p,sc,n,ar,nd    in sPSNARND                          ], index=pd.Index(sPSNARND  )).to_frame(name='EnergyDemand'  )
+    # OutputResults5     = pd.Series(data=[-sum(optmodel.vFlow          [p,sc,n,nd,lout ]()*model.pLoadLevelDuration[n]() for lout  in lout [nd] if (nd,nf,cc) in model.la)                    for p,sc,n,ar,nd    in sPSNARND                          ], index=pd.Index(sPSNARND  )).to_frame(name='PowerFlowOut')
+    # OutputResults6     = pd.Series(data=[ sum(optmodel.vFlow          [p,sc,n,ni,nd,cc]()*model.pLoadLevelDuration[n]() for ni,cc in lin  [nd] if (ni,nd,cc) in model.la)                    for p,sc,n,ar,nd    in sPSNARND                          ], index=pd.Index(sPSNARND  )).to_frame(name='PowerFlowIn' )
+    # OutputResults  = pd.concat([OutputResults1, OutputResults2, OutputResults3, OutputResults4, OutputResults5, OutputResults6], axis=1)
+    #
+    # OutputResults.stack().rename_axis(['Period', 'Scenario', 'LoadLevel', 'Area', 'Node', 'Technology'], axis=0).reset_index().rename(columns={0: 'GWh'}, inplace=False).to_csv(_path+'/3.Out/oT_Result_BalanceEnergy_'+CaseName+'.csv', index=False, sep=',')
+    #
+    # WritingEnergyBalanceTime = time.time() - StartTime
+    # StartTime              = time.time()
+    # print('Writing       energy balance results  ... ', round(WritingEnergyBalanceTime), 's')
 
     #%% outputting the network operation
     OutputResults = pd.Series(data=[optmodel.vFlow[p,sc,n,ni,nf,cc]() for p,sc,n,ni,nf,cc in model.psnla], index=pd.Index(model.psnla))
@@ -1606,7 +1606,7 @@ def saving_results(DirName, CaseName, SolverName, model, optmodel):
     OutputResults = pd.Series(data=[max(optmodel.vFlow[p,sc,n,ni,nf,cc]()/(model.pLineNTCFrw[ni,nf,cc]+pEpsilon),-optmodel.vFlow[p,sc,n,ni,nf,cc]()/(model.pLineNTCFrw[ni,nf,cc]+pEpsilon)) for p,sc,n,ni,nf,cc in model.psnla], index=pd.Index(model.psnla))
     OutputResults.to_frame(name='GWh').rename_axis(['Period', 'Scenario', 'LoadLevel', 'InitialNode', 'FinalNode', 'Circuit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_NetworkUtilizationPerNode_DC_'+CaseName+'.csv', index=False, sep=',')
 
-    OutputResults = pd.Series(data=[optmodel.vENS[p,sc,n,nd]()*model.pLoadLevelDuration[n]() for p,sc,n,nd in model.psnnd], index=pd.MultiIndex.from_tuples(model.psnnd))
+    OutputResults = pd.Series(data=[optmodel.vENS[p,sc,n,nd]()*model.pLoadLevelDuration[n]()*model.pDemandP[p,sc,n,nd] for p,sc,n,nd in model.psnnd], index=pd.MultiIndex.from_tuples(model.psnnd))
     OutputResults.to_frame(name='GWh' ).rename_axis(['Period','Scenario','LoadLevel','Node'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_ENS_'                 +CaseName+'.csv', index=False, sep=',')
 
     WritingNetOperTime = time.time() - StartTime
