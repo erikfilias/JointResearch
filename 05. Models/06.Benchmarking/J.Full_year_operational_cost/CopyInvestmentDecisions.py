@@ -33,9 +33,10 @@ else:
 # folder = "D.Representative_days_based_on_RES_and_Demand"
 
 #First read the relevant investment results from the ByStages run
-df_investment_results = pd.read_csv(
-    f"../{folder}/{case}_ByStages_nc{nb_stages}/3.Out/oT_Result_NetworkInvestment_{case}_ByStages_nc{nb_stages}.csv")
+origin_folder = f"../{folder}/{case}_ByStages_nc{nb_stages}/3.Out/oT_Result_NetworkInvestment_{case}_ByStages_nc{nb_stages}.csv"
+df_investment_results = pd.read_csv(origin_folder)
 
+print(f"Importing investment results from {origin_folder}")
 # Then read the network parameters file that will be adjusted to perform the operational run
 
 # Specify the positions of the columns to be used as the index
@@ -60,4 +61,7 @@ df_parameters["Sensitivity"] = df_investment_results["Sensitivity"]
 
 #Finally, save the parameter file back to the original location, after altering the index names again to their original empty values
 df_parameters.index.names = [None] * len(df_parameters.index.names)
-df_parameters.to_csv(f"{case}/2.Par/oT_Data_Network_{case}.csv")
+
+destination_file= f"{case}/2.Par/oT_Data_Network_{case}.csv"
+print(f"Pasting investment results in {destination_file}")
+df_parameters.to_csv(destination_file)
