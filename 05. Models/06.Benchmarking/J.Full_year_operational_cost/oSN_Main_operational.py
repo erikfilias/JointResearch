@@ -1505,25 +1505,25 @@ def solving_model(DirName, CaseName, SolverName, optmodel, pWriteLP):
     print('Termination condition: ', SolverResults.solver.termination_condition)
     SolverResults.write()                                                                # summary of the solver results
 
-    #%% fix values of binary variables to get dual variables and solve it again
-    print('# ============================================================================= #')
-    print('# ============================================================================= #')
-    idx = 0
-    for var in optmodel.component_data_objects(Var, active=True, descend_into=True):
-        if not var.is_continuous():
-            print("fixing: " + str(var))
-            var.fixed = True  # fix the current value
-            idx += 1
-    print("Number of fixed variables: ", idx)
-    print('# ============================================================================= #')
-    print('# ============================================================================= #')
-    if idx != 0:
-        if SolverName == 'gurobi':
-            Solver.options['relax_integrality'] = 1                                          # introduced to show results of the dual variables
-        optmodel.dual = Suffix(direction=Suffix.IMPORT)
-        optmodel.rc   = Suffix(direction=Suffix.IMPORT)
-        SolverResults = Solver.solve(optmodel, tee=False)                                        # tee=True displays the output of the solver
-        SolverResults.write()                                                                # summary of the solver results
+    # #%% fix values of binary variables to get dual variables and solve it again
+    # print('# ============================================================================= #')
+    # print('# ============================================================================= #')
+    # idx = 0
+    # for var in optmodel.component_data_objects(Var, active=True, descend_into=True):
+    #     if not var.is_continuous():
+    #         print("fixing: " + str(var))
+    #         var.fixed = True  # fix the current value
+    #         idx += 1
+    # print("Number of fixed variables: ", idx)
+    # print('# ============================================================================= #')
+    # print('# ============================================================================= #')
+    # if idx != 0:
+    #     if SolverName == 'gurobi':
+    #         Solver.options['relax_integrality'] = 1                                          # introduced to show results of the dual variables
+    #     optmodel.dual = Suffix(direction=Suffix.IMPORT)
+    #     optmodel.rc   = Suffix(direction=Suffix.IMPORT)
+    #     SolverResults = Solver.solve(optmodel, tee=False)                                        # tee=True displays the output of the solver
+    #     SolverResults.write()                                                                # summary of the solver results
 
     SolvingTime = time.time() - StartTime
     print('Solving                               ... ', round(SolvingTime), 's')
