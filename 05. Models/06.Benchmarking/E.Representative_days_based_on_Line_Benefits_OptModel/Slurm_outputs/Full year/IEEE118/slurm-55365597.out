@@ -1,0 +1,3110 @@
+SLURM_JOB_ID: 55365597
+SLURM_JOB_USER: vsc34888
+SLURM_JOB_ACCOUNT: lp_elect_gen_modeling
+SLURM_JOB_NAME: 118_fy_se_p2
+SLURM_CLUSTER_NAME: genius
+SLURM_JOB_PARTITION: batch_long
+SLURM_NNODES: 1
+SLURM_NODELIST: r26i27n22
+SLURM_JOB_CPUS_PER_NODE: 36
+Date: Fri Nov 24 14:34:24 CET 2023
+Walltime: 03-00:00:00
+========================================================================
+Activation OK
+Starting runs
+
+ #### Academic research license - for non-commercial use only #### 
+
+IEEE118
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/E.Representative_days_based_on_Line_Benefits_OptModel
+gurobi
+['TrainingDataGenerator_DCOPF_part_i_out_j.py', '--case', 'IEEE118', '--i', '2', '--j', '5']
+Namespace(case='IEEE118', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/E.Representative_days_based_on_Line_Benefits_OptModel', solver='gurobi', i=2, j=5)
+Reading    input data                 ...  1 s
+Number of lines in the network:  197
+―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+Sequence of the existing network and generation
+―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+Setting up input data                 ...  56 s
+vNetworkInvest : network    investment decision exists in a year {0,1}
+    Size=0, Index=vNetworkInvest_index
+    Key : Lower : Value : Upper : Fixed : Stale : Domain
+Generating objective function         ...  69 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  382 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  64 s
+Generating generation capacity        ...  41 s
+Generating network    capacity        ...  25 s
+Generating network    constraints     ...  82 s
+Econometric analysis  constraints     ...  0 s
+Set parameter Username
+Set parameter TokenServer to value "SET-S-ME-LM3.luna.kuleuven.be"
+Read LP format model from file /tmp/tmpcg0nrlby.pyomo.lp
+Reading time = 33.39 seconds
+x1: 12623523 rows, 9884644 columns, 31219180 nonzeros
+Set parameter QCPDual to value 1
+Set parameter LogFile to value "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/E.Representative_days_based_on_Line_Benefits_OptModel/IEEE118/openStarNet_IEEE118.log"
+Set parameter Method to value 2
+Set parameter MIPFocus to value 1
+Set parameter Presolve to value 2
+Set parameter RINS to value 100
+Set parameter MIPGap to value 0.01
+Set parameter Threads to value 36
+Set parameter TimeLimit to value 259200
+Set parameter IterationLimit to value 760000000
+Gurobi Optimizer version 9.5.0 build v9.5.0rc5 (linux64)
+Thread count: 36 physical cores, 36 logical processors, using up to 36 threads
+Optimize a model with 12623523 rows, 9884644 columns and 31219180 nonzeros
+Model fingerprint: 0x9a2fb8ac
+Coefficient statistics:
+  Matrix range     [1e-04, 1e+04]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [9e-05, 5e+01]
+  RHS range        [1e-04, 5e+01]
+Presolve removed 7172373 rows and 525859 columns (presolve time = 5s) ...
+Presolve removed 9544624 rows and 4856076 columns (presolve time = 11s) ...
+Presolve removed 9606225 rows and 4917677 columns (presolve time = 15s) ...
+Presolve removed 9606225 rows and 4917677 columns (presolve time = 20s) ...
+Presolve removed 9642810 rows and 5007508 columns (presolve time = 25s) ...
+Presolve removed 9642810 rows and 5007533 columns
+Presolve time: 26.92s
+Presolved: 2980713 rows, 4877111 columns, 11647049 nonzeros
+
+Ordering time: 0.93s
+
+Barrier statistics:
+ AA' NZ     : 9.022e+06
+ Factor NZ  : 3.851e+07 (roughly 3.5 GB of memory)
+ Factor Ops : 5.586e+08 (less than 1 second per iteration)
+ Threads    : 36
+
+                  Objective                Residual
+Iter       Primal          Dual         Primal    Dual     Compl     Time
+   0   9.96345740e+06 -1.70806446e+08  7.74e+01 1.55e+00  1.06e+02    33s
+   1   1.38241671e+06 -4.47807121e+07  8.92e+00 1.57e-14  1.47e+01    34s
+   2   3.92403927e+05 -8.71315577e+06  1.39e+00 1.60e-14  2.33e+00    36s
+   3   1.60794647e+05 -1.35838121e+06  6.02e-02 2.13e-14  2.95e-01    38s
+   4   7.20619978e+04 -3.32236704e+05  1.79e-02 1.42e-14  7.63e-02    39s
+   5   4.14934079e+04 -2.00930275e+05  9.30e-03 1.07e-14  4.54e-02    40s
+   6   2.84236515e+04 -1.10744772e+05  5.59e-03 1.07e-14  2.60e-02    41s
+   7   1.96134796e+04 -5.34287557e+04  3.14e-03 7.11e-15  1.36e-02    42s
+   8   1.50923110e+04 -2.57300909e+04  1.97e-03 7.11e-15  7.60e-03    44s
+   9   1.12422887e+04 -1.03310289e+04  1.06e-03 7.11e-15  4.01e-03    45s
+  10   9.69298468e+03 -5.39980618e+03  7.42e-04 7.11e-15  2.81e-03    46s
+  11   8.39993693e+03 -7.25046001e+02  5.03e-04 7.11e-15  1.70e-03    48s
+  12   7.07911701e+03  1.60956431e+03  2.79e-04 7.11e-15  1.02e-03    50s
+  13   6.34980997e+03  3.10926487e+03  1.66e-04 7.11e-15  6.02e-04    51s
+  14   6.00212371e+03  3.65597104e+03  1.16e-04 7.11e-15  4.36e-04    52s
+  15   5.75667708e+03  4.07761234e+03  8.24e-05 7.11e-15  3.12e-04    53s
+  16   5.66166983e+03  4.27456267e+03  6.99e-05 7.11e-15  2.58e-04    54s
+  17   5.55137569e+03  4.51584808e+03  5.55e-05 7.11e-15  1.92e-04    56s
+  18   5.37900380e+03  4.71266829e+03  3.37e-05 7.11e-15  1.24e-04    57s
+  19   5.25270474e+03  4.82645300e+03  1.83e-05 7.11e-15  7.92e-05    59s
+  20   5.19703638e+03  4.97804156e+03  1.20e-05 1.07e-14  4.07e-05    62s
+  21   5.15343370e+03  5.01955288e+03  7.08e-06 7.11e-15  2.49e-05    64s
+  22   5.12816851e+03  5.04368468e+03  4.20e-06 7.11e-15  1.57e-05    65s
+  23   5.11667099e+03  5.05515059e+03  2.87e-06 7.11e-15  1.14e-05    66s
+  24   5.10930174e+03  5.06748095e+03  2.06e-06 7.11e-15  7.77e-06    67s
+  25   5.10368075e+03  5.07401160e+03  1.43e-06 7.11e-15  5.51e-06    68s
+  26   5.09907935e+03  5.07978034e+03  9.35e-07 7.11e-15  3.59e-06    69s
+  27   5.09608998e+03  5.08578444e+03  6.26e-07 7.11e-15  1.92e-06    71s
+  28   5.09342864e+03  5.08697459e+03  3.55e-07 7.11e-15  1.20e-06    72s
+  29   5.09189465e+03  5.08825511e+03  1.98e-07 7.11e-15  6.76e-07    73s
+  30   5.09105345e+03  5.08881342e+03  1.14e-07 7.11e-15  4.16e-07    75s
+  31   5.09050602e+03  5.08924764e+03  6.07e-08 7.11e-15  2.34e-07    76s
+  32   5.09019002e+03  5.08947427e+03  3.13e-08 7.11e-15  1.33e-07    77s
+  33   5.09003557e+03  5.08964886e+03  1.73e-08 7.11e-15  7.19e-08    79s
+  34   5.08992969e+03  5.08975641e+03  8.25e-09 7.11e-15  3.22e-08    80s
+  35   5.08987653e+03  5.08980005e+03  7.08e-09 7.11e-15  1.42e-08    81s
+  36   5.08984107e+03  5.08981905e+03  2.97e-09 7.11e-15  4.09e-09    83s
+  37   5.08983229e+03  5.08982836e+03  1.57e-09 7.11e-15  7.31e-10    85s
+  38   5.08982994e+03  5.08982933e+03  6.58e-10 8.27e-15  1.14e-10    86s
+  39   5.08982954e+03  5.08982951e+03  4.50e-09 3.28e-14  6.48e-12    88s
+
+Barrier solved model in 39 iterations and 88.20 seconds (78.96 work units)
+Optimal objective 5.08982954e+03
+
+Crossover log...
+
+  210807 variables added to crossover basis                       90s
+
+  926859 DPushes remaining with DInf 0.0000000e+00               183s
+    2329 DPushes remaining with DInf 0.0000000e+00               233s
+      86 DPushes remaining with DInf 0.0000000e+00               288s
+       0 DPushes remaining with DInf 0.0000000e+00               338s
+
+   35333 PPushes remaining with PInf 0.0000000e+00               338s
+   14963 PPushes remaining with PInf 0.0000000e+00               403s
+    8635 PPushes remaining with PInf 0.0000000e+00               462s
+    3944 PPushes remaining with PInf 0.0000000e+00               534s
+    1780 PPushes remaining with PInf 0.0000000e+00               596s
+    1237 PPushes remaining with PInf 0.0000000e+00               663s
+       0 PPushes remaining with PInf 0.0000000e+00               720s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 7.9374443e-06    720s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+  231198    5.0898295e+03   0.000000e+00   7.937428e-06    823s
+  231200    5.0898295e+03   0.000000e+00   2.339862e-06   1041s
+  232527    5.0898295e+03   0.000000e+00   0.000000e+00   1269s
+Extra simplex iterations after uncrush: 1324
+
+Solved in 232527 iterations and 1269.23 seconds (1179.49 work units)
+Optimal objective  5.089829517e+03
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 5089.829517334931
+  Upper bound: 5089.829517334931
+  Number of objectives: 1
+  Number of constraints: 12623523
+  Number of variables: 9884644
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 9884644
+  Number of nonzeros: 31219180
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 1269.6695730686188
+  Error rc: 0
+  Time: 1382.992735862732
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+Number of fixed variables:  0
+# ============================================================================= #
+# ============================================================================= #
+Solving                               ...  1768 s
+Objective function value                   5089.83 M€
+Reading    the parameters of the model ...  1768 s
+Getting the electricity demand         ...  1 s
+Getting the max power generation       ...  0 s
+Getting the input data file            ...  0 s
+Getting the total costs                ...  4 s
+Getting the power output               ...  4 s
+Getting the power flow                 ...  3 s
+Getting the dual variable: eBalance    ...  164 s
+Getting the output data file           ...  1 s
+Number of candidate lines to be considered: 27
+―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+Sequence of the full network and generation
+―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+Setting up input data                 ...  45 s
+Generating objective function         ...  138 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  375 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  82 s
+Generating generation capacity        ...  21 s
+Generating network    capacity        ...  53 s
+Generating network    constraints     ...  99 s
+Econometric analysis  constraints     ...  0 s
+vNetworkInvest : network    investment decision exists in a year {0,1}
+    Size=27, Index=vNetworkInvest_index
+    Key                                : Lower : Value : Upper : Fixed : Stale : Domain
+    (2030, 'bus001', 'bus003', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus003', 'bus005', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus005', 'bus006', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus008', 'bus005', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus008', 'bus030', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus012', 'bus117', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus015', 'bus017', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus015', 'bus033', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus017', 'bus113', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus023', 'bus024', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus023', 'bus032', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus025', 'bus027', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus026', 'bus030', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus030', 'bus038', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus033', 'bus037', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus038', 'bus037', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus038', 'bus065', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus065', 'bus068', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus068', 'bus069', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus069', 'bus077', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus074', 'bus075', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus077', 'bus082', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus080', 'bus099', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus082', 'bus083', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus093', 'bus094', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus094', 'bus100', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus099', 'bus100', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+Set parameter Username
+Set parameter TokenServer to value "SET-S-ME-LM3.luna.kuleuven.be"
+Read LP format model from file /tmp/tmprydcras1.pyomo.lp
+Reading time = 35.57 seconds
+x1: 13575747 rows, 10137988 columns, 33551692 nonzeros
+Set parameter QCPDual to value 1
+Set parameter LogFile to value "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/E.Representative_days_based_on_Line_Benefits_OptModel/IEEE118/openStarNet_IEEE118.log"
+Set parameter Method to value 2
+Set parameter MIPFocus to value 1
+Set parameter Presolve to value 2
+Set parameter RINS to value 100
+Set parameter MIPGap to value 0.01
+Set parameter Threads to value 36
+Set parameter TimeLimit to value 259200
+Set parameter IterationLimit to value 760000000
+Gurobi Optimizer version 9.5.0 build v9.5.0rc5 (linux64)
+Thread count: 36 physical cores, 36 logical processors, using up to 36 threads
+Optimize a model with 13575747 rows, 10137988 columns and 33551692 nonzeros
+Model fingerprint: 0xfc39bfd3
+Coefficient statistics:
+  Matrix range     [1e-04, 1e+04]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [9e-05, 5e+01]
+  RHS range        [1e-04, 4e+02]
+Presolve removed 7635381 rows and 479360 columns (presolve time = 5s) ...
+Presolve removed 9800202 rows and 4380000 columns (presolve time = 10s) ...
+Presolve removed 10339890 rows and 4919688 columns (presolve time = 15s) ...
+Presolve removed 10339890 rows and 4919688 columns (presolve time = 20s) ...
+Presolve removed 10364847 rows and 4982962 columns (presolve time = 25s) ...
+Presolve removed 10373583 rows and 4991723 columns
+Presolve time: 28.27s
+Presolved: 3202164 rows, 5146265 columns, 12668930 nonzeros
+
+Ordering time: 1.42s
+
+Barrier statistics:
+ AA' NZ     : 1.126e+07
+ Factor NZ  : 4.424e+07 (roughly 4.0 GB of memory)
+ Factor Ops : 6.724e+08 (less than 1 second per iteration)
+ Threads    : 36
+
+                  Objective                Residual
+Iter       Primal          Dual         Primal    Dual     Compl     Time
+   0   1.92848965e+07 -2.36547332e+08  1.35e+02 1.89e+00  1.99e+02    36s
+   1   2.84600588e+06 -9.17507555e+07  1.85e+01 1.87e-14  3.37e+01    37s
+   2   5.00875464e+05 -2.02146672e+07  2.23e+00 1.63e-14  5.08e+00    39s
+   3   1.90796068e+05 -2.68439974e+06  1.30e-01 1.42e-14  5.54e-01    41s
+   4   7.37720883e+04 -6.27403353e+05  1.69e-02 3.55e-14  1.26e-01    43s
+   5   4.10152152e+04 -2.80529118e+05  8.54e-03 1.51e-14  5.75e-02    44s
+   6   1.95957981e+04 -1.38024965e+05  3.15e-03 7.99e-15  2.80e-02    45s
+   7   1.39174849e+04 -5.22286501e+04  1.84e-03 7.11e-15  1.17e-02    46s
+   8   9.27852921e+03 -1.64285095e+04  9.22e-04 7.11e-15  4.56e-03    47s
+   9   6.69385196e+03 -7.66750574e+03  5.69e-04 7.11e-15  2.55e-03    49s
+  10   4.77950125e+03 -3.06850631e+03  3.43e-04 7.11e-15  1.39e-03    51s
+  11   3.65133097e+03 -1.28554971e+03  2.26e-04 7.11e-15  8.75e-04    53s
+  12   3.09362535e+03 -5.44246047e+02  1.69e-04 7.11e-15  6.45e-04    54s
+  13   2.76176532e+03  9.78267871e+01  1.35e-04 7.11e-15  4.72e-04    55s
+  14   2.31940335e+03  4.04877316e+02  9.16e-05 7.11e-15  3.39e-04    56s
+  15   1.99140310e+03  7.91084501e+02  5.99e-05 7.11e-15  2.13e-04    58s
+  16   1.75865760e+03  9.99173513e+02  3.80e-05 7.11e-15  1.35e-04    60s
+  17   1.65822378e+03  1.13939484e+03  2.88e-05 7.11e-15  9.20e-05    61s
+  18   1.56129134e+03  1.19120257e+03  1.96e-05 7.11e-15  6.56e-05    63s
+  19   1.52345381e+03  1.23208995e+03  1.60e-05 7.11e-15  5.16e-05    64s
+  20   1.48340790e+03  1.26492229e+03  1.22e-05 7.11e-15  3.87e-05    65s
+  21   1.43330108e+03  1.28895982e+03  7.59e-06 7.11e-15  2.56e-05    67s
+  22   1.39983955e+03  1.31093246e+03  4.54e-06 7.11e-15  1.58e-05    69s
+  23   1.38328504e+03  1.32409273e+03  3.09e-06 7.11e-15  1.05e-05    71s
+  24   1.36913257e+03  1.33081168e+03  1.87e-06 7.11e-15  6.79e-06    73s
+  25   1.36359307e+03  1.33852217e+03  1.35e-06 7.11e-15  4.44e-06    75s
+  26   1.35917574e+03  1.34208409e+03  9.40e-07 7.11e-15  3.03e-06    76s
+  27   1.35541052e+03  1.34350172e+03  5.96e-07 7.11e-15  2.11e-06    77s
+  28   1.35299193e+03  1.34534813e+03  3.76e-07 7.11e-15  1.35e-06    78s
+  29   1.35124305e+03  1.34644444e+03  2.20e-07 7.11e-15  8.51e-07    80s
+  30   1.35003835e+03  1.34691067e+03  1.10e-07 7.11e-15  5.54e-07    81s
+  31   1.34952464e+03  1.34771880e+03  6.65e-08 7.11e-15  3.20e-07    82s
+  32   1.34916324e+03  1.34807084e+03  3.62e-08 7.11e-15  1.94e-07    84s
+  33   1.34895623e+03  1.34830717e+03  1.92e-08 7.11e-15  1.15e-07    85s
+  34   1.34884069e+03  1.34851990e+03  1.03e-08 7.11e-15  5.69e-08    87s
+  35   1.34878324e+03  1.34861318e+03  6.02e-09 7.11e-15  3.01e-08    88s
+  36   1.34873951e+03  1.34866008e+03  3.47e-09 7.11e-15  1.41e-08    90s
+  37   1.34871438e+03  1.34867982e+03  2.92e-09 7.11e-15  6.13e-09    91s
+  38   1.34870545e+03  1.34868920e+03  3.47e-09 7.11e-15  2.88e-09    93s
+  39   1.34870033e+03  1.34869441e+03  3.81e-09 2.64e-13  1.05e-09    94s
+  40   1.34869789e+03  1.34869635e+03  4.81e-09 2.19e-13  2.74e-10    95s
+  41   1.34869693e+03  1.34869669e+03  2.98e-09 6.53e-14  4.27e-11    98s
+  42   1.34869679e+03  1.34869673e+03  8.17e-10 8.70e-14  1.15e-11    99s
+  43   1.34869675e+03  1.34869674e+03  3.11e-09 1.36e-13  7.40e-13   101s
+
+Barrier solved model in 43 iterations and 101.29 seconds (89.53 work units)
+Optimal objective 1.34869675e+03
+
+Crossover log...
+
+  950804 DPushes remaining with DInf 5.3093822e-04               167s
+     174 DPushes remaining with DInf 5.3093822e-04               200s
+       5 DPushes remaining with DInf 5.3093822e-04               239s
+       0 DPushes remaining with DInf 5.3093822e-04               271s
+
+   35075 PPushes remaining with PInf 9.1095738e-04               272s
+   20675 PPushes remaining with PInf 4.7933338e-04               303s
+   13753 PPushes remaining with PInf 7.6576400e-05               346s
+    7977 PPushes remaining with PInf 7.0401975e-05               393s
+    5645 PPushes remaining with PInf 3.4550528e-06               436s
+    4076 PPushes remaining with PInf 0.0000000e+00               475s
+       0 PPushes remaining with PInf 0.0000000e+00               513s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 4.8933483e-12    513s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+  149115    1.3486967e+03   0.000000e+00   1.625343e-06    639s
+Extra simplex iterations after uncrush: 29
+  149145    1.3486967e+03   0.000000e+00   0.000000e+00    786s
+
+Solved in 149145 iterations and 786.35 seconds (780.16 work units)
+Optimal objective  1.348696744e+03
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 1348.6967436277355
+  Upper bound: 1348.6967436277355
+  Number of objectives: 1
+  Number of constraints: 13575747
+  Number of variables: 10137988
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 10137988
+  Number of nonzeros: 33551692
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 786.7917110919952
+  Error rc: 0
+  Time: 906.6539971828461
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,bus015,bus017,cac1]
+fixing: vNetworkInvest[2030,bus065,bus068,cac1]
+fixing: vNetworkInvest[2030,bus003,bus005,cac1]
+fixing: vNetworkInvest[2030,bus068,bus069,cac1]
+fixing: vNetworkInvest[2030,bus094,bus100,cac1]
+fixing: vNetworkInvest[2030,bus025,bus027,cac1]
+fixing: vNetworkInvest[2030,bus082,bus083,cac1]
+fixing: vNetworkInvest[2030,bus001,bus003,cac1]
+fixing: vNetworkInvest[2030,bus069,bus077,cac1]
+fixing: vNetworkInvest[2030,bus077,bus082,cac1]
+fixing: vNetworkInvest[2030,bus023,bus032,cac1]
+fixing: vNetworkInvest[2030,bus008,bus005,cac1]
+fixing: vNetworkInvest[2030,bus012,bus117,cac1]
+fixing: vNetworkInvest[2030,bus017,bus113,cac1]
+fixing: vNetworkInvest[2030,bus026,bus030,cac1]
+fixing: vNetworkInvest[2030,bus030,bus038,cac1]
+fixing: vNetworkInvest[2030,bus038,bus037,cac1]
+fixing: vNetworkInvest[2030,bus093,bus094,cac1]
+fixing: vNetworkInvest[2030,bus074,bus075,cac1]
+fixing: vNetworkInvest[2030,bus038,bus065,cac1]
+fixing: vNetworkInvest[2030,bus015,bus033,cac1]
+fixing: vNetworkInvest[2030,bus080,bus099,cac1]
+fixing: vNetworkInvest[2030,bus099,bus100,cac1]
+fixing: vNetworkInvest[2030,bus023,bus024,cac1]
+fixing: vNetworkInvest[2030,bus033,bus037,cac1]
+fixing: vNetworkInvest[2030,bus005,bus006,cac1]
+fixing: vNetworkInvest[2030,bus008,bus030,cac1]
+Number of fixed variables:  27
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block unknown with a new Component
+(type=<class 'pyomo.core.base.suffix.Suffix'>). This is usually indicative of
+a modelling error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block unknown with a new Component
+(type=<class 'pyomo.core.base.suffix.Suffix'>). This is usually indicative of
+a modelling error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 1348.6967436277355
+  Upper bound: 1348.6967436277355
+  Number of objectives: 1
+  Number of constraints: 13575747
+  Number of variables: 10137988
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 10137988
+  Number of nonzeros: 33551692
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 783.8114008903503
+  Error rc: 0
+  Time: 917.4896776676178
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  2682 s
+Objective function value                   1348.7 M€
+Reading    the parameters of the model ...  2682 s
+Getting the electricity demand         ...  1 s
+Getting the max power generation       ...  0 s
+Getting the input data file            ...  0 s
+Getting the total costs                ...  4 s
+Getting the power output               ...  4 s
+Getting the power flow                 ...  3 s
+Getting the dual variable: eBalance    ...  164 s
+Getting the output data file           ...  1 s
+Number of candidate lines to be considered: 27
+########################################################
+Total time                            ...  6750 s
+########################################################
+Solving 1 5th of candidates, part 2
+5 10
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+PINT: Line bus094 bus100 cac1
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+Number of existing lines to be considered: 170
+Setting up input data                 ...  45 s
+Generating objective function         ...  97 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  358 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  117 s
+Generating generation capacity        ...  22 s
+Generating network    capacity        ...  25 s
+Generating network    constraints     ...  57 s
+Econometric analysis  constraints     ...  0 s
+vNetworkInvest : network    investment decision exists in a year {0,1}
+    Size=1, Index=vNetworkInvest_index
+    Key                                : Lower : Value : Upper : Fixed : Stale : Domain
+    (2030, 'bus094', 'bus100', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+Number of lines to be considered: 171
+Set parameter Username
+Set parameter TokenServer to value "SET-S-ME-LM3.luna.kuleuven.be"
+Read LP format model from file /tmp/tmpi_rggfis.pyomo.lp
+Reading time = 33.12 seconds
+x1: 12658467 rows, 9893380 columns, 31306540 nonzeros
+Set parameter QCPDual to value 1
+Set parameter LogFile to value "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/E.Representative_days_based_on_Line_Benefits_OptModel/IEEE118/openStarNet_IEEE118.log"
+Set parameter Method to value 2
+Set parameter MIPFocus to value 1
+Set parameter Presolve to value 2
+Set parameter RINS to value 100
+Set parameter MIPGap to value 0.01
+Set parameter Threads to value 36
+Set parameter TimeLimit to value 259200
+Set parameter IterationLimit to value 760000000
+Gurobi Optimizer version 9.5.0 build v9.5.0rc5 (linux64)
+Thread count: 36 physical cores, 36 logical processors, using up to 36 threads
+Optimize a model with 12658467 rows, 9893380 columns and 31306540 nonzeros
+Model fingerprint: 0x78d3d54b
+Coefficient statistics:
+  Matrix range     [1e-04, 1e+04]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [9e-05, 5e+01]
+  RHS range        [1e-04, 5e+01]
+Presolve removed 7189845 rows and 525859 columns (presolve time = 5s) ...
+Presolve removed 9570832 rows and 4856076 columns (presolve time = 11s) ...
+Presolve removed 9632433 rows and 4917677 columns (presolve time = 15s) ...
+Presolve removed 9632433 rows and 4917677 columns (presolve time = 20s) ...
+Presolve removed 9669018 rows and 5007508 columns (presolve time = 25s) ...
+Presolve removed 9669018 rows and 5007533 columns
+Presolve time: 26.93s
+Presolved: 2989449 rows, 4885847 columns, 11690729 nonzeros
+
+Ordering time: 0.95s
+
+Barrier statistics:
+ AA' NZ     : 9.127e+06
+ Factor NZ  : 3.819e+07 (roughly 3.5 GB of memory)
+ Factor Ops : 5.488e+08 (less than 1 second per iteration)
+ Threads    : 36
+
+                  Objective                Residual
+Iter       Primal          Dual         Primal    Dual     Compl     Time
+   0   9.97001745e+06 -1.71123886e+08  7.75e+01 1.55e+00  1.06e+02    33s
+   1   1.37991589e+06 -4.49635193e+07  8.92e+00 1.50e-14  1.47e+01    35s
+   2   3.81243491e+05 -8.71290825e+06  1.32e+00 1.44e-14  2.29e+00    36s
+   3   1.59478574e+05 -1.35349137e+06  4.47e-02 1.95e-14  2.90e-01    38s
+   4   7.11811165e+04 -3.25968145e+05  1.34e-02 8.88e-15  7.45e-02    40s
+   5   4.14903561e+04 -2.07287287e+05  7.09e-03 7.11e-15  4.65e-02    41s
+   6   3.01833306e+04 -1.07207670e+05  4.65e-03 7.11e-15  2.56e-02    42s
+   7   2.07578326e+04 -4.63167863e+04  2.65e-03 7.11e-15  1.25e-02    43s
+   8   1.58834156e+04 -2.11987260e+04  1.69e-03 7.11e-15  6.89e-03    44s
+   9   1.21549271e+04 -1.03442574e+04  1.01e-03 7.11e-15  4.18e-03    46s
+  10   1.02050313e+04 -5.17723109e+03  6.91e-04 7.11e-15  2.86e-03    47s
+  11   8.58766552e+03 -7.26357939e+02  4.49e-04 7.11e-15  1.73e-03    48s
+  12   7.15041592e+03  1.99396832e+03  2.47e-04 7.11e-15  9.57e-04    50s
+  13   6.41533813e+03  3.21063508e+03  1.52e-04 7.11e-15  5.95e-04    52s
+  14   6.07741924e+03  3.69659234e+03  1.11e-04 7.11e-15  4.42e-04    53s
+  15   5.77822605e+03  4.12001067e+03  7.59e-05 7.11e-15  3.08e-04    54s
+  16   5.57851666e+03  4.40325012e+03  5.32e-05 7.11e-15  2.18e-04    55s
+  17   5.42331922e+03  4.59751808e+03  3.61e-05 7.11e-15  1.53e-04    56s
+  18   5.28934399e+03  4.76300829e+03  2.17e-05 7.11e-15  9.77e-05    58s
+  19   5.19114167e+03  4.87123161e+03  1.16e-05 7.11e-15  5.94e-05    59s
+  20   5.14969760e+03  4.95314882e+03  7.47e-06 7.11e-15  3.65e-05    61s
+  21   5.13090001e+03  4.99215360e+03  5.63e-06 7.11e-15  2.57e-05    62s
+  22   5.11017404e+03  5.01765621e+03  3.63e-06 7.11e-15  1.72e-05    63s
+  23   5.09613992e+03  5.03297959e+03  2.30e-06 7.11e-15  1.17e-05    64s
+  24   5.08588447e+03  5.04712884e+03  1.31e-06 7.11e-15  7.19e-06    65s
+  25   5.07994117e+03  5.06102673e+03  7.85e-07 7.11e-15  3.51e-06    67s
+  26   5.07634305e+03  5.06423754e+03  4.72e-07 7.11e-15  2.25e-06    68s
+  27   5.07287470e+03  5.06657550e+03  1.75e-07 7.11e-15  1.17e-06    69s
+  28   5.07208152e+03  5.06828028e+03  1.08e-07 7.11e-15  7.05e-07    70s
+  29   5.07133013e+03  5.06987893e+03  4.66e-08 1.07e-14  2.69e-07    72s
+  30   5.07102993e+03  5.07012403e+03  2.41e-08 7.11e-15  1.68e-07    73s
+  31   5.07081488e+03  5.07040524e+03  8.31e-09 7.11e-15  7.60e-08    74s
+  32   5.07072525e+03  5.07065335e+03  2.52e-09 1.07e-14  1.33e-08    77s
+  33   5.07069657e+03  5.07068647e+03  1.45e-08 7.11e-15  1.87e-09    79s
+  34   5.07069263e+03  5.07069049e+03  2.33e-09 7.11e-15  3.97e-10    81s
+  35   5.07069186e+03  5.07069148e+03  2.78e-09 7.11e-15  7.14e-11    82s
+  36   5.07069173e+03  5.07069167e+03  2.44e-09 1.79e-14  1.05e-11    83s
+  37   5.07069170e+03  5.07069170e+03  5.65e-10 1.35e-14  7.16e-13    85s
+
+Barrier solved model in 37 iterations and 84.60 seconds (75.50 work units)
+Optimal objective 5.07069170e+03
+
+Crossover log...
+
+  927127 DPushes remaining with DInf 0.0000000e+00               188s
+    2272 DPushes remaining with DInf 0.0000000e+00               245s
+      82 DPushes remaining with DInf 0.0000000e+00               304s
+       0 DPushes remaining with DInf 0.0000000e+00               355s
+
+   33863 PPushes remaining with PInf 0.0000000e+00               356s
+   15813 PPushes remaining with PInf 0.0000000e+00               417s
+    9181 PPushes remaining with PInf 0.0000000e+00               476s
+    3878 PPushes remaining with PInf 0.0000000e+00               544s
+    1829 PPushes remaining with PInf 0.0000000e+00               605s
+    1252 PPushes remaining with PInf 0.0000000e+00               668s
+       0 PPushes remaining with PInf 0.0000000e+00               726s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 1.6158049e-06    726s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+  233109    5.0706917e+03   0.000000e+00   1.615789e-06    841s
+  233110    5.0706917e+03   0.000000e+00   3.204376e-06   1057s
+  234420    5.0706917e+03   0.000000e+00   0.000000e+00   1290s
+Extra simplex iterations after uncrush: 1307
+
+Solved in 234420 iterations and 1290.44 seconds (1183.25 work units)
+Optimal objective  5.070691702e+03
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 5070.691702137576
+  Upper bound: 5070.691702137576
+  Number of objectives: 1
+  Number of constraints: 12658467
+  Number of variables: 9893380
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 9893380
+  Number of nonzeros: 31306540
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 1290.8769998550415
+  Error rc: 0
+  Time: 1402.8754329681396
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,bus094,bus100,cac1]
+Number of fixed variables:  1
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block unknown with a new Component
+(type=<class 'pyomo.core.base.suffix.Suffix'>). This is usually indicative of
+a modelling error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block unknown with a new Component
+(type=<class 'pyomo.core.base.suffix.Suffix'>). This is usually indicative of
+a modelling error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 5070.691702137576
+  Upper bound: 5070.691702137576
+  Number of objectives: 1
+  Number of constraints: 12658467
+  Number of variables: 9893380
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 9893380
+  Number of nonzeros: 31306540
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 1262.6667070388794
+  Error rc: 0
+  Time: 1389.213692188263
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  3602 s
+Objective function value                   5070.69 M€
+Reading    the parameters of the model ...  3602 s
+Getting the electricity demand         ...  1 s
+Getting the max power generation       ...  0 s
+Getting the input data file            ...  0 s
+Getting the total costs                ...  4 s
+Getting the power output               ...  4 s
+Getting the power flow                 ...  3 s
+Getting the dual variable: eBalance    ...  164 s
+Getting the output data file           ...  1 s
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+Remaining lines: 26
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+TOOT: Line bus094 bus100 cac1
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+Setting up input data                 ...  46 s
+Generating objective function         ...  191 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  363 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  120 s
+Generating generation capacity        ...  21 s
+Generating network    capacity        ...  31 s
+Generating network    constraints     ...  155 s
+Econometric analysis  constraints     ...  0 s
+vNetworkInvest : network    investment decision exists in a year {0,1}
+    Size=27, Index=vNetworkInvest_index
+    Key                                : Lower : Value : Upper : Fixed : Stale : Domain
+    (2030, 'bus001', 'bus003', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus003', 'bus005', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus005', 'bus006', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus008', 'bus005', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus008', 'bus030', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus012', 'bus117', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus015', 'bus017', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus015', 'bus033', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus017', 'bus113', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus023', 'bus024', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus023', 'bus032', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus025', 'bus027', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus026', 'bus030', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus030', 'bus038', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus033', 'bus037', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus038', 'bus037', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus038', 'bus065', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus065', 'bus068', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus068', 'bus069', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus069', 'bus077', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus074', 'bus075', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus077', 'bus082', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus080', 'bus099', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus082', 'bus083', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus093', 'bus094', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus094', 'bus100', 'cac1') :     0 :   0.0 :     1 :  True : False : Binary
+    (2030, 'bus099', 'bus100', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+Number of lines to be considered: 197
+Set parameter Username
+Set parameter TokenServer to value "SET-S-ME-LM3.luna.kuleuven.be"
+Read LP format model from file /tmp/tmpm95y9c5v.pyomo.lp
+Reading time = 35.73 seconds
+x1: 13575747 rows, 10137988 columns, 33551692 nonzeros
+Set parameter QCPDual to value 1
+Set parameter LogFile to value "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/E.Representative_days_based_on_Line_Benefits_OptModel/IEEE118/openStarNet_IEEE118.log"
+Set parameter Method to value 2
+Set parameter MIPFocus to value 1
+Set parameter Presolve to value 2
+Set parameter RINS to value 100
+Set parameter MIPGap to value 0.01
+Set parameter Threads to value 36
+Set parameter TimeLimit to value 259200
+Set parameter IterationLimit to value 760000000
+Gurobi Optimizer version 9.5.0 build v9.5.0rc5 (linux64)
+Thread count: 36 physical cores, 36 logical processors, using up to 36 threads
+Optimize a model with 13575747 rows, 10137988 columns and 33551692 nonzeros
+Model fingerprint: 0xf52ccc5e
+Coefficient statistics:
+  Matrix range     [1e-04, 1e+04]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [9e-05, 5e+01]
+  RHS range        [1e-04, 4e+02]
+Presolve removed 7635381 rows and 488096 columns (presolve time = 5s) ...
+Presolve removed 9902730 rows and 4500000 columns (presolve time = 10s) ...
+Presolve removed 10331154 rows and 4928424 columns (presolve time = 15s) ...
+Presolve removed 10331154 rows and 4928424 columns (presolve time = 20s) ...
+Presolve removed 10356111 rows and 4991684 columns (presolve time = 25s) ...
+Presolve removed 10373583 rows and 5000445 columns
+Presolve time: 28.51s
+Presolved: 3202164 rows, 5146279 columns, 12651472 nonzeros
+
+Ordering time: 1.39s
+
+Barrier statistics:
+ AA' NZ     : 1.124e+07
+ Factor NZ  : 4.441e+07 (roughly 4.0 GB of memory)
+ Factor Ops : 6.793e+08 (less than 1 second per iteration)
+ Threads    : 36
+
+                  Objective                Residual
+Iter       Primal          Dual         Primal    Dual     Compl     Time
+   0   1.82878549e+07 -2.36398896e+08  1.28e+02 1.89e+00  1.91e+02    36s
+   1   2.81265451e+06 -9.06270816e+07  1.82e+01 1.87e-14  3.32e+01    37s
+   2   4.85354907e+05 -1.96386816e+07  2.06e+00 1.67e-14  4.86e+00    39s
+   3   1.93609708e+05 -2.74782622e+06  1.34e-01 1.78e-14  5.68e-01    41s
+   4   7.98716263e+04 -6.39818074e+05  2.05e-02 5.51e-14  1.30e-01    42s
+   5   4.14931427e+04 -2.59658133e+05  9.64e-03 2.22e-14  5.39e-02    43s
+   6   1.96202909e+04 -1.15081074e+05  3.54e-03 1.07e-14  2.40e-02    44s
+   7   1.23185328e+04 -4.57744796e+04  1.69e-03 7.11e-15  1.03e-02    46s
+   8   9.16035335e+03 -1.66665242e+04  1.06e-03 1.07e-14  4.58e-03    47s
+   9   6.44888029e+03 -5.60716384e+03  6.32e-04 7.11e-15  2.14e-03    48s
+  10   4.49465167e+03 -1.82845679e+03  3.74e-04 7.11e-15  1.12e-03    50s
+  11   3.83952001e+03 -4.38331150e+02  2.96e-04 7.11e-15  7.58e-04    52s
+  12   3.10021655e+03  7.18505337e+01  2.05e-04 7.11e-15  5.37e-04    53s
+  13   2.85030995e+03  4.51703857e+02  1.74e-04 7.11e-15  4.25e-04    54s
+  14   2.45698999e+03  7.23320929e+02  1.27e-04 7.11e-15  3.07e-04    55s
+  15   2.11960358e+03  9.30705816e+02  8.79e-05 7.11e-15  2.11e-04    57s
+  16   1.86034313e+03  1.11750028e+03  5.86e-05 7.11e-15  1.32e-04    59s
+  17   1.65667763e+03  1.21649675e+03  3.46e-05 7.11e-15  7.80e-05    62s
+  18   1.56189542e+03  1.27416197e+03  2.34e-05 7.11e-15  5.10e-05    64s
+  19   1.49188679e+03  1.29687834e+03  1.53e-05 7.11e-15  3.46e-05    65s
+  20   1.47463930e+03  1.31437089e+03  1.30e-05 7.11e-15  2.84e-05    66s
+  21   1.44917559e+03  1.32856843e+03  9.74e-06 7.11e-15  2.14e-05    68s
+  22   1.43254436e+03  1.34109362e+03  7.67e-06 7.11e-15  1.62e-05    69s
+  23   1.40908282e+03  1.35010186e+03  4.87e-06 7.11e-15  1.05e-05    71s
+  24   1.39509194e+03  1.35782248e+03  2.98e-06 7.11e-15  6.61e-06    74s
+  25   1.38584199e+03  1.36439327e+03  1.75e-06 7.11e-15  3.80e-06    76s
+  26   1.38131701e+03  1.36708627e+03  1.11e-06 7.11e-15  2.52e-06    78s
+  27   1.37810116e+03  1.36854659e+03  6.59e-07 7.11e-15  1.69e-06    79s
+  28   1.37600139e+03  1.37001146e+03  3.69e-07 7.11e-15  1.06e-06    81s
+  29   1.37503915e+03  1.37095769e+03  2.38e-07 7.11e-15  7.23e-07    82s
+  30   1.37454738e+03  1.37143474e+03  1.73e-07 7.11e-15  5.52e-07    83s
+  31   1.37392585e+03  1.37205550e+03  8.77e-08 7.11e-15  3.32e-07    85s
+  32   1.37363775e+03  1.37256774e+03  5.12e-08 7.11e-15  1.90e-07    86s
+  33   1.37347013e+03  1.37283624e+03  3.08e-08 7.11e-15  1.12e-07    87s
+  34   1.37334904e+03  1.37298364e+03  1.63e-08 7.11e-15  6.48e-08    89s
+  35   1.37329299e+03  1.37303030e+03  9.49e-09 7.11e-15  4.66e-08    90s
+  36   1.37324992e+03  1.37312306e+03  6.81e-09 7.11e-15  2.25e-08    92s
+  37   1.37322832e+03  1.37317276e+03  3.78e-09 7.11e-15  9.85e-09    93s
+  38   1.37321812e+03  1.37319164e+03  2.38e-09 7.11e-15  4.69e-09    94s
+  39   1.37321002e+03  1.37319939e+03  3.68e-09 7.11e-15  1.88e-09    96s
+  40   1.37320828e+03  1.37320413e+03  2.60e-09 2.27e-14  7.35e-10    97s
+  41   1.37320694e+03  1.37320573e+03  2.19e-09 4.37e-13  2.14e-10    99s
+  42   1.37320628e+03  1.37320608e+03  2.49e-09 4.41e-14  3.52e-11   100s
+  43   1.37320614e+03  1.37320612e+03  1.27e-09 3.01e-14  2.69e-12   102s
+  44   1.37320612e+03  1.37320612e+03  1.07e-10 7.11e-15  2.52e-15   103s
+
+Barrier solved model in 44 iterations and 103.22 seconds (94.16 work units)
+Optimal objective 1.37320612e+03
+
+Crossover log...
+
+  157725 variables added to crossover basis                      106s
+
+  950100 DPushes remaining with DInf 1.3710157e-05               161s
+     258 DPushes remaining with DInf 1.3710157e-05               191s
+       5 DPushes remaining with DInf 1.3710157e-05               233s
+       0 DPushes remaining with DInf 1.3710157e-05               261s
+
+   31928 PPushes remaining with PInf 0.0000000e+00               262s
+   17535 PPushes remaining with PInf 0.0000000e+00               292s
+   11348 PPushes remaining with PInf 0.0000000e+00               338s
+    5870 PPushes remaining with PInf 0.0000000e+00               388s
+    4157 PPushes remaining with PInf 0.0000000e+00               427s
+       0 PPushes remaining with PInf 0.0000000e+00               471s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 5.2260228e-12    472s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+  150410    1.3732061e+03   0.000000e+00   5.950564e-04    677s
+Extra simplex iterations after uncrush: 16
+  150426    1.3732061e+03   0.000000e+00   0.000000e+00    812s
+
+Solved in 150426 iterations and 811.87 seconds (789.88 work units)
+Optimal objective  1.373206125e+03
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 1373.206124844918
+  Upper bound: 1373.206124844918
+  Number of objectives: 1
+  Number of constraints: 13575747
+  Number of variables: 10137988
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 10137988
+  Number of nonzeros: 33551692
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 812.3376889228821
+  Error rc: 0
+  Time: 931.6217324733734
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,bus015,bus017,cac1]
+fixing: vNetworkInvest[2030,bus065,bus068,cac1]
+fixing: vNetworkInvest[2030,bus003,bus005,cac1]
+fixing: vNetworkInvest[2030,bus068,bus069,cac1]
+fixing: vNetworkInvest[2030,bus094,bus100,cac1]
+fixing: vNetworkInvest[2030,bus025,bus027,cac1]
+fixing: vNetworkInvest[2030,bus082,bus083,cac1]
+fixing: vNetworkInvest[2030,bus001,bus003,cac1]
+fixing: vNetworkInvest[2030,bus069,bus077,cac1]
+fixing: vNetworkInvest[2030,bus077,bus082,cac1]
+fixing: vNetworkInvest[2030,bus023,bus032,cac1]
+fixing: vNetworkInvest[2030,bus008,bus005,cac1]
+fixing: vNetworkInvest[2030,bus012,bus117,cac1]
+fixing: vNetworkInvest[2030,bus017,bus113,cac1]
+fixing: vNetworkInvest[2030,bus026,bus030,cac1]
+fixing: vNetworkInvest[2030,bus030,bus038,cac1]
+fixing: vNetworkInvest[2030,bus038,bus037,cac1]
+fixing: vNetworkInvest[2030,bus093,bus094,cac1]
+fixing: vNetworkInvest[2030,bus074,bus075,cac1]
+fixing: vNetworkInvest[2030,bus038,bus065,cac1]
+fixing: vNetworkInvest[2030,bus015,bus033,cac1]
+fixing: vNetworkInvest[2030,bus080,bus099,cac1]
+fixing: vNetworkInvest[2030,bus099,bus100,cac1]
+fixing: vNetworkInvest[2030,bus023,bus024,cac1]
+fixing: vNetworkInvest[2030,bus033,bus037,cac1]
+fixing: vNetworkInvest[2030,bus005,bus006,cac1]
+fixing: vNetworkInvest[2030,bus008,bus030,cac1]
+Number of fixed variables:  27
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block unknown with a new Component
+(type=<class 'pyomo.core.base.suffix.Suffix'>). This is usually indicative of
+a modelling error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block unknown with a new Component
+(type=<class 'pyomo.core.base.suffix.Suffix'>). This is usually indicative of
+a modelling error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 1373.206124844918
+  Upper bound: 1373.206124844918
+  Number of objectives: 1
+  Number of constraints: 13575747
+  Number of variables: 10137988
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 10137988
+  Number of nonzeros: 33551692
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 769.751678943634
+  Error rc: 0
+  Time: 902.2150864601135
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  2623 s
+Objective function value                   1373.21 M€
+Reading    the parameters of the model ...  2623 s
+Getting the electricity demand         ...  1 s
+Getting the max power generation       ...  0 s
+Getting the input data file            ...  0 s
+Getting the total costs                ...  4 s
+Getting the power output               ...  4 s
+Getting the power flow                 ...  3 s
+Getting the dual variable: eBalance    ...  164 s
+Getting the output data file           ...  1 s
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+Remaining lines: 26
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+PINT: Line bus077 bus082 cac1
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+Number of existing lines to be considered: 170
+Setting up input data                 ...  45 s
+Generating objective function         ...  206 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  359 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  112 s
+Generating generation capacity        ...  22 s
+Generating network    capacity        ...  26 s
+Generating network    constraints     ...  134 s
+Econometric analysis  constraints     ...  0 s
+vNetworkInvest : network    investment decision exists in a year {0,1}
+    Size=1, Index=vNetworkInvest_index
+    Key                                : Lower : Value : Upper : Fixed : Stale : Domain
+    (2030, 'bus077', 'bus082', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+Number of lines to be considered: 171
+Set parameter Username
+Set parameter TokenServer to value "SET-S-ME-LM3.luna.kuleuven.be"
+Read LP format model from file /tmp/tmpua_5ezol.pyomo.lp
+Reading time = 33.30 seconds
+x1: 12658467 rows, 9893380 columns, 31306540 nonzeros
+Set parameter QCPDual to value 1
+Set parameter LogFile to value "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/E.Representative_days_based_on_Line_Benefits_OptModel/IEEE118/openStarNet_IEEE118.log"
+Set parameter Method to value 2
+Set parameter MIPFocus to value 1
+Set parameter Presolve to value 2
+Set parameter RINS to value 100
+Set parameter MIPGap to value 0.01
+Set parameter Threads to value 36
+Set parameter TimeLimit to value 259200
+Set parameter IterationLimit to value 760000000
+Gurobi Optimizer version 9.5.0 build v9.5.0rc5 (linux64)
+Thread count: 36 physical cores, 36 logical processors, using up to 36 threads
+Optimize a model with 12658467 rows, 9893380 columns and 31306540 nonzeros
+Model fingerprint: 0x8516c0cd
+Coefficient statistics:
+  Matrix range     [1e-04, 1e+04]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [9e-05, 5e+01]
+  RHS range        [1e-04, 5e+01]
+Presolve removed 7189845 rows and 522832 columns (presolve time = 5s) ...
+Presolve removed 9570832 rows and 4851909 columns (presolve time = 11s) ...
+Presolve removed 9645976 rows and 4927053 columns (presolve time = 15s) ...
+Presolve removed 9645976 rows and 4927053 columns (presolve time = 20s) ...
+Presolve removed 9682303 rows and 5014217 columns (presolve time = 26s) ...
+Presolve removed 9682303 rows and 5014242 columns
+Presolve time: 27.21s
+Presolved: 2976164 rows, 4879138 columns, 11702469 nonzeros
+
+Ordering time: 0.94s
+
+Barrier statistics:
+ AA' NZ     : 9.008e+06
+ Factor NZ  : 3.834e+07 (roughly 3.5 GB of memory)
+ Factor Ops : 5.545e+08 (less than 1 second per iteration)
+ Threads    : 36
+
+                  Objective                Residual
+Iter       Primal          Dual         Primal    Dual     Compl     Time
+   0   1.73243708e+07 -1.71896936e+08  1.37e+02 2.34e+00  1.63e+02    33s
+   1   2.39234318e+06 -5.82904354e+07  1.70e+01 1.47e-14  2.38e+01    35s
+   2   4.58270743e+05 -1.29045175e+07  1.98e+00 1.42e-14  3.50e+00    36s
+   3   1.81096693e+05 -1.78001453e+06  8.26e-02 1.95e-14  3.85e-01    38s
+   4   7.63187029e+04 -4.03159220e+05  1.67e-02 1.60e-14  9.03e-02    39s
+   5   4.62868009e+04 -2.48838267e+05  9.27e-03 1.24e-14  5.53e-02    40s
+   6   3.13776634e+04 -1.45402621e+05  5.57e-03 1.24e-14  3.30e-02    42s
+   7   2.06037813e+04 -6.85926455e+04  2.92e-03 7.99e-15  1.66e-02    43s
+   8   1.56907431e+04 -2.97966863e+04  1.79e-03 7.11e-15  8.47e-03    44s
+   9   1.16207758e+04 -1.18915238e+04  9.61e-04 7.11e-15  4.37e-03    45s
+  10   9.87226681e+03 -5.34757112e+03  6.54e-04 7.11e-15  2.83e-03    46s
+  11   8.38546769e+03 -2.75447178e+02  4.26e-04 7.11e-15  1.61e-03    48s
+  12   7.32985847e+03  2.75361114e+03  2.77e-04 7.11e-15  8.51e-04    49s
+  13   6.48514965e+03  3.67277511e+03  1.65e-04 7.11e-15  5.23e-04    51s
+  14   6.24509460e+03  4.16373500e+03  1.34e-04 7.11e-15  3.87e-04    52s
+  15   5.91369146e+03  4.50047589e+03  9.30e-05 7.11e-15  2.63e-04    53s
+  16   5.71621039e+03  4.68009285e+03  6.91e-05 7.11e-15  1.93e-04    54s
+  17   5.55331739e+03  4.81323968e+03  4.96e-05 7.11e-15  1.38e-04    55s
+  18   5.42960112e+03  4.91758938e+03  3.55e-05 7.11e-15  9.52e-05    57s
+  19   5.32813058e+03  4.99555869e+03  2.41e-05 1.07e-14  6.18e-05    59s
+  20   5.23592089e+03  5.03495171e+03  1.37e-05 7.11e-15  3.74e-05    61s
+  21   5.19768677e+03  5.06913456e+03  9.42e-06 7.11e-15  2.39e-05    63s
+  22   5.17504808e+03  5.08733321e+03  6.65e-06 7.11e-15  1.63e-05    64s
+  23   5.15888048e+03  5.09563438e+03  4.63e-06 7.11e-15  1.18e-05    65s
+  24   5.14889055e+03  5.10202847e+03  3.39e-06 7.11e-15  8.71e-06    66s
+  25   5.13993709e+03  5.10886526e+03  2.29e-06 7.11e-15  5.77e-06    68s
+  26   5.13185499e+03  5.11248819e+03  1.31e-06 7.11e-15  3.60e-06    69s
+  27   5.12601289e+03  5.11773940e+03  5.89e-07 7.11e-15  1.54e-06    71s
+  28   5.12281840e+03  5.11914217e+03  2.28e-07 7.11e-15  6.83e-07    72s
+  29   5.12182287e+03  5.11966340e+03  1.18e-07 7.11e-15  4.01e-07    74s
+  30   5.12132405e+03  5.12009971e+03  6.40e-08 7.11e-15  2.28e-07    75s
+  31   5.12103029e+03  5.12034396e+03  3.26e-08 7.11e-15  1.28e-07    76s
+  32   5.12088593e+03  5.12052080e+03  1.73e-08 7.11e-15  6.79e-08    78s
+  33   5.12078974e+03  5.12061123e+03  7.49e-09 7.11e-15  3.32e-08    79s
+  34   5.12074683e+03  5.12067380e+03  3.29e-09 1.07e-14  1.36e-08    80s
+  35   5.12072250e+03  5.12069890e+03  2.19e-09 7.11e-15  4.38e-09    82s
+  36   5.12071435e+03  5.12070877e+03  1.43e-09 7.11e-15  1.04e-09    83s
+  37   5.12071072e+03  5.12071003e+03  3.68e-09 7.11e-15  1.27e-10    85s
+  38   5.12071035e+03  5.12071026e+03  2.76e-09 2.36e-14  1.73e-11    86s
+  39   5.12071030e+03  5.12071029e+03  5.43e-09 1.41e-14  1.83e-12    87s
+
+Barrier solved model in 39 iterations and 87.50 seconds (79.71 work units)
+Optimal objective 5.12071030e+03
+
+Crossover log...
+
+ 2047572 variables added to crossover basis                       90s
+
+  926734 DPushes remaining with DInf 0.0000000e+00               192s
+    2343 DPushes remaining with DInf 0.0000000e+00               241s
+      72 DPushes remaining with DInf 0.0000000e+00               300s
+       1 DPushes remaining with DInf 0.0000000e+00               351s
+       0 DPushes remaining with DInf 0.0000000e+00               408s
+
+   32779 PPushes remaining with PInf 0.0000000e+00               408s
+   14014 PPushes remaining with PInf 0.0000000e+00               463s
+    8229 PPushes remaining with PInf 0.0000000e+00               525s
+    3755 PPushes remaining with PInf 0.0000000e+00               593s
+    1759 PPushes remaining with PInf 0.0000000e+00               665s
+    1233 PPushes remaining with PInf 0.0000000e+00               725s
+       0 PPushes remaining with PInf 0.0000000e+00               792s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 1.6158059e-06    792s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+  231583    5.1207103e+03   0.000000e+00   1.615789e-06    911s
+  231584    5.1207103e+03   0.000000e+00   1.327340e-06   1153s
+  232867    5.1207103e+03   0.000000e+00   0.000000e+00   1417s
+Extra simplex iterations after uncrush: 1281
+
+Solved in 232867 iterations and 1416.55 seconds (1283.87 work units)
+Optimal objective  5.120710292e+03
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 5120.710292033236
+  Upper bound: 5120.710292033236
+  Number of objectives: 1
+  Number of constraints: 12658467
+  Number of variables: 9893380
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 9893380
+  Number of nonzeros: 31306540
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 1416.9868841171265
+  Error rc: 0
+  Time: 1529.0361394882202
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,bus077,bus082,cac1]
+Number of fixed variables:  1
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block unknown with a new Component
+(type=<class 'pyomo.core.base.suffix.Suffix'>). This is usually indicative of
+a modelling error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block unknown with a new Component
+(type=<class 'pyomo.core.base.suffix.Suffix'>). This is usually indicative of
+a modelling error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 5120.710292033236
+  Upper bound: 5120.710292033236
+  Number of objectives: 1
+  Number of constraints: 12658467
+  Number of variables: 9893380
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 9893380
+  Number of nonzeros: 31306540
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 1382.7156929969788
+  Error rc: 0
+  Time: 1509.3804249763489
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  3764 s
+Objective function value                   5120.71 M€
+Reading    the parameters of the model ...  3764 s
+Getting the electricity demand         ...  1 s
+Getting the max power generation       ...  0 s
+Getting the input data file            ...  0 s
+Getting the total costs                ...  4 s
+Getting the power output               ...  4 s
+Getting the power flow                 ...  3 s
+Getting the dual variable: eBalance    ...  164 s
+Getting the output data file           ...  1 s
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+Remaining lines: 25
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+TOOT: Line bus077 bus082 cac1
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+Setting up input data                 ...  46 s
+Generating objective function         ...  42 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  362 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  215 s
+Generating generation capacity        ...  22 s
+Generating network    capacity        ...  32 s
+Generating network    constraints     ...  72 s
+Econometric analysis  constraints     ...  0 s
+vNetworkInvest : network    investment decision exists in a year {0,1}
+    Size=27, Index=vNetworkInvest_index
+    Key                                : Lower : Value : Upper : Fixed : Stale : Domain
+    (2030, 'bus001', 'bus003', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus003', 'bus005', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus005', 'bus006', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus008', 'bus005', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus008', 'bus030', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus012', 'bus117', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus015', 'bus017', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus015', 'bus033', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus017', 'bus113', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus023', 'bus024', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus023', 'bus032', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus025', 'bus027', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus026', 'bus030', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus030', 'bus038', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus033', 'bus037', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus038', 'bus037', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus038', 'bus065', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus065', 'bus068', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus068', 'bus069', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus069', 'bus077', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus074', 'bus075', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus077', 'bus082', 'cac1') :     0 :   0.0 :     1 :  True : False : Binary
+    (2030, 'bus080', 'bus099', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus082', 'bus083', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus093', 'bus094', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus094', 'bus100', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus099', 'bus100', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+Number of lines to be considered: 197
+Set parameter Username
+Set parameter TokenServer to value "SET-S-ME-LM3.luna.kuleuven.be"
+Read LP format model from file /tmp/tmpk9pt3cwr.pyomo.lp
+Reading time = 35.61 seconds
+x1: 13575747 rows, 10137988 columns, 33551692 nonzeros
+Set parameter QCPDual to value 1
+Set parameter LogFile to value "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/E.Representative_days_based_on_Line_Benefits_OptModel/IEEE118/openStarNet_IEEE118.log"
+Set parameter Method to value 2
+Set parameter MIPFocus to value 1
+Set parameter Presolve to value 2
+Set parameter RINS to value 100
+Set parameter MIPGap to value 0.01
+Set parameter Threads to value 36
+Set parameter TimeLimit to value 259200
+Set parameter IterationLimit to value 760000000
+Gurobi Optimizer version 9.5.0 build v9.5.0rc5 (linux64)
+Thread count: 36 physical cores, 36 logical processors, using up to 36 threads
+Optimize a model with 13575747 rows, 10137988 columns and 33551692 nonzeros
+Model fingerprint: 0x8357244a
+Coefficient statistics:
+  Matrix range     [1e-04, 1e+04]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [9e-05, 5e+01]
+  RHS range        [1e-04, 4e+02]
+Presolve removed 7635381 rows and 489089 columns (presolve time = 5s) ...
+Presolve removed 9701817 rows and 4300000 columns (presolve time = 10s) ...
+Presolve removed 10339890 rows and 4938073 columns (presolve time = 15s) ...
+Presolve removed 10339890 rows and 4938073 columns (presolve time = 21s) ...
+Presolve removed 10382951 rows and 5002572 columns (presolve time = 25s) ...
+Presolve removed 10391687 rows and 5011333 columns
+Presolve time: 28.86s
+Presolved: 3184060 rows, 5126655 columns, 12525752 nonzeros
+
+Ordering time: 1.37s
+
+Barrier statistics:
+ AA' NZ     : 1.104e+07
+ Factor NZ  : 4.358e+07 (roughly 4.0 GB of memory)
+ Factor Ops : 6.533e+08 (less than 1 second per iteration)
+ Threads    : 36
+
+                  Objective                Residual
+Iter       Primal          Dual         Primal    Dual     Compl     Time
+   0   1.88293211e+07 -2.37122535e+08  1.31e+02 1.57e+00  1.95e+02    36s
+   1   3.05366349e+06 -8.87346222e+07  1.98e+01 1.75e-14  3.44e+01    37s
+   2   5.23468292e+05 -1.95126585e+07  2.34e+00 1.89e-14  5.05e+00    39s
+   3   1.92394769e+05 -2.86820517e+06  1.23e-01 1.54e-14  5.89e-01    41s
+   4   8.46990501e+04 -6.29151941e+05  2.02e-02 1.08e-14  1.29e-01    43s
+   5   4.56054523e+04 -2.40438808e+05  9.53e-03 8.88e-15  5.13e-02    44s
+   6   2.18375742e+04 -1.19088450e+05  3.67e-03 7.11e-15  2.52e-02    45s
+   7   1.46599394e+04 -5.82182319e+04  2.04e-03 7.11e-15  1.30e-02    46s
+   8   9.97163608e+03 -1.62875870e+04  1.11e-03 7.11e-15  4.68e-03    47s
+   9   7.10124737e+03 -7.42448166e+03  6.89e-04 7.11e-15  2.59e-03    49s
+  10   4.84508788e+03 -3.51749499e+03  3.91e-04 7.11e-15  1.49e-03    51s
+  11   3.75726150e+03 -9.35717547e+02  2.64e-04 7.11e-15  8.35e-04    52s
+  12   2.95482432e+03 -4.64344282e+02  1.72e-04 7.11e-15  6.08e-04    53s
+  13   2.54638246e+03  1.35650238e+01  1.26e-04 7.11e-15  4.51e-04    55s
+  14   2.19705603e+03  3.98411042e+02  8.78e-05 7.11e-15  3.20e-04    56s
+  15   1.98941093e+03  6.47325032e+02  6.54e-05 7.11e-15  2.39e-04    57s
+  16   1.80041022e+03  9.23513431e+02  4.52e-05 7.11e-15  1.56e-04    58s
+  17   1.62070501e+03  1.08906550e+03  2.74e-05 7.11e-15  9.46e-05    60s
+  18   1.51879077e+03  1.21594054e+03  1.69e-05 7.11e-15  5.39e-05    63s
+  19   1.45748284e+03  1.26632373e+03  1.07e-05 7.11e-15  3.40e-05    65s
+  20   1.42455997e+03  1.29084951e+03  7.49e-06 7.11e-15  2.38e-05    67s
+  21   1.40744303e+03  1.30880182e+03  5.71e-06 7.11e-15  1.75e-05    68s
+  22   1.38722017e+03  1.31984358e+03  3.63e-06 7.11e-15  1.20e-05    69s
+  23   1.37879868e+03  1.32642840e+03  2.77e-06 7.11e-15  9.32e-06    70s
+  24   1.37017194e+03  1.33485085e+03  1.92e-06 7.11e-15  6.28e-06    72s
+  25   1.36027424e+03  1.34021468e+03  9.30e-07 7.11e-15  3.57e-06    74s
+  26   1.35520140e+03  1.34560649e+03  4.24e-07 7.11e-15  1.71e-06    76s
+  27   1.35291491e+03  1.34775587e+03  2.05e-07 7.11e-15  9.18e-07    78s
+  28   1.35181495e+03  1.34957071e+03  1.00e-07 1.07e-14  3.99e-07    80s
+  29   1.35132062e+03  1.35007314e+03  5.53e-08 7.11e-15  2.22e-07    81s
+  30   1.35099987e+03  1.35032495e+03  2.74e-08 7.11e-15  1.20e-07    82s
+  31   1.35088137e+03  1.35040325e+03  1.72e-08 7.11e-15  8.50e-08    84s
+  32   1.35077105e+03  1.35051683e+03  7.86e-09 7.11e-15  4.52e-08    85s
+  33   1.35071900e+03  1.35060118e+03  3.74e-09 7.11e-15  2.10e-08    87s
+  34   1.35069052e+03  1.35064402e+03  4.16e-09 7.11e-15  8.27e-09    88s
+  35   1.35068046e+03  1.35066295e+03  3.88e-09 7.11e-15  3.11e-09    89s
+  36   1.35067501e+03  1.35066983e+03  6.36e-09 3.95e-14  9.23e-10    91s
+  37   1.35067303e+03  1.35067138e+03  1.63e-09 1.38e-14  2.93e-10    92s
+  38   1.35067249e+03  1.35067200e+03  4.85e-10 7.11e-15  8.71e-11    94s
+  39   1.35067232e+03  1.35067221e+03  1.36e-09 7.11e-15  1.95e-11    95s
+  40   1.35067228e+03  1.35067228e+03  7.37e-10 7.11e-15  1.39e-12    97s
+
+Barrier solved model in 40 iterations and 96.83 seconds (87.98 work units)
+Optimal objective 1.35067228e+03
+
+Crossover log...
+
+  950104 DPushes remaining with DInf 2.8626246e-04               161s
+     693 DPushes remaining with DInf 2.8626246e-04               192s
+      18 DPushes remaining with DInf 2.8626246e-04               231s
+       0 DPushes remaining with DInf 2.8626246e-04               257s
+
+   35619 PPushes remaining with PInf 1.1427147e-03               258s
+   20238 PPushes remaining with PInf 3.6262950e-04               302s
+   13178 PPushes remaining with PInf 2.3829006e-04               341s
+    7391 PPushes remaining with PInf 2.0327088e-05               388s
+    4502 PPushes remaining with PInf 0.0000000e+00               424s
+    3255 PPushes remaining with PInf 1.1370544e-05               470s
+       0 PPushes remaining with PInf 0.0000000e+00               506s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 4.9112880e-12    506s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+  154447    1.3506723e+03   0.000000e+00   1.316510e-03    734s
+Extra simplex iterations after uncrush: 31
+  154478    1.3506723e+03   0.000000e+00   0.000000e+00    811s
+
+Solved in 154478 iterations and 810.53 seconds (840.13 work units)
+Optimal objective  1.350672279e+03
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 1350.6722787769177
+  Upper bound: 1350.6722787769177
+  Number of objectives: 1
+  Number of constraints: 13575747
+  Number of variables: 10137988
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 10137988
+  Number of nonzeros: 33551692
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 810.9704658985138
+  Error rc: 0
+  Time: 928.2866251468658
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,bus015,bus017,cac1]
+fixing: vNetworkInvest[2030,bus065,bus068,cac1]
+fixing: vNetworkInvest[2030,bus003,bus005,cac1]
+fixing: vNetworkInvest[2030,bus068,bus069,cac1]
+fixing: vNetworkInvest[2030,bus094,bus100,cac1]
+fixing: vNetworkInvest[2030,bus025,bus027,cac1]
+fixing: vNetworkInvest[2030,bus082,bus083,cac1]
+fixing: vNetworkInvest[2030,bus001,bus003,cac1]
+fixing: vNetworkInvest[2030,bus069,bus077,cac1]
+fixing: vNetworkInvest[2030,bus077,bus082,cac1]
+fixing: vNetworkInvest[2030,bus023,bus032,cac1]
+fixing: vNetworkInvest[2030,bus008,bus005,cac1]
+fixing: vNetworkInvest[2030,bus012,bus117,cac1]
+fixing: vNetworkInvest[2030,bus017,bus113,cac1]
+fixing: vNetworkInvest[2030,bus026,bus030,cac1]
+fixing: vNetworkInvest[2030,bus030,bus038,cac1]
+fixing: vNetworkInvest[2030,bus038,bus037,cac1]
+fixing: vNetworkInvest[2030,bus093,bus094,cac1]
+fixing: vNetworkInvest[2030,bus074,bus075,cac1]
+fixing: vNetworkInvest[2030,bus038,bus065,cac1]
+fixing: vNetworkInvest[2030,bus015,bus033,cac1]
+fixing: vNetworkInvest[2030,bus080,bus099,cac1]
+fixing: vNetworkInvest[2030,bus099,bus100,cac1]
+fixing: vNetworkInvest[2030,bus023,bus024,cac1]
+fixing: vNetworkInvest[2030,bus033,bus037,cac1]
+fixing: vNetworkInvest[2030,bus005,bus006,cac1]
+fixing: vNetworkInvest[2030,bus008,bus030,cac1]
+Number of fixed variables:  27
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block unknown with a new Component
+(type=<class 'pyomo.core.base.suffix.Suffix'>). This is usually indicative of
+a modelling error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block unknown with a new Component
+(type=<class 'pyomo.core.base.suffix.Suffix'>). This is usually indicative of
+a modelling error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 1350.6722787769177
+  Upper bound: 1350.6722787769177
+  Number of objectives: 1
+  Number of constraints: 13575747
+  Number of variables: 10137988
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 10137988
+  Number of nonzeros: 33551692
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 841.2364859580994
+  Error rc: 0
+  Time: 975.0176179409027
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  2781 s
+Objective function value                   1350.67 M€
+Reading    the parameters of the model ...  2781 s
+Getting the electricity demand         ...  1 s
+Getting the max power generation       ...  0 s
+Getting the input data file            ...  0 s
+Getting the total costs                ...  4 s
+Getting the power output               ...  4 s
+Getting the power flow                 ...  3 s
+Getting the dual variable: eBalance    ...  165 s
+Getting the output data file           ...  1 s
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+Remaining lines: 25
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+PINT: Line bus074 bus075 cac1
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+Number of existing lines to be considered: 170
+Setting up input data                 ...  45 s
+Generating objective function         ...  207 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  358 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  113 s
+Generating generation capacity        ...  21 s
+Generating network    capacity        ...  25 s
+Generating network    constraints     ...  57 s
+Econometric analysis  constraints     ...  0 s
+vNetworkInvest : network    investment decision exists in a year {0,1}
+    Size=1, Index=vNetworkInvest_index
+    Key                                : Lower : Value : Upper : Fixed : Stale : Domain
+    (2030, 'bus074', 'bus075', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+Number of lines to be considered: 171
+Set parameter Username
+Set parameter TokenServer to value "SET-S-ME-LM3.luna.kuleuven.be"
+Read LP format model from file /tmp/tmp76g03dyc.pyomo.lp
+Reading time = 33.14 seconds
+x1: 12658467 rows, 9893380 columns, 31306540 nonzeros
+Set parameter QCPDual to value 1
+Set parameter LogFile to value "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/E.Representative_days_based_on_Line_Benefits_OptModel/IEEE118/openStarNet_IEEE118.log"
+Set parameter Method to value 2
+Set parameter MIPFocus to value 1
+Set parameter Presolve to value 2
+Set parameter RINS to value 100
+Set parameter MIPGap to value 0.01
+Set parameter Threads to value 36
+Set parameter TimeLimit to value 259200
+Set parameter IterationLimit to value 760000000
+Gurobi Optimizer version 9.5.0 build v9.5.0rc5 (linux64)
+Thread count: 36 physical cores, 36 logical processors, using up to 36 threads
+Optimize a model with 12658467 rows, 9893380 columns and 31306540 nonzeros
+Model fingerprint: 0x353f7e02
+Coefficient statistics:
+  Matrix range     [1e-04, 1e+04]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [9e-05, 5e+01]
+  RHS range        [1e-04, 5e+01]
+Presolve removed 7189845 rows and 525859 columns (presolve time = 5s) ...
+Presolve removed 9579568 rows and 4864812 columns (presolve time = 11s) ...
+Presolve removed 9649905 rows and 4935149 columns (presolve time = 15s) ...
+Presolve removed 9649905 rows and 4935149 columns (presolve time = 20s) ...
+Presolve removed 9686490 rows and 5024980 columns (presolve time = 26s) ...
+Presolve removed 9686490 rows and 5025005 columns
+Presolve time: 27.06s
+Presolved: 2971977 rows, 4868375 columns, 11629577 nonzeros
+
+Ordering time: 0.94s
+
+Barrier statistics:
+ AA' NZ     : 9.014e+06
+ Factor NZ  : 3.831e+07 (roughly 3.5 GB of memory)
+ Factor Ops : 5.543e+08 (less than 1 second per iteration)
+ Threads    : 36
+
+                  Objective                Residual
+Iter       Primal          Dual         Primal    Dual     Compl     Time
+   0   1.32928135e+07 -2.15040410e+08  9.92e+01 1.69e+00  1.57e+02    33s
+   1   1.92541461e+06 -6.40513469e+07  1.26e+01 1.69e-14  2.33e+01    35s
+   2   4.41758863e+05 -1.37245802e+07  1.69e+00 1.78e-14  3.66e+00    36s
+   3   1.85589104e+05 -1.72484263e+06  5.11e-02 2.31e-14  3.70e-01    38s
+   4   7.72945923e+04 -4.16978694e+05  9.63e-03 8.88e-14  9.28e-02    40s
+   5   4.61452017e+04 -2.49130487e+05  5.35e-03 4.97e-14  5.52e-02    41s
+   6   2.85900937e+04 -1.48006859e+05  2.83e-03 3.02e-14  3.30e-02    42s
+   7   1.87197341e+04 -6.67222729e+04  1.42e-03 1.78e-14  1.59e-02    43s
+   8   1.46089906e+04 -3.24877015e+04  8.84e-04 8.88e-15  8.77e-03    44s
+   9   1.18753705e+04 -1.22922931e+04  5.73e-04 7.11e-15  4.50e-03    46s
+  10   9.95116603e+03 -4.91095917e+03  3.79e-04 7.11e-15  2.77e-03    47s
+  11   8.36697764e+03 -7.17306724e+02  2.38e-04 7.11e-15  1.69e-03    48s
+  12   7.08461588e+03  2.29725130e+03  1.37e-04 7.11e-15  8.91e-04    50s
+  13   6.37563868e+03  3.41941389e+03  8.40e-05 7.11e-15  5.50e-04    52s
+  14   5.98539820e+03  3.89418737e+03  5.65e-05 7.11e-15  3.89e-04    53s
+  15   5.81531915e+03  4.24826023e+03  4.49e-05 7.11e-15  2.92e-04    54s
+  16   5.60427911e+03  4.46685343e+03  3.09e-05 7.11e-15  2.12e-04    55s
+  17   5.45358270e+03  4.64097763e+03  2.12e-05 7.11e-15  1.51e-04    56s
+  18   5.32048142e+03  4.78603803e+03  1.28e-05 7.11e-15  9.95e-05    58s
+  19   5.23336358e+03  4.89246425e+03  7.48e-06 7.11e-15  6.35e-05    60s
+  20   5.18590773e+03  4.95450599e+03  4.64e-06 7.11e-15  4.31e-05    61s
+  21   5.16357970e+03  4.99249118e+03  3.35e-06 7.11e-15  3.18e-05    62s
+  22   5.14557856e+03  5.01520478e+03  2.32e-06 7.11e-15  2.43e-05    63s
+  23   5.13212240e+03  5.04056172e+03  1.55e-06 7.11e-15  1.70e-05    64s
+  24   5.12039879e+03  5.05877459e+03  9.17e-07 7.11e-15  1.15e-05    66s
+  25   5.11269669e+03  5.08626851e+03  4.96e-07 7.11e-15  4.92e-06    68s
+  26   5.10597849e+03  5.09481953e+03  1.67e-07 7.11e-15  2.08e-06    70s
+  27   5.10360682e+03  5.09936679e+03  5.40e-08 7.11e-15  7.89e-07    72s
+  28   5.10295038e+03  5.10114479e+03  2.68e-08 7.11e-15  3.36e-07    74s
+  29   5.10260262e+03  5.10162269e+03  1.38e-08 7.11e-15  1.82e-07    76s
+  30   5.10242227e+03  5.10190371e+03  7.19e-09 7.11e-15  9.65e-08    77s
+  31   5.10232724e+03  5.10206035e+03  3.71e-09 7.11e-15  4.97e-08    78s
+  32   5.10226823e+03  5.10215249e+03  3.12e-09 7.11e-15  2.15e-08    80s
+  33   5.10223545e+03  5.10218763e+03  4.04e-09 7.11e-15  8.90e-09    81s
+  34   5.10222291e+03  5.10220459e+03  5.10e-09 7.11e-15  3.41e-09    83s
+  35   5.10221676e+03  5.10221417e+03  4.82e-09 7.11e-15  4.83e-10    85s
+  36   5.10221561e+03  5.10221526e+03  4.52e-09 1.07e-14  6.59e-11    86s
+  37   5.10221545e+03  5.10221541e+03  4.49e-10 1.27e-14  8.63e-12    88s
+
+Barrier solved model in 37 iterations and 87.94 seconds (77.97 work units)
+Optimal objective 5.10221545e+03
+
+Crossover log...
+
+  929224 variables added to crossover basis                       90s
+
+  927921 DPushes remaining with DInf 0.0000000e+00               191s
+    2605 DPushes remaining with DInf 0.0000000e+00               244s
+     130 DPushes remaining with DInf 0.0000000e+00               300s
+       2 DPushes remaining with DInf 0.0000000e+00               346s
+       0 DPushes remaining with DInf 0.0000000e+00               399s
+
+   36438 PPushes remaining with PInf 0.0000000e+00               400s
+   15429 PPushes remaining with PInf 0.0000000e+00               446s
+    8808 PPushes remaining with PInf 0.0000000e+00               509s
+    4089 PPushes remaining with PInf 0.0000000e+00               569s
+    1637 PPushes remaining with PInf 0.0000000e+00               628s
+    1252 PPushes remaining with PInf 0.0000000e+00               688s
+       0 PPushes remaining with PInf 0.0000000e+00               749s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 6.2400936e-06    749s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+  231110    5.1022154e+03   0.000000e+00   6.240077e-06    858s
+  231112    5.1022154e+03   0.000000e+00   3.395310e-06   1072s
+  232476    5.1022154e+03   0.000000e+00   0.000000e+00   1277s
+Extra simplex iterations after uncrush: 1362
+
+Solved in 232476 iterations and 1277.27 seconds (1229.29 work units)
+Optimal objective  5.102215430e+03
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 5102.215429874251
+  Upper bound: 5102.215429874251
+  Number of objectives: 1
+  Number of constraints: 12658467
+  Number of variables: 9893380
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 9893380
+  Number of nonzeros: 31306540
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 1277.710371017456
+  Error rc: 0
+  Time: 1389.6992666721344
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,bus074,bus075,cac1]
+Number of fixed variables:  1
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block unknown with a new Component
+(type=<class 'pyomo.core.base.suffix.Suffix'>). This is usually indicative of
+a modelling error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block unknown with a new Component
+(type=<class 'pyomo.core.base.suffix.Suffix'>). This is usually indicative of
+a modelling error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 5102.215429874251
+  Upper bound: 5102.215429874251
+  Number of objectives: 1
+  Number of constraints: 12658467
+  Number of variables: 9893380
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 9893380
+  Number of nonzeros: 31306540
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 1337.0656452178955
+  Error rc: 0
+  Time: 1467.3796908855438
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  3658 s
+Objective function value                   5102.22 M€
+Reading    the parameters of the model ...  3658 s
+Getting the electricity demand         ...  1 s
+Getting the max power generation       ...  0 s
+Getting the input data file            ...  0 s
+Getting the total costs                ...  4 s
+Getting the power output               ...  4 s
+Getting the power flow                 ...  3 s
+Getting the dual variable: eBalance    ...  164 s
+Getting the output data file           ...  1 s
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+Remaining lines: 24
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+TOOT: Line bus074 bus075 cac1
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+Setting up input data                 ...  46 s
+Generating objective function         ...  192 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  363 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  113 s
+Generating generation capacity        ...  21 s
+Generating network    capacity        ...  30 s
+Generating network    constraints     ...  148 s
+Econometric analysis  constraints     ...  0 s
+vNetworkInvest : network    investment decision exists in a year {0,1}
+    Size=27, Index=vNetworkInvest_index
+    Key                                : Lower : Value : Upper : Fixed : Stale : Domain
+    (2030, 'bus001', 'bus003', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus003', 'bus005', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus005', 'bus006', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus008', 'bus005', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus008', 'bus030', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus012', 'bus117', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus015', 'bus017', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus015', 'bus033', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus017', 'bus113', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus023', 'bus024', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus023', 'bus032', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus025', 'bus027', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus026', 'bus030', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus030', 'bus038', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus033', 'bus037', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus038', 'bus037', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus038', 'bus065', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus065', 'bus068', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus068', 'bus069', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus069', 'bus077', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus074', 'bus075', 'cac1') :     0 :   0.0 :     1 :  True : False : Binary
+    (2030, 'bus077', 'bus082', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus080', 'bus099', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus082', 'bus083', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus093', 'bus094', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus094', 'bus100', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus099', 'bus100', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+Number of lines to be considered: 197
+Set parameter Username
+Set parameter TokenServer to value "SET-S-ME-LM3.luna.kuleuven.be"
+Read LP format model from file /tmp/tmp1wlwcqpa.pyomo.lp
+Reading time = 35.96 seconds
+x1: 13575747 rows, 10137988 columns, 33551692 nonzeros
+Set parameter QCPDual to value 1
+Set parameter LogFile to value "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/E.Representative_days_based_on_Line_Benefits_OptModel/IEEE118/openStarNet_IEEE118.log"
+Set parameter Method to value 2
+Set parameter MIPFocus to value 1
+Set parameter Presolve to value 2
+Set parameter RINS to value 100
+Set parameter MIPGap to value 0.01
+Set parameter Threads to value 36
+Set parameter TimeLimit to value 259200
+Set parameter IterationLimit to value 760000000
+Gurobi Optimizer version 9.5.0 build v9.5.0rc5 (linux64)
+Thread count: 36 physical cores, 36 logical processors, using up to 36 threads
+Optimize a model with 13575747 rows, 10137988 columns and 33551692 nonzeros
+Model fingerprint: 0x3adc8474
+Coefficient statistics:
+  Matrix range     [1e-04, 1e+04]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [9e-05, 5e+01]
+  RHS range        [1e-04, 4e+02]
+Presolve removed 7635381 rows and 488096 columns (presolve time = 5s) ...
+Presolve removed 9572730 rows and 4170000 columns (presolve time = 10s) ...
+Presolve removed 10324881 rows and 4922151 columns (presolve time = 15s) ...
+Presolve removed 10324881 rows and 4922151 columns (presolve time = 21s) ...
+Presolve removed 10349838 rows and 4985416 columns (presolve time = 25s) ...
+Presolve removed 10367310 rows and 4994177 columns
+Presolve time: 29.57s
+Presolved: 3208437 rows, 5152547 columns, 12697610 nonzeros
+
+Ordering time: 1.44s
+
+Barrier statistics:
+ AA' NZ     : 1.130e+07
+ Factor NZ  : 4.449e+07 (roughly 4.0 GB of memory)
+ Factor Ops : 6.792e+08 (less than 1 second per iteration)
+ Threads    : 36
+
+                  Objective                Residual
+Iter       Primal          Dual         Primal    Dual     Compl     Time
+   0   1.86104213e+07 -1.78452665e+08  1.35e+02 1.91e+00  1.50e+02    37s
+   1   2.83262675e+06 -6.98666738e+07  1.92e+01 1.27e-14  2.60e+01    39s
+   2   6.13955894e+05 -1.52526243e+07  3.24e+00 1.30e-14  4.34e+00    40s
+   3   1.84721542e+05 -2.39475942e+06  2.24e-01 1.35e-14  5.20e-01    42s
+   4   6.94651773e+04 -5.88623013e+05  3.30e-02 9.05e-15  1.20e-01    44s
+   5   3.95119523e+04 -2.61220043e+05  1.70e-02 7.11e-15  5.42e-02    45s
+   6   1.76408633e+04 -1.19183752e+05  5.60e-03 5.33e-15  2.44e-02    46s
+   7   1.26335945e+04 -3.52058262e+04  3.26e-03 5.33e-15  8.50e-03    48s
+   8   9.32197963e+03 -1.39248967e+04  1.99e-03 3.55e-15  4.12e-03    49s
+   9   6.71264705e+03 -7.29285168e+03  1.19e-03 5.33e-15  2.48e-03    50s
+  10   4.68437449e+03 -2.81524246e+03  6.83e-04 3.55e-15  1.33e-03    53s
+  11   3.66137450e+03 -1.15531731e+03  4.64e-04 3.55e-15  8.53e-04    54s
+  12   3.08603738e+03 -4.76427901e+02  3.43e-04 3.55e-15  6.31e-04    55s
+  13   2.78766327e+03  1.06981431e+02  2.82e-04 3.55e-15  4.75e-04    57s
+  14   2.31001631e+03  3.61347427e+02  1.85e-04 3.55e-15  3.45e-04    58s
+  15   2.00929012e+03  7.47281136e+02  1.25e-04 3.55e-15  2.23e-04    59s
+  16   1.77316157e+03  9.69235352e+02  7.93e-05 3.55e-15  1.42e-04    62s
+  17   1.62230476e+03  1.07609620e+03  5.08e-05 3.55e-15  9.67e-05    64s
+  18   1.51447016e+03  1.16683669e+03  3.03e-05 5.33e-15  6.16e-05    67s
+  19   1.46545312e+03  1.22004655e+03  2.12e-05 3.55e-15  4.35e-05    68s
+  20   1.43798707e+03  1.25144851e+03  1.60e-05 3.55e-15  3.30e-05    69s
+  21   1.40871642e+03  1.27926738e+03  1.06e-05 3.55e-15  2.29e-05    70s
+  22   1.39246906e+03  1.30730873e+03  7.60e-06 5.33e-15  1.51e-05    72s
+  23   1.37244419e+03  1.32244850e+03  4.13e-06 3.55e-15  8.85e-06    74s
+  24   1.36209919e+03  1.33057222e+03  2.27e-06 3.55e-15  5.58e-06    77s
+  25   1.35507855e+03  1.33994598e+03  1.01e-06 5.33e-15  2.68e-06    79s
+  26   1.35244167e+03  1.34366176e+03  5.51e-07 3.55e-15  1.55e-06    81s
+  27   1.35139805e+03  1.34541569e+03  3.73e-07 3.55e-15  1.06e-06    82s
+  28   1.35038477e+03  1.34685737e+03  2.03e-07 3.55e-15  6.25e-07    83s
+  29   1.34983877e+03  1.34786837e+03  1.13e-07 3.55e-15  3.49e-07    85s
+  30   1.34952938e+03  1.34836645e+03  6.22e-08 3.55e-15  2.06e-07    86s
+  31   1.34935244e+03  1.34871367e+03  3.45e-08 3.55e-15  1.13e-07    88s
+  32   1.34924604e+03  1.34889528e+03  1.88e-08 5.33e-15  6.21e-08    89s
+  33   1.34918615e+03  1.34900207e+03  1.03e-08 5.33e-15  3.26e-08    91s
+  34   1.34914848e+03  1.34906305e+03  5.25e-09 5.33e-15  1.51e-08    92s
+  35   1.34912774e+03  1.34908463e+03  5.40e-09 5.33e-15  7.63e-09    93s
+  36   1.34911782e+03  1.34909839e+03  2.68e-09 3.55e-15  3.44e-09    95s
+  37   1.34911265e+03  1.34910438e+03  2.98e-09 1.03e-13  1.46e-09    96s
+  38   1.34910921e+03  1.34910708e+03  1.56e-09 1.02e-13  3.77e-10    98s
+  39   1.34910820e+03  1.34910747e+03  1.34e-09 7.29e-14  1.28e-10    99s
+  40   1.34910786e+03  1.34910767e+03  2.35e-09 5.13e-14  3.40e-11   101s
+  41   1.34910777e+03  1.34910773e+03  1.03e-09 2.78e-14  6.19e-12   102s
+  42   1.34910775e+03  1.34910774e+03  1.25e-10 8.12e-15  1.27e-13   104s
+
+Barrier solved model in 42 iterations and 103.63 seconds (90.91 work units)
+Optimal objective 1.34910775e+03
+
+Crossover log...
+
+  156951 variables added to crossover basis                      106s
+
+  948889 DPushes remaining with DInf 1.1111046e-05               163s
+     278 DPushes remaining with DInf 1.1111046e-05               194s
+       4 DPushes remaining with DInf 1.1111046e-05               234s
+       0 DPushes remaining with DInf 1.1111046e-05               264s
+
+   31462 PPushes remaining with PInf 3.2785157e-03               265s
+   18458 PPushes remaining with PInf 1.5493917e-04               297s
+   12302 PPushes remaining with PInf 4.7886289e-05               333s
+    6917 PPushes remaining with PInf 1.6963800e-06               384s
+    5013 PPushes remaining with PInf 0.0000000e+00               420s
+    3851 PPushes remaining with PInf 0.0000000e+00               458s
+       0 PPushes remaining with PInf 0.0000000e+00               493s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 4.8833169e-12    494s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+  147042    1.3491077e+03   0.000000e+00   1.763303e-06    630s
+Extra simplex iterations after uncrush: 34
+  147077    1.3491077e+03   0.000000e+00   0.000000e+00    788s
+
+Solved in 147077 iterations and 788.26 seconds (767.78 work units)
+Optimal objective  1.349107745e+03
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 1349.107744650969
+  Upper bound: 1349.107744650969
+  Number of objectives: 1
+  Number of constraints: 13575747
+  Number of variables: 10137988
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 10137988
+  Number of nonzeros: 33551692
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 788.7213220596313
+  Error rc: 0
+  Time: 909.6852188110352
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,bus015,bus017,cac1]
+fixing: vNetworkInvest[2030,bus065,bus068,cac1]
+fixing: vNetworkInvest[2030,bus003,bus005,cac1]
+fixing: vNetworkInvest[2030,bus068,bus069,cac1]
+fixing: vNetworkInvest[2030,bus094,bus100,cac1]
+fixing: vNetworkInvest[2030,bus025,bus027,cac1]
+fixing: vNetworkInvest[2030,bus082,bus083,cac1]
+fixing: vNetworkInvest[2030,bus001,bus003,cac1]
+fixing: vNetworkInvest[2030,bus069,bus077,cac1]
+fixing: vNetworkInvest[2030,bus077,bus082,cac1]
+fixing: vNetworkInvest[2030,bus023,bus032,cac1]
+fixing: vNetworkInvest[2030,bus008,bus005,cac1]
+fixing: vNetworkInvest[2030,bus012,bus117,cac1]
+fixing: vNetworkInvest[2030,bus017,bus113,cac1]
+fixing: vNetworkInvest[2030,bus026,bus030,cac1]
+fixing: vNetworkInvest[2030,bus030,bus038,cac1]
+fixing: vNetworkInvest[2030,bus038,bus037,cac1]
+fixing: vNetworkInvest[2030,bus093,bus094,cac1]
+fixing: vNetworkInvest[2030,bus074,bus075,cac1]
+fixing: vNetworkInvest[2030,bus038,bus065,cac1]
+fixing: vNetworkInvest[2030,bus015,bus033,cac1]
+fixing: vNetworkInvest[2030,bus080,bus099,cac1]
+fixing: vNetworkInvest[2030,bus099,bus100,cac1]
+fixing: vNetworkInvest[2030,bus023,bus024,cac1]
+fixing: vNetworkInvest[2030,bus033,bus037,cac1]
+fixing: vNetworkInvest[2030,bus005,bus006,cac1]
+fixing: vNetworkInvest[2030,bus008,bus030,cac1]
+Number of fixed variables:  27
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block unknown with a new Component
+(type=<class 'pyomo.core.base.suffix.Suffix'>). This is usually indicative of
+a modelling error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block unknown with a new Component
+(type=<class 'pyomo.core.base.suffix.Suffix'>). This is usually indicative of
+a modelling error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 1349.107744650969
+  Upper bound: 1349.107744650969
+  Number of objectives: 1
+  Number of constraints: 13575747
+  Number of variables: 10137988
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 10137988
+  Number of nonzeros: 33551692
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 767.446130990982
+  Error rc: 0
+  Time: 901.363490819931
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  2592 s
+Objective function value                   1349.11 M€
+Reading    the parameters of the model ...  2592 s
+Getting the electricity demand         ...  1 s
+Getting the max power generation       ...  0 s
+Getting the input data file            ...  0 s
+Getting the total costs                ...  4 s
+Getting the power output               ...  4 s
+Getting the power flow                 ...  3 s
+Getting the dual variable: eBalance    ...  164 s
+Getting the output data file           ...  1 s
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+Remaining lines: 24
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+PINT: Line bus093 bus094 cac1
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+Number of existing lines to be considered: 170
+Setting up input data                 ...  198 s
+Generating objective function         ...  42 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  415 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  49 s
+Generating generation capacity        ...  21 s
+Generating network    capacity        ...  25 s
+Generating network    constraints     ...  126 s
+Econometric analysis  constraints     ...  0 s
+vNetworkInvest : network    investment decision exists in a year {0,1}
+    Size=1, Index=vNetworkInvest_index
+    Key                                : Lower : Value : Upper : Fixed : Stale : Domain
+    (2030, 'bus093', 'bus094', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+Number of lines to be considered: 171
+Set parameter Username
+Set parameter TokenServer to value "SET-S-ME-LM3.luna.kuleuven.be"
+Read LP format model from file /tmp/tmp7uax35yw.pyomo.lp
+Reading time = 33.30 seconds
+x1: 12658467 rows, 9893380 columns, 31306540 nonzeros
+Set parameter QCPDual to value 1
+Set parameter LogFile to value "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/E.Representative_days_based_on_Line_Benefits_OptModel/IEEE118/openStarNet_IEEE118.log"
+Set parameter Method to value 2
+Set parameter MIPFocus to value 1
+Set parameter Presolve to value 2
+Set parameter RINS to value 100
+Set parameter MIPGap to value 0.01
+Set parameter Threads to value 36
+Set parameter TimeLimit to value 259200
+Set parameter IterationLimit to value 760000000
+Gurobi Optimizer version 9.5.0 build v9.5.0rc5 (linux64)
+Thread count: 36 physical cores, 36 logical processors, using up to 36 threads
+Optimize a model with 12658467 rows, 9893380 columns and 31306540 nonzeros
+Model fingerprint: 0xf6673126
+Coefficient statistics:
+  Matrix range     [1e-04, 1e+04]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [9e-05, 5e+01]
+  RHS range        [1e-04, 5e+01]
+Presolve removed 7189845 rows and 525859 columns (presolve time = 5s) ...
+Presolve removed 9562096 rows and 4847340 columns (presolve time = 11s) ...
+Presolve removed 9623697 rows and 4908941 columns (presolve time = 15s) ...
+Presolve removed 9623697 rows and 4908941 columns (presolve time = 20s) ...
+Presolve removed 9660282 rows and 4990036 columns (presolve time = 26s) ...
+Presolve removed 9660282 rows and 4990061 columns
+Presolve time: 27.02s
+Presolved: 2998185 rows, 4903319 columns, 11716937 nonzeros
+
+Ordering time: 0.97s
+
+Barrier statistics:
+ AA' NZ     : 9.101e+06
+ Factor NZ  : 3.912e+07 (roughly 3.5 GB of memory)
+ Factor Ops : 5.724e+08 (less than 1 second per iteration)
+ Threads    : 36
+
+                  Objective                Residual
+Iter       Primal          Dual         Primal    Dual     Compl     Time
+   0   1.00395043e+07 -1.71040490e+08  7.73e+01 1.55e+00  1.06e+02    33s
+   1   1.39087759e+06 -4.50862026e+07  8.91e+00 1.50e-14  1.47e+01    35s
+   2   3.80329120e+05 -8.29316934e+06  1.28e+00 1.78e-14  2.17e+00    36s
+   3   1.58043973e+05 -1.32567211e+06  5.71e-02 2.49e-14  2.87e-01    38s
+   4   7.02611035e+04 -3.31712589e+05  1.71e-02 3.46e-14  7.55e-02    40s
+   5   4.20149284e+04 -2.13190329e+05  9.35e-03 1.07e-14  4.76e-02    41s
+   6   3.10723844e+04 -1.17872558e+05  6.28e-03 8.88e-15  2.77e-02    42s
+   7   2.15711447e+04 -5.49224066e+04  3.65e-03 7.11e-15  1.42e-02    43s
+   8   1.60558854e+04 -2.44236798e+04  2.21e-03 7.11e-15  7.51e-03    45s
+   9   1.11853298e+04 -1.38822706e+04  1.02e-03 7.11e-15  4.64e-03    46s
+  10   9.42607139e+03 -6.62986690e+03  6.63e-04 7.11e-15  2.97e-03    47s
+  11   7.99019681e+03 -1.84548631e+03  4.03e-04 7.11e-15  1.82e-03    49s
+  12   6.91935272e+03  1.28541337e+03  2.31e-04 7.11e-15  1.04e-03    51s
+  13   6.31641572e+03  2.41737696e+03  1.46e-04 7.11e-15  7.22e-04    52s
+  14   5.96113349e+03  3.11501663e+03  1.00e-04 7.11e-15  5.27e-04    53s
+  15   5.72211847e+03  3.62453669e+03  7.10e-05 7.11e-15  3.88e-04    54s
+  16   5.56058776e+03  3.98690803e+03  5.22e-05 7.11e-15  2.91e-04    55s
+  17   5.37335506e+03  4.37876012e+03  3.12e-05 7.11e-15  1.84e-04    57s
+  18   5.23446474e+03  4.62707850e+03  1.65e-05 7.11e-15  1.12e-04    59s
+  19   5.16138843e+03  4.86413026e+03  9.30e-06 7.11e-15  5.50e-05    62s
+  20   5.12625158e+03  4.95330136e+03  6.03e-06 7.11e-15  3.20e-05    64s
+  21   5.09409815e+03  4.98607413e+03  3.18e-06 7.11e-15  2.00e-05    65s
+  22   5.08173363e+03  5.00897106e+03  2.11e-06 7.11e-15  1.35e-05    66s
+  23   5.07399762e+03  5.02509869e+03  1.46e-06 7.11e-15  9.05e-06    67s
+  24   5.06792150e+03  5.03150953e+03  9.60e-07 7.11e-15  6.74e-06    69s
+  25   5.06380556e+03  5.03964892e+03  6.28e-07 7.11e-15  4.47e-06    70s
+  26   5.06080457e+03  5.04483144e+03  3.91e-07 7.11e-15  2.96e-06    71s
+  27   5.05868643e+03  5.04784288e+03  2.26e-07 7.11e-15  2.01e-06    72s
+  28   5.05788883e+03  5.05012004e+03  1.65e-07 7.11e-15  1.44e-06    73s
+  29   5.05714975e+03  5.05167412e+03  1.08e-07 7.11e-15  1.01e-06    74s
+  30   5.05672408e+03  5.05332533e+03  7.73e-08 7.11e-15  6.29e-07    75s
+  31   5.05625123e+03  5.05419880e+03  4.36e-08 7.11e-15  3.80e-07    76s
+  32   5.05596151e+03  5.05492078e+03  2.28e-08 1.07e-14  1.93e-07    77s
+  33   5.05580502e+03  5.05518070e+03  1.23e-08 7.11e-15  1.16e-07    78s
+  34   5.05571871e+03  5.05539631e+03  6.76e-09 7.11e-15  5.97e-08    80s
+  35   5.05565343e+03  5.05551257e+03  2.77e-09 7.11e-15  2.61e-08    81s
+  36   5.05561711e+03  5.05559183e+03  1.56e-09 7.11e-15  4.68e-09    83s
+  37   5.05560702e+03  5.05560015e+03  1.48e-09 7.11e-15  1.27e-09    85s
+  38   5.05560289e+03  5.05560252e+03  5.60e-10 7.11e-15  6.86e-11    87s
+  39   5.05560269e+03  5.05560268e+03  6.47e-10 2.87e-14  2.33e-12    90s
+
+Barrier solved model in 39 iterations and 89.77 seconds (79.86 work units)
+Optimal objective 5.05560269e+03
+
+Crossover log...
+
+  927952 DPushes remaining with DInf 0.0000000e+00               189s
+    2818 DPushes remaining with DInf 0.0000000e+00               242s
+     156 DPushes remaining with DInf 0.0000000e+00               302s
+       0 DPushes remaining with DInf 0.0000000e+00               351s
+
+   33867 PPushes remaining with PInf 0.0000000e+00               351s
+   14658 PPushes remaining with PInf 0.0000000e+00               414s
+    8575 PPushes remaining with PInf 0.0000000e+00               474s
+    3979 PPushes remaining with PInf 0.0000000e+00               549s
+    1843 PPushes remaining with PInf 0.0000000e+00               609s
+    1302 PPushes remaining with PInf 0.0000000e+00               676s
+       0 PPushes remaining with PInf 0.0000000e+00               735s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 3.5451804e-06    735s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+  227489    5.0556027e+03   0.000000e+00   3.545164e-06    846s
+  227491    5.0556027e+03   0.000000e+00   3.279619e-06   1064s
+  228800    5.0556027e+03   0.000000e+00   0.000000e+00   1321s
+Extra simplex iterations after uncrush: 1306
+
+Solved in 228800 iterations and 1320.89 seconds (1247.31 work units)
+Optimal objective  5.055602681e+03
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 5055.602680930947
+  Upper bound: 5055.602680930947
+  Number of objectives: 1
+  Number of constraints: 12658467
+  Number of variables: 9893380
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 9893380
+  Number of nonzeros: 31306540
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 1321.325392961502
+  Error rc: 0
+  Time: 1434.433886051178
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,bus093,bus094,cac1]
+Number of fixed variables:  1
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block unknown with a new Component
+(type=<class 'pyomo.core.base.suffix.Suffix'>). This is usually indicative of
+a modelling error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block unknown with a new Component
+(type=<class 'pyomo.core.base.suffix.Suffix'>). This is usually indicative of
+a modelling error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 5055.602680930947
+  Upper bound: 5055.602680930947
+  Number of objectives: 1
+  Number of constraints: 12658467
+  Number of variables: 9893380
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 9893380
+  Number of nonzeros: 31306540
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 1370.0574309825897
+  Error rc: 0
+  Time: 1496.9687128067017
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  3739 s
+Objective function value                   5055.6 M€
+Reading    the parameters of the model ...  3739 s
+Getting the electricity demand         ...  1 s
+Getting the max power generation       ...  0 s
+Getting the input data file            ...  0 s
+Getting the total costs                ...  4 s
+Getting the power output               ...  4 s
+Getting the power flow                 ...  3 s
+Getting the dual variable: eBalance    ...  164 s
+Getting the output data file           ...  1 s
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+Remaining lines: 23
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+TOOT: Line bus093 bus094 cac1
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+Setting up input data                 ...  46 s
+Generating objective function         ...  42 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  363 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  207 s
+Generating generation capacity        ...  22 s
+Generating network    capacity        ...  31 s
+Generating network    constraints     ...  150 s
+Econometric analysis  constraints     ...  0 s
+vNetworkInvest : network    investment decision exists in a year {0,1}
+    Size=27, Index=vNetworkInvest_index
+    Key                                : Lower : Value : Upper : Fixed : Stale : Domain
+    (2030, 'bus001', 'bus003', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus003', 'bus005', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus005', 'bus006', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus008', 'bus005', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus008', 'bus030', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus012', 'bus117', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus015', 'bus017', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus015', 'bus033', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus017', 'bus113', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus023', 'bus024', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus023', 'bus032', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus025', 'bus027', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus026', 'bus030', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus030', 'bus038', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus033', 'bus037', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus038', 'bus037', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus038', 'bus065', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus065', 'bus068', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus068', 'bus069', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus069', 'bus077', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus074', 'bus075', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus077', 'bus082', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus080', 'bus099', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus082', 'bus083', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus093', 'bus094', 'cac1') :     0 :   0.0 :     1 :  True : False : Binary
+    (2030, 'bus094', 'bus100', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus099', 'bus100', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+Number of lines to be considered: 197
+Set parameter Username
+Set parameter TokenServer to value "SET-S-ME-LM3.luna.kuleuven.be"
+Read LP format model from file /tmp/tmpv4wly4hz.pyomo.lp
+Reading time = 35.64 seconds
+x1: 13575747 rows, 10137988 columns, 33551692 nonzeros
+Set parameter QCPDual to value 1
+Set parameter LogFile to value "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/E.Representative_days_based_on_Line_Benefits_OptModel/IEEE118/openStarNet_IEEE118.log"
+Set parameter Method to value 2
+Set parameter MIPFocus to value 1
+Set parameter Presolve to value 2
+Set parameter RINS to value 100
+Set parameter MIPGap to value 0.01
+Set parameter Threads to value 36
+Set parameter TimeLimit to value 259200
+Set parameter IterationLimit to value 760000000
+Gurobi Optimizer version 9.5.0 build v9.5.0rc5 (linux64)
+Thread count: 36 physical cores, 36 logical processors, using up to 36 threads
+Optimize a model with 13575747 rows, 10137988 columns and 33551692 nonzeros
+Model fingerprint: 0x4727c27d
+Coefficient statistics:
+  Matrix range     [1e-04, 1e+04]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [9e-05, 5e+01]
+  RHS range        [1e-04, 4e+02]
+Presolve removed 7635381 rows and 488096 columns (presolve time = 5s) ...
+Presolve removed 9422730 rows and 4020000 columns (presolve time = 10s) ...
+Presolve removed 10339890 rows and 4937160 columns (presolve time = 15s) ...
+Presolve removed 10339890 rows and 4937160 columns (presolve time = 21s) ...
+Presolve removed 10364847 rows and 5000429 columns (presolve time = 25s) ...
+Presolve removed 10382319 rows and 5009190 columns
+Presolve time: 29.09s
+Presolved: 3193428 rows, 5137534 columns, 12633991 nonzeros
+
+Ordering time: 1.42s
+
+Barrier statistics:
+ AA' NZ     : 1.123e+07
+ Factor NZ  : 4.413e+07 (roughly 4.0 GB of memory)
+ Factor Ops : 6.692e+08 (less than 1 second per iteration)
+ Threads    : 36
+
+                  Objective                Residual
+Iter       Primal          Dual         Primal    Dual     Compl     Time
+   0   1.85443354e+07 -2.36972074e+08  1.31e+02 1.89e+00  1.95e+02    36s
+   1   2.80721466e+06 -9.10506371e+07  1.84e+01 1.69e-14  3.34e+01    38s
+   2   4.88363866e+05 -2.01910975e+07  2.15e+00 1.65e-14  5.03e+00    39s
+   3   1.91870850e+05 -2.62873761e+06  1.41e-01 1.78e-14  5.49e-01    41s
+   4   7.46763956e+04 -6.34482817e+05  1.95e-02 1.78e-14  1.28e-01    43s
+   5   4.14060443e+04 -2.82512057e+05  9.82e-03 7.99e-15  5.81e-02    44s
+   6   2.33683845e+04 -1.26140268e+05  4.66e-03 7.11e-15  2.67e-02    45s
+   7   1.35474414e+04 -3.67273182e+04  2.07e-03 7.11e-15  8.94e-03    46s
+   8   9.94332270e+03 -1.51955123e+04  1.32e-03 7.11e-15  4.47e-03    48s
+   9   6.87244825e+03 -5.15033278e+03  7.94e-04 7.11e-15  2.14e-03    49s
+  10   4.67860272e+03 -1.95371666e+03  4.65e-04 7.11e-15  1.18e-03    51s
+  11   3.62956542e+03 -6.04406571e+02  3.15e-04 7.11e-15  7.52e-04    53s
+  12   2.94359642e+03  1.19928789e+01  2.14e-04 7.11e-15  5.21e-04    54s
+  13   2.62456684e+03  4.84393588e+02  1.68e-04 7.11e-15  3.80e-04    56s
+  14   2.24376185e+03  7.77817848e+02  1.14e-04 7.11e-15  2.60e-04    57s
+  15   2.02018579e+03  9.41217834e+02  8.28e-05 7.11e-15  1.92e-04    59s
+  16   1.81512939e+03  1.11265606e+03  5.51e-05 7.11e-15  1.25e-04    61s
+  17   1.66451598e+03  1.24165182e+03  3.55e-05 7.11e-15  7.51e-05    64s
+  18   1.57982820e+03  1.30552962e+03  2.41e-05 7.11e-15  4.87e-05    66s
+  19   1.53809004e+03  1.33617828e+03  1.83e-05 7.11e-15  3.59e-05    67s
+  20   1.50420440e+03  1.35269235e+03  1.36e-05 7.11e-15  2.69e-05    69s
+  21   1.48699789e+03  1.36369703e+03  1.12e-05 7.11e-15  2.19e-05    70s
+  22   1.44928838e+03  1.37367879e+03  6.17e-06 7.11e-15  1.34e-05    72s
+  23   1.43144388e+03  1.38173229e+03  3.83e-06 7.11e-15  8.83e-06    74s
+  24   1.41865102e+03  1.38876399e+03  2.01e-06 7.11e-15  5.31e-06    77s
+  25   1.41320469e+03  1.39559824e+03  1.25e-06 7.11e-15  3.13e-06    80s
+  26   1.40937616e+03  1.39877217e+03  6.51e-07 7.11e-15  1.88e-06    82s
+  27   1.40727209e+03  1.40086735e+03  3.24e-07 7.11e-15  1.14e-06    83s
+  28   1.40635537e+03  1.40202548e+03  1.85e-07 7.11e-15  7.69e-07    84s
+  29   1.40586088e+03  1.40329072e+03  1.13e-07 1.07e-14  4.56e-07    86s
+  30   1.40549681e+03  1.40411365e+03  6.06e-08 7.11e-15  2.46e-07    87s
+  31   1.40531893e+03  1.40450376e+03  3.50e-08 7.11e-15  1.45e-07    88s
+  32   1.40520254e+03  1.40477609e+03  1.95e-08 7.11e-15  7.57e-08    90s
+  33   1.40513811e+03  1.40490165e+03  1.11e-08 7.11e-15  4.20e-08    91s
+  34   1.40509599e+03  1.40496281e+03  5.76e-09 7.11e-15  2.36e-08    93s
+  35   1.40507447e+03  1.40501234e+03  3.05e-09 7.11e-15  1.10e-08    94s
+  36   1.40506356e+03  1.40502913e+03  1.76e-09 7.11e-15  6.11e-09    95s
+  37   1.40505400e+03  1.40503895e+03  5.04e-09 7.11e-15  2.67e-09    97s
+  38   1.40505098e+03  1.40504586e+03  4.02e-09 1.31e-13  9.09e-10    98s
+  39   1.40504895e+03  1.40504770e+03  2.37e-09 7.94e-14  2.22e-10   100s
+  40   1.40504837e+03  1.40504803e+03  2.16e-09 1.25e-13  5.97e-11   101s
+  41   1.40504824e+03  1.40504816e+03  3.78e-10 3.29e-14  1.39e-11   103s
+  42   1.40504821e+03  1.40504820e+03  2.14e-09 3.58e-14  2.07e-12   105s
+  43   1.40504821e+03  1.40504821e+03  1.92e-10 7.11e-15  3.99e-15   106s
+
+Barrier solved model in 43 iterations and 106.15 seconds (90.57 work units)
+Optimal objective 1.40504821e+03
+
+Crossover log...
+
+  947885 DPushes remaining with DInf 1.4794531e-05               178s
+     267 DPushes remaining with DInf 1.4794531e-05               211s
+       6 DPushes remaining with DInf 1.4794531e-05               247s
+       0 DPushes remaining with DInf 1.4794531e-05               275s
+
+   27999 PPushes remaining with PInf 0.0000000e+00               276s
+   16166 PPushes remaining with PInf 0.0000000e+00               304s
+   11038 PPushes remaining with PInf 0.0000000e+00               337s
+    6253 PPushes remaining with PInf 0.0000000e+00               380s
+    4702 PPushes remaining with PInf 0.0000000e+00               418s
+       0 PPushes remaining with PInf 0.0000000e+00               461s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 5.3779794e-12    461s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+  155066    1.4050482e+03   0.000000e+00   1.644628e-06    676s
+Extra simplex iterations after uncrush: 8
+  155075    1.4050482e+03   0.000000e+00   0.000000e+00    951s
+
+Solved in 155075 iterations and 950.71 seconds (916.91 work units)
+Optimal objective  1.405048211e+03
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 1405.048210542968
+  Upper bound: 1405.048210542968
+  Number of objectives: 1
+  Number of constraints: 13575747
+  Number of variables: 10137988
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 10137988
+  Number of nonzeros: 33551692
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 951.2216510772705
+  Error rc: 0
+  Time: 1070.980471611023
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,bus015,bus017,cac1]
+fixing: vNetworkInvest[2030,bus065,bus068,cac1]
+fixing: vNetworkInvest[2030,bus003,bus005,cac1]
+fixing: vNetworkInvest[2030,bus068,bus069,cac1]
+fixing: vNetworkInvest[2030,bus094,bus100,cac1]
+fixing: vNetworkInvest[2030,bus025,bus027,cac1]
+fixing: vNetworkInvest[2030,bus082,bus083,cac1]
+fixing: vNetworkInvest[2030,bus001,bus003,cac1]
+fixing: vNetworkInvest[2030,bus069,bus077,cac1]
+fixing: vNetworkInvest[2030,bus077,bus082,cac1]
+fixing: vNetworkInvest[2030,bus023,bus032,cac1]
+fixing: vNetworkInvest[2030,bus008,bus005,cac1]
+fixing: vNetworkInvest[2030,bus012,bus117,cac1]
+fixing: vNetworkInvest[2030,bus017,bus113,cac1]
+fixing: vNetworkInvest[2030,bus026,bus030,cac1]
+fixing: vNetworkInvest[2030,bus030,bus038,cac1]
+fixing: vNetworkInvest[2030,bus038,bus037,cac1]
+fixing: vNetworkInvest[2030,bus093,bus094,cac1]
+fixing: vNetworkInvest[2030,bus074,bus075,cac1]
+fixing: vNetworkInvest[2030,bus038,bus065,cac1]
+fixing: vNetworkInvest[2030,bus015,bus033,cac1]
+fixing: vNetworkInvest[2030,bus080,bus099,cac1]
+fixing: vNetworkInvest[2030,bus099,bus100,cac1]
+fixing: vNetworkInvest[2030,bus023,bus024,cac1]
+fixing: vNetworkInvest[2030,bus033,bus037,cac1]
+fixing: vNetworkInvest[2030,bus005,bus006,cac1]
+fixing: vNetworkInvest[2030,bus008,bus030,cac1]
+Number of fixed variables:  27
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block unknown with a new Component
+(type=<class 'pyomo.core.base.suffix.Suffix'>). This is usually indicative of
+a modelling error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block unknown with a new Component
+(type=<class 'pyomo.core.base.suffix.Suffix'>). This is usually indicative of
+a modelling error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 1405.048210542968
+  Upper bound: 1405.048210542968
+  Number of objectives: 1
+  Number of constraints: 13575747
+  Number of variables: 10137988
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 10137988
+  Number of nonzeros: 33551692
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 877.5221929550171
+  Error rc: 0
+  Time: 1011.5654292106628
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  2859 s
+Objective function value                   1405.05 M€
+Reading    the parameters of the model ...  2859 s
+Getting the electricity demand         ...  1 s
+Getting the max power generation       ...  0 s
+Getting the input data file            ...  0 s
+Getting the total costs                ...  4 s
+Getting the power output               ...  4 s
+Getting the power flow                 ...  3 s
+Getting the dual variable: eBalance    ...  164 s
+Getting the output data file           ...  1 s
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+Remaining lines: 23
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+PINT: Line bus099 bus100 cac1
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+Number of existing lines to be considered: 170
+Setting up input data                 ...  45 s
+Generating objective function         ...  201 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  357 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  108 s
+Generating generation capacity        ...  21 s
+Generating network    capacity        ...  25 s
+Generating network    constraints     ...  129 s
+Econometric analysis  constraints     ...  0 s
+vNetworkInvest : network    investment decision exists in a year {0,1}
+    Size=1, Index=vNetworkInvest_index
+    Key                                : Lower : Value : Upper : Fixed : Stale : Domain
+    (2030, 'bus099', 'bus100', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+Number of lines to be considered: 171
+Set parameter Username
+Set parameter TokenServer to value "SET-S-ME-LM3.luna.kuleuven.be"
+Read LP format model from file /tmp/tmpzna4m73m.pyomo.lp
+Reading time = 34.34 seconds
+x1: 12658467 rows, 9902116 columns, 31306540 nonzeros
+Set parameter QCPDual to value 1
+Set parameter LogFile to value "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/E.Representative_days_based_on_Line_Benefits_OptModel/IEEE118/openStarNet_IEEE118.log"
+Set parameter Method to value 2
+Set parameter MIPFocus to value 1
+Set parameter Presolve to value 2
+Set parameter RINS to value 100
+Set parameter MIPGap to value 0.01
+Set parameter Threads to value 36
+Set parameter TimeLimit to value 259200
+Set parameter IterationLimit to value 760000000
+Gurobi Optimizer version 9.5.0 build v9.5.0rc5 (linux64)
+Thread count: 36 physical cores, 36 logical processors, using up to 36 threads
+Optimize a model with 12658467 rows, 9902116 columns and 31306540 nonzeros
+Model fingerprint: 0xa7da274e
+Coefficient statistics:
+  Matrix range     [1e-04, 1e+04]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [9e-05, 5e+01]
+  RHS range        [1e-04, 5e+01]
+Presolve removed 7182037 rows and 510250 columns (presolve time = 5s) ...
+Presolve removed 9570839 rows and 4856090 columns (presolve time = 11s) ...
+Presolve removed 9632440 rows and 4917691 columns (presolve time = 15s) ...
+Presolve removed 9632440 rows and 4917691 columns (presolve time = 20s) ...
+Presolve removed 9669025 rows and 5016251 columns (presolve time = 25s) ...
+Presolve removed 9669025 rows and 5016276 columns
+Presolve time: 26.87s
+Presolved: 2989442 rows, 4885840 columns, 11673236 nonzeros
+
+Ordering time: 0.94s
+
+Barrier statistics:
+ AA' NZ     : 9.083e+06
+ Factor NZ  : 3.823e+07 (roughly 3.5 GB of memory)
+ Factor Ops : 5.506e+08 (less than 1 second per iteration)
+ Threads    : 36
+
+                  Objective                Residual
+Iter       Primal          Dual         Primal    Dual     Compl     Time
+   0   1.19323072e+07 -1.69235895e+08  9.32e+01 1.55e+00  1.21e+02    33s
+   1   1.48498871e+06 -5.53091907e+07  9.70e+00 1.42e-14  1.75e+01    35s
+   2   3.97103000e+05 -1.01173978e+07  1.43e+00 1.61e-14  2.62e+00    36s
+   3   1.66388940e+05 -1.55386185e+06  6.47e-02 1.78e-14  3.33e-01    38s
+   4   7.68487386e+04 -3.73881656e+05  1.86e-02 8.53e-14  8.49e-02    40s
+   5   4.43727932e+04 -2.33700462e+05  1.01e-02 5.15e-14  5.20e-02    41s
+   6   2.80429933e+04 -1.41306536e+05  5.52e-03 3.20e-14  3.16e-02    42s
+   7   1.95227722e+04 -6.89529141e+04  3.12e-03 1.55e-14  1.64e-02    43s
+   8   1.46917561e+04 -3.14180635e+04  1.83e-03 7.55e-15  8.56e-03    44s
+   9   1.10557818e+04 -1.17275727e+04  9.81e-04 7.11e-15  4.23e-03    45s
+  10   9.33609053e+03 -5.55485904e+03  6.40e-04 7.11e-15  2.76e-03    46s
+  11   7.78861330e+03 -1.16788879e+03  3.67e-04 7.11e-15  1.66e-03    48s
+  12   6.82071831e+03  2.10871751e+03  2.20e-04 7.11e-15  8.74e-04    50s
+  13   6.31864264e+03  3.37391065e+03  1.52e-04 7.11e-15  5.46e-04    51s
+  14   5.99253203e+03  3.96411311e+03  1.09e-04 7.11e-15  3.76e-04    52s
+  15   5.70195190e+03  4.27708647e+03  7.30e-05 7.11e-15  2.64e-04    53s
+  16   5.54614227e+03  4.50063190e+03  5.41e-05 7.11e-15  1.94e-04    54s
+  17   5.39635147e+03  4.65814026e+03  3.63e-05 7.11e-15  1.37e-04    55s
+  18   5.29672611e+03  4.83110846e+03  2.48e-05 7.11e-15  8.63e-05    57s
+  19   5.21083979e+03  4.90353938e+03  1.52e-05 7.11e-15  5.70e-05    59s
+  20   5.17267578e+03  4.97067670e+03  1.09e-05 7.11e-15  3.75e-05    60s
+  21   5.15191471e+03  4.99171704e+03  8.67e-06 7.11e-15  2.97e-05    61s
+  22   5.13178016e+03  5.01257038e+03  6.49e-06 7.11e-15  2.21e-05    62s
+  23   5.10794531e+03  5.03047812e+03  3.97e-06 7.11e-15  1.44e-05    64s
+  24   5.09211967e+03  5.04917529e+03  2.26e-06 7.11e-15  7.96e-06    65s
+  25   5.08207786e+03  5.06092755e+03  1.23e-06 7.11e-15  3.92e-06    68s
+  26   5.07584757e+03  5.06460593e+03  6.19e-07 7.11e-15  2.08e-06    70s
+  27   5.07309337e+03  5.06700046e+03  3.49e-07 7.11e-15  1.13e-06    71s
+  28   5.07164071e+03  5.06752888e+03  2.09e-07 7.11e-15  7.62e-07    73s
+  29   5.07077847e+03  5.06813324e+03  1.25e-07 7.11e-15  4.90e-07    74s
+  30   5.07015628e+03  5.06868553e+03  6.59e-08 7.11e-15  2.73e-07    75s
+  31   5.06980723e+03  5.06892407e+03  3.46e-08 7.11e-15  1.64e-07    77s
+  32   5.06962699e+03  5.06915148e+03  1.85e-08 7.11e-15  8.82e-08    78s
+  33   5.06951394e+03  5.06926123e+03  8.96e-09 7.11e-15  4.69e-08    79s
+  34   5.06944645e+03  5.06934747e+03  3.34e-09 7.11e-15  1.84e-08    81s
+  35   5.06941992e+03  5.06938394e+03  1.67e-09 7.11e-15  6.67e-09    82s
+  36   5.06940875e+03  5.06939950e+03  7.42e-09 7.11e-15  1.71e-09    83s
+  37   5.06940449e+03  5.06940293e+03  6.00e-09 2.00e-14  2.89e-10    85s
+  38   5.06940380e+03  5.06940358e+03  3.40e-09 3.79e-14  4.03e-11    87s
+  39   5.06940370e+03  5.06940367e+03  3.54e-10 2.43e-14  5.01e-12    88s
+
+Barrier solved model in 39 iterations and 88.36 seconds (80.18 work units)
+Optimal objective 5.06940370e+03
+
+Crossover log...
+
+  220173 variables added to crossover basis                       90s
+
+  927794 DPushes remaining with DInf 0.0000000e+00               189s
+    2314 DPushes remaining with DInf 0.0000000e+00               237s
+      85 DPushes remaining with DInf 0.0000000e+00               291s
+       0 DPushes remaining with DInf 0.0000000e+00               335s
+
+   39522 PPushes remaining with PInf 0.0000000e+00               336s
+   15312 PPushes remaining with PInf 0.0000000e+00               388s
+    8961 PPushes remaining with PInf 0.0000000e+00               446s
+    4067 PPushes remaining with PInf 0.0000000e+00               519s
+    1844 PPushes remaining with PInf 0.0000000e+00               581s
+    1264 PPushes remaining with PInf 0.0000000e+00               640s
+       0 PPushes remaining with PInf 0.0000000e+00               694s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 1.6158056e-06    694s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+  232445    5.0694037e+03   0.000000e+00   1.615789e-06    803s
+  232446    5.0694037e+03   0.000000e+00   2.339862e-06   1034s
+  233779    5.0694037e+03   0.000000e+00   0.000000e+00   1272s
+Extra simplex iterations after uncrush: 1330
+
+Solved in 233779 iterations and 1271.57 seconds (1178.84 work units)
+Optimal objective  5.069403686e+03
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 5069.40368647049
+  Upper bound: 5069.40368647049
+  Number of objectives: 1
+  Number of constraints: 12658467
+  Number of variables: 9902116
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 9902116
+  Number of nonzeros: 31306540
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 1271.9903008937836
+  Error rc: 0
+  Time: 1386.0830345153809
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,bus099,bus100,cac1]
+Number of fixed variables:  1
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block unknown with a new Component
+(type=<class 'pyomo.core.base.suffix.Suffix'>). This is usually indicative of
+a modelling error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block unknown with a new Component
+(type=<class 'pyomo.core.base.suffix.Suffix'>). This is usually indicative of
+a modelling error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 5069.40368647049
+  Upper bound: 5069.40368647049
+  Number of objectives: 1
+  Number of constraints: 12658467
+  Number of variables: 9902116
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 9902116
+  Number of nonzeros: 31306540
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 1249.0314428806305
+  Error rc: 0
+  Time: 1377.6588096618652
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  3488 s
+Objective function value                   5069.4 M€
+Reading    the parameters of the model ...  3488 s
+Getting the electricity demand         ...  1 s
+Getting the max power generation       ...  0 s
+Getting the input data file            ...  0 s
+Getting the total costs                ...  4 s
+Getting the power output               ...  4 s
+Getting the power flow                 ...  3 s
+Getting the dual variable: eBalance    ...  164 s
+Getting the output data file           ...  1 s
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+Remaining lines: 22
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+TOOT: Line bus099 bus100 cac1
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+Setting up input data                 ...  187 s
+Generating objective function         ...  42 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  417 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  49 s
+Generating generation capacity        ...  22 s
+Generating network    capacity        ...  99 s
+Generating network    constraints     ...  70 s
+Econometric analysis  constraints     ...  0 s
+vNetworkInvest : network    investment decision exists in a year {0,1}
+    Size=27, Index=vNetworkInvest_index
+    Key                                : Lower : Value : Upper : Fixed : Stale : Domain
+    (2030, 'bus001', 'bus003', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus003', 'bus005', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus005', 'bus006', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus008', 'bus005', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus008', 'bus030', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus012', 'bus117', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus015', 'bus017', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus015', 'bus033', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus017', 'bus113', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus023', 'bus024', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus023', 'bus032', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus025', 'bus027', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus026', 'bus030', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus030', 'bus038', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus033', 'bus037', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus038', 'bus037', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus038', 'bus065', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus065', 'bus068', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus068', 'bus069', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus069', 'bus077', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus074', 'bus075', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus077', 'bus082', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus080', 'bus099', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus082', 'bus083', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus093', 'bus094', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus094', 'bus100', 'cac1') :     0 :   1.0 :     1 :  True : False : Binary
+    (2030, 'bus099', 'bus100', 'cac1') :     0 :   0.0 :     1 :  True : False : Binary
+Number of lines to be considered: 197
+Set parameter Username
+Set parameter TokenServer to value "SET-S-ME-LM3.luna.kuleuven.be"
+Read LP format model from file /tmp/tmpfogchi_8.pyomo.lp
+Reading time = 35.62 seconds
+x1: 13575747 rows, 10137988 columns, 33551692 nonzeros
+Set parameter QCPDual to value 1
+Set parameter LogFile to value "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/E.Representative_days_based_on_Line_Benefits_OptModel/IEEE118/openStarNet_IEEE118.log"
+Set parameter Method to value 2
+Set parameter MIPFocus to value 1
+Set parameter Presolve to value 2
+Set parameter RINS to value 100
+Set parameter MIPGap to value 0.01
+Set parameter Threads to value 36
+Set parameter TimeLimit to value 259200
+Set parameter IterationLimit to value 760000000
+Gurobi Optimizer version 9.5.0 build v9.5.0rc5 (linux64)
+Thread count: 36 physical cores, 36 logical processors, using up to 36 threads
+Optimize a model with 13575747 rows, 10137988 columns and 33551692 nonzeros
+Model fingerprint: 0x127161d8
+Coefficient statistics:
+  Matrix range     [1e-04, 1e+04]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [9e-05, 5e+01]
+  RHS range        [1e-04, 4e+02]
+Presolve removed 7636309 rows and 489945 columns (presolve time = 5s) ...
+Presolve removed 9822730 rows and 4420000 columns (presolve time = 10s) ...
+Presolve removed 10359082 rows and 4956352 columns (presolve time = 15s) ...
+Presolve removed 10359082 rows and 4956352 columns (presolve time = 20s) ...
+Presolve removed 10384417 rows and 5019818 columns (presolve time = 25s) ...
+Presolve removed 10401889 rows and 5028579 columns
+Presolve time: 29.01s
+Presolved: 3173858 rows, 5118145 columns, 12590450 nonzeros
+
+Ordering time: 1.39s
+
+Barrier statistics:
+ AA' NZ     : 1.108e+07
+ Factor NZ  : 4.386e+07 (roughly 4.0 GB of memory)
+ Factor Ops : 6.656e+08 (less than 1 second per iteration)
+ Threads    : 36
+
+                  Objective                Residual
+Iter       Primal          Dual         Primal    Dual     Compl     Time
+   0   1.93515165e+07 -2.37431390e+08  1.35e+02 1.71e+00  2.01e+02    36s
+   1   2.87459624e+06 -9.06379434e+07  1.86e+01 1.83e-14  3.38e+01    38s
+   2   5.05832845e+05 -2.13877828e+07  2.24e+00 1.87e-14  5.35e+00    40s
+   3   1.92529499e+05 -2.70667638e+06  1.25e-01 1.71e-14  5.60e-01    42s
+   4   7.17677312e+04 -6.18363385e+05  1.29e-02 1.81e-13  1.24e-01    44s
+   5   4.01975848e+04 -2.82957102e+05  6.54e-03 9.59e-14  5.79e-02    45s
+   6   2.48385774e+04 -1.32771709e+05  3.51e-03 5.24e-14  2.82e-02    46s
+   7   1.27883013e+04 -3.41049330e+04  1.27e-03 1.42e-14  8.36e-03    47s
+   8   9.41171590e+03 -1.40122777e+04  7.79e-04 7.11e-15  4.18e-03    48s
+   9   5.88004525e+03 -5.99726384e+03  3.84e-04 7.11e-15  2.12e-03    50s
+  10   4.05966646e+03 -2.44797008e+03  2.10e-04 7.11e-15  1.16e-03    52s
+  11   3.17657766e+03 -9.83841569e+02  1.36e-04 7.11e-15  7.41e-04    54s
+  12   2.79459554e+03 -9.22702352e+01  1.03e-04 7.11e-15  5.14e-04    55s
+  13   2.47045785e+03  4.49454405e+02  7.64e-05 7.11e-15  3.60e-04    56s
+  14   2.15407399e+03  7.51826747e+02  5.14e-05 7.11e-15  2.50e-04    57s
+  15   1.94105778e+03  9.47185032e+02  3.49e-05 7.11e-15  1.77e-04    58s
+  16   1.80091682e+03  1.09793809e+03  2.44e-05 7.11e-15  1.25e-04    60s
+  17   1.75703053e+03  1.14069002e+03  2.14e-05 7.11e-15  1.10e-04    62s
+  18   1.65968334e+03  1.28574699e+03  1.41e-05 7.11e-15  6.66e-05    65s
+  19   1.57953301e+03  1.35116011e+03  8.13e-06 7.11e-15  4.07e-05    68s
+  20   1.52819348e+03  1.40257773e+03  4.46e-06 7.11e-15  2.24e-05    70s
+  21   1.51154145e+03  1.42470437e+03  3.31e-06 7.11e-15  1.55e-05    71s
+  22   1.50012469e+03  1.43270065e+03  2.51e-06 7.11e-15  1.20e-05    72s
+  23   1.49465162e+03  1.44169238e+03  2.11e-06 7.11e-15  9.43e-06    73s
+  24   1.48803542e+03  1.44607424e+03  1.65e-06 7.11e-15  7.48e-06    75s
+  25   1.47631910e+03  1.45102534e+03  8.47e-07 7.11e-15  4.51e-06    76s
+  26   1.47129386e+03  1.45912056e+03  4.84e-07 7.11e-15  2.17e-06    78s
+  27   1.46758333e+03  1.46164546e+03  2.27e-07 7.11e-15  1.06e-06    81s
+  28   1.46580334e+03  1.46342679e+03  1.03e-07 1.07e-14  4.23e-07    84s
+  29   1.46504446e+03  1.46374590e+03  5.45e-08 7.11e-15  2.31e-07    86s
+  30   1.46459793e+03  1.46395947e+03  2.58e-08 7.11e-15  1.14e-07    87s
+  31   1.46437698e+03  1.46406756e+03  1.20e-08 7.11e-15  5.51e-08    88s
+  32   1.46426806e+03  1.46413625e+03  1.47e-08 7.11e-15  2.35e-08    90s
+  33   1.46420827e+03  1.46415615e+03  1.26e-08 7.11e-15  9.29e-09    91s
+  34   1.46418724e+03  1.46416831e+03  1.13e-08 7.11e-15  3.37e-09    93s
+  35   1.46417903e+03  1.46417177e+03  4.73e-09 1.20e-13  1.29e-09    94s
+  36   1.46417413e+03  1.46417275e+03  8.22e-10 1.83e-14  2.45e-10    96s
+  37   1.46417320e+03  1.46417298e+03  1.42e-09 1.49e-13  3.87e-11    98s
+  38   1.46417305e+03  1.46417302e+03  1.69e-09 3.01e-13  5.29e-12    99s
+  39   1.46417302e+03  1.46417302e+03  4.76e-10 5.19e-14  3.35e-14   101s
+
+Barrier solved model in 39 iterations and 100.68 seconds (88.49 work units)
+Optimal objective 1.46417302e+03
+
+Crossover log...
+
+  948173 DPushes remaining with DInf 0.0000000e+00               149s
+     350 DPushes remaining with DInf 0.0000000e+00               176s
+       2 DPushes remaining with DInf 0.0000000e+00               213s
+       0 DPushes remaining with DInf 0.0000000e+00               240s
+
+   32800 PPushes remaining with PInf 0.0000000e+00               241s
+   19157 PPushes remaining with PInf 0.0000000e+00               276s
+   12578 PPushes remaining with PInf 0.0000000e+00               309s
+    7250 PPushes remaining with PInf 0.0000000e+00               344s
+    5120 PPushes remaining with PInf 0.0000000e+00               387s
+    3697 PPushes remaining with PInf 0.0000000e+00               422s
+       0 PPushes remaining with PInf 0.0000000e+00               452s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 4.8671784e-12    452s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+  159953    1.4641730e+03   0.000000e+00   5.335088e-04    649s
+Extra simplex iterations after uncrush: 22
+  159975    1.4641730e+03   0.000000e+00   0.000000e+00    774s
+
+Solved in 159975 iterations and 774.28 seconds (723.07 work units)
+Optimal objective  1.464173021e+03
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 1464.1730211775157
+  Upper bound: 1464.1730211775157
+  Number of objectives: 1
+  Number of constraints: 13575747
+  Number of variables: 10137988
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 10137988
+  Number of nonzeros: 33551692
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 774.7446229457855
+  Error rc: 0
+  Time: 894.6882824897766
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,bus015,bus017,cac1]
+fixing: vNetworkInvest[2030,bus065,bus068,cac1]
+fixing: vNetworkInvest[2030,bus003,bus005,cac1]
+fixing: vNetworkInvest[2030,bus068,bus069,cac1]
+fixing: vNetworkInvest[2030,bus094,bus100,cac1]
+fixing: vNetworkInvest[2030,bus025,bus027,cac1]
+fixing: vNetworkInvest[2030,bus082,bus083,cac1]
+fixing: vNetworkInvest[2030,bus001,bus003,cac1]
+fixing: vNetworkInvest[2030,bus069,bus077,cac1]
+fixing: vNetworkInvest[2030,bus077,bus082,cac1]
+fixing: vNetworkInvest[2030,bus023,bus032,cac1]
+fixing: vNetworkInvest[2030,bus008,bus005,cac1]
+fixing: vNetworkInvest[2030,bus012,bus117,cac1]
+fixing: vNetworkInvest[2030,bus017,bus113,cac1]
+fixing: vNetworkInvest[2030,bus026,bus030,cac1]
+fixing: vNetworkInvest[2030,bus030,bus038,cac1]
+fixing: vNetworkInvest[2030,bus038,bus037,cac1]
+fixing: vNetworkInvest[2030,bus093,bus094,cac1]
+fixing: vNetworkInvest[2030,bus074,bus075,cac1]
+fixing: vNetworkInvest[2030,bus038,bus065,cac1]
+fixing: vNetworkInvest[2030,bus015,bus033,cac1]
+fixing: vNetworkInvest[2030,bus080,bus099,cac1]
+fixing: vNetworkInvest[2030,bus099,bus100,cac1]
+fixing: vNetworkInvest[2030,bus023,bus024,cac1]
+fixing: vNetworkInvest[2030,bus033,bus037,cac1]
+fixing: vNetworkInvest[2030,bus005,bus006,cac1]
+fixing: vNetworkInvest[2030,bus008,bus030,cac1]
+Number of fixed variables:  27
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block unknown with a new Component
+(type=<class 'pyomo.core.base.suffix.Suffix'>). This is usually indicative of
+a modelling error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block unknown with a new Component
+(type=<class 'pyomo.core.base.suffix.Suffix'>). This is usually indicative of
+a modelling error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 1464.1730211775157
+  Upper bound: 1464.1730211775157
+  Number of objectives: 1
+  Number of constraints: 13575747
+  Number of variables: 10137988
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 10137988
+  Number of nonzeros: 33551692
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 744.0177230834961
+  Error rc: 0
+  Time: 880.4212102890015
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  2631 s
+Objective function value                   1464.17 M€
+Reading    the parameters of the model ...  2631 s
+Getting the electricity demand         ...  1 s
+Getting the max power generation       ...  0 s
+Getting the input data file            ...  0 s
+Getting the total costs                ...  4 s
+Getting the power output               ...  4 s
+Getting the power flow                 ...  3 s
+Getting the dual variable: eBalance    ...  164 s
+Getting the output data file           ...  1 s
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+Remaining lines: 22
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+########################################################
+Total time                            ...  49191 s
+########################################################
