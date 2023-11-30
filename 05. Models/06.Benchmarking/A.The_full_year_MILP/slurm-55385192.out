@@ -1,0 +1,367 @@
+SLURM_JOB_ID: 55385192
+SLURM_JOB_USER: vsc34888
+SLURM_JOB_ACCOUNT: lp_elect_gen_modeling
+SLURM_JOB_NAME: RTS24_mod1_full_MILP_DC
+SLURM_CLUSTER_NAME: genius
+SLURM_JOB_PARTITION: batch
+SLURM_NNODES: 1
+SLURM_NODELIST: r22i13n23
+SLURM_JOB_CPUS_PER_NODE: 36
+Date: Tue Nov 28 18:11:55 CET 2023
+Walltime: 03-00:00:00
+========================================================================
+Activation OK
+Starting runs
+
+ #### Academic research license - for non-commercial use only #### 
+
+RTS24_mod1
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/A.The_full_year_MILP
+gurobi
+['oSN_Main_DCOPF.py', '--case', 'RTS24_mod1']
+Namespace(case='RTS24_mod1', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/A.The_full_year_MILP', solver='gurobi')
+Namespace(case='RTS24_mod1', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/A.The_full_year_MILP', solver='gurobi')
+Reading    input data                 ...  1 s
+Setting up input data                 ...  11 s
+Generating objective function         ...  12 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  25 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  16 s
+Generating generation capacity        ...  3 s
+Generating network    capacity        ...  12 s
+Generating network    constraints     ...  25 s
+Econometric analysis  constraints     ...  0 s
+Set parameter Username
+Set parameter TokenServer to value "SET-S-ME-LM3.luna.kuleuven.be"
+Read LP format model from file /tmp/tmpqab2ubs5.pyomo.lp
+Reading time = 8.06 seconds
+x1: 2856675 rows, 2031688 columns, 7599336 nonzeros
+Set parameter QCPDual to value 1
+Set parameter LogFile to value "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/A.The_full_year_MILP/RTS24_mod1/openStarNet_RTS24_mod1.log"
+Set parameter Method to value 2
+Set parameter MIPFocus to value 1
+Set parameter Presolve to value 2
+Set parameter RINS to value 100
+Set parameter MIPGap to value 0.01
+Set parameter Threads to value 36
+Set parameter TimeLimit to value 259200
+Set parameter IterationLimit to value 760000000
+Gurobi Optimizer version 9.5.0 build v9.5.0rc5 (linux64)
+Thread count: 36 physical cores, 36 logical processors, using up to 36 threads
+Optimize a model with 2856675 rows, 2031688 columns and 7599336 nonzeros
+Model fingerprint: 0x036f6a7d
+Variable types: 2031674 continuous, 14 integer (14 binary)
+Coefficient statistics:
+  Matrix range     [8e-05, 3e+02]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [3e-05, 3e+00]
+  RHS range        [3e-05, 3e+00]
+Presolve removed 1751500 rows and 878816 columns (presolve time = 5s) ...
+Presolve removed 1760237 rows and 887553 columns (presolve time = 10s) ...
+Presolve removed 1847597 rows and 1062273 columns (presolve time = 15s) ...
+Presolve removed 1847597 rows and 1062273 columns
+Presolve time: 18.10s
+Presolved: 1009078 rows, 969415 columns, 3672853 nonzeros
+Variable types: 969401 continuous, 14 integer (14 binary)
+Root relaxation presolved: 1009078 rows, 969415 columns, 3672853 nonzeros
+
+Root barrier log...
+
+Ordering time: 0.26s
+
+Barrier statistics:
+ Dense cols : 14
+ AA' NZ     : 5.635e+06
+ Factor NZ  : 1.885e+07 (roughly 1.0 GB of memory)
+ Factor Ops : 3.901e+08 (less than 1 second per iteration)
+ Threads    : 35
+
+                  Objective                Residual
+Iter       Primal          Dual         Primal    Dual     Compl     Time
+   0   6.71281278e+05 -2.27204140e+07  5.36e+00 9.49e-01  2.55e+01    29s
+   1   1.06264300e+05 -6.24345093e+06  7.24e-01 6.35e-09  3.84e+00    29s
+   2   4.48441085e+04 -1.36855370e+06  2.16e-01 2.31e-09  7.32e-01    30s
+   3   1.58346719e+04 -2.67992895e+05  9.91e-03 1.38e-09  1.14e-01    30s
+   4   5.14146670e+03 -2.46298283e+04  1.29e-03 1.14e-10  1.17e-02    31s
+   5   5.72709399e+02 -6.37121873e+03  4.31e-05 2.93e-11  2.72e-03    31s
+   6   3.12505216e+02 -1.99414806e+03  1.10e-06 9.27e-12  9.03e-04    32s
+   7   2.35022443e+02 -7.19076314e+02  5.76e-07 3.43e-12  3.74e-04    32s
+   8   1.54471728e+02 -2.26431545e+02  2.70e-07 1.11e-12  1.49e-04    33s
+   9   1.11510662e+02 -7.90283731e+01  1.40e-07 5.13e-13  7.46e-05    33s
+  10   8.91716098e+01 -1.26588837e+01  7.88e-08 3.06e-13  3.99e-05    34s
+  11   7.62421455e+01  3.29863225e+00  4.49e-08 2.31e-13  2.86e-05    34s
+  12   7.14754028e+01  2.70391240e+01  3.30e-08 7.46e-14  1.74e-05    35s
+  13   6.77218273e+01  3.83429693e+01  2.40e-08 4.97e-14  1.15e-05    36s
+  14   6.53343325e+01  4.50093272e+01  1.85e-08 8.35e-14  7.96e-06    36s
+  15   6.50381595e+01  4.62396424e+01  1.78e-08 6.93e-14  7.36e-06    37s
+  16   6.31987398e+01  4.85113294e+01  1.36e-08 6.39e-14  5.75e-06    37s
+  17   6.22402671e+01  5.10461111e+01  1.14e-08 3.11e-14  4.38e-06    38s
+  18   6.11548778e+01  5.19968979e+01  8.99e-09 6.93e-14  3.59e-06    39s
+  19   6.05670896e+01  5.28149038e+01  7.76e-09 1.05e-13  3.04e-06    39s
+  20   6.00099283e+01  5.37998414e+01  6.47e-09 7.64e-14  2.43e-06    40s
+  21   5.95373892e+01  5.45875945e+01  5.34e-09 2.80e-14  1.94e-06    41s
+  22   5.92190968e+01  5.50887496e+01  4.49e-09 5.68e-14  1.62e-06    41s
+  23   5.89251425e+01  5.55546833e+01  3.77e-09 9.59e-14  1.32e-06    42s
+  24   5.86530401e+01  5.58773019e+01  3.08e-09 2.66e-14  1.09e-06    43s
+  25   5.84361601e+01  5.62976368e+01  2.46e-09 1.15e-13  8.38e-07    44s
+  26   5.82376110e+01  5.65463318e+01  1.91e-09 8.53e-14  6.62e-07    44s
+  27   5.80904592e+01  5.66927940e+01  1.50e-09 1.38e-14  5.47e-07    45s
+  28   5.79594719e+01  5.68513336e+01  1.12e-09 2.93e-14  4.34e-07    46s
+  29   5.78659721e+01  5.70347875e+01  8.61e-10 3.55e-14  3.26e-07    47s
+  30   5.78040881e+01  5.71624592e+01  6.77e-10 2.22e-14  2.51e-07    47s
+  31   5.77751331e+01  5.72339634e+01  5.89e-10 3.29e-14  2.12e-07    48s
+  32   5.77471020e+01  5.73224778e+01  5.05e-10 1.05e-13  1.66e-07    49s
+  33   5.77047816e+01  5.73582139e+01  3.90e-10 8.17e-14  1.36e-07    50s
+  34   5.76722453e+01  5.74104697e+01  2.95e-10 4.13e-14  1.03e-07    50s
+  35   5.76492592e+01  5.74420384e+01  2.28e-10 3.91e-14  8.12e-08    51s
+  36   5.76326045e+01  5.74689874e+01  1.77e-10 4.97e-14  6.41e-08    52s
+  37   5.76304683e+01  5.74916143e+01  1.69e-10 4.26e-14  5.44e-08    53s
+  38   5.76148906e+01  5.75076409e+01  2.72e-10 1.64e-14  4.20e-08    53s
+  39   5.75989529e+01  5.75200784e+01  2.64e-10 3.73e-14  3.09e-08    54s
+  40   5.75939073e+01  5.75315881e+01  3.12e-10 3.91e-14  2.44e-08    55s
+  41   5.75895386e+01  5.75392046e+01  1.21e-10 4.44e-14  1.97e-08    55s
+  42   5.75866860e+01  5.75482424e+01  1.16e-10 2.13e-14  1.51e-08    56s
+  43   5.75843963e+01  5.75549865e+01  1.26e-10 2.93e-14  1.15e-08    57s
+  44   5.75810110e+01  5.75591961e+01  2.01e-10 6.04e-14  8.54e-09    58s
+  45   5.75803493e+01  5.75664509e+01  1.47e-10 2.93e-14  5.44e-09    58s
+  46   5.75791675e+01  5.75675553e+01  6.44e-10 5.06e-14  4.55e-09    59s
+  47   5.75786568e+01  5.75697576e+01  5.40e-10 5.51e-14  3.49e-09    60s
+  48   5.75784204e+01  5.75721657e+01  4.74e-10 7.28e-14  2.45e-09    61s
+  49   5.75783025e+01  5.75733742e+01  4.51e-10 4.44e-14  1.93e-09    61s
+  50   5.75780360e+01  5.75736155e+01  8.94e-10 5.51e-14  1.73e-09    62s
+  51   5.75779212e+01  5.75743833e+01  8.61e-10 1.78e-14  1.39e-09    63s
+  52   5.75778688e+01  5.75750373e+01  8.53e-10 1.28e-13  1.11e-09    63s
+  53   5.75778338e+01  5.75752262e+01  5.79e-10 1.07e-13  1.02e-09    64s
+  54   5.75778194e+01  5.75755761e+01  5.97e-10 1.60e-13  8.79e-10    65s
+  55   5.75777774e+01  5.75758174e+01  7.13e-10 2.50e-13  7.68e-10    66s
+  56   5.75777536e+01  5.75760100e+01  6.20e-10 1.12e-13  6.83e-10    67s
+  57   5.75777298e+01  5.75762412e+01  4.66e-10 2.70e-13  5.83e-10    68s
+  58   5.75776742e+01  5.75763153e+01  5.54e-10 2.50e-13  5.32e-10    69s
+  59   5.75776580e+01  5.75763939e+01  2.74e-09 2.04e-13  4.95e-10    70s
+  60   5.75776172e+01  5.75766119e+01  1.84e-09 3.04e-13  3.94e-10    71s
+  61   5.75775959e+01  5.75767760e+01  2.37e-09 1.10e-13  3.21e-10    71s
+  62   5.75775797e+01  5.75769104e+01  1.95e-09 4.48e-13  2.62e-10    72s
+  63   5.75775743e+01  5.75769261e+01  1.80e-09 3.57e-13  2.54e-10    73s
+  64   5.75775675e+01  5.75770447e+01  1.63e-09 2.91e-13  2.05e-10    74s
+  65   5.75775375e+01  5.75771440e+01  1.98e-08 1.71e-13  1.54e-10    75s
+  66   5.75775316e+01  5.75773573e+01  1.56e-08 7.64e-14  6.82e-11    76s
+  67   5.75775211e+01  5.75774136e+01  5.54e-08 3.55e-14  4.21e-11    77s
+  68   5.75775165e+01  5.75774162e+01  3.44e-08 2.13e-14  3.93e-11    78s
+  69   5.75775102e+01  5.75774250e+01  1.14e-08 1.37e-13  3.34e-11    78s
+  70   5.75775097e+01  5.75774307e+01  1.12e-08 1.19e-13  3.09e-11    79s
+  71   5.75775091e+01  5.75774363e+01  8.65e-09 9.68e-14  2.85e-11    79s
+  72   5.75775080e+01  5.75774431e+01  6.48e-09 1.67e-13  2.54e-11    80s
+  73   5.75775076e+01  5.75774513e+01  8.99e-09 2.98e-13  2.20e-11    81s
+  74   5.75775075e+01  5.75774628e+01  7.67e-09 2.25e-11  1.75e-11    81s
+  75   5.75775074e+01  5.75774697e+01  7.22e-09 1.90e-11  1.48e-11    82s
+  76   5.75775074e+01  5.75774710e+01  1.04e-08 1.83e-11  1.43e-11    82s
+
+Barrier solved model in 76 iterations and 82.21 seconds (63.85 work units)
+Optimal objective 5.75775959e+01
+
+
+Root crossover log...
+
+  122383 DPushes remaining with DInf 0.0000000e+00                84s
+    1139 DPushes remaining with DInf 0.0000000e+00                85s
+     121 DPushes remaining with DInf 0.0000000e+00                90s
+       0 DPushes remaining with DInf 0.0000000e+00                91s
+
+  144282 PPushes remaining with PInf 5.0570571e-05                91s
+   77259 PPushes remaining with PInf 1.0777878e-04                95s
+   32165 PPushes remaining with PInf 1.0861293e-04               101s
+    7878 PPushes remaining with PInf 1.0861293e-04               107s
+    1887 PPushes remaining with PInf 1.0861293e-04               111s
+       0 PPushes remaining with PInf 1.0222566e-04               117s
+
+  Push phase complete: Pinf 1.0222566e-04, Dinf 2.9401762e-02    118s
+
+
+Root simplex log...
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+  152316    5.7577507e+01   0.000000e+00   2.940176e-02    120s
+  152554    5.7577507e+01   0.000000e+00   0.000000e+00    128s
+  152554    5.7577507e+01   0.000000e+00   0.000000e+00    131s
+
+Root relaxation: objective 5.757751e+01, 152554 iterations, 108.22 seconds (99.14 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0   57.57751    0   14          -   57.57751      -     -  363s
+H    0     0                     108.0656702   57.57751  46.7%     -  467s
+H    0     0                      93.5497533   57.57751  38.5%     -  577s
+     0     0   58.45481    0   13   93.54975   58.45481  37.5%     - 3551s
+H    0     0                      82.6104079   58.45481  29.2%     - 3660s
+     0     0   58.63409    0   12   82.61041   58.63409  29.0%     - 4810s
+     0     0   58.99059    0   14   82.61041   58.99059  28.6%     - 7407s
+     0     0   59.02675    0   14   82.61041   59.02675  28.5%     - 8087s
+     0     0   59.03260    0   14   82.61041   59.03260  28.5%     - 8352s
+     0     0   59.03379    0   14   82.61041   59.03379  28.5%     - 8553s
+     0     0   59.03422    0   14   82.61041   59.03422  28.5%     - 8699s
+     0     0   59.03442    0   14   82.61041   59.03442  28.5%     - 8761s
+     0     0   59.03450    0   14   82.61041   59.03450  28.5%     - 8792s
+     0     0   59.12835    0   12   82.61041   59.12835  28.4%     - 9592s
+     0     0   59.12974    0   12   82.61041   59.12974  28.4%     - 9685s
+     0     0   59.12999    0   12   82.61041   59.12999  28.4%     - 9725s
+     0     0   59.12999    0   12   82.61041   59.12999  28.4%     - 9733s
+     0     0   59.28683    0   12   82.61041   59.28683  28.2%     - 10743s
+     0     0   59.29159    0   12   82.61041   59.29159  28.2%     - 10881s
+     0     0   59.29159    0   12   82.61041   59.29159  28.2%     - 10889s
+     0     0   59.30654    0   12   82.61041   59.30654  28.2%     - 13916s
+H    0     0                      81.5257220   59.30654  27.3%     - 17081s
+H    0     0                      76.4168355   59.30654  22.4%     - 83222s
+     0     2   59.30654    0   12   76.41684   59.30654  22.4%     - 83408s
+     1     4   61.17454    1   13   76.41684   59.30692  22.4% 95182 84469s
+     3     8   63.21362    2   12   76.41684   61.17762  19.9% 90959 85696s
+     7    14     cutoff    3        76.41684   62.39661  18.3% 75443 87085s
+    15    24   67.30385    4   10   76.41684   63.85765  16.4% 68691 88684s
+    17    24     cutoff    4        76.41684   63.85765  16.4% 69821 88685s
+    29    40   70.09234    5    9   76.41684   64.76660  15.2% 65930 91776s
+    53    56     cutoff    6        76.41684   66.41628  13.1% 58297 93555s
+    89    64   71.41399    7    7   76.41684   68.09349  10.9% 54712 101376s
+   125    48   74.66371    8    6   76.41684   68.09349  10.9% 57458 103364s
+   161    38     cutoff    8        76.41684   68.09349  10.9% 54121 104755s
+   197    33   75.41106   10    4   76.41684   68.09349  10.9% 49596 105925s
+   234    23   75.98426   11    3   76.41684   68.09349  10.9% 46155 106782s
+   272    12     cutoff   12        76.41684   69.22771  9.41% 41961 107519s
+   297     7   74.22673    8    6   76.41684   69.22771  9.41% 39573 108214s
+   308     7   74.99075    9    5   76.41684   69.22771  9.41% 38819 108616s
+   314     9   75.94644   10    4   76.41684   69.22771  9.41% 38528 108993s
+   322     2     cutoff   11        76.41684   74.17144  2.94% 37886 109763s
+   331     0     cutoff    8        76.41684   74.17505  2.93% 37286 110374s
+
+Cutting planes:
+  Gomory: 2
+  Implied bound: 2429
+  MIR: 21815
+  Relax-and-lift: 4212
+
+Explored 333 nodes (12873588 simplex iterations) in 110375.68 seconds (202456.01 work units)
+Thread count was 36 (of 36 available processors)
+
+Solution count 5: 76.4168 81.5257 82.6104 ... 108.066
+
+Optimal solution found (tolerance 1.00e-02)
+Best objective 7.641683546987e+01, best bound 7.641683546987e+01, gap 0.0000%
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 76.41683546987235
+  Upper bound: 76.41683546987235
+  Number of objectives: 1
+  Number of constraints: 2856675
+  Number of variables: 2031688
+  Number of binary variables: 14
+  Number of integer variables: 14
+  Number of continuous variables: 2031674
+  Number of nonzeros: 7599336
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 110375.71480584145
+  Error rc: 0
+  Time: 110396.6551618576
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,N_115,N_116,cac1]
+fixing: vNetworkInvest[2030,N_116,N_117,cac2]
+fixing: vNetworkInvest[2030,N_118,N_121,cac1]
+fixing: vNetworkInvest[2030,N_106,N_108,cac1]
+fixing: vNetworkInvest[2030,N_109,N_111,cac2]
+fixing: vNetworkInvest[2030,N_115,N_116,cac2]
+fixing: vNetworkInvest[2030,N_103,N_124,cac2]
+fixing: vNetworkInvest[2030,N_117,N_118,cac2]
+fixing: vNetworkInvest[2030,N_106,N_108,cac2]
+fixing: vNetworkInvest[2030,N_118,N_121,cac2]
+fixing: vNetworkInvest[2030,N_116,N_117,cac1]
+fixing: vNetworkInvest[2030,N_109,N_111,cac1]
+fixing: vNetworkInvest[2030,N_103,N_124,cac1]
+fixing: vNetworkInvest[2030,N_117,N_118,cac1]
+Number of fixed variables:  14
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 76.41683546987245
+  Upper bound: 76.41683546987245
+  Number of objectives: 1
+  Number of constraints: 2856675
+  Number of variables: 2031674
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 2031674
+  Number of nonzeros: 7110106
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 50.78255295753479
+  Error rc: 0
+  Time: 80.72561478614807
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  110633 s
+Objective function value                   76.42 M€
+Objective function value                   76.41683546987245
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Writing    network operation results  ...  5 s
+Writing generation operation results  ...  13 s
+Writing        ESS operation results  ...  0 s
+Writing             economic results  ...  2 s
+
+ #### Academic research license - for non-commercial use only #### 
+
+Elapsed time: 110804 seconds
