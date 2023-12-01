@@ -7,13 +7,13 @@ InitialTime = time.time()
 
 DirName  = os.getcwd()
 
-CaseName_Base = 'IEEE118'
+CaseName_Base = '9n'
 
 # Defining the case CaseName_ByStages plus the CaseName_ByStages_nc#
 CasesToPaste = []
 # CasesToPaste.append(CaseName_Base + '_ByStages')
 
-RangeClusters = [i for i in range(10, 101, 10)] + [i for i in range(150, 251, 50)]
+RangeClusters = [i for i in range(10, 101, 10)] + [i for i in range(150, 401, 50)]
 
 for i in RangeClusters:
     CasesToPaste.append(CaseName_Base + '_ByStages_nc' + str(i))
