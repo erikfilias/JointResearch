@@ -119,7 +119,7 @@ for selection_set in selection_sets:
     gammas = [1,0.25]
     learning_rates = [(initial,step_size,gamma) for initial in initials for gamma in gammas]
 
-    nbs_e = [128]
+    nbs_e = [128,256]
     #nbs_e = [64,128]
 
     #alphas = [0,1]
