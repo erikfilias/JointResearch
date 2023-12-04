@@ -2,19 +2,20 @@
 
 
 #SBATCH --cluster="genius"
-#SBATCH --job-name="RTS24_mod1_FYOP_loop"
+#SBATCH --job-name="training_hyper_118"
 #SBATCH --nodes="1"
 #SBATCH --mail-user="kristof.phillips@kuleuven.be"
 #SBATCH --mail-type=BEGIN,END,FAIL
-#SBATCH --time="6:00:00"
-#SBATCH --ntasks-per-node="36"
+#SBATCH --time="48:00:00"
+#SBATCH --ntasks-per-node="12"
 #SBATCH --account="lp_elect_gen_modeling"
 #SBATCH --partition="batch"
-      
+    
 source activate Jr23
 echo "Activation OK"
-cd $VSC_SCRATCH/JointResearch/05.Models/06.Benchmarking/J.Full_year_operational_cost
+cd $VSC_SCRATCH/JointResearch/05.Models/03.ANN_CostEstimator_For_LB
 
 echo "Starting runs"
 
-python loop_operational_in_mem.py --case RTS24_mod1 --origin_folder D --min_nb 250 --max_nb 400
+python hyperparams_training_script_v3.py --case IEEE118
+
