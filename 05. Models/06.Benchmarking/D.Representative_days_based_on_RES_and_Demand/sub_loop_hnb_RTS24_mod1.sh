@@ -17,4 +17,5 @@ cd $VSC_SCRATCH/JointResearch/05.Models/06.Benchmarking/D.Representative_days_ba
 
 echo "Starting runs"
 
-python loop_by_stages.py --case RTS24_mod1 --highnb True
+python loop_by_stages.py --case RTS24_mod1 --min_nb 300 --max_nb 400
+
