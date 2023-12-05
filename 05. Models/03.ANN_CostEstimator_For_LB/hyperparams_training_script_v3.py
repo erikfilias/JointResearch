@@ -35,8 +35,6 @@ outp = "SystemCosts"
 val_s_name = round(val_s,2)
 
 nb_hours_list = [24 * i for i in range(1,9,2)] + [24 * i for i in range(28,175,7*4)]
-# nb_hours_list = [24 * i for i in range(1,2,2)]
-#nb_hours_list = [24 * i for i in range(1,3,2)]
 #exec_name = f"rand_days_and_hours_{case}_DC_{te_s}_v{val_s_name}_PF_{executions_start}_{executions_end}"
 nb_hours_list = [2016,2016]
 
@@ -60,7 +58,7 @@ selection_sets = [(selection_method,nb_hours) for nb_hours in nb_hours_list for 
 print("Amount of nb_hours: ", len(nb_hours_list), nb_hours_list)
 for selection_set in selection_sets:
     selection_method,nb_hours = selection_set[0],selection_set[1]
-    exec_name = f"Decay_2016h_rand_{selection_method}_{case}_DC_{te_s}_v{val_s_name}_PF_{executions_start}_{executions_end}"
+    exec_name = f"{case}_DC_{te_s}_v{val_s_name}_PF"
     folder_to_save = f"{exec_name}"
 
     # Select subset for the training process
@@ -107,7 +105,7 @@ for selection_set in selection_sets:
     #nbs_hidden = [(0,0),(3,1)]  #
     nbs_hidden = [(3,1)]
 
-    dors = [0,0.1]
+    dors = [0]
     relu_outs = [False]
 
     batch_sizes = [128]
@@ -115,15 +113,15 @@ for selection_set in selection_sets:
 
     #Learning rate combination of initial learning rate, and decay parameters
     initials = [0.0025]
-    step_size = 32
-    gammas = [1,0.25]
-    learning_rates = [(initial,step_size,gamma) for initial in initials for gamma in gammas]
+    step_sizes = [32,64]
+    gammas = [1,0.25,0.25/4]
+    learning_rates = [(initial,step_size,gamma) for initial in initials for step_size in step_sizes for gamma in gammas]
 
-    nbs_e = [128,256]
+    nbs_e = [64,128,256]
     #nbs_e = [64,128]
 
     #alphas = [0,1]
-    alphas = [0,0.1,0.2]
+    alphas = [0,0.05,0.1]
     beta = 1
 
     MAEs = [False,True]
@@ -154,7 +152,7 @@ for selection_set in selection_sets:
                                     inter_size=dfs_inter_j["Network_Existing_Generation_Full"].shape[1],hidden_sizes = None)
 
         # Create model name for saving and loading
-        m_name = f"OE_{nb_hours_used}hours_{nb_hidden}h_{nb_e}e_{lr}lr_{dor}dor_{relu_out}ro_{bs}bs_{alpha}ill_{MAE}MAE"
+        m_name = f"OE_{nb_hours_used}hours_{nb_hidden[0]}-{nb_hidden[1]}h_{nb_e}e_{lr[0]}-{lr[1]}-{lr[2]}lr_{dor}dor_{relu_out}ro_{bs}bs_{alpha}ill_{MAE}MAE"
 
         # Create optimizer based on learning rate
         optimizer = torch.optim.Adam(m.parameters(), lr=lr[0])
