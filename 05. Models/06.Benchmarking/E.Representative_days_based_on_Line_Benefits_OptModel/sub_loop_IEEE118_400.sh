@@ -2,7 +2,7 @@
 
 
 #SBATCH --cluster="genius"
-#SBATCH --job-name="118_by_stages_loop_D_hnb_2"
+#SBATCH --job-name="118_by_stages_loop_E_300"
 #SBATCH --nodes="1"
 #SBATCH --mail-user="kristof.phillips@kuleuven.be"
 #SBATCH --mail-type=BEGIN,END,FAIL
@@ -13,7 +13,7 @@
       
 source activate Jr23
 echo "Activation OK"
-cd $VSC_SCRATCH/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand
+cd $VSC_SCRATCH/JointResearch/05.Models/06.Benchmarking/E.Representative_days_based_on_Line_Benefits_OptModel
 
 echo "Starting runs"
 
