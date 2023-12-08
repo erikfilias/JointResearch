@@ -74,8 +74,8 @@ def KMedoidsMethod(OptClusters, Y_sklearn, _path_0, _path_1, CaseName_0, CaseNam
     print("--- Kmedoids clustering " + CaseName_1 + "..." + str(procedure_type))
     # Running the K-means with the optimal number of clusters. Setting up the initializer and random state.
     # kmedoids_pca = KMedoids(metric="euclidean", n_clusters=OptClusters, init="heuristic", max_iter=2, random_state=42)
-    # kmedoids_pca = KMedoids(n_clusters=OptClusters, init='k-medoids++')
-    kmedoids_pca = KMedoids(n_clusters=OptClusters, init='random')
+    kmedoids_pca = KMedoids(n_clusters=OptClusters, init='k-medoids++')
+    # kmedoids_pca = KMedoids(n_clusters=OptClusters, init='random')
     kmedoids_pca.fit(Y_sklearn)
     df_segm_pca_kmedoids = pd.concat([table.reset_index(drop=True), pd.DataFrame(Y_sklearn)], axis=1)
     df_segm_pca_kmedoids.columns.values[-3:] = ['Component 1', 'Component 2', 'Component 3']
