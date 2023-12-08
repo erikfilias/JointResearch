@@ -51,7 +51,7 @@ def create_model_and_load_state_from_row(row, input_size, inter_size, hyperloop_
 
     lri = row.Lri.item()
     lrs = row.Lrs.item()
-    lrg = row.Lrg.item()
+    str_lrg = lrg = row.Lrg.item()
 
     relu_out = row.Relu_out.item()
     #np = row.Np.item()
@@ -63,8 +63,8 @@ def create_model_and_load_state_from_row(row, input_size, inter_size, hyperloop_
         str_alpha = "0"
     if str(dor) == "0.0":
         str_dor = "0"
-    # if str(lr[]) == "0.0":
-    #     str_dor = "0"
+    if str(lrg) == "1.0":
+        str_lrg = "1"
 
 
 
@@ -80,7 +80,7 @@ def create_model_and_load_state_from_row(row, input_size, inter_size, hyperloop_
     #m_name = f"OE_{model_type}h_{nb_e}e_{lr}lr_{str_dor}dor_{np}np_{relu_out}ro_{bs}bs_{str_alpha}ill_{MAE}MAE"
     if new_name:
         #m_name = f"OE_{nb_hours}hours_{model_type}h_{nb_e}e_{lr}lr_{str_dor}dor_{relu_out}ro_{bs}bs_{str_alpha}ill_{MAE}MAE"
-        m_name = f"OE_{nb_hours}hours_{model_type[0]}-{model_type[1]}h_{nb_e}e_{lri}-{lrs}-{lrg}lr_{str_dor}dor_{relu_out}ro_{bs}bs_{str_alpha}ill_{MAE}MAE"
+        m_name = f"OE_{nb_hours}hours_{model_type[0]}-{model_type[1]}h_{nb_e}e_{lri}-{lrs}-{str_lrg}lr_{str_dor}dor_{relu_out}ro_{bs}bs_{str_alpha}ill_{MAE}MAE"
     else:
         m_name = f"OE_{nb_hours}hours_{model_type}h_{nb_e}e_{lr}lr_{str_dor}dor_{relu_out}ro_{bs}bs_{str_alpha}ill_{MAE}MAE"
 
