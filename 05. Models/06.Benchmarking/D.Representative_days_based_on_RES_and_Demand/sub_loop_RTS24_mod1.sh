@@ -2,7 +2,7 @@
 
 
 #SBATCH --cluster="genius"
-#SBATCH --job-name="RTS24_mod1_by_stages_loop_D"
+#SBATCH --job-name="RTS24_mod1_by_stages_loop_D_10-250"
 #SBATCH --nodes="1"
 #SBATCH --mail-user="kristof.phillips@kuleuven.be"
 #SBATCH --mail-type=BEGIN,END,FAIL
