@@ -2,7 +2,7 @@
 
 
 #SBATCH --cluster="genius"
-#SBATCH --job-name="RTS24_mod1_FYOP_loop_E"
+#SBATCH --job-name="RTS24_mod1_FYOP_loop_F"
 #SBATCH --nodes="1"
 #SBATCH --mail-user="kristof.phillips@kuleuven.be"
 #SBATCH --mail-type=BEGIN,END,FAIL
@@ -17,4 +17,4 @@ cd $VSC_SCRATCH/JointResearch/05.Models/06.Benchmarking/J.Full_year_operational_
 
 echo "Starting runs"
 
-python loop_operational_in_mem.py --case RTS24_mod1 --origin_folder E --min_nb 10 --max_nb 400
+python loop_operational_in_mem.py --case RTS24_mod1 --origin_folder F --min_nb 10 --max_nb 400
