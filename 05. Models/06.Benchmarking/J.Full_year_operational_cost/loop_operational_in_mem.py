@@ -7,7 +7,8 @@ import argparse
 import re
 
 def parse_args():
-    folder_map = {"D":os.path.join("..","D.Representative_days_based_on_RES_and_Demand"),
+    folder_map = {"B":os.path.join("..","B.Operation_cost"),
+                  "D":os.path.join("..","D.Representative_days_based_on_RES_and_Demand"),
                   "E":os.path.join("..","E.Representative_days_based_on_Line_Benefits_OptModel"),
                   "F":os.path.join("..","F.Representative_days_based_on_Line_Benefit_NN_OC_fy_1"),
                   "G":os.path.join("..","G.Representative_days_based_on_Line_Benefit_NN_OC_fy_2"),}
