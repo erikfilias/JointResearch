@@ -133,7 +133,8 @@ if __name__ == '__main__':
     #Loop over the hours in a year
     df_investements = pd.DataFrame()
     df_costs = pd.DataFrame()
-    for load_level in load_levels[0:5]:
+    for load_level in load_levels[0:200]:
+        print(load_level)
         #Then update the input files in the correct way to consider a single hour
         update_input_files_for_hour(load_level)
 

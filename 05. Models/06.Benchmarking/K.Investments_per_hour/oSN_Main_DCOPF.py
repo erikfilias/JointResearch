@@ -1501,7 +1501,7 @@ def solving_model(DirName, CaseName, SolverName, optmodel, pWriteLP):
     if idx == 0:
         optmodel.dual = Suffix(direction=Suffix.IMPORT)
         optmodel.rc   = Suffix(direction=Suffix.IMPORT)
-    SolverResults = Solver.solve(optmodel, tee=True)                                        # tee=True displays the output of the solver
+    SolverResults = Solver.solve(optmodel, tee=False)                                        # tee=True displays the output of the solver
     print('Termination condition: ', SolverResults.solver.termination_condition)
     SolverResults.write()                                                                # summary of the solver results
 
