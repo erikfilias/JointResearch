@@ -9,11 +9,15 @@ import re
 def parse_args():
     parser = argparse.ArgumentParser(description='Introducing main parameters...')
     parser.add_argument('--case', type=str, default="3-bus")
+    parser.add_argument('--start', type=int, default=0)
+    parser.add_argument('--end', type=int, default=-1)
 
     args = parser.parse_args()
     case = args.case
+    start = args.start
+    end = args.end
 
-    return case
+    return case,start,end
 
 def update_input_files_for_hour(LoadLevel):
     #Read the duration parameter file
@@ -125,15 +129,18 @@ def save_investments(df_results, case,type):
 
 
 if __name__ == '__main__':
-
+    StartTime = time.time()
     #Start by parsing the arguments that define which case has to be solved
-    case = parse_args()
+    case,start,end = parse_args()
     #Get the list of load_levels to be considered
     load_levels = get_load_levels(case)
     #Loop over the hours in a year
     df_investements = pd.DataFrame()
     df_costs = pd.DataFrame()
-    for load_level in load_levels[0:200]:
+    hour_index=0
+    if end == -1:
+        end = len(load_levels)
+    for load_level in load_levels[start:end]:
         print(load_level)
         #Then update the input files in the correct way to consider a single hour
         update_input_files_for_hour(load_level)
@@ -150,5 +157,15 @@ if __name__ == '__main__':
 
         df_investements = pd.concat([df_investements,ivds],axis=0)
         df_costs = pd.concat([df_costs,cost],axis=0)
-    for df_result,type in zip([df_costs,df_investements],["costs","Investments"]):
-        save_investments(df_result,case,type)
+        #Write every 100th hour
+        if hour_index%100 == 0:
+            for df_result,type in zip([df_costs,df_investements],["costs","Investments"]):
+                save_investments(df_result,case,type)
+    for df_result, type in zip([df_costs, df_investements], ["costs", "Investments"]):
+        save_investments(df_result, case, type)
+    EndTime = time.time()
+    elapsed_time = round(time.time() - StartTime)
+    print('Elapsed time: {} seconds'.format(elapsed_time))
+    path_to_write_time = os.path.join(case,"3.Out/ComputationTime.txt")
+    with open(path_to_write_time, 'w') as f:
+         f.write(str(elapsed_time))
