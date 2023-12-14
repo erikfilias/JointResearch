@@ -140,6 +140,8 @@ if __name__ == '__main__':
     hour_index=0
     if end == -1:
         end = len(load_levels)
+
+    print("Running for " , len(load_levels[start:end]),"individual hours")
     for load_level in load_levels[start:end]:
         print(load_level)
         #Then update the input files in the correct way to consider a single hour
