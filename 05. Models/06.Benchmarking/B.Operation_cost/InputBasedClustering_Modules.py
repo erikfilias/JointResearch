@@ -409,7 +409,7 @@ def main(IndOptCluster, DirName, opt_cluster, CaseName_Base):
         labels[neg_values[neg_values < neg_threshold].index] = 'Negative'
     elif IndClassify == 0:
         # Classify the values
-        labels[pos_values[pos_values > len(diff_df_1.columns)+1].index] = 'Positive'
+        labels[pos_values[pos_values > diff_df_1.max()['mEUR']].index] = 'Positive'
         labels[neg_values[neg_values < 0].index] = 'Negative'
 
     # Add a new column 'Mark' to diff_df_2 and assign the labels to it
