@@ -72,7 +72,7 @@ def KMeansMethod(OptClusters, Y_sklearn, _path_0, _path_1, CaseName_0, CaseName_
 def KMedoidsMethod(OptClusters, Y_sklearn, _path_0, _path_1, CaseName_0, CaseName_1, table, data, cluster_type, procedure_type):
     # Running the K-means with the optimal number of clusters. Setting up the initializer and random state.
     # kmedoids_pca = KMedoids(metric="euclidean", n_clusters=OptClusters, init="heuristic", max_iter=2, random_state=42)
-    kmedoids_pca = KMedoids(n_clusters=OptClusters, init='k-medoids++', random_state=42)
+    kmedoids_pca = KMedoids(metric="euclidean", n_clusters=OptClusters, init='k-medoids++', random_state=0)
     kmedoids_pca.fit(Y_sklearn)
     df_segm_pca_kmedoids = pd.concat([table.reset_index(drop=True), pd.DataFrame(Y_sklearn)], axis=1)
     df_segm_pca_kmedoids.columns.values[-3:] = ['Component 1', 'Component 2', 'Component 3']
@@ -365,6 +365,9 @@ def main(IndOptCluster, DirName, opt_cluster, CaseName_Base):
     #%% type of clustering  ('hourly'; 'daily with hourly resolution'; 'weekly with hourly resolution')
     clustering_type = 'hourly'
 
+    # if classification before clustering is performed
+    IndClassify = 0
+
     output_directory = DirName + '/' + CaseName_ByStages + '/'
     if not os.path.exists(output_directory):
         os.makedirs(output_directory)
@@ -401,9 +404,14 @@ def main(IndOptCluster, DirName, opt_cluster, CaseName_Base):
     # Create a new Series to store the labels, with the same index as diff_df_2
     labels = pd.Series('Irrelevant', index=diff_df_2.index)
 
-    # Classify the values
-    labels[pos_values[pos_values > pos_threshold].index] = 'Positive'
-    labels[neg_values[neg_values < neg_threshold].index] = 'Negative'
+    if IndClassify == 1:
+        # Classify the values
+        labels[pos_values[pos_values > pos_threshold].index] = 'Positive'
+        labels[neg_values[neg_values < neg_threshold].index] = 'Negative'
+    elif IndClassify == 0:
+        # Classify the values
+        labels[pos_values[pos_values > len(diff_df_1.columns)+1].index] = 'Positive'
+        labels[neg_values[neg_values < 0].index] = 'Negative'
 
     # Add a new column 'Mark' to diff_df_2 and assign the labels to it
     diff_df_2 = labels
@@ -468,15 +476,18 @@ def main(IndOptCluster, DirName, opt_cluster, CaseName_Base):
         opt_cluster_irrelevant = opt_cluster
 
     if len(table_positive):
+        print('Clustering positive...', len(table_positive))
         X_positive = table_positive.iloc[:,1:len(table_positive.columns)+1].values
         y_positive = table_positive.iloc[:,0].values
         results_positive, dfDuration_positive, dfStages_positive, dictStages_positive = ClusteringProcess(X_positive, y_positive, IndOptCluster, opt_cluster_positive, _path_0, _path_1, CaseName_Base, CaseName_ByStages, table_positive, ddf_1, clustering_type, 0, max_cluster, cluster_method)
     if len(table_negative):
+        print('Clustering negative...', len(table_negative))
         X_negative = table_negative.iloc[:,1:len(table_negative.columns)+1].values
         y_negative = table_negative.iloc[:,0].values
         results_negative, dfDuration_negative, dfStages_negative, dictStages_negative = ClusteringProcess(X_negative, y_negative, IndOptCluster, opt_cluster_negative, _path_0, _path_1, CaseName_Base, CaseName_ByStages, table_negative, ddf_1, clustering_type, 1, max_cluster, cluster_method)
 
     if len(table_irrelevant):
+        print('Clustering irrelevant...', len(table_irrelevant))
         X_irrelevant = table_irrelevant.iloc[:,1:len(table_irrelevant.columns)+1].values
         y_irrelevant = table_irrelevant.iloc[:,0].values
         results_irrelevant, dfDuration_irrelevant, dfStages_irrelevant, dictStages_irrelevant = ClusteringProcess(X_irrelevant, y_irrelevant, IndOptCluster, opt_cluster_irrelevant, _path_0, _path_1, CaseName_Base, CaseName_ByStages, table_irrelevant, ddf_1, clustering_type, 2, max_cluster, cluster_method)
