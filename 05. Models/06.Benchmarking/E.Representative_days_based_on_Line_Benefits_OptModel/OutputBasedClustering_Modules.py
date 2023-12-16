@@ -75,7 +75,7 @@ def KMedoidsMethod(OptClusters, Y_sklearn, _path_0, _path_1, CaseName_0, CaseNam
     # Running the K-means with the optimal number of clusters. Setting up the initializer and random state.
     # kmedoids_pca = KMedoids(metric="euclidean", n_clusters=OptClusters, init="heuristic", max_iter=2, random_state=42)
     # kmedoids_pca = KMedoids(n_clusters=OptClusters, init='random')
-    kmedoids_pca = KMedoids(n_clusters=OptClusters, init='k-medoids++', random_state=42)
+    kmedoids_pca = KMedoids(metric="euclidean", n_clusters=OptClusters, init='k-medoids++', random_state=0)
     kmedoids_pca.fit(Y_sklearn)
     df_segm_pca_kmedoids = pd.concat([table.reset_index(drop=True), pd.DataFrame(Y_sklearn)], axis=1)
     df_segm_pca_kmedoids.columns.values[-3:] = ['Component 1', 'Component 2', 'Component 3']
@@ -377,6 +377,9 @@ def main(IndOptCluster, DirName, opt_cluster, CaseName_Base):
     #%% type of clustering  ('hourly'; 'daily with hourly resolution'; 'weekly with hourly resolution')
     clustering_type = 'hourly'
 
+    # if classification before clustering is performed
+    IndClassify = 0
+
     output_directory = DirName + '/' + CaseName_ByStages + '/'
     if not os.path.exists(output_directory):
         os.makedirs(output_directory)
@@ -410,9 +413,14 @@ def main(IndOptCluster, DirName, opt_cluster, CaseName_Base):
     # Create a new Series to store the labels, with the same index as diff_df_2
     labels = pd.Series('Irrelevant', index=diff_df_2.index)
 
-    # Classify the values
-    labels[pos_values[pos_values > pos_threshold].index] = 'Positive'
-    labels[neg_values[neg_values < neg_threshold].index] = 'Negative'
+    if IndClassify == 1:
+        # Classify the values
+        labels[pos_values[pos_values > pos_threshold].index] = 'Positive'
+        labels[neg_values[neg_values < neg_threshold].index] = 'Negative'
+    elif IndClassify == 0:
+        # Classify the values
+        labels[pos_values[pos_values > diff_df_1.max()['LineBenefit']].index] = 'Positive'
+        labels[neg_values[neg_values < diff_df_1.min()['LineBenefit']].index] = 'Negative'
 
     # Add a new column 'Mark' to diff_df_2 and assign the labels to it
     diff_df_2 = labels
