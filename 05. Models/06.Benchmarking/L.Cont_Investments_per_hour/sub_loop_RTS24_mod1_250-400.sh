@@ -17,4 +17,4 @@ cd $VSC_SCRATCH/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_h
 
 echo "Starting runs"
 
-python loop_by_stages.py --case RTS24_mod1 --min_nb 300 --max_nb 400
+python loop_by_stages.py --case RTS24_mod1 --min_nb 250 --max_nb 400
