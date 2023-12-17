@@ -2,7 +2,7 @@
 
 
 #SBATCH --cluster="genius"
-#SBATCH --job-name="RTS24_mod1_by_stages_loop_B_1-150"
+#SBATCH --job-name="RTS24_mod1_by_stages_loop_B_1-250"
 #SBATCH --nodes="1"
 #SBATCH --mail-user="kristof.phillips@kuleuven.be"
 #SBATCH --mail-type=BEGIN,END,FAIL
@@ -17,5 +17,5 @@ cd $VSC_SCRATCH/JointResearch/05.Models/06.Benchmarking/B.Operation_cost
 
 echo "Starting runs"
 
-python loop_by_stages.py --case RTS24_mod1 --min_nb 10 --max_nb 150
+python loop_by_stages.py --case RTS24_mod1 --min_nb 10 --max_nb 250
 
