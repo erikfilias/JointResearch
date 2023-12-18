@@ -46,7 +46,7 @@ def KMeansMethod(OptClusters, Y_sklearn, _path_0, _path_1, CaseName_0, CaseName_
         ['Scenario', 'Period', 'LoadLevel', 'Stage', 'InitialNode', 'FinalNode', 'Circuit', 'Value']]
     # Shaping the dataframe to be saved in CSV files
     TableToFile = pd.pivot_table(data, values='Value', index=['LoadLevel', 'Stage', 'Duration'],
-                                 columns=['InitialNode', 'FinalNode', 'Circuit'], fill_value=0)
+                                 columns=['InitialNode', 'FinalNode', 'Circuit'], fill_value=42)
     TableToFile = TableToFile.reset_index()
     # Creating the dataframe to generate oT_Data_Duration
     dfDuration = pd.DataFrame(0, index=TableToFile.index, columns=['LoadLevel', 'Duration', 'Stage'])
@@ -440,11 +440,11 @@ def main(IndOptCluster, DirName, opt_cluster, CaseName_Base):
         ddf_1['Variable'] = ddf_1['Execution'] + '_' + ddf_1['Hour'].astype(str)
 
     if clustering_type == 'hourly':
-        table = pd.pivot_table(ddf_1, values='Value', index=['LoadLevel', 'Month', 'Day'], columns=['Variable'], aggfunc=np.sum)
+        table = pd.pivot_table(ddf_1, values='Value', index=['LoadLevel', 'Month', 'Day'], columns=['Variable'], aggfunc='sum')
     elif clustering_type == 'daily with hourly resolution':
-        table = pd.pivot_table(ddf_1, values='Value', index=['Month', 'Day'], columns=['Variable'], aggfunc=np.sum)
+        table = pd.pivot_table(ddf_1, values='Value', index=['Month', 'Day'], columns=['Variable'], aggfunc='sum')
     elif clustering_type == 'weekly with hourly resolution':
-        table = pd.pivot_table(ddf_1, values='Value', index=['Month', 'Week'], columns=['Variable'], aggfunc=np.sum)
+        table = pd.pivot_table(ddf_1, values='Value', index=['Month', 'Week'], columns=['Variable'], aggfunc='sum')
 
     table = table.reset_index()
 
