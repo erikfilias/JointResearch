@@ -1501,7 +1501,7 @@ def solving_model(DirName, CaseName, SolverName, optmodel, pWriteLP):
     if idx == 0:
         optmodel.dual = Suffix(direction=Suffix.IMPORT)
         optmodel.rc   = Suffix(direction=Suffix.IMPORT)
-    SolverResults = Solver.solve(optmodel, tee=True)                                        # tee=True displays the output of the solver
+    SolverResults = Solver.solve(optmodel, tee=False)                                        # tee=True displays the output of the solver
     print('Termination condition: ', SolverResults.solver.termination_condition)
     SolverResults.write()                                                                # summary of the solver results
 
@@ -1659,7 +1659,14 @@ def saving_results(DirName, CaseName, SolverName, model, optmodel):
 
     #%% outputting the SRMC
     if SolverName == 'gurobi':
-        OutputResults = pd.Series(data=[optmodel.dual[optmodel.eBalanceP[p,sc,st,n,nd]]*1e3/model.pScenProb[p,sc]()/model.pLoadLevelDuration[n]() for p,sc,n,nd,st in model.psnnd*model.st if (st,n) in model.s2n], index=pd.MultiIndex.from_tuples(model.psnnd))
+        # incoming and outgoing lines (lin) (lout)
+        lin = defaultdict(list)
+        lout = defaultdict(list)
+        for ni, nf, cc in model.la:
+            lin[nf].append((ni, cc))
+            lout[ni].append((nf, cc))
+        dual_eBalance_list = [(p,sc,n,nd) for p,sc,st,n,nd in model.psnnd*model.st if (st,n) in model.s2n and sum(1 for g in model.g if (nd,g) in model.n2g) + sum(1 for lout in lout[nd]) + sum(1 for ni,cc in lin[nd])]
+        OutputResults = pd.Series(data=[optmodel.dual[optmodel.eBalanceP[p,sc,st,n,nd]]*1e3/model.pScenProb[p,sc]()/model.pLoadLevelDuration[n]() for p,sc,n,nd,st in dual_eBalance_list], index=pd.MultiIndex.from_tuples(dual_eBalance_list))
         OutputResults.to_frame(name='SRMC').rename_axis(['Period','Scenario','LoadLevel','Node'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_SRMC_'+CaseName+'.csv', index=False, sep=',')
 
     if sum(model.pGenFxInvest[gc] for gc in model.gc):
