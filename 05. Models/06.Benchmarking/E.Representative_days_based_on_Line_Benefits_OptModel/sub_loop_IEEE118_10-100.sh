@@ -2,11 +2,11 @@
 
 
 #SBATCH --cluster="genius"
-#SBATCH --job-name="3-bus_by_stages_loop_E_hnc"
+#SBATCH --job-name="118_by_stages_loop_E_10-100"
 #SBATCH --nodes="1"
 #SBATCH --mail-user="kristof.phillips@kuleuven.be"
 #SBATCH --mail-type=BEGIN,END,FAIL
-#SBATCH --time="4:00:00"
+#SBATCH --time="72:00:00"
 #SBATCH --ntasks-per-node="36"
 #SBATCH --account="lp_elect_gen_modeling"
 #SBATCH --partition="batch"
@@ -17,4 +17,4 @@ cd $VSC_SCRATCH/JointResearch/05.Models/06.Benchmarking/E.Representative_days_ba
 
 echo "Starting runs"
 
-python loop_by_stages.py --case 3-bus --highnb True
+python loop_by_stages.py --case IEEE118 --min_nb 10 --max_nb 100
