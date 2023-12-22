@@ -1518,8 +1518,6 @@ def solving_model(DirName, CaseName, SolverName, optmodel, pWriteLP):
     print('# ============================================================================= #')
     print('# ============================================================================= #')
     if idx != 0:
-        if SolverName == 'gurobi':
-            Solver.options['relax_integrality'] = 1                                          # introduced to show results of the dual variables
         optmodel.dual = Suffix(direction=Suffix.IMPORT)
         optmodel.rc   = Suffix(direction=Suffix.IMPORT)
         SolverResults = Solver.solve(optmodel, tee=False)                                        # tee=True displays the output of the solver
