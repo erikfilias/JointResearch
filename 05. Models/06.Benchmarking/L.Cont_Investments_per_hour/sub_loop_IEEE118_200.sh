@@ -2,7 +2,7 @@
 
 
 #SBATCH --cluster="genius"
-#SBATCH --job-name="IEEE118_by_stages_loop_L_150-200"
+#SBATCH --job-name="IEEE118_by_stages_loop_L_200"
 #SBATCH --nodes="1"
 #SBATCH --mail-user="kristof.phillips@kuleuven.be"
 #SBATCH --mail-type=BEGIN,END,FAIL
@@ -17,4 +17,4 @@ cd $VSC_SCRATCH/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_h
 
 echo "Starting runs"
 
-python loop_by_stages.py --case IEEE118 --min_nb 150 --max_nb 200
+python loop_by_stages.py --case IEEE118 --min_nb 200 --max_nb 200
