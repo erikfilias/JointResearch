@@ -2,7 +2,7 @@
 
 
 #SBATCH --cluster="genius"
-#SBATCH --job-name="118_FYOP_loop_E_10-100"
+#SBATCH --job-name="118_FYOP_loop_B_10-200"
 #SBATCH --nodes="1"
 #SBATCH --mail-user="kristof.phillips@kuleuven.be"
 #SBATCH --mail-type=BEGIN,END,FAIL
@@ -17,4 +17,4 @@ cd $VSC_SCRATCH/JointResearch/05.Models/06.Benchmarking/J.Full_year_operational_
 
 echo "Starting runs"
 
-python loop_operational_in_mem.py --case IEEE118 --origin_folder E --min_nb 10 --max_nb 100
+python loop_operational_in_mem.py --case IEEE118 --origin_folder B --min_nb 10 --max_nb 200
