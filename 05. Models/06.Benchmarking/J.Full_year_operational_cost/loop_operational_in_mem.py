@@ -105,6 +105,15 @@ def saving_results(DirName, CaseName, model, optmodel):
     StartTime = time.time()
     print('Writing           investment results  ... ', round(WritingInvResultsTime), 's')
 
+    if len(model.r):
+        OutputResults = pd.Series(data=[(model.pMaxPower[p,sc,n,g]-optmodel.vTotalOutputP[p,sc,n,g]())*1e3 for p,sc,n,g in model.psnr], index=pd.MultiIndex.from_tuples(model.psnr))
+        OutputResults.to_frame(name='MW'  ).rename_axis(['Period','Scenario','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_RESCurtailment_'      +CaseName+'.csv', index=False, sep=',')
+
+    pEpsilon = 1e-6
+    OutputResults = pd.Series(data=[max(optmodel.vFlow[p,sc,n,ni,nf,cc]()/(model.pLineNTCFrw[ni,nf,cc]+pEpsilon),-optmodel.vFlow[p,sc,n,ni,nf,cc]()/(model.pLineNTCFrw[ni,nf,cc]+pEpsilon)) for p,sc,n,ni,nf,cc in model.psnla], index=pd.Index(model.psnla))
+    OutputResults.to_frame(name='GWh').rename_axis(['Period', 'Scenario', 'LoadLevel', 'InitialNode', 'FinalNode', 'Circuit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_NetworkUtilizationPerNode_DC_'+CaseName+'.csv', index=False, sep=',')
+
+
     return model
 
 def obtain_list_of_ByStages_numbers(path_to_scan,min_nb,max_nb):
@@ -124,6 +133,7 @@ def obtain_list_of_ByStages_numbers(path_to_scan,min_nb,max_nb):
                     nb_stages_l.append(nc_number)
 
     nb_stages_l = sorted(nb_stages_l)
+    print("Found following ByStages results in folder {}")
     return nb_stages_l
 
 
