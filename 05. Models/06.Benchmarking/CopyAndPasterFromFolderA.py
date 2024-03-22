@@ -6,7 +6,7 @@ InitialTime = time.time()
 
 DirName  = os.getcwd()
 
-CaseName_Base = 'IEEE118'
+CaseName_Base = 'IEEE118_mod1'
 
 Folder_A = 'A.The_full_year_MILP'
 Folder_B = 'B.Operation_cost'
@@ -20,7 +20,7 @@ Folder_K = 'K.Investments_per_hour'
 Folder_L = 'L.Cont_Investments_per_hour'
 
 # FoldersToPaste = [Folder_D, Folder_E, Folder_F, Folder_G, Folder_H, Folder_I]
-FoldersToPaste = [Folder_L]
+FoldersToPaste = [Folder_D]
 
 # Defining the case CaseName_ByStages plus the CaseName_ByStages_nc#
 CasesToPaste = []
