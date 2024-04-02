@@ -20,7 +20,7 @@ Folder_K = 'K.Investments_per_hour'
 Folder_L = 'L.Cont_Investments_per_hour'
 
 # FoldersToPaste = [Folder_D, Folder_E, Folder_F, Folder_G, Folder_H, Folder_I]
-FoldersToPaste = [Folder_D]
+FoldersToPaste = [Folder_L]
 
 # Defining the case CaseName_ByStages plus the CaseName_ByStages_nc#
 CasesToPaste = []
