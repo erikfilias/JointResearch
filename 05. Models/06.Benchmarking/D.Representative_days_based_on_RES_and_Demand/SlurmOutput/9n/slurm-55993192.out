@@ -1,0 +1,2831 @@
+SLURM_JOB_ID: 55993192
+SLURM_JOB_USER: vsc34888
+SLURM_JOB_ACCOUNT: lp_elect_gen_modeling
+SLURM_JOB_NAME: 9n_by_stages_loop_D_1-400
+SLURM_CLUSTER_NAME: genius
+SLURM_JOB_PARTITION: batch
+SLURM_NNODES: 1
+SLURM_NODELIST: r23i13n06
+SLURM_JOB_CPUS_PER_NODE: 12
+Date: Wed Apr 10 21:15:29 CEST 2024
+Walltime: 00-06:00:00
+========================================================================
+Activation OK
+Starting runs
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py:621: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  pLinearOperCost.update (pd.Series([0 for gg in model.gg if pLinearOperCost [gg] < pEpsilon], index=[gg for gg in model.gg if pLinearOperCost [gg] < pEpsilon]))
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py:622: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  pLinearVarCost.update  (pd.Series([0 for gg in model.gg if pLinearVarCost  [gg] < pEpsilon], index=[gg for gg in model.gg if pLinearVarCost  [gg] < pEpsilon]))
+
+ #### Academic research license - for non-commercial use only #### 
+
+9n_ByStages_nc10
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand
+gurobi
+['oSN_Main_DCOPF.py', '--case', '9n_ByStages_nc10']
+Namespace(case='9n_ByStages_nc10', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand', solver='gurobi')
+Namespace(case='9n_ByStages_nc10', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand', solver='gurobi')
+Reading    input data                 ...  0 s
+Setting up input data                 ...  0 s
+Generating objective function         ...  0 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  0 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  0 s
+Generating generation capacity        ...  0 s
+Generating network    capacity        ...  0 s
+Generating network    constraints     ...  0 s
+Econometric analysis  constraints     ...  0 s
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 91.31282084566654
+  Upper bound: 91.63474741421666
+  Number of objectives: 1
+  Number of constraints: 2623
+  Number of variables: 1424
+  Number of binary variables: 36
+  Number of integer variables: 36
+  Number of continuous variables: 1388
+  Number of nonzeros: 7940
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.6773691177368164
+  Error rc: 0
+  Time: 0.9780521392822266
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac1]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac1]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac1]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac3]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac2]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac2]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac2]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac1]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac2]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac3]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac2]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac3]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac2]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac1]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac3]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac3]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac3]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac1]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac2]
+Number of fixed variables:  36
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 91.63474741421655
+  Upper bound: 91.63474741421655
+  Number of objectives: 1
+  Number of constraints: 2623
+  Number of variables: 1388
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 1388
+  Number of nonzeros: 6464
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.010416030883789062
+  Error rc: 0
+  Time: 0.12587594985961914
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  1 s
+Objective function value                   91.63 M€
+Objective function value                   91.63474741421655
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Writing    network operation results  ...  0 s
+Writing generation operation results  ...  0 s
+Writing        ESS operation results  ...  0 s
+Traceback (most recent call last):
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 1695, in <module>
+    main(openStarNet)
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 137, in main
+    model = saving_results(args.dir, args.case, args.solver, model, model)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 1667, in saving_results
+    OutputResults = pd.Series(data=[optmodel.dual[optmodel.eBalanceP[p,sc,st,n,nd]]*1e3/model.pScenProb[p,sc]()/model.pLoadLevelDuration[n]() for p,sc,n,nd,st in dual_eBalance_list], index=pd.MultiIndex.from_tuples(dual_eBalance_list))
+                                                                                                                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/leuven/348/vsc34888/miniconda3/envs/Jr23/lib/python3.11/site-packages/pandas/core/indexes/multi.py", line 205, in new_meth
+    return meth(self_or_cls, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/leuven/348/vsc34888/miniconda3/envs/Jr23/lib/python3.11/site-packages/pandas/core/indexes/multi.py", line 565, in from_tuples
+    raise TypeError("Cannot infer number of levels from empty list")
+TypeError: Cannot infer number of levels from empty list
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py:621: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  pLinearOperCost.update (pd.Series([0 for gg in model.gg if pLinearOperCost [gg] < pEpsilon], index=[gg for gg in model.gg if pLinearOperCost [gg] < pEpsilon]))
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py:622: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  pLinearVarCost.update  (pd.Series([0 for gg in model.gg if pLinearVarCost  [gg] < pEpsilon], index=[gg for gg in model.gg if pLinearVarCost  [gg] < pEpsilon]))
+
+ #### Academic research license - for non-commercial use only #### 
+
+9n_ByStages_nc20
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand
+gurobi
+['oSN_Main_DCOPF.py', '--case', '9n_ByStages_nc20']
+Namespace(case='9n_ByStages_nc20', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand', solver='gurobi')
+Namespace(case='9n_ByStages_nc20', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand', solver='gurobi')
+Reading    input data                 ...  0 s
+Setting up input data                 ...  0 s
+Generating objective function         ...  0 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  0 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  0 s
+Generating generation capacity        ...  0 s
+Generating network    capacity        ...  0 s
+Generating network    constraints     ...  0 s
+Econometric analysis  constraints     ...  0 s
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 98.15424964149128
+  Upper bound: 98.21735686549323
+  Number of objectives: 1
+  Number of constraints: 5243
+  Number of variables: 2805
+  Number of binary variables: 36
+  Number of integer variables: 36
+  Number of continuous variables: 2769
+  Number of nonzeros: 15843
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.9406700134277344
+  Error rc: 0
+  Time: 1.076314926147461
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac2]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac3]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac1]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac1]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac3]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac2]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac2]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac2]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac1]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac3]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac1]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac3]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac2]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac1]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac1]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac3]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac3]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac3]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac1]
+Number of fixed variables:  36
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 98.21735686549324
+  Upper bound: 98.21735686549324
+  Number of objectives: 1
+  Number of constraints: 5243
+  Number of variables: 2769
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 2769
+  Number of nonzeros: 12927
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.021181106567382812
+  Error rc: 0
+  Time: 0.15888023376464844
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  2 s
+Objective function value                   98.22 M€
+Objective function value                   98.21735686549324
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Writing    network operation results  ...  0 s
+Writing generation operation results  ...  0 s
+Writing        ESS operation results  ...  0 s
+Traceback (most recent call last):
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 1695, in <module>
+    main(openStarNet)
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 137, in main
+    model = saving_results(args.dir, args.case, args.solver, model, model)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 1667, in saving_results
+    OutputResults = pd.Series(data=[optmodel.dual[optmodel.eBalanceP[p,sc,st,n,nd]]*1e3/model.pScenProb[p,sc]()/model.pLoadLevelDuration[n]() for p,sc,n,nd,st in dual_eBalance_list], index=pd.MultiIndex.from_tuples(dual_eBalance_list))
+                                                                                                                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/leuven/348/vsc34888/miniconda3/envs/Jr23/lib/python3.11/site-packages/pandas/core/indexes/multi.py", line 205, in new_meth
+    return meth(self_or_cls, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/leuven/348/vsc34888/miniconda3/envs/Jr23/lib/python3.11/site-packages/pandas/core/indexes/multi.py", line 565, in from_tuples
+    raise TypeError("Cannot infer number of levels from empty list")
+TypeError: Cannot infer number of levels from empty list
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py:621: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  pLinearOperCost.update (pd.Series([0 for gg in model.gg if pLinearOperCost [gg] < pEpsilon], index=[gg for gg in model.gg if pLinearOperCost [gg] < pEpsilon]))
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py:622: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  pLinearVarCost.update  (pd.Series([0 for gg in model.gg if pLinearVarCost  [gg] < pEpsilon], index=[gg for gg in model.gg if pLinearVarCost  [gg] < pEpsilon]))
+
+ #### Academic research license - for non-commercial use only #### 
+
+9n_ByStages_nc30
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand
+gurobi
+['oSN_Main_DCOPF.py', '--case', '9n_ByStages_nc30']
+Namespace(case='9n_ByStages_nc30', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand', solver='gurobi')
+Namespace(case='9n_ByStages_nc30', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand', solver='gurobi')
+Reading    input data                 ...  0 s
+Setting up input data                 ...  0 s
+Generating objective function         ...  0 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  0 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  0 s
+Generating generation capacity        ...  0 s
+Generating network    capacity        ...  0 s
+Generating network    constraints     ...  1 s
+Econometric analysis  constraints     ...  0 s
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 99.8152927597562
+  Upper bound: 100.75656546447574
+  Number of objectives: 1
+  Number of constraints: 7863
+  Number of variables: 4176
+  Number of binary variables: 36
+  Number of integer variables: 36
+  Number of continuous variables: 4140
+  Number of nonzeros: 23716
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.874492883682251
+  Error rc: 0
+  Time: 1.021599531173706
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac3]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac3]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac3]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac3]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac3]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac3]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac1]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac3]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac1]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac2]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac1]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac2]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac2]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac2]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac2]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac2]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac1]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac3]
+Number of fixed variables:  36
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 100.75656546447573
+  Upper bound: 100.75656546447573
+  Number of objectives: 1
+  Number of constraints: 7863
+  Number of variables: 4140
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 4140
+  Number of nonzeros: 19360
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.028660058975219727
+  Error rc: 0
+  Time: 0.19205832481384277
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  2 s
+Objective function value                   100.76 M€
+Objective function value                   100.75656546447573
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Writing    network operation results  ...  0 s
+Writing generation operation results  ...  0 s
+Writing        ESS operation results  ...  0 s
+Traceback (most recent call last):
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 1695, in <module>
+    main(openStarNet)
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 137, in main
+    model = saving_results(args.dir, args.case, args.solver, model, model)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 1667, in saving_results
+    OutputResults = pd.Series(data=[optmodel.dual[optmodel.eBalanceP[p,sc,st,n,nd]]*1e3/model.pScenProb[p,sc]()/model.pLoadLevelDuration[n]() for p,sc,n,nd,st in dual_eBalance_list], index=pd.MultiIndex.from_tuples(dual_eBalance_list))
+                                                                                                                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/leuven/348/vsc34888/miniconda3/envs/Jr23/lib/python3.11/site-packages/pandas/core/indexes/multi.py", line 205, in new_meth
+    return meth(self_or_cls, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/leuven/348/vsc34888/miniconda3/envs/Jr23/lib/python3.11/site-packages/pandas/core/indexes/multi.py", line 565, in from_tuples
+    raise TypeError("Cannot infer number of levels from empty list")
+TypeError: Cannot infer number of levels from empty list
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py:621: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  pLinearOperCost.update (pd.Series([0 for gg in model.gg if pLinearOperCost [gg] < pEpsilon], index=[gg for gg in model.gg if pLinearOperCost [gg] < pEpsilon]))
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py:622: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  pLinearVarCost.update  (pd.Series([0 for gg in model.gg if pLinearVarCost  [gg] < pEpsilon], index=[gg for gg in model.gg if pLinearVarCost  [gg] < pEpsilon]))
+
+ #### Academic research license - for non-commercial use only #### 
+
+9n_ByStages_nc40
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand
+gurobi
+['oSN_Main_DCOPF.py', '--case', '9n_ByStages_nc40']
+Namespace(case='9n_ByStages_nc40', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand', solver='gurobi')
+Namespace(case='9n_ByStages_nc40', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand', solver='gurobi')
+Reading    input data                 ...  0 s
+Setting up input data                 ...  0 s
+Generating objective function         ...  0 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  0 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  0 s
+Generating generation capacity        ...  0 s
+Generating network    capacity        ...  0 s
+Generating network    constraints     ...  1 s
+Econometric analysis  constraints     ...  0 s
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 99.65014754934688
+  Upper bound: 99.65014754934688
+  Number of objectives: 1
+  Number of constraints: 10483
+  Number of variables: 5556
+  Number of binary variables: 36
+  Number of integer variables: 36
+  Number of continuous variables: 5520
+  Number of nonzeros: 31616
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.9584610462188721
+  Error rc: 0
+  Time: 1.1337003707885742
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac1]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac1]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac2]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac3]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac1]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac3]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac2]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac3]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac1]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac3]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac2]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac3]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac1]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac1]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac1]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac2]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac2]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac3]
+Number of fixed variables:  36
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 99.65014754934693
+  Upper bound: 99.65014754934693
+  Number of objectives: 1
+  Number of constraints: 10483
+  Number of variables: 5520
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 5520
+  Number of nonzeros: 25820
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.035121917724609375
+  Error rc: 0
+  Time: 0.21010375022888184
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  3 s
+Objective function value                   99.65 M€
+Objective function value                   99.65014754934693
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Writing    network operation results  ...  0 s
+Writing generation operation results  ...  0 s
+Writing        ESS operation results  ...  0 s
+Traceback (most recent call last):
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 1695, in <module>
+    main(openStarNet)
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 137, in main
+    model = saving_results(args.dir, args.case, args.solver, model, model)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 1667, in saving_results
+    OutputResults = pd.Series(data=[optmodel.dual[optmodel.eBalanceP[p,sc,st,n,nd]]*1e3/model.pScenProb[p,sc]()/model.pLoadLevelDuration[n]() for p,sc,n,nd,st in dual_eBalance_list], index=pd.MultiIndex.from_tuples(dual_eBalance_list))
+                                                                                                                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/leuven/348/vsc34888/miniconda3/envs/Jr23/lib/python3.11/site-packages/pandas/core/indexes/multi.py", line 205, in new_meth
+    return meth(self_or_cls, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/leuven/348/vsc34888/miniconda3/envs/Jr23/lib/python3.11/site-packages/pandas/core/indexes/multi.py", line 565, in from_tuples
+    raise TypeError("Cannot infer number of levels from empty list")
+TypeError: Cannot infer number of levels from empty list
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py:621: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  pLinearOperCost.update (pd.Series([0 for gg in model.gg if pLinearOperCost [gg] < pEpsilon], index=[gg for gg in model.gg if pLinearOperCost [gg] < pEpsilon]))
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py:622: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  pLinearVarCost.update  (pd.Series([0 for gg in model.gg if pLinearVarCost  [gg] < pEpsilon], index=[gg for gg in model.gg if pLinearVarCost  [gg] < pEpsilon]))
+
+ #### Academic research license - for non-commercial use only #### 
+
+9n_ByStages_nc50
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand
+gurobi
+['oSN_Main_DCOPF.py', '--case', '9n_ByStages_nc50']
+Namespace(case='9n_ByStages_nc50', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand', solver='gurobi')
+Namespace(case='9n_ByStages_nc50', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand', solver='gurobi')
+Reading    input data                 ...  0 s
+Setting up input data                 ...  0 s
+Generating objective function         ...  0 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  0 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  0 s
+Generating generation capacity        ...  0 s
+Generating network    capacity        ...  1 s
+Generating network    constraints     ...  2 s
+Econometric analysis  constraints     ...  0 s
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 98.25999617354768
+  Upper bound: 98.8879247428748
+  Number of objectives: 1
+  Number of constraints: 13103
+  Number of variables: 6946
+  Number of binary variables: 36
+  Number of integer variables: 36
+  Number of continuous variables: 6910
+  Number of nonzeros: 39546
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 1.2321867942810059
+  Error rc: 0
+  Time: 1.4320333003997803
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac3]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac2]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac3]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac1]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac3]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac2]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac2]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac3]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac1]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac1]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac2]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac2]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac3]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac1]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac3]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac1]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac1]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac3]
+Number of fixed variables:  36
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 98.88792474287483
+  Upper bound: 98.88792474287483
+  Number of objectives: 1
+  Number of constraints: 13103
+  Number of variables: 6910
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 6910
+  Number of nonzeros: 32310
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.03701496124267578
+  Error rc: 0
+  Time: 0.24525952339172363
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  4 s
+Objective function value                   98.89 M€
+Objective function value                   98.88792474287483
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Writing    network operation results  ...  0 s
+Writing generation operation results  ...  0 s
+Writing        ESS operation results  ...  0 s
+Traceback (most recent call last):
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 1695, in <module>
+    main(openStarNet)
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 137, in main
+    model = saving_results(args.dir, args.case, args.solver, model, model)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 1667, in saving_results
+    OutputResults = pd.Series(data=[optmodel.dual[optmodel.eBalanceP[p,sc,st,n,nd]]*1e3/model.pScenProb[p,sc]()/model.pLoadLevelDuration[n]() for p,sc,n,nd,st in dual_eBalance_list], index=pd.MultiIndex.from_tuples(dual_eBalance_list))
+                                                                                                                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/leuven/348/vsc34888/miniconda3/envs/Jr23/lib/python3.11/site-packages/pandas/core/indexes/multi.py", line 205, in new_meth
+    return meth(self_or_cls, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/leuven/348/vsc34888/miniconda3/envs/Jr23/lib/python3.11/site-packages/pandas/core/indexes/multi.py", line 565, in from_tuples
+    raise TypeError("Cannot infer number of levels from empty list")
+TypeError: Cannot infer number of levels from empty list
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py:621: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  pLinearOperCost.update (pd.Series([0 for gg in model.gg if pLinearOperCost [gg] < pEpsilon], index=[gg for gg in model.gg if pLinearOperCost [gg] < pEpsilon]))
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py:622: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  pLinearVarCost.update  (pd.Series([0 for gg in model.gg if pLinearVarCost  [gg] < pEpsilon], index=[gg for gg in model.gg if pLinearVarCost  [gg] < pEpsilon]))
+
+ #### Academic research license - for non-commercial use only #### 
+
+9n_ByStages_nc60
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand
+gurobi
+['oSN_Main_DCOPF.py', '--case', '9n_ByStages_nc60']
+Namespace(case='9n_ByStages_nc60', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand', solver='gurobi')
+Namespace(case='9n_ByStages_nc60', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand', solver='gurobi')
+Reading    input data                 ...  0 s
+Setting up input data                 ...  0 s
+Generating objective function         ...  0 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  0 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  0 s
+Generating generation capacity        ...  0 s
+Generating network    capacity        ...  1 s
+Generating network    constraints     ...  2 s
+Econometric analysis  constraints     ...  0 s
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 98.99881106368862
+  Upper bound: 98.99881106368862
+  Number of objectives: 1
+  Number of constraints: 15723
+  Number of variables: 8310
+  Number of binary variables: 36
+  Number of integer variables: 36
+  Number of continuous variables: 8274
+  Number of nonzeros: 47398
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 1.4143710136413574
+  Error rc: 0
+  Time: 1.6273691654205322
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac1]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac2]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac2]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac3]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac2]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac1]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac3]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac1]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac2]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac2]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac3]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac1]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac3]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac3]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac3]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac1]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac2]
+Number of fixed variables:  36
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 98.99881106368862
+  Upper bound: 98.99881106368862
+  Number of objectives: 1
+  Number of constraints: 15723
+  Number of variables: 8274
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 8274
+  Number of nonzeros: 38722
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.043749094009399414
+  Error rc: 0
+  Time: 0.2650766372680664
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  5 s
+Objective function value                   99.0 M€
+Objective function value                   98.99881106368862
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Writing    network operation results  ...  0 s
+Writing generation operation results  ...  0 s
+Writing        ESS operation results  ...  0 s
+Traceback (most recent call last):
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 1695, in <module>
+    main(openStarNet)
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 137, in main
+    model = saving_results(args.dir, args.case, args.solver, model, model)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 1667, in saving_results
+    OutputResults = pd.Series(data=[optmodel.dual[optmodel.eBalanceP[p,sc,st,n,nd]]*1e3/model.pScenProb[p,sc]()/model.pLoadLevelDuration[n]() for p,sc,n,nd,st in dual_eBalance_list], index=pd.MultiIndex.from_tuples(dual_eBalance_list))
+                                                                                                                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/leuven/348/vsc34888/miniconda3/envs/Jr23/lib/python3.11/site-packages/pandas/core/indexes/multi.py", line 205, in new_meth
+    return meth(self_or_cls, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/leuven/348/vsc34888/miniconda3/envs/Jr23/lib/python3.11/site-packages/pandas/core/indexes/multi.py", line 565, in from_tuples
+    raise TypeError("Cannot infer number of levels from empty list")
+TypeError: Cannot infer number of levels from empty list
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py:621: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  pLinearOperCost.update (pd.Series([0 for gg in model.gg if pLinearOperCost [gg] < pEpsilon], index=[gg for gg in model.gg if pLinearOperCost [gg] < pEpsilon]))
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py:622: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  pLinearVarCost.update  (pd.Series([0 for gg in model.gg if pLinearVarCost  [gg] < pEpsilon], index=[gg for gg in model.gg if pLinearVarCost  [gg] < pEpsilon]))
+
+ #### Academic research license - for non-commercial use only #### 
+
+9n_ByStages_nc70
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand
+gurobi
+['oSN_Main_DCOPF.py', '--case', '9n_ByStages_nc70']
+Namespace(case='9n_ByStages_nc70', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand', solver='gurobi')
+Namespace(case='9n_ByStages_nc70', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand', solver='gurobi')
+Reading    input data                 ...  0 s
+Setting up input data                 ...  0 s
+Generating objective function         ...  0 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  0 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  0 s
+Generating generation capacity        ...  0 s
+Generating network    capacity        ...  1 s
+Generating network    constraints     ...  3 s
+Econometric analysis  constraints     ...  0 s
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 99.54774729716313
+  Upper bound: 100.39024951064738
+  Number of objectives: 1
+  Number of constraints: 18343
+  Number of variables: 9683
+  Number of binary variables: 36
+  Number of integer variables: 36
+  Number of continuous variables: 9647
+  Number of nonzeros: 55277
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 1.4224998950958252
+  Error rc: 0
+  Time: 1.6498467922210693
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac3]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac3]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac1]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac1]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac2]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac2]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac3]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac1]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac2]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac3]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac1]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac3]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac1]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac1]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac1]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac2]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac2]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac2]
+Number of fixed variables:  36
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 100.39024951064738
+  Upper bound: 100.39024951064738
+  Number of objectives: 1
+  Number of constraints: 18343
+  Number of variables: 9647
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 9647
+  Number of nonzeros: 45161
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.049365997314453125
+  Error rc: 0
+  Time: 0.30501651763916016
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  6 s
+Objective function value                   100.39 M€
+Objective function value                   100.39024951064738
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Writing    network operation results  ...  0 s
+Writing generation operation results  ...  0 s
+Writing        ESS operation results  ...  0 s
+Traceback (most recent call last):
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 1695, in <module>
+    main(openStarNet)
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 137, in main
+    model = saving_results(args.dir, args.case, args.solver, model, model)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 1667, in saving_results
+    OutputResults = pd.Series(data=[optmodel.dual[optmodel.eBalanceP[p,sc,st,n,nd]]*1e3/model.pScenProb[p,sc]()/model.pLoadLevelDuration[n]() for p,sc,n,nd,st in dual_eBalance_list], index=pd.MultiIndex.from_tuples(dual_eBalance_list))
+                                                                                                                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/leuven/348/vsc34888/miniconda3/envs/Jr23/lib/python3.11/site-packages/pandas/core/indexes/multi.py", line 205, in new_meth
+    return meth(self_or_cls, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/leuven/348/vsc34888/miniconda3/envs/Jr23/lib/python3.11/site-packages/pandas/core/indexes/multi.py", line 565, in from_tuples
+    raise TypeError("Cannot infer number of levels from empty list")
+TypeError: Cannot infer number of levels from empty list
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py:621: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  pLinearOperCost.update (pd.Series([0 for gg in model.gg if pLinearOperCost [gg] < pEpsilon], index=[gg for gg in model.gg if pLinearOperCost [gg] < pEpsilon]))
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py:622: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  pLinearVarCost.update  (pd.Series([0 for gg in model.gg if pLinearVarCost  [gg] < pEpsilon], index=[gg for gg in model.gg if pLinearVarCost  [gg] < pEpsilon]))
+
+ #### Academic research license - for non-commercial use only #### 
+
+9n_ByStages_nc80
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand
+gurobi
+['oSN_Main_DCOPF.py', '--case', '9n_ByStages_nc80']
+Namespace(case='9n_ByStages_nc80', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand', solver='gurobi')
+Namespace(case='9n_ByStages_nc80', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand', solver='gurobi')
+Reading    input data                 ...  0 s
+Setting up input data                 ...  0 s
+Generating objective function         ...  0 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  0 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  1 s
+Generating generation capacity        ...  0 s
+Generating network    capacity        ...  1 s
+Generating network    constraints     ...  4 s
+Econometric analysis  constraints     ...  0 s
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 99.23534324319537
+  Upper bound: 100.0577752289412
+  Number of objectives: 1
+  Number of constraints: 20963
+  Number of variables: 11058
+  Number of binary variables: 36
+  Number of integer variables: 36
+  Number of continuous variables: 11022
+  Number of nonzeros: 63162
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 1.638028860092163
+  Error rc: 0
+  Time: 1.9173109531402588
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac1]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac3]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac3]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac1]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac1]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac3]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac2]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac2]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac1]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac3]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac2]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac3]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac3]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac2]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac1]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac3]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac1]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac1]
+Number of fixed variables:  36
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 100.0577752289412
+  Upper bound: 100.0577752289412
+  Number of objectives: 1
+  Number of constraints: 20963
+  Number of variables: 11022
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 11022
+  Number of nonzeros: 51606
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.06414008140563965
+  Error rc: 0
+  Time: 0.32563090324401855
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  8 s
+Objective function value                   100.06 M€
+Objective function value                   100.0577752289412
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Writing    network operation results  ...  0 s
+Writing generation operation results  ...  0 s
+Writing        ESS operation results  ...  0 s
+Traceback (most recent call last):
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 1695, in <module>
+    main(openStarNet)
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 137, in main
+    model = saving_results(args.dir, args.case, args.solver, model, model)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 1667, in saving_results
+    OutputResults = pd.Series(data=[optmodel.dual[optmodel.eBalanceP[p,sc,st,n,nd]]*1e3/model.pScenProb[p,sc]()/model.pLoadLevelDuration[n]() for p,sc,n,nd,st in dual_eBalance_list], index=pd.MultiIndex.from_tuples(dual_eBalance_list))
+                                                                                                                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/leuven/348/vsc34888/miniconda3/envs/Jr23/lib/python3.11/site-packages/pandas/core/indexes/multi.py", line 205, in new_meth
+    return meth(self_or_cls, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/leuven/348/vsc34888/miniconda3/envs/Jr23/lib/python3.11/site-packages/pandas/core/indexes/multi.py", line 565, in from_tuples
+    raise TypeError("Cannot infer number of levels from empty list")
+TypeError: Cannot infer number of levels from empty list
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py:621: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  pLinearOperCost.update (pd.Series([0 for gg in model.gg if pLinearOperCost [gg] < pEpsilon], index=[gg for gg in model.gg if pLinearOperCost [gg] < pEpsilon]))
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py:622: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  pLinearVarCost.update  (pd.Series([0 for gg in model.gg if pLinearVarCost  [gg] < pEpsilon], index=[gg for gg in model.gg if pLinearVarCost  [gg] < pEpsilon]))
+
+ #### Academic research license - for non-commercial use only #### 
+
+9n_ByStages_nc90
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand
+gurobi
+['oSN_Main_DCOPF.py', '--case', '9n_ByStages_nc90']
+Namespace(case='9n_ByStages_nc90', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand', solver='gurobi')
+Namespace(case='9n_ByStages_nc90', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand', solver='gurobi')
+Reading    input data                 ...  0 s
+Setting up input data                 ...  0 s
+Generating objective function         ...  0 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  0 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  1 s
+Generating generation capacity        ...  1 s
+Generating network    capacity        ...  2 s
+Generating network    constraints     ...  5 s
+Econometric analysis  constraints     ...  0 s
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 101.39392785743622
+  Upper bound: 101.56400030772137
+  Number of objectives: 1
+  Number of constraints: 23583
+  Number of variables: 12430
+  Number of binary variables: 36
+  Number of integer variables: 36
+  Number of continuous variables: 12394
+  Number of nonzeros: 71038
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 2.0492820739746094
+  Error rc: 0
+  Time: 2.315122604370117
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac3]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac2]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac1]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac2]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac3]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac1]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac2]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac1]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac3]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac2]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac1]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac3]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac1]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac3]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac1]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac1]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac3]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac2]
+Number of fixed variables:  36
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 101.56400030772137
+  Upper bound: 101.56400030772137
+  Number of objectives: 1
+  Number of constraints: 23583
+  Number of variables: 12394
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 12394
+  Number of nonzeros: 58042
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.06570696830749512
+  Error rc: 0
+  Time: 0.33366966247558594
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  9 s
+Objective function value                   101.56 M€
+Objective function value                   101.56400030772137
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Writing    network operation results  ...  0 s
+Writing generation operation results  ...  0 s
+Writing        ESS operation results  ...  0 s
+Traceback (most recent call last):
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 1695, in <module>
+    main(openStarNet)
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 137, in main
+    model = saving_results(args.dir, args.case, args.solver, model, model)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 1667, in saving_results
+    OutputResults = pd.Series(data=[optmodel.dual[optmodel.eBalanceP[p,sc,st,n,nd]]*1e3/model.pScenProb[p,sc]()/model.pLoadLevelDuration[n]() for p,sc,n,nd,st in dual_eBalance_list], index=pd.MultiIndex.from_tuples(dual_eBalance_list))
+                                                                                                                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/leuven/348/vsc34888/miniconda3/envs/Jr23/lib/python3.11/site-packages/pandas/core/indexes/multi.py", line 205, in new_meth
+    return meth(self_or_cls, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/leuven/348/vsc34888/miniconda3/envs/Jr23/lib/python3.11/site-packages/pandas/core/indexes/multi.py", line 565, in from_tuples
+    raise TypeError("Cannot infer number of levels from empty list")
+TypeError: Cannot infer number of levels from empty list
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py:621: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  pLinearOperCost.update (pd.Series([0 for gg in model.gg if pLinearOperCost [gg] < pEpsilon], index=[gg for gg in model.gg if pLinearOperCost [gg] < pEpsilon]))
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py:622: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  pLinearVarCost.update  (pd.Series([0 for gg in model.gg if pLinearVarCost  [gg] < pEpsilon], index=[gg for gg in model.gg if pLinearVarCost  [gg] < pEpsilon]))
+
+ #### Academic research license - for non-commercial use only #### 
+
+9n_ByStages_nc100
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand
+gurobi
+['oSN_Main_DCOPF.py', '--case', '9n_ByStages_nc100']
+Namespace(case='9n_ByStages_nc100', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand', solver='gurobi')
+Namespace(case='9n_ByStages_nc100', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand', solver='gurobi')
+Reading    input data                 ...  0 s
+Setting up input data                 ...  0 s
+Generating objective function         ...  0 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  0 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  1 s
+Generating generation capacity        ...  1 s
+Generating network    capacity        ...  2 s
+Generating network    constraints     ...  6 s
+Econometric analysis  constraints     ...  0 s
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 101.61776518274483
+  Upper bound: 102.36623708223782
+  Number of objectives: 1
+  Number of constraints: 26203
+  Number of variables: 13812
+  Number of binary variables: 36
+  Number of integer variables: 36
+  Number of continuous variables: 13776
+  Number of nonzeros: 78944
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 2.145427942276001
+  Error rc: 0
+  Time: 2.437183380126953
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac1]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac2]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac1]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac1]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac2]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac2]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac3]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac2]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac1]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac3]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac1]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac1]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac1]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac3]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac2]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac3]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac2]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac2]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac2]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac3]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac3]
+Number of fixed variables:  36
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 102.36623708223782
+  Upper bound: 102.36623708223782
+  Number of objectives: 1
+  Number of constraints: 26203
+  Number of variables: 13776
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 13776
+  Number of nonzeros: 64508
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.07909798622131348
+  Error rc: 0
+  Time: 0.3773486614227295
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  11 s
+Objective function value                   102.37 M€
+Objective function value                   102.36623708223782
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Writing    network operation results  ...  0 s
+Writing generation operation results  ...  0 s
+Writing        ESS operation results  ...  0 s
+Traceback (most recent call last):
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 1695, in <module>
+    main(openStarNet)
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 137, in main
+    model = saving_results(args.dir, args.case, args.solver, model, model)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 1667, in saving_results
+    OutputResults = pd.Series(data=[optmodel.dual[optmodel.eBalanceP[p,sc,st,n,nd]]*1e3/model.pScenProb[p,sc]()/model.pLoadLevelDuration[n]() for p,sc,n,nd,st in dual_eBalance_list], index=pd.MultiIndex.from_tuples(dual_eBalance_list))
+                                                                                                                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/leuven/348/vsc34888/miniconda3/envs/Jr23/lib/python3.11/site-packages/pandas/core/indexes/multi.py", line 205, in new_meth
+    return meth(self_or_cls, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/leuven/348/vsc34888/miniconda3/envs/Jr23/lib/python3.11/site-packages/pandas/core/indexes/multi.py", line 565, in from_tuples
+    raise TypeError("Cannot infer number of levels from empty list")
+TypeError: Cannot infer number of levels from empty list
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py:621: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  pLinearOperCost.update (pd.Series([0 for gg in model.gg if pLinearOperCost [gg] < pEpsilon], index=[gg for gg in model.gg if pLinearOperCost [gg] < pEpsilon]))
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py:622: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  pLinearVarCost.update  (pd.Series([0 for gg in model.gg if pLinearVarCost  [gg] < pEpsilon], index=[gg for gg in model.gg if pLinearVarCost  [gg] < pEpsilon]))
+
+ #### Academic research license - for non-commercial use only #### 
+
+9n_ByStages_nc150
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand
+gurobi
+['oSN_Main_DCOPF.py', '--case', '9n_ByStages_nc150']
+Namespace(case='9n_ByStages_nc150', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand', solver='gurobi')
+Namespace(case='9n_ByStages_nc150', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand', solver='gurobi')
+Reading    input data                 ...  0 s
+Setting up input data                 ...  0 s
+Generating objective function         ...  0 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  0 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  2 s
+Generating generation capacity        ...  1 s
+Generating network    capacity        ...  5 s
+Generating network    constraints     ...  12 s
+Econometric analysis  constraints     ...  0 s
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 101.71758291951073
+  Upper bound: 102.30683622002144
+  Number of objectives: 1
+  Number of constraints: 39303
+  Number of variables: 20695
+  Number of binary variables: 36
+  Number of integer variables: 36
+  Number of continuous variables: 20659
+  Number of nonzeros: 118393
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 2.945833921432495
+  Error rc: 0
+  Time: 3.2964179515838623
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac2]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac1]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac2]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac2]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac3]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac1]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac2]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac3]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac3]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac1]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac2]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac1]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac1]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac3]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac1]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac2]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac2]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac2]
+Number of fixed variables:  36
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 102.30683622002148
+  Upper bound: 102.30683622002148
+  Number of objectives: 1
+  Number of constraints: 39303
+  Number of variables: 20659
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 20659
+  Number of nonzeros: 96757
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.11222600936889648
+  Error rc: 0
+  Time: 0.49500441551208496
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  21 s
+Objective function value                   102.31 M€
+Objective function value                   102.30683622002148
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Writing    network operation results  ...  0 s
+Writing generation operation results  ...  0 s
+Writing        ESS operation results  ...  0 s
+Traceback (most recent call last):
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 1695, in <module>
+    main(openStarNet)
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 137, in main
+    model = saving_results(args.dir, args.case, args.solver, model, model)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 1667, in saving_results
+    OutputResults = pd.Series(data=[optmodel.dual[optmodel.eBalanceP[p,sc,st,n,nd]]*1e3/model.pScenProb[p,sc]()/model.pLoadLevelDuration[n]() for p,sc,n,nd,st in dual_eBalance_list], index=pd.MultiIndex.from_tuples(dual_eBalance_list))
+                                                                                                                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/leuven/348/vsc34888/miniconda3/envs/Jr23/lib/python3.11/site-packages/pandas/core/indexes/multi.py", line 205, in new_meth
+    return meth(self_or_cls, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/leuven/348/vsc34888/miniconda3/envs/Jr23/lib/python3.11/site-packages/pandas/core/indexes/multi.py", line 565, in from_tuples
+    raise TypeError("Cannot infer number of levels from empty list")
+TypeError: Cannot infer number of levels from empty list
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py:621: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  pLinearOperCost.update (pd.Series([0 for gg in model.gg if pLinearOperCost [gg] < pEpsilon], index=[gg for gg in model.gg if pLinearOperCost [gg] < pEpsilon]))
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py:622: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  pLinearVarCost.update  (pd.Series([0 for gg in model.gg if pLinearVarCost  [gg] < pEpsilon], index=[gg for gg in model.gg if pLinearVarCost  [gg] < pEpsilon]))
+
+ #### Academic research license - for non-commercial use only #### 
+
+9n_ByStages_nc200
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand
+gurobi
+['oSN_Main_DCOPF.py', '--case', '9n_ByStages_nc200']
+Namespace(case='9n_ByStages_nc200', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand', solver='gurobi')
+Namespace(case='9n_ByStages_nc200', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand', solver='gurobi')
+Reading    input data                 ...  0 s
+Setting up input data                 ...  0 s
+Generating objective function         ...  0 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  1 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  4 s
+Generating generation capacity        ...  2 s
+Generating network    capacity        ...  8 s
+Generating network    constraints     ...  22 s
+Econometric analysis  constraints     ...  0 s
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 101.59894142136233
+  Upper bound: 102.2285172891142
+  Number of objectives: 1
+  Number of constraints: 52403
+  Number of variables: 27577
+  Number of binary variables: 36
+  Number of integer variables: 36
+  Number of continuous variables: 27541
+  Number of nonzeros: 157839
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 3.696654796600342
+  Error rc: 0
+  Time: 4.115278482437134
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac3]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac3]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac1]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac1]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac3]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac1]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac1]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac2]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac3]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac1]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac2]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac2]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac3]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac2]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac3]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac3]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac1]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac1]
+Number of fixed variables:  36
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 102.22851728911424
+  Upper bound: 102.22851728911424
+  Number of objectives: 1
+  Number of constraints: 52403
+  Number of variables: 27541
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 27541
+  Number of nonzeros: 129003
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.14863991737365723
+  Error rc: 0
+  Time: 0.617326021194458
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  34 s
+Objective function value                   102.23 M€
+Objective function value                   102.22851728911424
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Writing    network operation results  ...  0 s
+Writing generation operation results  ...  0 s
+Writing        ESS operation results  ...  0 s
+Traceback (most recent call last):
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 1695, in <module>
+    main(openStarNet)
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 137, in main
+    model = saving_results(args.dir, args.case, args.solver, model, model)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 1667, in saving_results
+    OutputResults = pd.Series(data=[optmodel.dual[optmodel.eBalanceP[p,sc,st,n,nd]]*1e3/model.pScenProb[p,sc]()/model.pLoadLevelDuration[n]() for p,sc,n,nd,st in dual_eBalance_list], index=pd.MultiIndex.from_tuples(dual_eBalance_list))
+                                                                                                                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/leuven/348/vsc34888/miniconda3/envs/Jr23/lib/python3.11/site-packages/pandas/core/indexes/multi.py", line 205, in new_meth
+    return meth(self_or_cls, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/leuven/348/vsc34888/miniconda3/envs/Jr23/lib/python3.11/site-packages/pandas/core/indexes/multi.py", line 565, in from_tuples
+    raise TypeError("Cannot infer number of levels from empty list")
+TypeError: Cannot infer number of levels from empty list
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py:621: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  pLinearOperCost.update (pd.Series([0 for gg in model.gg if pLinearOperCost [gg] < pEpsilon], index=[gg for gg in model.gg if pLinearOperCost [gg] < pEpsilon]))
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py:622: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  pLinearVarCost.update  (pd.Series([0 for gg in model.gg if pLinearVarCost  [gg] < pEpsilon], index=[gg for gg in model.gg if pLinearVarCost  [gg] < pEpsilon]))
+
+ #### Academic research license - for non-commercial use only #### 
+
+9n_ByStages_nc250
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand
+gurobi
+['oSN_Main_DCOPF.py', '--case', '9n_ByStages_nc250']
+Namespace(case='9n_ByStages_nc250', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand', solver='gurobi')
+Namespace(case='9n_ByStages_nc250', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand', solver='gurobi')
+Reading    input data                 ...  0 s
+Setting up input data                 ...  0 s
+Generating objective function         ...  1 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  1 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  6 s
+Generating generation capacity        ...  4 s
+Generating network    capacity        ...  13 s
+Generating network    constraints     ...  34 s
+Econometric analysis  constraints     ...  0 s
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 101.21044686893198
+  Upper bound: 101.61878548365648
+  Number of objectives: 1
+  Number of constraints: 65503
+  Number of variables: 34482
+  Number of binary variables: 36
+  Number of integer variables: 36
+  Number of continuous variables: 34446
+  Number of nonzeros: 197354
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 5.012009859085083
+  Error rc: 0
+  Time: 5.604018211364746
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac2]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac2]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac3]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac3]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac1]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac3]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac2]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac2]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac2]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac3]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac1]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac3]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac3]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac1]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac3]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac2]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac3]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac1]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac1]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac1]
+Number of fixed variables:  36
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 101.61878548365645
+  Upper bound: 101.61878548365645
+  Number of objectives: 1
+  Number of constraints: 65503
+  Number of variables: 34446
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 34446
+  Number of nonzeros: 161318
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.17916107177734375
+  Error rc: 0
+  Time: 0.7395176887512207
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  50 s
+Objective function value                   101.62 M€
+Objective function value                   101.61878548365645
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Writing    network operation results  ...  0 s
+Writing generation operation results  ...  0 s
+Writing        ESS operation results  ...  0 s
+Traceback (most recent call last):
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 1695, in <module>
+    main(openStarNet)
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 137, in main
+    model = saving_results(args.dir, args.case, args.solver, model, model)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 1667, in saving_results
+    OutputResults = pd.Series(data=[optmodel.dual[optmodel.eBalanceP[p,sc,st,n,nd]]*1e3/model.pScenProb[p,sc]()/model.pLoadLevelDuration[n]() for p,sc,n,nd,st in dual_eBalance_list], index=pd.MultiIndex.from_tuples(dual_eBalance_list))
+                                                                                                                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/leuven/348/vsc34888/miniconda3/envs/Jr23/lib/python3.11/site-packages/pandas/core/indexes/multi.py", line 205, in new_meth
+    return meth(self_or_cls, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/leuven/348/vsc34888/miniconda3/envs/Jr23/lib/python3.11/site-packages/pandas/core/indexes/multi.py", line 565, in from_tuples
+    raise TypeError("Cannot infer number of levels from empty list")
+TypeError: Cannot infer number of levels from empty list
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py:621: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  pLinearOperCost.update (pd.Series([0 for gg in model.gg if pLinearOperCost [gg] < pEpsilon], index=[gg for gg in model.gg if pLinearOperCost [gg] < pEpsilon]))
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py:622: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  pLinearVarCost.update  (pd.Series([0 for gg in model.gg if pLinearVarCost  [gg] < pEpsilon], index=[gg for gg in model.gg if pLinearVarCost  [gg] < pEpsilon]))
+
+ #### Academic research license - for non-commercial use only #### 
+
+9n_ByStages_nc300
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand
+gurobi
+['oSN_Main_DCOPF.py', '--case', '9n_ByStages_nc300']
+Namespace(case='9n_ByStages_nc300', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand', solver='gurobi')
+Namespace(case='9n_ByStages_nc300', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand', solver='gurobi')
+Reading    input data                 ...  0 s
+Setting up input data                 ...  0 s
+Generating objective function         ...  1 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  2 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  8 s
+Generating generation capacity        ...  6 s
+Generating network    capacity        ...  18 s
+Generating network    constraints     ...  48 s
+Econometric analysis  constraints     ...  0 s
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 101.02428108284968
+  Upper bound: 101.70053016182288
+  Number of objectives: 1
+  Number of constraints: 78603
+  Number of variables: 41394
+  Number of binary variables: 36
+  Number of integer variables: 36
+  Number of continuous variables: 41358
+  Number of nonzeros: 236890
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 5.76456618309021
+  Error rc: 0
+  Time: 6.340281248092651
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac2]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac2]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac1]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac1]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac2]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac3]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac3]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac2]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac1]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac3]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac1]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac2]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac3]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac1]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac3]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac3]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac2]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac3]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac1]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac3]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac2]
+Number of fixed variables:  36
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 101.70053016182284
+  Upper bound: 101.70053016182284
+  Number of objectives: 1
+  Number of constraints: 78603
+  Number of variables: 41358
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 41358
+  Number of nonzeros: 193654
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.20642614364624023
+  Error rc: 0
+  Time: 0.8642532825469971
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  69 s
+Objective function value                   101.7 M€
+Objective function value                   101.70053016182284
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Writing    network operation results  ...  0 s
+Writing generation operation results  ...  0 s
+Writing        ESS operation results  ...  0 s
+Traceback (most recent call last):
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 1695, in <module>
+    main(openStarNet)
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 137, in main
+    model = saving_results(args.dir, args.case, args.solver, model, model)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 1667, in saving_results
+    OutputResults = pd.Series(data=[optmodel.dual[optmodel.eBalanceP[p,sc,st,n,nd]]*1e3/model.pScenProb[p,sc]()/model.pLoadLevelDuration[n]() for p,sc,n,nd,st in dual_eBalance_list], index=pd.MultiIndex.from_tuples(dual_eBalance_list))
+                                                                                                                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/leuven/348/vsc34888/miniconda3/envs/Jr23/lib/python3.11/site-packages/pandas/core/indexes/multi.py", line 205, in new_meth
+    return meth(self_or_cls, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/leuven/348/vsc34888/miniconda3/envs/Jr23/lib/python3.11/site-packages/pandas/core/indexes/multi.py", line 565, in from_tuples
+    raise TypeError("Cannot infer number of levels from empty list")
+TypeError: Cannot infer number of levels from empty list
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py:621: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  pLinearOperCost.update (pd.Series([0 for gg in model.gg if pLinearOperCost [gg] < pEpsilon], index=[gg for gg in model.gg if pLinearOperCost [gg] < pEpsilon]))
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py:622: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  pLinearVarCost.update  (pd.Series([0 for gg in model.gg if pLinearVarCost  [gg] < pEpsilon], index=[gg for gg in model.gg if pLinearVarCost  [gg] < pEpsilon]))
+
+ #### Academic research license - for non-commercial use only #### 
+
+9n_ByStages_nc350
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand
+gurobi
+['oSN_Main_DCOPF.py', '--case', '9n_ByStages_nc350']
+Namespace(case='9n_ByStages_nc350', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand', solver='gurobi')
+Namespace(case='9n_ByStages_nc350', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand', solver='gurobi')
+Reading    input data                 ...  0 s
+Setting up input data                 ...  0 s
+Generating objective function         ...  1 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  2 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  11 s
+Generating generation capacity        ...  8 s
+Generating network    capacity        ...  25 s
+Generating network    constraints     ...  64 s
+Econometric analysis  constraints     ...  0 s
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 101.37113627063273
+  Upper bound: 102.00850651445033
+  Number of objectives: 1
+  Number of constraints: 91703
+  Number of variables: 48284
+  Number of binary variables: 36
+  Number of integer variables: 36
+  Number of continuous variables: 48248
+  Number of nonzeros: 276360
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 8.269794940948486
+  Error rc: 0
+  Time: 8.94779658317566
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac2]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac3]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac2]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac1]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac2]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac3]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac1]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac2]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac1]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac1]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac1]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac2]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac3]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac3]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac1]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac3]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac1]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac3]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac3]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac2]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac3]
+Number of fixed variables:  36
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 102.00850651445029
+  Upper bound: 102.00850651445029
+  Number of objectives: 1
+  Number of constraints: 91703
+  Number of variables: 48248
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 48248
+  Number of nonzeros: 225924
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.6939740180969238
+  Error rc: 0
+  Time: 1.4559504985809326
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  94 s
+Objective function value                   102.01 M€
+Objective function value                   102.00850651445029
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Writing    network operation results  ...  0 s
+Writing generation operation results  ...  0 s
+Writing        ESS operation results  ...  0 s
+Traceback (most recent call last):
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 1695, in <module>
+    main(openStarNet)
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 137, in main
+    model = saving_results(args.dir, args.case, args.solver, model, model)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 1667, in saving_results
+    OutputResults = pd.Series(data=[optmodel.dual[optmodel.eBalanceP[p,sc,st,n,nd]]*1e3/model.pScenProb[p,sc]()/model.pLoadLevelDuration[n]() for p,sc,n,nd,st in dual_eBalance_list], index=pd.MultiIndex.from_tuples(dual_eBalance_list))
+                                                                                                                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/leuven/348/vsc34888/miniconda3/envs/Jr23/lib/python3.11/site-packages/pandas/core/indexes/multi.py", line 205, in new_meth
+    return meth(self_or_cls, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/leuven/348/vsc34888/miniconda3/envs/Jr23/lib/python3.11/site-packages/pandas/core/indexes/multi.py", line 565, in from_tuples
+    raise TypeError("Cannot infer number of levels from empty list")
+TypeError: Cannot infer number of levels from empty list
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py:621: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  pLinearOperCost.update (pd.Series([0 for gg in model.gg if pLinearOperCost [gg] < pEpsilon], index=[gg for gg in model.gg if pLinearOperCost [gg] < pEpsilon]))
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py:622: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  pLinearVarCost.update  (pd.Series([0 for gg in model.gg if pLinearVarCost  [gg] < pEpsilon], index=[gg for gg in model.gg if pLinearVarCost  [gg] < pEpsilon]))
+
+ #### Academic research license - for non-commercial use only #### 
+
+9n_ByStages_nc400
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand
+gurobi
+['oSN_Main_DCOPF.py', '--case', '9n_ByStages_nc400']
+Namespace(case='9n_ByStages_nc400', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand', solver='gurobi')
+Namespace(case='9n_ByStages_nc400', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand', solver='gurobi')
+Reading    input data                 ...  0 s
+Setting up input data                 ...  0 s
+Generating objective function         ...  1 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  3 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  14 s
+Generating generation capacity        ...  10 s
+Generating network    capacity        ...  32 s
+Generating network    constraints     ...  84 s
+Econometric analysis  constraints     ...  0 s
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 101.12661158777824
+  Upper bound: 101.81387562646007
+  Number of objectives: 1
+  Number of constraints: 104803
+  Number of variables: 55157
+  Number of binary variables: 36
+  Number of integer variables: 36
+  Number of continuous variables: 55121
+  Number of nonzeros: 315779
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 8.080037117004395
+  Error rc: 0
+  Time: 8.833593845367432
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac2]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac1]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac2]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac2]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac1]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac1]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac1]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac2]
+fixing: vNetworkInvest[2030,Node_6,Node_7,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac3]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac3]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac2]
+fixing: vNetworkInvest[2030,Node_8,Node_9,cac1]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_6,cac1]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac2]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac2]
+fixing: vNetworkInvest[2030,Node_2,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_9,cac3]
+fixing: vNetworkInvest[2030,Node_4,Node_5,cac1]
+fixing: vNetworkInvest[2030,Node_3,Node_4,cac1]
+fixing: vNetworkInvest[2030,Node_3,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_7,Node_8,cac3]
+fixing: vNetworkInvest[2030,Node_1,Node_6,cac3]
+fixing: vNetworkInvest[2030,Node_2,Node_3,cac3]
+fixing: vNetworkInvest[2030,Node_6,Node_8,cac3]
+Number of fixed variables:  36
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 101.81387562645997
+  Upper bound: 101.81387562645997
+  Number of objectives: 1
+  Number of constraints: 104803
+  Number of variables: 55121
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 55121
+  Number of nonzeros: 258143
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.7280871868133545
+  Error rc: 0
+  Time: 1.6042530536651611
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  119 s
+Objective function value                   101.81 M€
+Objective function value                   101.81387562645997
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Writing    network operation results  ...  0 s
+Writing generation operation results  ...  0 s
+Writing        ESS operation results  ...  0 s
+Traceback (most recent call last):
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 1695, in <module>
+    main(openStarNet)
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 137, in main
+    model = saving_results(args.dir, args.case, args.solver, model, model)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/D.Representative_days_based_on_RES_and_Demand/oSN_Main_DCOPF.py", line 1667, in saving_results
+    OutputResults = pd.Series(data=[optmodel.dual[optmodel.eBalanceP[p,sc,st,n,nd]]*1e3/model.pScenProb[p,sc]()/model.pLoadLevelDuration[n]() for p,sc,n,nd,st in dual_eBalance_list], index=pd.MultiIndex.from_tuples(dual_eBalance_list))
+                                                                                                                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/leuven/348/vsc34888/miniconda3/envs/Jr23/lib/python3.11/site-packages/pandas/core/indexes/multi.py", line 205, in new_meth
+    return meth(self_or_cls, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/leuven/348/vsc34888/miniconda3/envs/Jr23/lib/python3.11/site-packages/pandas/core/indexes/multi.py", line 565, in from_tuples
+    raise TypeError("Cannot infer number of levels from empty list")
+TypeError: Cannot infer number of levels from empty list
+['9n_ByStages_nc10', '9n_ByStages_nc20', '9n_ByStages_nc30', '9n_ByStages_nc40', '9n_ByStages_nc50', '9n_ByStages_nc60', '9n_ByStages_nc70', '9n_ByStages_nc80', '9n_ByStages_nc90', '9n_ByStages_nc100', '9n_ByStages_nc150', '9n_ByStages_nc200', '9n_ByStages_nc250', '9n_ByStages_nc300', '9n_ByStages_nc350', '9n_ByStages_nc400']
+python oSN_Main_DCOPF.py --case 9n_ByStages_nc10
+python oSN_Main_DCOPF.py --case 9n_ByStages_nc20
+python oSN_Main_DCOPF.py --case 9n_ByStages_nc30
+python oSN_Main_DCOPF.py --case 9n_ByStages_nc40
+python oSN_Main_DCOPF.py --case 9n_ByStages_nc50
+python oSN_Main_DCOPF.py --case 9n_ByStages_nc60
+python oSN_Main_DCOPF.py --case 9n_ByStages_nc70
+python oSN_Main_DCOPF.py --case 9n_ByStages_nc80
+python oSN_Main_DCOPF.py --case 9n_ByStages_nc90
+python oSN_Main_DCOPF.py --case 9n_ByStages_nc100
+python oSN_Main_DCOPF.py --case 9n_ByStages_nc150
+python oSN_Main_DCOPF.py --case 9n_ByStages_nc200
+python oSN_Main_DCOPF.py --case 9n_ByStages_nc250
+python oSN_Main_DCOPF.py --case 9n_ByStages_nc300
+python oSN_Main_DCOPF.py --case 9n_ByStages_nc350
+python oSN_Main_DCOPF.py --case 9n_ByStages_nc400
