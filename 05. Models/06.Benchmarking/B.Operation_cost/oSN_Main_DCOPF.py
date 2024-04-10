@@ -1655,34 +1655,34 @@ def saving_results(DirName, CaseName, SolverName, model, optmodel):
     StartTime              = time.time()
     print('Writing        ESS operation results  ... ', round(WritingESSOperTime), 's')
 
-    #%% outputting the SRMC
-    if SolverName == 'gurobi':
-        # incoming and outgoing lines (lin) (lout)
-        lin = defaultdict(list)
-        lout = defaultdict(list)
-        for ni, nf, cc in model.la:
-            lin[nf].append((ni, cc))
-            lout[ni].append((nf, cc))
-        dual_eBalance_list = [(p,sc,n,nd) for p,sc,st,n,nd in model.psnnd*model.st if (st,n) in model.s2n and sum(1 for g in model.g if (nd,g) in model.n2g) + sum(1 for lout in lout[nd]) + sum(1 for ni,cc in lin[nd])]
-        OutputResults = pd.Series(data=[optmodel.dual[optmodel.eBalanceP[p,sc,st,n,nd]]*1e3/model.pScenProb[p,sc]()/model.pLoadLevelDuration[n]() for p,sc,n,nd,st in dual_eBalance_list], index=pd.MultiIndex.from_tuples(dual_eBalance_list))
-        OutputResults.to_frame(name='SRMC').rename_axis(['Period','Scenario','LoadLevel','Node'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_SRMC_'+CaseName+'.csv', index=False, sep=',')
-
-    if sum(model.pGenFxInvest[gc] for gc in model.gc):
-        List1 = [(p,sc,st,n,gc) for p,sc,st,n,gc in model.ps*model.n*model.st*model.n*model.gc if (st,n) in model.s2n and model.pMaxPower[p,sc,n,gc]]
-        if len(List1):
-            OutputResults = pd.Series(data=[optmodel.dual[optmodel.eInstalGenCap[p,sc,st,n,gc]] for (p,sc,st,n,gc) in List1], index=pd.MultiIndex.from_tuples(list(List1)))
-            OutputResults.to_frame(name='p.u.').rename_axis(['Period','Scenario','Stage','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_Dual_eGenFixedOperation_'+CaseName+'.csv', index=False, sep=',')
-
-            OutputResults = pd.Series(data=[optmodel.dual[optmodel.eGenFixedInvestment[p,gc]] for p,gc in model.pgc], index=pd.MultiIndex.from_tuples(model.pgc))
-            OutputResults.to_frame(name='p.u.').rename_axis(['Period','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_Dual_eGenFixedInvestment_'+CaseName+'.csv', index=False, sep=',')
-
-        List2 = [(p,gc,sg) for p,gc,sg in model.pgc*model.gs if model.pGenSensitivity[gc]() and (sg,gc) in model.sg2g]
-        if len(List2):
-            OutputResults = pd.Series(data=[optmodel.dual[optmodel.eGenSensiGroup[p,gc,sg]] for p,gc,sg in List2], index=pd.MultiIndex.from_tuples(list(List2)))
-            OutputResults.to_frame(name='p.u.').rename_axis(['Period','Unit','Group'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_Dual_eGenSensitivityCoupling_'+CaseName+'.csv', index=False, sep=',')
-
-            OutputResults = pd.Series(data=[optmodel.dual[optmodel.eGenSensiGroupValue[p,gc,sg]] for p,gc,sg in List2], index=pd.MultiIndex.from_tuples(list(List2)))
-            OutputResults.to_frame(name='p.u.').rename_axis(['Period','Unit','Group'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_Dual_eGenSensitivityCouplingValue_'+CaseName+'.csv', index=False, sep=',')
+    # #%% outputting the SRMC
+    # if SolverName == 'gurobi':
+    #     # incoming and outgoing lines (lin) (lout)
+    #     lin = defaultdict(list)
+    #     lout = defaultdict(list)
+    #     for ni, nf, cc in model.la:
+    #         lin[nf].append((ni, cc))
+    #         lout[ni].append((nf, cc))
+    #     dual_eBalance_list = [(p,sc,n,nd) for p,sc,st,n,nd in model.psnnd*model.st if (st,n) in model.s2n and sum(1 for g in model.g if (nd,g) in model.n2g) + sum(1 for lout in lout[nd]) + sum(1 for ni,cc in lin[nd])]
+    #     OutputResults = pd.Series(data=[optmodel.dual[optmodel.eBalanceP[p,sc,st,n,nd]]*1e3/model.pScenProb[p,sc]()/model.pLoadLevelDuration[n]() for p,sc,n,nd,st in dual_eBalance_list], index=pd.MultiIndex.from_tuples(dual_eBalance_list))
+    #     OutputResults.to_frame(name='SRMC').rename_axis(['Period','Scenario','LoadLevel','Node'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_SRMC_'+CaseName+'.csv', index=False, sep=',')
+    #
+    # if sum(model.pGenFxInvest[gc] for gc in model.gc):
+    #     List1 = [(p,sc,st,n,gc) for p,sc,st,n,gc in model.ps*model.n*model.st*model.n*model.gc if (st,n) in model.s2n and model.pMaxPower[p,sc,n,gc]]
+    #     if len(List1):
+    #         OutputResults = pd.Series(data=[optmodel.dual[optmodel.eInstalGenCap[p,sc,st,n,gc]] for (p,sc,st,n,gc) in List1], index=pd.MultiIndex.from_tuples(list(List1)))
+    #         OutputResults.to_frame(name='p.u.').rename_axis(['Period','Scenario','Stage','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_Dual_eGenFixedOperation_'+CaseName+'.csv', index=False, sep=',')
+    #
+    #         OutputResults = pd.Series(data=[optmodel.dual[optmodel.eGenFixedInvestment[p,gc]] for p,gc in model.pgc], index=pd.MultiIndex.from_tuples(model.pgc))
+    #         OutputResults.to_frame(name='p.u.').rename_axis(['Period','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_Dual_eGenFixedInvestment_'+CaseName+'.csv', index=False, sep=',')
+    #
+    #     List2 = [(p,gc,sg) for p,gc,sg in model.pgc*model.gs if model.pGenSensitivity[gc]() and (sg,gc) in model.sg2g]
+    #     if len(List2):
+    #         OutputResults = pd.Series(data=[optmodel.dual[optmodel.eGenSensiGroup[p,gc,sg]] for p,gc,sg in List2], index=pd.MultiIndex.from_tuples(list(List2)))
+    #         OutputResults.to_frame(name='p.u.').rename_axis(['Period','Unit','Group'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_Dual_eGenSensitivityCoupling_'+CaseName+'.csv', index=False, sep=',')
+    #
+    #         OutputResults = pd.Series(data=[optmodel.dual[optmodel.eGenSensiGroupValue[p,gc,sg]] for p,gc,sg in List2], index=pd.MultiIndex.from_tuples(list(List2)))
+    #         OutputResults.to_frame(name='p.u.').rename_axis(['Period','Unit','Group'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_Dual_eGenSensitivityCouplingValue_'+CaseName+'.csv', index=False, sep=',')
 
     WritingEconomicTime = time.time() - StartTime
     print('Writing             economic results  ... ', round(WritingEconomicTime), 's')
