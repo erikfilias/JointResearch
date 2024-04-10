@@ -114,7 +114,7 @@ def KMedoidsMethod(OptClusters, Y_sklearn, _path_0, _path_1, CaseName_0, CaseNam
     data['HourOfYear'] = 0
     df_split = len(df['Variable'].unique())
     for i in data.index:
-        if i < 4:
+        if i < df_split:
             data.loc[i, 'HourOfYear'] = 0
         else:
             data.loc[i, 'HourOfYear'] = int(i/df_split)
