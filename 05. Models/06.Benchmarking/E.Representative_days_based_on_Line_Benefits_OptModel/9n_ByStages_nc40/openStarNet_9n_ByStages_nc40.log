@@ -157,3 +157,171 @@ Iteration    Objective       Primal Inf.    Dual Inf.      Time
 
 Solved in 91 iterations and 0.03 seconds (0.03 work units)
 Optimal objective  1.018491146e+02
+
+Gurobi 11.0.0 (linux64) logging started Wed Apr 10 21:39:56 2024
+
+Set parameter LogFile to value "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/E.Representative_days_based_on_Line_Benefits_OptModel/9n_ByStages_nc40/openStarNet_9n_ByStages_nc40.log"
+Set parameter Method to value 2
+Set parameter MIPFocus to value 1
+Set parameter Presolve to value 2
+Set parameter RINS to value 100
+Set parameter MIPGap to value 0.01
+Set parameter Threads to value 36
+Set parameter TimeLimit to value 259200
+Set parameter IterationLimit to value 760000000
+Gurobi Optimizer version 11.0.0 build v11.0.0rc2 (linux64 - "Rocky Linux 8.8 (Green Obsidian)")
+
+CPU model: Intel(R) Xeon(R) Gold 6140 CPU @ 2.30GHz, instruction set [SSE2|AVX|AVX2|AVX512]
+Thread count: 36 physical cores, 36 logical processors, using up to 36 threads
+
+Optimize a model with 10483 rows, 5531 columns and 31541 nonzeros
+Model fingerprint: 0x0efb8873
+Variable types: 5495 continuous, 36 integer (36 binary)
+Coefficient statistics:
+  Matrix range     [8e-04, 3e+03]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [4e-04, 2e+00]
+  RHS range        [4e-04, 1e+00]
+Presolve removed 3563 rows and 1884 columns
+Presolve time: 0.05s
+Presolved: 6920 rows, 3647 columns, 23611 nonzeros
+Variable types: 3611 continuous, 36 integer (36 binary)
+Found heuristic solution: objective 879.8582585
+Root relaxation presolved: 6920 rows, 3647 columns, 23611 nonzeros
+
+Root barrier log...
+
+Ordering time: 0.00s
+
+Barrier statistics:
+ Dense cols : 36
+ AA' NZ     : 8.196e+04
+ Factor NZ  : 1.624e+05 (roughly 6 MB of memory)
+ Factor Ops : 5.408e+06 (less than 1 second per iteration)
+ Threads    : 36
+
+                  Objective                Residual
+Iter       Primal          Dual         Primal    Dual     Compl     Time
+   0   4.62423757e+05 -4.09828851e+07  7.11e+00 5.11e+02  1.17e+04     0s
+   1   6.85739703e+04 -1.65087269e+07  9.58e-01 1.23e-09  1.77e+03     0s
+   2   1.47668320e+04 -3.98898632e+06  2.16e-02 5.09e-10  3.01e+02     0s
+   3   8.31370103e+03 -6.76069435e+04  1.95e-14 3.16e-11  5.61e+00     0s
+   4   1.32891455e+03 -1.39336340e+04  2.84e-14 5.22e-12  1.13e+00     0s
+   5   7.55114542e+02 -4.86108401e+03  1.60e-14 1.82e-12  4.15e-01     0s
+   6   5.47923575e+02 -1.81190596e+03  1.24e-14 1.82e-12  1.74e-01     0s
+   7   3.84794256e+02 -5.04217326e+02  4.22e-14 1.82e-12  6.57e-02     0s
+   8   2.07086653e+02 -7.02234318e+01  8.53e-14 1.82e-12  2.05e-02     0s
+   9   1.14844075e+02  7.04598377e+01  3.41e-13 1.82e-12  3.28e-03     0s
+  10   9.89926208e+01  8.51092015e+01  1.49e-12 1.82e-12  1.03e-03     0s
+  11   9.69028864e+01  8.81600410e+01  2.28e-12 1.82e-12  6.46e-04     0s
+  12   9.55887138e+01  9.01625415e+01  6.80e-12 9.09e-13  4.01e-04     0s
+  13   9.43194585e+01  9.12212738e+01  9.64e-12 1.82e-12  2.29e-04     0s
+  14   9.33502284e+01  9.24207647e+01  3.18e-12 1.82e-12  6.87e-05     0s
+  15   9.32218906e+01  9.31411671e+01  2.31e-11 3.64e-12  5.96e-06     0s
+  16   9.32097918e+01  9.32095567e+01  1.32e-09 1.82e-12  1.74e-08     0s
+  17   9.32097164e+01  9.32097162e+01  3.79e-10 3.64e-12  1.74e-11     0s
+
+Barrier solved model in 17 iterations and 0.48 seconds (0.17 work units)
+Optimal objective 9.32097164e+01
+
+
+Root relaxation: objective 9.320972e+01, 375 iterations, 0.45 seconds (0.09 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0   93.20972    0    6  879.85826   93.20972  89.4%     -    0s
+H    0     0                     735.7748213   93.20972  87.3%     -    0s
+H    0     0                     113.5722427   93.20972  17.9%     -    0s
+H    0     0                     105.1092433  101.67610  3.27%     -    0s
+     0     0  101.67610    0    1  105.10924  101.67610  3.27%     -    0s
+H    0     0                     102.8794752  101.67610  1.17%     -    0s
+H    0     0                     102.5472427  101.67610  0.85%     -    1s
+
+Cutting planes:
+  Gomory: 1
+  MIR: 59
+  RLT: 1
+  Relax-and-lift: 3
+
+Explored 1 nodes (584 simplex iterations) in 1.06 seconds (0.27 work units)
+Thread count was 36 (of 36 available processors)
+
+Solution count 6: 102.547 102.879 105.109 ... 879.858
+
+Optimal solution found (tolerance 1.00e-02)
+Best objective 1.025472427148e+02, best bound 1.021167717012e+02, gap 0.4198%
+
+Gurobi 11.0.0 (linux64) logging started Wed Apr 10 21:39:58 2024
+
+Set parameter LogFile to value "/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/E.Representative_days_based_on_Line_Benefits_OptModel/9n_ByStages_nc40/openStarNet_9n_ByStages_nc40.log"
+Set parameter Method to value 2
+Set parameter MIPFocus to value 1
+Set parameter Presolve to value 2
+Set parameter RINS to value 100
+Set parameter MIPGap to value 0.01
+Set parameter Threads to value 36
+Set parameter TimeLimit to value 259200
+Set parameter IterationLimit to value 760000000
+Gurobi Optimizer version 11.0.0 build v11.0.0rc2 (linux64 - "Rocky Linux 8.8 (Green Obsidian)")
+
+CPU model: Intel(R) Xeon(R) Gold 6140 CPU @ 2.30GHz, instruction set [SSE2|AVX|AVX2|AVX512]
+Thread count: 36 physical cores, 36 logical processors, using up to 36 threads
+
+Optimize a model with 10483 rows, 5495 columns and 25745 nonzeros
+Model fingerprint: 0x481143c2
+Coefficient statistics:
+  Matrix range     [8e-04, 3e+03]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [4e-04, 2e+00]
+  RHS range        [4e-04, 2e+01]
+Presolve removed 9582 rows and 3667 columns
+Presolve time: 0.01s
+Presolved: 901 rows, 1828 columns, 3911 nonzeros
+
+Ordering time: 0.00s
+
+Barrier statistics:
+ AA' NZ     : 1.768e+03
+ Factor NZ  : 8.139e+03 (roughly 1 MB of memory)
+ Factor Ops : 9.488e+04 (less than 1 second per iteration)
+ Threads    : 1
+
+                  Objective                Residual
+Iter       Primal          Dual         Primal    Dual     Compl     Time
+   0   5.77693395e+05 -2.16639281e+07  6.76e+00 2.63e+03  3.39e+04     0s
+   1   7.06246857e+04 -1.33936860e+07  5.80e-01 3.14e-11  4.96e+03     0s
+   2   2.49734296e+04 -3.28137881e+06  8.05e-02 2.88e-11  9.00e+02     0s
+   3   1.36503524e+04 -1.28401688e+05  3.88e-03 1.72e-11  3.46e+01     0s
+   4   2.97514609e+03 -1.08341289e+04  4.90e-06 1.68e-11  3.30e+00     0s
+   5   1.01119846e+03 -3.17841545e+03  3.40e-07 5.40e-12  1.00e+00     0s
+   6   4.85769192e+02 -7.89387954e+02  2.38e-08 3.64e-12  3.05e-01     0s
+   7   2.85255102e+02 -3.85014440e+02  5.88e-09 7.28e-12  1.60e-01     0s
+   8   2.03887137e+02 -4.09150472e+01  2.78e-09 1.82e-12  5.86e-02     0s
+   9   1.50201304e+02  6.24250290e+01  1.13e-09 7.28e-12  2.10e-02     0s
+  10   1.09517967e+02  9.10669751e+01  1.18e-10 3.64e-12  4.41e-03     0s
+  11   1.04593065e+02  9.97867818e+01  2.96e-11 3.64e-12  1.15e-03     0s
+  12   1.03249904e+02  1.01528582e+02  9.58e-12 3.64e-12  4.12e-04     0s
+  13   1.02672156e+02  1.02328035e+02  1.49e-12 1.82e-12  8.23e-05     0s
+  14   1.02549052e+02  1.02539863e+02  1.09e-12 7.28e-12  2.20e-06     0s
+  15   1.02547245e+02  1.02547235e+02  8.18e-13 1.82e-12  2.20e-09     0s
+  16   1.02547243e+02  1.02547243e+02  7.35e-13 7.28e-12  2.21e-15     0s
+
+Barrier solved model in 16 iterations and 0.04 seconds (0.02 work units)
+Optimal objective 1.02547243e+02
+
+Crossover log...
+
+     459 DPushes remaining with DInf 0.0000000e+00                 0s
+       0 DPushes remaining with DInf 0.0000000e+00                 0s
+
+       4 PPushes remaining with PInf 0.0000000e+00                 0s
+       0 PPushes remaining with PInf 0.0000000e+00                 0s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 6.2994748e-14      0s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+      51    1.0254724e+02   0.000000e+00   0.000000e+00      0s
+
+Solved in 51 iterations and 0.04 seconds (0.02 work units)
+Optimal objective  1.025472427e+02
