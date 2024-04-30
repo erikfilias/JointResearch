@@ -17,4 +17,4 @@ cd $VSC_SCRATCH/JointResearch/05.Models/06.Benchmarking/J.Full_year_operational_
 
 echo "Starting runs"
 
-python loop_operational_in_mem.py --case IEEE118 --origin_folder E --min_nb 10 --max_nb 200
+python loop_operational_in_mem.py --case IEEE118 --origin_folder E --min_nb 10 --max_nb 100
