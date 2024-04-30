@@ -357,7 +357,7 @@ def main(IndOptCluster, DirName, opt_cluster, CaseName_Base):
     _path_1 = os.path.join(DirName, CaseName_ByStages)
 
     #%% Selecting the maximum number of cluster to plot
-    max_cluster = 300
+    max_cluster = 1000
 
     # type of cluster method (0: k-means; 1:k-medoids)
     cluster_method = 1
