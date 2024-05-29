@@ -8,7 +8,7 @@ import re
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Introducing main parameters...')
-    parser.add_argument('--case', type=str, default="3-bus")
+    parser.add_argument('--case', type=str, default="9n_mod1")
     parser.add_argument('--start', type=int, default=0)
     parser.add_argument('--end', type=int, default=-1)
 
