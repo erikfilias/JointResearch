@@ -8,8 +8,9 @@ filter_TOOT = "oT_TOOT_Output_Data_"
 filter_PINT = "oT_PINT_Output_Data_"
 
 # DirName = os.path.dirname(__file__)
-DirName  = "C:\\Users\\ealvarezq\\Downloads\\LB_IEEE118_mod1\\IEEE118_mod1"
-CaseName = "IEEE118_mod1"
+# DirName  = "C:\\Users\\ealvarezq\\Downloads\\LB_IEEE118_mod1\\IEEE118_mod1"
+DirName  = "C:\\Users\\ealvarezq\\Downloads\\DCOPF"
+CaseName = "9n_mod1"
 
 df = pd.read_csv(os.path.join(DirName, f"oT_Result_NN_Output_{CaseName}.csv"))
 print('Reading the file took', time.time() - InitialTime, 'seconds')
