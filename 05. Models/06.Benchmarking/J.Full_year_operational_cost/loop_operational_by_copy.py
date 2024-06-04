@@ -14,7 +14,8 @@ case = args.case
 min_nb = args.min_nb
 max_nb = args.max_nb
 
-path_to_scan = os.path.dirname("../D.Representative_days_based_on_RES_and_Demand/")
+# path_to_scan = os.path.dirname("../D.Representative_days_based_on_RES_and_Demand/")
+path_to_scan = os.path.dirname("../L.Cont_Investments_per_hour/")
 
 filter = f'{case}_ByStages_nc'
 
@@ -33,7 +34,8 @@ directories = sorted(directories, key=lambda x: int(re.search(r'nc(\d+)', x).gro
 
 print(directories)
 
-folder = "D.Representative_days_based_on_RES_and_Demand"
+# folder = "D.Representative_days_based_on_RES_and_Demand"
+folder = "L.Cont_Investments_per_hour"
 
 for subfolder in directories:
     print(subfolder)
