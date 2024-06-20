@@ -6,13 +6,13 @@ InitialTime = time.time()
 
 DirName  = os.getcwd()
 
-CaseName_Base = 'IEEE118_mod1'
+CaseName_Base = 'RTS24_mod2'
 
-min_nb = 900
-max_nb = 1000
+min_nb = 10
+max_nb = 400
 
-# origin_folders=["B", "D", "E", "K", "L"]
-origin_folders=["L"]
+origin_folders=["B", "D", "E", "K", "L"]
+# origin_folders=["L"]
 
 # Loop over each origin folder
 for origin_folder in origin_folders:
