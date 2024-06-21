@@ -1,0 +1,2582 @@
+SLURM_JOB_ID: 56300867
+SLURM_JOB_USER: vsc34888
+SLURM_JOB_ACCOUNT: lp_elect_gen_modeling
+SLURM_JOB_NAME: RTS24_mod2_FYOP_loop_L
+SLURM_CLUSTER_NAME: genius
+SLURM_JOB_PARTITION: batch
+SLURM_NNODES: 1
+SLURM_NODELIST: r26i13n22
+SLURM_JOB_CPUS_PER_NODE: 36
+Date: Thu Jun 20 16:29:38 CEST 2024
+Walltime: 00-10:00:00
+========================================================================
+Activation OK
+Starting runs
+
+ #### Academic research license - for non-commercial use only #### 
+
+Reading    input data                 ...  0 s
+Setting up input data                 ...  10 s
+Generating objective function         ...  12 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  24 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  15 s
+Generating generation capacity        ...  3 s
+Generating network    capacity        ...  13 s
+Generating network    constraints     ...  34 s
+Econometric analysis  constraints     ...  0 s
+Found following ByStages results in folder {}
+Reading investment decisions from: ../L.Cont_Investments_per_hour/RTS24_mod2_ByStages_nc10/3.Out/oT_Result_NetworkInvestment_RTS24_mod2_ByStages_nc10.csv
+Set parameter Username
+Set parameter TokenServer to value "SET-S-ME-LM3.luna.kuleuven.be"
+Read LP format model from file /tmp/tmpop6g71pu.pyomo.lp
+Reading time = 6.95 seconds
+x1: 3101283 rows, 2092826 columns, 7721626 nonzeros
+Set parameter QCPDual to value 1
+Set parameter LogFile to value "RTS24_mod2/openStarNet_RTS24_mod2.log"
+Set parameter Method to value 2
+Set parameter MIPFocus to value 1
+Set parameter Presolve to value 2
+Set parameter RINS to value 100
+Set parameter MIPGap to value 0.01
+Set parameter Threads to value 36
+Set parameter TimeLimit to value 259200
+Set parameter IterationLimit to value 760000000
+Gurobi Optimizer version 11.0.0 build v11.0.0rc2 (linux64 - "Rocky Linux 8.9 (Green Obsidian)")
+
+CPU model: Intel(R) Xeon(R) Gold 6240 CPU @ 2.60GHz, instruction set [SSE2|AVX|AVX2|AVX512]
+Thread count: 36 physical cores, 36 logical processors, using up to 36 threads
+
+Optimize a model with 3101283 rows, 2092826 columns and 7721626 nonzeros
+Model fingerprint: 0x48703caa
+Coefficient statistics:
+  Matrix range     [8e-05, 3e+02]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [3e-05, 3e+00]
+  RHS range        [3e-05, 3e+01]
+Presolve removed 2591824 rows and 1198663 columns (presolve time = 5s) ...
+Presolve removed 2608210 rows and 1198663 columns
+Presolve time: 5.25s
+Presolved: 493073 rows, 910549 columns, 2192977 nonzeros
+
+Ordering time: 0.08s
+
+Barrier statistics:
+ AA' NZ     : 1.187e+06
+ Factor NZ  : 4.283e+06 (roughly 500 MB of memory)
+ Factor Ops : 5.661e+07 (less than 1 second per iteration)
+ Threads    : 36
+
+                  Objective                Residual
+Iter       Primal          Dual         Primal    Dual     Compl     Time
+   0   7.83033277e+06 -2.65771510e+07  1.49e+02 2.76e+00  1.00e+03     8s
+   1   1.27476882e+06 -2.20829314e+07  2.33e+01 5.93e-14  1.71e+02     8s
+   2   1.19772856e+05 -1.04453683e+07  1.95e+00 5.86e-14  2.32e+01     9s
+   3   3.66777660e+04 -2.01046780e+06  2.92e-01 5.33e-14  3.43e+00     9s
+   4   2.18478416e+04 -3.47979621e+05  2.74e-02 4.62e-14  5.07e-01     9s
+   5   1.19558898e+04 -1.39313422e+05  4.22e-03 5.26e-14  1.98e-01     9s
+   6   5.11918681e+03 -3.70182547e+04  9.66e-04 4.55e-14  5.47e-02    10s
+   7   1.12461979e+03 -5.21128444e+03  1.21e-04 3.26e-14  8.21e-03    10s
+   8   3.72145151e+02 -1.93285172e+03  1.16e-06 1.70e-14  2.99e-03    10s
+   9   2.61726253e+02 -5.75976917e+02  3.37e-07 1.42e-14  1.09e-03    10s
+  10   2.04182770e+02 -2.39230208e+02  2.01e-07 1.42e-14  5.75e-04    10s
+  11   1.36884081e+02 -5.58266005e+01  8.84e-08 1.42e-14  2.50e-04    10s
+  12   9.95480451e+01  3.71194823e+01  2.96e-08 1.42e-14  8.09e-05    11s
+  13   8.52996657e+01  6.59138326e+01  1.04e-08 1.42e-14  2.51e-05    11s
+  14   8.06132069e+01  7.21674227e+01  4.63e-09 1.42e-14  1.09e-05    11s
+  15   7.84579558e+01  7.44769928e+01  2.08e-09 2.13e-14  5.16e-06    11s
+  16   7.74347857e+01  7.57145032e+01  9.22e-10 1.42e-14  2.23e-06    11s
+  17   7.69150730e+01  7.62086337e+01  3.58e-10 1.42e-14  9.15e-07    11s
+  18   7.67119555e+01  7.64617450e+01  2.08e-09 1.42e-14  3.24e-07    12s
+  19   7.66168519e+01  7.65236482e+01  2.44e-09 2.13e-14  1.21e-07    12s
+  20   7.65665040e+01  7.65514347e+01  8.53e-09 1.42e-14  1.95e-08    12s
+  21   7.65609931e+01  7.65571178e+01  2.03e-08 1.42e-14  5.02e-09    12s
+  22   7.65593128e+01  7.65589699e+01  2.93e-09 1.42e-14  4.44e-10    12s
+  23   7.65592625e+01  7.65592488e+01  5.85e-09 1.97e-14  1.78e-11    12s
+  24   7.65592607e+01  7.65592607e+01  7.79e-10 1.42e-14  1.78e-14    13s
+  25   7.65592607e+01  7.65592607e+01  2.88e-12 1.42e-14  1.78e-17    13s
+
+Barrier solved model in 25 iterations and 12.80 seconds (11.35 work units)
+Optimal objective 7.65592607e+01
+
+Crossover log...
+
+  121429 DPushes remaining with DInf 1.3193658e+00                13s
+       0 DPushes remaining with DInf 7.4849714e-02                14s
+
+   31852 PPushes remaining with PInf 0.0000000e+00                15s
+   12352 PPushes remaining with PInf 0.0000000e+00                15s
+       0 PPushes remaining with PInf 0.0000000e+00                16s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 3.2340080e-13     16s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   41181    7.6559261e+01   0.000000e+00   0.000000e+00     17s
+
+Use crossover to convert LP symmetric solution to basic solution...
+Crossover log...
+
+    2291 DPushes remaining with DInf 0.0000000e+00                17s
+       0 DPushes remaining with DInf 0.0000000e+00                18s
+
+   24115 PPushes remaining with PInf 0.0000000e+00                18s
+       0 PPushes remaining with PInf 4.0788800e-06                20s
+
+  Push phase complete: Pinf 4.0788800e-06, Dinf 4.0617462e-13     20s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   67387    7.6559261e+01   4.078880e-06   0.000000e+00     21s
+   67388    7.6559261e+01   0.000000e+00   0.000000e+00     23s
+
+Solved in 67388 iterations and 23.19 seconds (17.41 work units)
+Optimal objective  7.655926072e+01
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 76.55926071575983
+  Upper bound: 76.55926071575983
+  Number of objectives: 1
+  Number of constraints: 3101283
+  Number of variables: 2092826
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 2092826
+  Number of nonzeros: 7721626
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 23.22110104560852
+  Error rc: 0
+  Time: 44.865588665008545
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  139 s
+Objective function value                   76.56 M€
+Objective function value                   76.55926071575983
+Writing         cost summary results  ...  0 s
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Reading investment decisions from: ../L.Cont_Investments_per_hour/RTS24_mod2_ByStages_nc20/3.Out/oT_Result_NetworkInvestment_RTS24_mod2_ByStages_nc20.csv
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+Set parameter Username
+Set parameter TokenServer to value "SET-S-ME-LM3.luna.kuleuven.be"
+Read LP format model from file /tmp/tmp6bu_hq3w.pyomo.lp
+Reading time = 7.12 seconds
+x1: 3101283 rows, 2092826 columns, 7721626 nonzeros
+Set parameter QCPDual to value 1
+Set parameter LogFile to value "RTS24_mod2/openStarNet_RTS24_mod2.log"
+Set parameter Method to value 2
+Set parameter MIPFocus to value 1
+Set parameter Presolve to value 2
+Set parameter RINS to value 100
+Set parameter MIPGap to value 0.01
+Set parameter Threads to value 36
+Set parameter TimeLimit to value 259200
+Set parameter IterationLimit to value 760000000
+Gurobi Optimizer version 11.0.0 build v11.0.0rc2 (linux64 - "Rocky Linux 8.9 (Green Obsidian)")
+
+CPU model: Intel(R) Xeon(R) Gold 6240 CPU @ 2.60GHz, instruction set [SSE2|AVX|AVX2|AVX512]
+Thread count: 36 physical cores, 36 logical processors, using up to 36 threads
+
+Optimize a model with 3101283 rows, 2092826 columns and 7721626 nonzeros
+Model fingerprint: 0x48703caa
+Coefficient statistics:
+  Matrix range     [8e-05, 3e+02]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [3e-05, 3e+00]
+  RHS range        [3e-05, 3e+01]
+Presolve removed 2591824 rows and 1198663 columns (presolve time = 5s) ...
+Presolve removed 2608210 rows and 1198663 columns
+Presolve time: 5.34s
+Presolved: 493073 rows, 910549 columns, 2192977 nonzeros
+
+Ordering time: 0.08s
+
+Barrier statistics:
+ AA' NZ     : 1.187e+06
+ Factor NZ  : 4.283e+06 (roughly 500 MB of memory)
+ Factor Ops : 5.661e+07 (less than 1 second per iteration)
+ Threads    : 36
+
+                  Objective                Residual
+Iter       Primal          Dual         Primal    Dual     Compl     Time
+   0   7.83033277e+06 -2.65771510e+07  1.49e+02 2.76e+00  1.00e+03     8s
+   1   1.27476882e+06 -2.20829314e+07  2.33e+01 5.93e-14  1.71e+02     9s
+   2   1.19772856e+05 -1.04453683e+07  1.95e+00 5.86e-14  2.32e+01     9s
+   3   3.66777660e+04 -2.01046780e+06  2.92e-01 5.33e-14  3.43e+00     9s
+   4   2.18478416e+04 -3.47979621e+05  2.74e-02 4.62e-14  5.07e-01     9s
+   5   1.19558898e+04 -1.39313422e+05  4.22e-03 5.26e-14  1.98e-01    10s
+   6   5.11918681e+03 -3.70182547e+04  9.66e-04 4.55e-14  5.47e-02    10s
+   7   1.12461979e+03 -5.21128444e+03  1.21e-04 3.26e-14  8.21e-03    10s
+   8   3.72145151e+02 -1.93285172e+03  1.16e-06 1.70e-14  2.99e-03    10s
+   9   2.61726253e+02 -5.75976917e+02  3.37e-07 1.42e-14  1.09e-03    10s
+  10   2.04182770e+02 -2.39230208e+02  2.01e-07 1.42e-14  5.75e-04    10s
+  11   1.36884081e+02 -5.58266005e+01  8.84e-08 1.42e-14  2.50e-04    11s
+  12   9.95480451e+01  3.71194823e+01  2.96e-08 1.42e-14  8.09e-05    11s
+  13   8.52996657e+01  6.59138326e+01  1.04e-08 1.42e-14  2.51e-05    11s
+  14   8.06132069e+01  7.21674227e+01  4.63e-09 1.42e-14  1.09e-05    11s
+  15   7.84579558e+01  7.44769928e+01  2.08e-09 2.13e-14  5.16e-06    11s
+  16   7.74347857e+01  7.57145032e+01  9.22e-10 1.42e-14  2.23e-06    11s
+  17   7.69150730e+01  7.62086337e+01  3.58e-10 1.42e-14  9.15e-07    12s
+  18   7.67119555e+01  7.64617450e+01  2.08e-09 1.42e-14  3.24e-07    12s
+  19   7.66168519e+01  7.65236482e+01  2.44e-09 2.13e-14  1.21e-07    12s
+  20   7.65665040e+01  7.65514347e+01  8.53e-09 1.42e-14  1.95e-08    12s
+  21   7.65609931e+01  7.65571178e+01  2.03e-08 1.42e-14  5.02e-09    12s
+  22   7.65593128e+01  7.65589699e+01  2.93e-09 1.42e-14  4.44e-10    12s
+  23   7.65592625e+01  7.65592488e+01  5.85e-09 1.97e-14  1.78e-11    13s
+  24   7.65592607e+01  7.65592607e+01  7.79e-10 1.42e-14  1.78e-14    13s
+  25   7.65592607e+01  7.65592607e+01  2.88e-12 1.42e-14  1.78e-17    13s
+
+Barrier solved model in 25 iterations and 12.99 seconds (11.35 work units)
+Optimal objective 7.65592607e+01
+
+Crossover log...
+
+  121429 DPushes remaining with DInf 1.3193658e+00                13s
+       0 DPushes remaining with DInf 7.4849714e-02                15s
+
+   31852 PPushes remaining with PInf 0.0000000e+00                15s
+   17957 PPushes remaining with PInf 0.0000000e+00                15s
+       0 PPushes remaining with PInf 0.0000000e+00                17s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 3.2340080e-13     17s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   41181    7.6559261e+01   0.000000e+00   0.000000e+00     17s
+
+Use crossover to convert LP symmetric solution to basic solution...
+Crossover log...
+
+    2291 DPushes remaining with DInf 0.0000000e+00                18s
+       0 DPushes remaining with DInf 0.0000000e+00                18s
+
+   24115 PPushes remaining with PInf 0.0000000e+00                19s
+    2062 PPushes remaining with PInf 4.0788800e-06                20s
+       0 PPushes remaining with PInf 4.0788800e-06                21s
+
+  Push phase complete: Pinf 4.0788800e-06, Dinf 4.0617462e-13     21s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   67387    7.6559261e+01   4.078880e-06   0.000000e+00     21s
+   67388    7.6559261e+01   0.000000e+00   0.000000e+00     24s
+
+Solved in 67388 iterations and 23.87 seconds (17.41 work units)
+Optimal objective  7.655926072e+01
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 76.55926071575983
+  Upper bound: 76.55926071575983
+  Number of objectives: 1
+  Number of constraints: 3101283
+  Number of variables: 2092826
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 2092826
+  Number of nonzeros: 7721626
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 23.897179126739502
+  Error rc: 0
+  Time: 46.32288146018982
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  135 s
+Objective function value                   76.56 M€
+Objective function value                   76.55926071575983
+Writing         cost summary results  ...  0 s
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Reading investment decisions from: ../L.Cont_Investments_per_hour/RTS24_mod2_ByStages_nc30/3.Out/oT_Result_NetworkInvestment_RTS24_mod2_ByStages_nc30.csv
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+Set parameter Username
+Set parameter TokenServer to value "SET-S-ME-LM3.luna.kuleuven.be"
+Read LP format model from file /tmp/tmp7e0g2peq.pyomo.lp
+Reading time = 6.95 seconds
+x1: 3101283 rows, 2092826 columns, 7721626 nonzeros
+Set parameter QCPDual to value 1
+Set parameter LogFile to value "RTS24_mod2/openStarNet_RTS24_mod2.log"
+Set parameter Method to value 2
+Set parameter MIPFocus to value 1
+Set parameter Presolve to value 2
+Set parameter RINS to value 100
+Set parameter MIPGap to value 0.01
+Set parameter Threads to value 36
+Set parameter TimeLimit to value 259200
+Set parameter IterationLimit to value 760000000
+Gurobi Optimizer version 11.0.0 build v11.0.0rc2 (linux64 - "Rocky Linux 8.9 (Green Obsidian)")
+
+CPU model: Intel(R) Xeon(R) Gold 6240 CPU @ 2.60GHz, instruction set [SSE2|AVX|AVX2|AVX512]
+Thread count: 36 physical cores, 36 logical processors, using up to 36 threads
+
+Optimize a model with 3101283 rows, 2092826 columns and 7721626 nonzeros
+Model fingerprint: 0x16a3c56a
+Coefficient statistics:
+  Matrix range     [8e-05, 3e+02]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [3e-05, 3e+00]
+  RHS range        [3e-05, 2e+01]
+Presolve removed 2559270 rows and 1167465 columns (presolve time = 5s) ...
+Presolve removed 2576334 rows and 1167465 columns
+Presolve time: 5.23s
+Presolved: 524949 rows, 942425 columns, 2345051 nonzeros
+
+Ordering time: 0.09s
+
+Barrier statistics:
+ AA' NZ     : 1.388e+06
+ Factor NZ  : 4.481e+06 (roughly 500 MB of memory)
+ Factor Ops : 5.689e+07 (less than 1 second per iteration)
+ Threads    : 36
+
+                  Objective                Residual
+Iter       Primal          Dual         Primal    Dual     Compl     Time
+   0   7.22188627e+05 -3.00664549e+06  6.58e+00 2.80e+00  2.57e+01     8s
+   1   7.99441021e+04 -1.79647267e+06  6.02e-01 2.83e-14  3.76e+00     9s
+   2   2.30913660e+04 -4.29215404e+05  8.22e-02 5.64e-14  6.40e-01     9s
+   3   6.46976809e+03 -3.23964814e+04  3.12e-03 2.13e-14  4.81e-02     9s
+   4   6.58012212e+02 -1.99380676e+03  3.26e-05 5.75e-14  3.26e-03     9s
+   5   3.00834856e+02 -6.15725111e+02  1.24e-06 2.20e-14  1.13e-03    10s
+   6   2.32511631e+02 -2.69177190e+02  6.79e-07 1.22e-14  6.16e-04    10s
+   7   1.62489919e+02 -9.59047351e+01  3.29e-07 7.11e-15  3.17e-04    10s
+   8   1.25750683e+02 -1.24904979e+01  1.78e-07 1.07e-14  1.70e-04    10s
+   9   9.84657197e+01  3.77792359e+01  7.35e-08 1.07e-14  7.45e-05    10s
+  10   9.04292083e+01  5.67375292e+01  4.54e-08 7.11e-15  4.14e-05    11s
+  11   8.07144162e+01  7.11400367e+01  1.30e-08 1.07e-14  1.18e-05    11s
+  12   7.77395950e+01  7.51774829e+01  3.75e-09 1.07e-14  3.15e-06    11s
+  13   7.67932807e+01  7.59616238e+01  1.03e-09 7.11e-15  1.02e-06    11s
+  14   7.65651776e+01  7.62233045e+01  3.86e-10 1.07e-14  4.20e-07    11s
+  15   7.64733306e+01  7.63299177e+01  1.43e-10 7.11e-15  1.76e-07    12s
+  16   7.64371862e+01  7.63805574e+01  5.06e-11 1.07e-14  6.95e-08    12s
+  17   7.64242449e+01  7.64072672e+01  1.82e-11 1.07e-14  2.08e-08    12s
+  18   7.64173349e+01  7.64160909e+01  2.11e-11 1.42e-14  1.53e-09    12s
+  19   7.64169103e+01  7.64167877e+01  3.92e-11 1.07e-14  1.51e-10    12s
+  20   7.64168389e+01  7.64168348e+01  4.26e-11 1.07e-14  4.99e-12    12s
+  21   7.64168355e+01  7.64168355e+01  5.24e-10 1.07e-14  1.50e-14    13s
+  22   7.64168355e+01  7.64168355e+01  2.22e-11 1.07e-14  1.50e-17    13s
+
+Barrier solved model in 22 iterations and 12.75 seconds (11.25 work units)
+Optimal objective 7.64168355e+01
+
+Crossover log...
+
+  112517 DPushes remaining with DInf 0.0000000e+00                13s
+       0 DPushes remaining with DInf 0.0000000e+00                14s
+
+   29743 PPushes remaining with PInf 0.0000000e+00                14s
+    5882 PPushes remaining with PInf 0.0000000e+00                15s
+       0 PPushes remaining with PInf 0.0000000e+00                16s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 1.1209435e-12     16s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   30097    7.6416835e+01   0.000000e+00   0.000000e+00     17s
+
+Use crossover to convert LP symmetric solution to basic solution...
+Crossover log...
+
+      17 DPushes remaining with DInf 0.0000000e+00                18s
+       0 DPushes remaining with DInf 0.0000000e+00                18s
+
+   24234 PPushes remaining with PInf 0.0000000e+00                18s
+       0 PPushes remaining with PInf 0.0000000e+00                20s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 1.0935887e-12     20s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   54351    7.6416835e+01   0.000000e+00   0.000000e+00     23s
+
+Solved in 54351 iterations and 22.93 seconds (16.07 work units)
+Optimal objective  7.641683547e+01
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 76.41683546987241
+  Upper bound: 76.41683546987241
+  Number of objectives: 1
+  Number of constraints: 3101283
+  Number of variables: 2092826
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 2092826
+  Number of nonzeros: 7721626
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 22.9543240070343
+  Error rc: 0
+  Time: 44.93486571311951
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  143 s
+Objective function value                   76.42 M€
+Objective function value                   76.41683546987241
+Writing         cost summary results  ...  0 s
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Reading investment decisions from: ../L.Cont_Investments_per_hour/RTS24_mod2_ByStages_nc40/3.Out/oT_Result_NetworkInvestment_RTS24_mod2_ByStages_nc40.csv
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+Set parameter Username
+Set parameter TokenServer to value "SET-S-ME-LM3.luna.kuleuven.be"
+Read LP format model from file /tmp/tmp_pgvdzgg.pyomo.lp
+Reading time = 6.99 seconds
+x1: 3101283 rows, 2092826 columns, 7721626 nonzeros
+Set parameter QCPDual to value 1
+Set parameter LogFile to value "RTS24_mod2/openStarNet_RTS24_mod2.log"
+Set parameter Method to value 2
+Set parameter MIPFocus to value 1
+Set parameter Presolve to value 2
+Set parameter RINS to value 100
+Set parameter MIPGap to value 0.01
+Set parameter Threads to value 36
+Set parameter TimeLimit to value 259200
+Set parameter IterationLimit to value 760000000
+Gurobi Optimizer version 11.0.0 build v11.0.0rc2 (linux64 - "Rocky Linux 8.9 (Green Obsidian)")
+
+CPU model: Intel(R) Xeon(R) Gold 6240 CPU @ 2.60GHz, instruction set [SSE2|AVX|AVX2|AVX512]
+Thread count: 36 physical cores, 36 logical processors, using up to 36 threads
+
+Optimize a model with 3101283 rows, 2092826 columns and 7721626 nonzeros
+Model fingerprint: 0x60cc364d
+Coefficient statistics:
+  Matrix range     [8e-05, 3e+02]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [3e-05, 3e+00]
+  RHS range        [3e-05, 2e+01]
+Presolve removed 2593516 rows and 1187223 columns (presolve time = 5s) ...
+Presolve removed 2603329 rows and 1187223 columns
+Presolve time: 5.40s
+Presolved: 497954 rows, 915416 columns, 2219762 nonzeros
+
+Ordering time: 0.08s
+
+Barrier statistics:
+ AA' NZ     : 1.183e+06
+ Factor NZ  : 4.277e+06 (roughly 500 MB of memory)
+ Factor Ops : 5.635e+07 (less than 1 second per iteration)
+ Threads    : 36
+
+                  Objective                Residual
+Iter       Primal          Dual         Primal    Dual     Compl     Time
+   0   4.61571168e+06 -1.88024033e+07  6.35e+01 3.45e+00  1.03e+03     8s
+   1   2.54321171e+05 -1.49927670e+07  2.84e+00 9.73e-14  7.91e+01     9s
+   2   5.90955798e+04 -3.64618928e+06  4.81e-01 2.69e-13  1.37e+01     9s
+   3   2.93713446e+04 -7.31657796e+05  7.57e-02 1.41e-13  2.26e+00     9s
+   4   1.47433531e+04 -1.80582538e+05  6.51e-03 7.11e-14  5.14e-01     9s
+   5   6.46091998e+03 -6.91618250e+04  9.01e-04 6.25e-14  1.96e-01     9s
+   6   2.49636756e+03 -1.67710747e+04  2.44e-04 8.24e-14  4.99e-02     9s
+   7   4.38021492e+02 -2.88262439e+03  8.61e-07 3.41e-14  8.59e-03    10s
+   8   3.06680658e+02 -1.34656468e+03  1.54e-08 2.84e-14  4.28e-03    10s
+   9   1.96648610e+02 -4.50698531e+02  3.10e-09 5.68e-14  1.67e-03    10s
+  10   1.49423019e+02 -1.73047604e+02  1.57e-09 2.84e-14  8.34e-04    10s
+  11   1.05843675e+02 -2.10331086e+01  5.04e-10 2.84e-14  3.28e-04    10s
+  12   8.62938161e+01  5.52218842e+01  1.44e-10 2.84e-14  8.04e-05    11s
+  13   7.99117100e+01  7.21696230e+01  4.82e-11 2.84e-14  2.00e-05    11s
+  14   7.80262244e+01  7.44818586e+01  6.91e-11 2.84e-14  9.17e-06    11s
+  15   7.70650621e+01  7.54958515e+01  1.17e-10 2.84e-14  4.06e-06    11s
+  16   7.66180550e+01  7.59163232e+01  1.75e-10 2.84e-14  1.81e-06    11s
+  17   7.64010046e+01  7.60953731e+01  6.18e-10 2.84e-14  7.90e-07    11s
+  18   7.62768574e+01  7.62075664e+01  4.12e-09 2.84e-14  1.79e-07    11s
+  19   7.62531496e+01  7.62300901e+01  2.53e-09 2.84e-14  5.96e-08    12s
+  20   7.62448942e+01  7.62417889e+01  1.05e-09 2.84e-14  8.03e-09    12s
+  21   7.62435393e+01  7.62430812e+01  4.69e-09 2.84e-14  1.18e-09    12s
+  22   7.62433030e+01  7.62432937e+01  3.55e-09 2.84e-14  2.43e-11    12s
+  23   7.62432973e+01  7.62432973e+01  4.70e-10 2.84e-14  2.57e-14    12s
+  24   7.62432973e+01  7.62432973e+01  7.11e-13 2.84e-14  2.57e-17    13s
+
+Barrier solved model in 24 iterations and 12.58 seconds (11.59 work units)
+Optimal objective 7.62432973e+01
+
+Crossover log...
+
+  111659 DPushes remaining with DInf 7.1155880e-02                13s
+       0 DPushes remaining with DInf 7.1155880e-02                13s
+
+   34534 PPushes remaining with PInf 0.0000000e+00                13s
+       0 PPushes remaining with PInf 0.0000000e+00                15s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 1.3572224e-04     15s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   34819    7.6243297e+01   0.000000e+00   1.357222e-04     16s
+   34824    7.6243297e+01   0.000000e+00   0.000000e+00     16s
+
+Use crossover to convert LP symmetric solution to basic solution...
+Crossover log...
+
+    1720 DPushes remaining with DInf 0.0000000e+00                17s
+       0 DPushes remaining with DInf 0.0000000e+00                18s
+
+   24530 PPushes remaining with PInf 0.0000000e+00                18s
+       0 PPushes remaining with PInf 0.0000000e+00                20s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 4.3634351e-13     20s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   60731    7.6243297e+01   0.000000e+00   0.000000e+00     22s
+
+Solved in 60731 iterations and 22.20 seconds (16.96 work units)
+Optimal objective  7.624329730e+01
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 76.24329729860492
+  Upper bound: 76.24329729860492
+  Number of objectives: 1
+  Number of constraints: 3101283
+  Number of variables: 2092826
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 2092826
+  Number of nonzeros: 7721626
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 22.22414493560791
+  Error rc: 0
+  Time: 43.69338583946228
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  140 s
+Objective function value                   76.24 M€
+Objective function value                   76.24329729860492
+Writing         cost summary results  ...  0 s
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Reading investment decisions from: ../L.Cont_Investments_per_hour/RTS24_mod2_ByStages_nc50/3.Out/oT_Result_NetworkInvestment_RTS24_mod2_ByStages_nc50.csv
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+Set parameter Username
+Set parameter TokenServer to value "SET-S-ME-LM3.luna.kuleuven.be"
+Read LP format model from file /tmp/tmpk7mbjosu.pyomo.lp
+Reading time = 7.11 seconds
+x1: 3101283 rows, 2092826 columns, 7721626 nonzeros
+Set parameter QCPDual to value 1
+Set parameter LogFile to value "RTS24_mod2/openStarNet_RTS24_mod2.log"
+Set parameter Method to value 2
+Set parameter MIPFocus to value 1
+Set parameter Presolve to value 2
+Set parameter RINS to value 100
+Set parameter MIPGap to value 0.01
+Set parameter Threads to value 36
+Set parameter TimeLimit to value 259200
+Set parameter IterationLimit to value 760000000
+Gurobi Optimizer version 11.0.0 build v11.0.0rc2 (linux64 - "Rocky Linux 8.9 (Green Obsidian)")
+
+CPU model: Intel(R) Xeon(R) Gold 6240 CPU @ 2.60GHz, instruction set [SSE2|AVX|AVX2|AVX512]
+Thread count: 36 physical cores, 36 logical processors, using up to 36 threads
+
+Optimize a model with 3101283 rows, 2092826 columns and 7721626 nonzeros
+Model fingerprint: 0x60cc364d
+Coefficient statistics:
+  Matrix range     [8e-05, 3e+02]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [3e-05, 3e+00]
+  RHS range        [3e-05, 2e+01]
+Presolve removed 2593516 rows and 1187223 columns (presolve time = 5s) ...
+Presolve removed 2603329 rows and 1187223 columns
+Presolve time: 5.58s
+Presolved: 497954 rows, 915416 columns, 2219762 nonzeros
+
+Ordering time: 0.08s
+
+Barrier statistics:
+ AA' NZ     : 1.183e+06
+ Factor NZ  : 4.277e+06 (roughly 500 MB of memory)
+ Factor Ops : 5.635e+07 (less than 1 second per iteration)
+ Threads    : 36
+
+                  Objective                Residual
+Iter       Primal          Dual         Primal    Dual     Compl     Time
+   0   4.61571168e+06 -1.88024033e+07  6.35e+01 3.45e+00  1.03e+03     9s
+   1   2.54321171e+05 -1.49927670e+07  2.84e+00 9.73e-14  7.91e+01     9s
+   2   5.90955798e+04 -3.64618928e+06  4.81e-01 2.69e-13  1.37e+01     9s
+   3   2.93713446e+04 -7.31657796e+05  7.57e-02 1.41e-13  2.26e+00     9s
+   4   1.47433531e+04 -1.80582538e+05  6.51e-03 7.11e-14  5.14e-01    10s
+   5   6.46091998e+03 -6.91618250e+04  9.01e-04 6.25e-14  1.96e-01    10s
+   6   2.49636756e+03 -1.67710747e+04  2.44e-04 8.24e-14  4.99e-02    10s
+   7   4.38021492e+02 -2.88262439e+03  8.61e-07 3.41e-14  8.59e-03    10s
+   8   3.06680658e+02 -1.34656468e+03  1.54e-08 2.84e-14  4.28e-03    10s
+   9   1.96648610e+02 -4.50698531e+02  3.10e-09 5.68e-14  1.67e-03    10s
+  10   1.49423019e+02 -1.73047604e+02  1.57e-09 2.84e-14  8.34e-04    10s
+  11   1.05843675e+02 -2.10331086e+01  5.04e-10 2.84e-14  3.28e-04    11s
+  12   8.62938161e+01  5.52218842e+01  1.44e-10 2.84e-14  8.04e-05    11s
+  13   7.99117100e+01  7.21696230e+01  4.82e-11 2.84e-14  2.00e-05    11s
+  14   7.80262244e+01  7.44818586e+01  6.91e-11 2.84e-14  9.17e-06    11s
+  15   7.70650621e+01  7.54958515e+01  1.17e-10 2.84e-14  4.06e-06    11s
+  16   7.66180550e+01  7.59163232e+01  1.75e-10 2.84e-14  1.81e-06    12s
+  17   7.64010046e+01  7.60953731e+01  6.18e-10 2.84e-14  7.90e-07    12s
+  18   7.62768574e+01  7.62075664e+01  4.12e-09 2.84e-14  1.79e-07    12s
+  19   7.62531496e+01  7.62300901e+01  2.53e-09 2.84e-14  5.96e-08    12s
+  20   7.62448942e+01  7.62417889e+01  1.05e-09 2.84e-14  8.03e-09    12s
+  21   7.62435393e+01  7.62430812e+01  4.69e-09 2.84e-14  1.18e-09    12s
+  22   7.62433030e+01  7.62432937e+01  3.55e-09 2.84e-14  2.43e-11    13s
+  23   7.62432973e+01  7.62432973e+01  4.70e-10 2.84e-14  2.57e-14    13s
+  24   7.62432973e+01  7.62432973e+01  7.11e-13 2.84e-14  2.57e-17    13s
+
+Barrier solved model in 24 iterations and 13.04 seconds (11.59 work units)
+Optimal objective 7.62432973e+01
+
+Crossover log...
+
+  111659 DPushes remaining with DInf 7.1155880e-02                13s
+       0 DPushes remaining with DInf 7.1155880e-02                14s
+
+   34534 PPushes remaining with PInf 0.0000000e+00                14s
+    2828 PPushes remaining with PInf 0.0000000e+00                15s
+       0 PPushes remaining with PInf 0.0000000e+00                16s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 1.3572224e-04     16s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   34819    7.6243297e+01   0.000000e+00   1.357222e-04     16s
+   34824    7.6243297e+01   0.000000e+00   0.000000e+00     17s
+
+Use crossover to convert LP symmetric solution to basic solution...
+Crossover log...
+
+    1720 DPushes remaining with DInf 0.0000000e+00                17s
+       0 DPushes remaining with DInf 0.0000000e+00                18s
+
+   24530 PPushes remaining with PInf 0.0000000e+00                18s
+     127 PPushes remaining with PInf 0.0000000e+00                20s
+       0 PPushes remaining with PInf 0.0000000e+00                21s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 4.3634351e-13     21s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   60731    7.6243297e+01   0.000000e+00   0.000000e+00     23s
+
+Solved in 60731 iterations and 22.97 seconds (16.96 work units)
+Optimal objective  7.624329730e+01
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 76.24329729860492
+  Upper bound: 76.24329729860492
+  Number of objectives: 1
+  Number of constraints: 3101283
+  Number of variables: 2092826
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 2092826
+  Number of nonzeros: 7721626
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 22.998069047927856
+  Error rc: 0
+  Time: 45.18051743507385
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  132 s
+Objective function value                   76.24 M€
+Objective function value                   76.24329729860492
+Writing         cost summary results  ...  0 s
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Reading investment decisions from: ../L.Cont_Investments_per_hour/RTS24_mod2_ByStages_nc60/3.Out/oT_Result_NetworkInvestment_RTS24_mod2_ByStages_nc60.csv
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+Set parameter Username
+Set parameter TokenServer to value "SET-S-ME-LM3.luna.kuleuven.be"
+Read LP format model from file /tmp/tmpm3o6b5fk.pyomo.lp
+Reading time = 7.00 seconds
+x1: 3101283 rows, 2092826 columns, 7721626 nonzeros
+Set parameter QCPDual to value 1
+Set parameter LogFile to value "RTS24_mod2/openStarNet_RTS24_mod2.log"
+Set parameter Method to value 2
+Set parameter MIPFocus to value 1
+Set parameter Presolve to value 2
+Set parameter RINS to value 100
+Set parameter MIPGap to value 0.01
+Set parameter Threads to value 36
+Set parameter TimeLimit to value 259200
+Set parameter IterationLimit to value 760000000
+Gurobi Optimizer version 11.0.0 build v11.0.0rc2 (linux64 - "Rocky Linux 8.9 (Green Obsidian)")
+
+CPU model: Intel(R) Xeon(R) Gold 6240 CPU @ 2.60GHz, instruction set [SSE2|AVX|AVX2|AVX512]
+Thread count: 36 physical cores, 36 logical processors, using up to 36 threads
+
+Optimize a model with 3101283 rows, 2092826 columns and 7721626 nonzeros
+Model fingerprint: 0x60cc364d
+Coefficient statistics:
+  Matrix range     [8e-05, 3e+02]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [3e-05, 3e+00]
+  RHS range        [3e-05, 2e+01]
+Presolve removed 2593516 rows and 1187223 columns (presolve time = 5s) ...
+Presolve removed 2603329 rows and 1187223 columns
+Presolve time: 5.42s
+Presolved: 497954 rows, 915416 columns, 2219762 nonzeros
+
+Ordering time: 0.08s
+
+Barrier statistics:
+ AA' NZ     : 1.183e+06
+ Factor NZ  : 4.277e+06 (roughly 500 MB of memory)
+ Factor Ops : 5.635e+07 (less than 1 second per iteration)
+ Threads    : 36
+
+                  Objective                Residual
+Iter       Primal          Dual         Primal    Dual     Compl     Time
+   0   4.61571168e+06 -1.88024033e+07  6.35e+01 3.45e+00  1.03e+03     8s
+   1   2.54321171e+05 -1.49927670e+07  2.84e+00 9.73e-14  7.91e+01     9s
+   2   5.90955798e+04 -3.64618928e+06  4.81e-01 2.69e-13  1.37e+01     9s
+   3   2.93713446e+04 -7.31657796e+05  7.57e-02 1.41e-13  2.26e+00     9s
+   4   1.47433531e+04 -1.80582538e+05  6.51e-03 7.11e-14  5.14e-01     9s
+   5   6.46091998e+03 -6.91618250e+04  9.01e-04 6.25e-14  1.96e-01     9s
+   6   2.49636756e+03 -1.67710747e+04  2.44e-04 8.24e-14  4.99e-02    10s
+   7   4.38021492e+02 -2.88262439e+03  8.61e-07 3.41e-14  8.59e-03    10s
+   8   3.06680658e+02 -1.34656468e+03  1.54e-08 2.84e-14  4.28e-03    10s
+   9   1.96648610e+02 -4.50698531e+02  3.10e-09 5.68e-14  1.67e-03    10s
+  10   1.49423019e+02 -1.73047604e+02  1.57e-09 2.84e-14  8.34e-04    10s
+  11   1.05843675e+02 -2.10331086e+01  5.04e-10 2.84e-14  3.28e-04    10s
+  12   8.62938161e+01  5.52218842e+01  1.44e-10 2.84e-14  8.04e-05    11s
+  13   7.99117100e+01  7.21696230e+01  4.82e-11 2.84e-14  2.00e-05    11s
+  14   7.80262244e+01  7.44818586e+01  6.91e-11 2.84e-14  9.17e-06    11s
+  15   7.70650621e+01  7.54958515e+01  1.17e-10 2.84e-14  4.06e-06    11s
+  16   7.66180550e+01  7.59163232e+01  1.75e-10 2.84e-14  1.81e-06    11s
+  17   7.64010046e+01  7.60953731e+01  6.18e-10 2.84e-14  7.90e-07    11s
+  18   7.62768574e+01  7.62075664e+01  4.12e-09 2.84e-14  1.79e-07    11s
+  19   7.62531496e+01  7.62300901e+01  2.53e-09 2.84e-14  5.96e-08    12s
+  20   7.62448942e+01  7.62417889e+01  1.05e-09 2.84e-14  8.03e-09    12s
+  21   7.62435393e+01  7.62430812e+01  4.69e-09 2.84e-14  1.18e-09    12s
+  22   7.62433030e+01  7.62432937e+01  3.55e-09 2.84e-14  2.43e-11    12s
+  23   7.62432973e+01  7.62432973e+01  4.70e-10 2.84e-14  2.57e-14    12s
+  24   7.62432973e+01  7.62432973e+01  7.11e-13 2.84e-14  2.57e-17    13s
+
+Barrier solved model in 24 iterations and 12.60 seconds (11.59 work units)
+Optimal objective 7.62432973e+01
+
+Crossover log...
+
+  111659 DPushes remaining with DInf 7.1155880e-02                13s
+       0 DPushes remaining with DInf 7.1155880e-02                13s
+
+   34534 PPushes remaining with PInf 0.0000000e+00                13s
+       0 PPushes remaining with PInf 0.0000000e+00                15s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 1.3572224e-04     15s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   34819    7.6243297e+01   0.000000e+00   1.357222e-04     16s
+   34824    7.6243297e+01   0.000000e+00   0.000000e+00     16s
+
+Use crossover to convert LP symmetric solution to basic solution...
+Crossover log...
+
+    1720 DPushes remaining with DInf 0.0000000e+00                17s
+       0 DPushes remaining with DInf 0.0000000e+00                18s
+
+   24530 PPushes remaining with PInf 0.0000000e+00                18s
+       0 PPushes remaining with PInf 0.0000000e+00                20s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 4.3634351e-13     20s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   60731    7.6243297e+01   0.000000e+00   0.000000e+00     22s
+
+Solved in 60731 iterations and 22.22 seconds (16.96 work units)
+Optimal objective  7.624329730e+01
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 76.24329729860492
+  Upper bound: 76.24329729860492
+  Number of objectives: 1
+  Number of constraints: 3101283
+  Number of variables: 2092826
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 2092826
+  Number of nonzeros: 7721626
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 22.246848106384277
+  Error rc: 0
+  Time: 43.72952342033386
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  139 s
+Objective function value                   76.24 M€
+Objective function value                   76.24329729860492
+Writing         cost summary results  ...  0 s
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Reading investment decisions from: ../L.Cont_Investments_per_hour/RTS24_mod2_ByStages_nc70/3.Out/oT_Result_NetworkInvestment_RTS24_mod2_ByStages_nc70.csv
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+Set parameter Username
+Set parameter TokenServer to value "SET-S-ME-LM3.luna.kuleuven.be"
+Read LP format model from file /tmp/tmp8o8yfi0l.pyomo.lp
+Reading time = 6.94 seconds
+x1: 3101283 rows, 2092826 columns, 7721626 nonzeros
+Set parameter QCPDual to value 1
+Set parameter LogFile to value "RTS24_mod2/openStarNet_RTS24_mod2.log"
+Set parameter Method to value 2
+Set parameter MIPFocus to value 1
+Set parameter Presolve to value 2
+Set parameter RINS to value 100
+Set parameter MIPGap to value 0.01
+Set parameter Threads to value 36
+Set parameter TimeLimit to value 259200
+Set parameter IterationLimit to value 760000000
+Gurobi Optimizer version 11.0.0 build v11.0.0rc2 (linux64 - "Rocky Linux 8.9 (Green Obsidian)")
+
+CPU model: Intel(R) Xeon(R) Gold 6240 CPU @ 2.60GHz, instruction set [SSE2|AVX|AVX2|AVX512]
+Thread count: 36 physical cores, 36 logical processors, using up to 36 threads
+
+Optimize a model with 3101283 rows, 2092826 columns and 7721626 nonzeros
+Model fingerprint: 0x60cc364d
+Coefficient statistics:
+  Matrix range     [8e-05, 3e+02]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [3e-05, 3e+00]
+  RHS range        [3e-05, 2e+01]
+Presolve removed 2593516 rows and 1187223 columns (presolve time = 5s) ...
+Presolve removed 2603329 rows and 1187223 columns
+Presolve time: 5.42s
+Presolved: 497954 rows, 915416 columns, 2219762 nonzeros
+
+Ordering time: 0.08s
+
+Barrier statistics:
+ AA' NZ     : 1.183e+06
+ Factor NZ  : 4.277e+06 (roughly 500 MB of memory)
+ Factor Ops : 5.635e+07 (less than 1 second per iteration)
+ Threads    : 36
+
+                  Objective                Residual
+Iter       Primal          Dual         Primal    Dual     Compl     Time
+   0   4.61571168e+06 -1.88024033e+07  6.35e+01 3.45e+00  1.03e+03     8s
+   1   2.54321171e+05 -1.49927670e+07  2.84e+00 9.73e-14  7.91e+01     9s
+   2   5.90955798e+04 -3.64618928e+06  4.81e-01 2.69e-13  1.37e+01     9s
+   3   2.93713446e+04 -7.31657796e+05  7.57e-02 1.41e-13  2.26e+00     9s
+   4   1.47433531e+04 -1.80582538e+05  6.51e-03 7.11e-14  5.14e-01     9s
+   5   6.46091998e+03 -6.91618250e+04  9.01e-04 6.25e-14  1.96e-01     9s
+   6   2.49636756e+03 -1.67710747e+04  2.44e-04 8.24e-14  4.99e-02    10s
+   7   4.38021492e+02 -2.88262439e+03  8.61e-07 3.41e-14  8.59e-03    10s
+   8   3.06680658e+02 -1.34656468e+03  1.54e-08 2.84e-14  4.28e-03    10s
+   9   1.96648610e+02 -4.50698531e+02  3.10e-09 5.68e-14  1.67e-03    10s
+  10   1.49423019e+02 -1.73047604e+02  1.57e-09 2.84e-14  8.34e-04    10s
+  11   1.05843675e+02 -2.10331086e+01  5.04e-10 2.84e-14  3.28e-04    10s
+  12   8.62938161e+01  5.52218842e+01  1.44e-10 2.84e-14  8.04e-05    11s
+  13   7.99117100e+01  7.21696230e+01  4.82e-11 2.84e-14  2.00e-05    11s
+  14   7.80262244e+01  7.44818586e+01  6.91e-11 2.84e-14  9.17e-06    11s
+  15   7.70650621e+01  7.54958515e+01  1.17e-10 2.84e-14  4.06e-06    11s
+  16   7.66180550e+01  7.59163232e+01  1.75e-10 2.84e-14  1.81e-06    11s
+  17   7.64010046e+01  7.60953731e+01  6.18e-10 2.84e-14  7.90e-07    11s
+  18   7.62768574e+01  7.62075664e+01  4.12e-09 2.84e-14  1.79e-07    12s
+  19   7.62531496e+01  7.62300901e+01  2.53e-09 2.84e-14  5.96e-08    12s
+  20   7.62448942e+01  7.62417889e+01  1.05e-09 2.84e-14  8.03e-09    12s
+  21   7.62435393e+01  7.62430812e+01  4.69e-09 2.84e-14  1.18e-09    12s
+  22   7.62433030e+01  7.62432937e+01  3.55e-09 2.84e-14  2.43e-11    12s
+  23   7.62432973e+01  7.62432973e+01  4.70e-10 2.84e-14  2.57e-14    12s
+  24   7.62432973e+01  7.62432973e+01  7.11e-13 2.84e-14  2.57e-17    13s
+
+Barrier solved model in 24 iterations and 12.60 seconds (11.59 work units)
+Optimal objective 7.62432973e+01
+
+Crossover log...
+
+  111659 DPushes remaining with DInf 7.1155880e-02                13s
+       0 DPushes remaining with DInf 7.1155880e-02                13s
+
+   34534 PPushes remaining with PInf 0.0000000e+00                13s
+     259 PPushes remaining with PInf 0.0000000e+00                15s
+       0 PPushes remaining with PInf 0.0000000e+00                15s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 1.3572224e-04     15s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   34819    7.6243297e+01   0.000000e+00   1.357222e-04     16s
+   34824    7.6243297e+01   0.000000e+00   0.000000e+00     16s
+
+Use crossover to convert LP symmetric solution to basic solution...
+Crossover log...
+
+    1720 DPushes remaining with DInf 0.0000000e+00                17s
+       0 DPushes remaining with DInf 0.0000000e+00                18s
+
+   24530 PPushes remaining with PInf 0.0000000e+00                18s
+       0 PPushes remaining with PInf 0.0000000e+00                20s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 4.3634351e-13     20s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   60731    7.6243297e+01   0.000000e+00   0.000000e+00     22s
+
+Solved in 60731 iterations and 22.28 seconds (16.96 work units)
+Optimal objective  7.624329730e+01
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 76.24329729860492
+  Upper bound: 76.24329729860492
+  Number of objectives: 1
+  Number of constraints: 3101283
+  Number of variables: 2092826
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 2092826
+  Number of nonzeros: 7721626
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 22.29774308204651
+  Error rc: 0
+  Time: 43.74409627914429
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  141 s
+Objective function value                   76.24 M€
+Objective function value                   76.24329729860492
+Writing         cost summary results  ...  0 s
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Reading investment decisions from: ../L.Cont_Investments_per_hour/RTS24_mod2_ByStages_nc80/3.Out/oT_Result_NetworkInvestment_RTS24_mod2_ByStages_nc80.csv
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+Set parameter Username
+Set parameter TokenServer to value "SET-S-ME-LM3.luna.kuleuven.be"
+Read LP format model from file /tmp/tmpflqfox8u.pyomo.lp
+Reading time = 7.00 seconds
+x1: 3101283 rows, 2092826 columns, 7721626 nonzeros
+Set parameter QCPDual to value 1
+Set parameter LogFile to value "RTS24_mod2/openStarNet_RTS24_mod2.log"
+Set parameter Method to value 2
+Set parameter MIPFocus to value 1
+Set parameter Presolve to value 2
+Set parameter RINS to value 100
+Set parameter MIPGap to value 0.01
+Set parameter Threads to value 36
+Set parameter TimeLimit to value 259200
+Set parameter IterationLimit to value 760000000
+Gurobi Optimizer version 11.0.0 build v11.0.0rc2 (linux64 - "Rocky Linux 8.9 (Green Obsidian)")
+
+CPU model: Intel(R) Xeon(R) Gold 6240 CPU @ 2.60GHz, instruction set [SSE2|AVX|AVX2|AVX512]
+Thread count: 36 physical cores, 36 logical processors, using up to 36 threads
+
+Optimize a model with 3101283 rows, 2092826 columns and 7721626 nonzeros
+Model fingerprint: 0x60cc364d
+Coefficient statistics:
+  Matrix range     [8e-05, 3e+02]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [3e-05, 3e+00]
+  RHS range        [3e-05, 2e+01]
+Presolve removed 2593516 rows and 1187223 columns (presolve time = 5s) ...
+Presolve removed 2603329 rows and 1187223 columns
+Presolve time: 5.46s
+Presolved: 497954 rows, 915416 columns, 2219762 nonzeros
+
+Ordering time: 0.08s
+
+Barrier statistics:
+ AA' NZ     : 1.183e+06
+ Factor NZ  : 4.277e+06 (roughly 500 MB of memory)
+ Factor Ops : 5.635e+07 (less than 1 second per iteration)
+ Threads    : 36
+
+                  Objective                Residual
+Iter       Primal          Dual         Primal    Dual     Compl     Time
+   0   4.61571168e+06 -1.88024033e+07  6.35e+01 3.45e+00  1.03e+03     9s
+   1   2.54321171e+05 -1.49927670e+07  2.84e+00 9.73e-14  7.91e+01     9s
+   2   5.90955798e+04 -3.64618928e+06  4.81e-01 2.69e-13  1.37e+01     9s
+   3   2.93713446e+04 -7.31657796e+05  7.57e-02 1.41e-13  2.26e+00     9s
+   4   1.47433531e+04 -1.80582538e+05  6.51e-03 7.11e-14  5.14e-01    10s
+   5   6.46091998e+03 -6.91618250e+04  9.01e-04 6.25e-14  1.96e-01    10s
+   6   2.49636756e+03 -1.67710747e+04  2.44e-04 8.24e-14  4.99e-02    10s
+   7   4.38021492e+02 -2.88262439e+03  8.61e-07 3.41e-14  8.59e-03    10s
+   8   3.06680658e+02 -1.34656468e+03  1.54e-08 2.84e-14  4.28e-03    10s
+   9   1.96648610e+02 -4.50698531e+02  3.10e-09 5.68e-14  1.67e-03    10s
+  10   1.49423019e+02 -1.73047604e+02  1.57e-09 2.84e-14  8.34e-04    11s
+  11   1.05843675e+02 -2.10331086e+01  5.04e-10 2.84e-14  3.28e-04    11s
+  12   8.62938161e+01  5.52218842e+01  1.44e-10 2.84e-14  8.04e-05    11s
+  13   7.99117100e+01  7.21696230e+01  4.82e-11 2.84e-14  2.00e-05    11s
+  14   7.80262244e+01  7.44818586e+01  6.91e-11 2.84e-14  9.17e-06    12s
+  15   7.70650621e+01  7.54958515e+01  1.17e-10 2.84e-14  4.06e-06    12s
+  16   7.66180550e+01  7.59163232e+01  1.75e-10 2.84e-14  1.81e-06    12s
+  17   7.64010046e+01  7.60953731e+01  6.18e-10 2.84e-14  7.90e-07    12s
+  18   7.62768574e+01  7.62075664e+01  4.12e-09 2.84e-14  1.79e-07    13s
+  19   7.62531496e+01  7.62300901e+01  2.53e-09 2.84e-14  5.96e-08    13s
+  20   7.62448942e+01  7.62417889e+01  1.05e-09 2.84e-14  8.03e-09    13s
+  21   7.62435393e+01  7.62430812e+01  4.69e-09 2.84e-14  1.18e-09    13s
+  22   7.62433030e+01  7.62432937e+01  3.55e-09 2.84e-14  2.43e-11    13s
+  23   7.62432973e+01  7.62432973e+01  4.70e-10 2.84e-14  2.57e-14    13s
+  24   7.62432973e+01  7.62432973e+01  7.11e-13 2.84e-14  2.57e-17    14s
+
+Barrier solved model in 24 iterations and 13.69 seconds (11.59 work units)
+Optimal objective 7.62432973e+01
+
+Crossover log...
+
+  111659 DPushes remaining with DInf 7.1155880e-02                14s
+       0 DPushes remaining with DInf 7.1155880e-02                14s
+
+   34534 PPushes remaining with PInf 0.0000000e+00                14s
+    9042 PPushes remaining with PInf 0.0000000e+00                15s
+       0 PPushes remaining with PInf 0.0000000e+00                16s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 1.3572224e-04     17s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   34819    7.6243297e+01   0.000000e+00   1.357222e-04     17s
+   34824    7.6243297e+01   0.000000e+00   0.000000e+00     18s
+
+Use crossover to convert LP symmetric solution to basic solution...
+Crossover log...
+
+    1720 DPushes remaining with DInf 0.0000000e+00                18s
+       0 DPushes remaining with DInf 0.0000000e+00                19s
+
+   24530 PPushes remaining with PInf 0.0000000e+00                19s
+    5396 PPushes remaining with PInf 0.0000000e+00                20s
+       0 PPushes remaining with PInf 0.0000000e+00                22s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 4.3634351e-13     22s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   60731    7.6243297e+01   0.000000e+00   0.000000e+00     24s
+
+Solved in 60731 iterations and 23.65 seconds (16.96 work units)
+Optimal objective  7.624329730e+01
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 76.24329729860492
+  Upper bound: 76.24329729860492
+  Number of objectives: 1
+  Number of constraints: 3101283
+  Number of variables: 2092826
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 2092826
+  Number of nonzeros: 7721626
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 23.673335075378418
+  Error rc: 0
+  Time: 45.639806032180786
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  143 s
+Objective function value                   76.24 M€
+Objective function value                   76.24329729860492
+Writing         cost summary results  ...  0 s
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Reading investment decisions from: ../L.Cont_Investments_per_hour/RTS24_mod2_ByStages_nc90/3.Out/oT_Result_NetworkInvestment_RTS24_mod2_ByStages_nc90.csv
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+Set parameter Username
+Set parameter TokenServer to value "SET-S-ME-LM3.luna.kuleuven.be"
+Read LP format model from file /tmp/tmpwjaxywln.pyomo.lp
+Reading time = 6.92 seconds
+x1: 3101283 rows, 2092826 columns, 7721626 nonzeros
+Set parameter QCPDual to value 1
+Set parameter LogFile to value "RTS24_mod2/openStarNet_RTS24_mod2.log"
+Set parameter Method to value 2
+Set parameter MIPFocus to value 1
+Set parameter Presolve to value 2
+Set parameter RINS to value 100
+Set parameter MIPGap to value 0.01
+Set parameter Threads to value 36
+Set parameter TimeLimit to value 259200
+Set parameter IterationLimit to value 760000000
+Gurobi Optimizer version 11.0.0 build v11.0.0rc2 (linux64 - "Rocky Linux 8.9 (Green Obsidian)")
+
+CPU model: Intel(R) Xeon(R) Gold 6240 CPU @ 2.60GHz, instruction set [SSE2|AVX|AVX2|AVX512]
+Thread count: 36 physical cores, 36 logical processors, using up to 36 threads
+
+Optimize a model with 3101283 rows, 2092826 columns and 7721626 nonzeros
+Model fingerprint: 0x60cc364d
+Coefficient statistics:
+  Matrix range     [8e-05, 3e+02]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [3e-05, 3e+00]
+  RHS range        [3e-05, 2e+01]
+Presolve removed 2593516 rows and 1187223 columns (presolve time = 5s) ...
+Presolve removed 2603329 rows and 1187223 columns
+Presolve time: 5.43s
+Presolved: 497954 rows, 915416 columns, 2219762 nonzeros
+
+Ordering time: 0.08s
+
+Barrier statistics:
+ AA' NZ     : 1.183e+06
+ Factor NZ  : 4.277e+06 (roughly 500 MB of memory)
+ Factor Ops : 5.635e+07 (less than 1 second per iteration)
+ Threads    : 36
+
+                  Objective                Residual
+Iter       Primal          Dual         Primal    Dual     Compl     Time
+   0   4.61571168e+06 -1.88024033e+07  6.35e+01 3.45e+00  1.03e+03     9s
+   1   2.54321171e+05 -1.49927670e+07  2.84e+00 9.73e-14  7.91e+01     9s
+   2   5.90955798e+04 -3.64618928e+06  4.81e-01 2.69e-13  1.37e+01     9s
+   3   2.93713446e+04 -7.31657796e+05  7.57e-02 1.41e-13  2.26e+00     9s
+   4   1.47433531e+04 -1.80582538e+05  6.51e-03 7.11e-14  5.14e-01     9s
+   5   6.46091998e+03 -6.91618250e+04  9.01e-04 6.25e-14  1.96e-01    10s
+   6   2.49636756e+03 -1.67710747e+04  2.44e-04 8.24e-14  4.99e-02    10s
+   7   4.38021492e+02 -2.88262439e+03  8.61e-07 3.41e-14  8.59e-03    10s
+   8   3.06680658e+02 -1.34656468e+03  1.54e-08 2.84e-14  4.28e-03    10s
+   9   1.96648610e+02 -4.50698531e+02  3.10e-09 5.68e-14  1.67e-03    10s
+  10   1.49423019e+02 -1.73047604e+02  1.57e-09 2.84e-14  8.34e-04    10s
+  11   1.05843675e+02 -2.10331086e+01  5.04e-10 2.84e-14  3.28e-04    11s
+  12   8.62938161e+01  5.52218842e+01  1.44e-10 2.84e-14  8.04e-05    11s
+  13   7.99117100e+01  7.21696230e+01  4.82e-11 2.84e-14  2.00e-05    11s
+  14   7.80262244e+01  7.44818586e+01  6.91e-11 2.84e-14  9.17e-06    11s
+  15   7.70650621e+01  7.54958515e+01  1.17e-10 2.84e-14  4.06e-06    11s
+  16   7.66180550e+01  7.59163232e+01  1.75e-10 2.84e-14  1.81e-06    12s
+  17   7.64010046e+01  7.60953731e+01  6.18e-10 2.84e-14  7.90e-07    12s
+  18   7.62768574e+01  7.62075664e+01  4.12e-09 2.84e-14  1.79e-07    12s
+  19   7.62531496e+01  7.62300901e+01  2.53e-09 2.84e-14  5.96e-08    12s
+  20   7.62448942e+01  7.62417889e+01  1.05e-09 2.84e-14  8.03e-09    12s
+  21   7.62435393e+01  7.62430812e+01  4.69e-09 2.84e-14  1.18e-09    12s
+  22   7.62433030e+01  7.62432937e+01  3.55e-09 2.84e-14  2.43e-11    13s
+  23   7.62432973e+01  7.62432973e+01  4.70e-10 2.84e-14  2.57e-14    13s
+  24   7.62432973e+01  7.62432973e+01  7.11e-13 2.84e-14  2.57e-17    13s
+
+Barrier solved model in 24 iterations and 13.01 seconds (11.59 work units)
+Optimal objective 7.62432973e+01
+
+Crossover log...
+
+  111659 DPushes remaining with DInf 7.1155880e-02                13s
+       0 DPushes remaining with DInf 7.1155880e-02                14s
+
+   34534 PPushes remaining with PInf 0.0000000e+00                14s
+    2828 PPushes remaining with PInf 0.0000000e+00                15s
+       0 PPushes remaining with PInf 0.0000000e+00                16s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 1.3572224e-04     16s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   34819    7.6243297e+01   0.000000e+00   1.357222e-04     16s
+   34824    7.6243297e+01   0.000000e+00   0.000000e+00     17s
+
+Use crossover to convert LP symmetric solution to basic solution...
+Crossover log...
+
+    1720 DPushes remaining with DInf 0.0000000e+00                17s
+       0 DPushes remaining with DInf 0.0000000e+00                18s
+
+   24530 PPushes remaining with PInf 0.0000000e+00                18s
+     127 PPushes remaining with PInf 0.0000000e+00                20s
+       0 PPushes remaining with PInf 0.0000000e+00                21s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 4.3634351e-13     21s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   60731    7.6243297e+01   0.000000e+00   0.000000e+00     23s
+
+Solved in 60731 iterations and 22.79 seconds (16.96 work units)
+Optimal objective  7.624329730e+01
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 76.24329729860492
+  Upper bound: 76.24329729860492
+  Number of objectives: 1
+  Number of constraints: 3101283
+  Number of variables: 2092826
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 2092826
+  Number of nonzeros: 7721626
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 22.818380117416382
+  Error rc: 0
+  Time: 44.864988803863525
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  132 s
+Objective function value                   76.24 M€
+Objective function value                   76.24329729860492
+Writing         cost summary results  ...  0 s
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Reading investment decisions from: ../L.Cont_Investments_per_hour/RTS24_mod2_ByStages_nc100/3.Out/oT_Result_NetworkInvestment_RTS24_mod2_ByStages_nc100.csv
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+Set parameter Username
+Set parameter TokenServer to value "SET-S-ME-LM3.luna.kuleuven.be"
+Read LP format model from file /tmp/tmpb7l7_7l9.pyomo.lp
+Reading time = 6.96 seconds
+x1: 3101283 rows, 2092826 columns, 7721626 nonzeros
+Set parameter QCPDual to value 1
+Set parameter LogFile to value "RTS24_mod2/openStarNet_RTS24_mod2.log"
+Set parameter Method to value 2
+Set parameter MIPFocus to value 1
+Set parameter Presolve to value 2
+Set parameter RINS to value 100
+Set parameter MIPGap to value 0.01
+Set parameter Threads to value 36
+Set parameter TimeLimit to value 259200
+Set parameter IterationLimit to value 760000000
+Gurobi Optimizer version 11.0.0 build v11.0.0rc2 (linux64 - "Rocky Linux 8.9 (Green Obsidian)")
+
+CPU model: Intel(R) Xeon(R) Gold 6240 CPU @ 2.60GHz, instruction set [SSE2|AVX|AVX2|AVX512]
+Thread count: 36 physical cores, 36 logical processors, using up to 36 threads
+
+Optimize a model with 3101283 rows, 2092826 columns and 7721626 nonzeros
+Model fingerprint: 0x60f902f4
+Coefficient statistics:
+  Matrix range     [8e-05, 3e+02]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [3e-05, 3e+00]
+  RHS range        [3e-05, 2e+01]
+Presolve removed 2593852 rows and 1187646 columns (presolve time = 5s) ...
+Presolve removed 2603715 rows and 1187646 columns
+Presolve time: 5.38s
+Presolved: 497568 rows, 915043 columns, 2216991 nonzeros
+
+Ordering time: 0.08s
+
+Barrier statistics:
+ AA' NZ     : 1.181e+06
+ Factor NZ  : 4.276e+06 (roughly 500 MB of memory)
+ Factor Ops : 5.637e+07 (less than 1 second per iteration)
+ Threads    : 36
+
+                  Objective                Residual
+Iter       Primal          Dual         Primal    Dual     Compl     Time
+   0   6.92764073e+06 -2.44890726e+07  9.44e+01 1.66e+00  9.75e+02     8s
+   1   4.10528287e+05 -2.12039470e+07  4.70e+00 6.64e-14  7.18e+01     9s
+   2   7.40457391e+04 -6.64411676e+06  6.65e-01 4.12e-13  1.29e+01     9s
+   3   3.43035809e+04 -1.81880744e+06  1.29e-01 9.41e-14  2.86e+00     9s
+   4   2.08948540e+04 -3.74004800e+05  1.18e-02 6.44e-14  5.26e-01     9s
+   5   1.02102851e+04 -1.29849503e+05  1.24e-03 4.68e-14  1.82e-01    10s
+   6   4.50338942e+03 -2.04123994e+04  3.25e-04 3.84e-14  3.23e-02    10s
+   7   6.54509658e+02 -3.29137379e+03  1.67e-05 3.12e-14  5.10e-03    10s
+   8   3.61359056e+02 -1.52912768e+03  1.43e-06 1.84e-14  2.45e-03    10s
+   9   2.40223096e+02 -7.61252778e+02  2.11e-07 1.42e-14  1.30e-03    10s
+  10   1.76490630e+02 -3.72502758e+02  9.59e-08 1.42e-14  7.10e-04    10s
+  11   1.21198365e+02 -1.00808189e+02  3.14e-08 1.42e-14  2.87e-04    11s
+  12   9.21763988e+01  3.72117604e+01  8.82e-09 1.42e-14  7.11e-05    11s
+  13   8.22097787e+01  6.61588609e+01  2.94e-09 1.42e-14  2.08e-05    11s
+  14   7.88574858e+01  7.21806492e+01  1.23e-09 1.42e-14  8.64e-06    11s
+  15   7.75711892e+01  7.45181019e+01  5.95e-10 1.42e-14  3.95e-06    11s
+  16   7.69048822e+01  7.55213403e+01  5.40e-10 1.42e-14  1.79e-06    11s
+  17   7.65529791e+01  7.59366858e+01  7.87e-10 1.42e-14  7.97e-07    12s
+  18   7.63571718e+01  7.61788081e+01  1.60e-09 1.42e-14  2.31e-07    12s
+  19   7.63158199e+01  7.62444246e+01  4.13e-09 1.42e-14  9.24e-08    12s
+  20   7.62970519e+01  7.62874918e+01  1.77e-09 1.42e-14  1.24e-08    12s
+  21   7.62940724e+01  7.62925294e+01  1.44e-09 1.42e-14  2.00e-09    12s
+  22   7.62935591e+01  7.62935006e+01  1.26e-09 1.42e-14  7.57e-11    13s
+  23   7.62935321e+01  7.62935308e+01  3.95e-10 2.13e-14  1.65e-12    13s
+  24   7.62935315e+01  7.62935315e+01  4.58e-10 1.42e-14  1.65e-15    13s
+
+Barrier solved model in 24 iterations and 13.00 seconds (11.56 work units)
+Optimal objective 7.62935315e+01
+
+Crossover log...
+
+  111372 DPushes remaining with DInf 2.7717729e-02                13s
+       0 DPushes remaining with DInf 2.7717729e-02                14s
+
+   39872 PPushes remaining with PInf 0.0000000e+00                14s
+    3292 PPushes remaining with PInf 0.0000000e+00                15s
+       0 PPushes remaining with PInf 0.0000000e+00                16s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 8.1099907e-05     16s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   40156    7.6293532e+01   0.000000e+00   8.109991e-05     16s
+   40162    7.6293532e+01   0.000000e+00   0.000000e+00     17s
+
+Use crossover to convert LP symmetric solution to basic solution...
+Crossover log...
+
+    1196 DPushes remaining with DInf 0.0000000e+00                17s
+       0 DPushes remaining with DInf 0.0000000e+00                18s
+
+   23795 PPushes remaining with PInf 0.0000000e+00                18s
+     104 PPushes remaining with PInf 0.0000000e+00                20s
+       0 PPushes remaining with PInf 0.0000000e+00                21s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 3.6831807e-13     21s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   64990    7.6293532e+01   0.000000e+00   0.000000e+00     23s
+
+Solved in 64990 iterations and 22.67 seconds (16.90 work units)
+Optimal objective  7.629353152e+01
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 76.29353151767313
+  Upper bound: 76.29353151767313
+  Number of objectives: 1
+  Number of constraints: 3101283
+  Number of variables: 2092826
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 2092826
+  Number of nonzeros: 7721626
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 22.696151971817017
+  Error rc: 0
+  Time: 44.27374243736267
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  141 s
+Objective function value                   76.29 M€
+Objective function value                   76.29353151767313
+Writing         cost summary results  ...  0 s
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Reading investment decisions from: ../L.Cont_Investments_per_hour/RTS24_mod2_ByStages_nc150/3.Out/oT_Result_NetworkInvestment_RTS24_mod2_ByStages_nc150.csv
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+Set parameter Username
+Set parameter TokenServer to value "SET-S-ME-LM3.luna.kuleuven.be"
+Read LP format model from file /tmp/tmp0nitqsc_.pyomo.lp
+Reading time = 7.05 seconds
+x1: 3101283 rows, 2092826 columns, 7721626 nonzeros
+Set parameter QCPDual to value 1
+Set parameter LogFile to value "RTS24_mod2/openStarNet_RTS24_mod2.log"
+Set parameter Method to value 2
+Set parameter MIPFocus to value 1
+Set parameter Presolve to value 2
+Set parameter RINS to value 100
+Set parameter MIPGap to value 0.01
+Set parameter Threads to value 36
+Set parameter TimeLimit to value 259200
+Set parameter IterationLimit to value 760000000
+Gurobi Optimizer version 11.0.0 build v11.0.0rc2 (linux64 - "Rocky Linux 8.9 (Green Obsidian)")
+
+CPU model: Intel(R) Xeon(R) Gold 6240 CPU @ 2.60GHz, instruction set [SSE2|AVX|AVX2|AVX512]
+Thread count: 36 physical cores, 36 logical processors, using up to 36 threads
+
+Optimize a model with 3101283 rows, 2092826 columns and 7721626 nonzeros
+Model fingerprint: 0x60cc364d
+Coefficient statistics:
+  Matrix range     [8e-05, 3e+02]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [3e-05, 3e+00]
+  RHS range        [3e-05, 2e+01]
+Presolve removed 2593516 rows and 1187223 columns (presolve time = 5s) ...
+Presolve removed 2603329 rows and 1187223 columns
+Presolve time: 5.46s
+Presolved: 497954 rows, 915416 columns, 2219762 nonzeros
+
+Ordering time: 0.08s
+
+Barrier statistics:
+ AA' NZ     : 1.183e+06
+ Factor NZ  : 4.277e+06 (roughly 500 MB of memory)
+ Factor Ops : 5.635e+07 (less than 1 second per iteration)
+ Threads    : 36
+
+                  Objective                Residual
+Iter       Primal          Dual         Primal    Dual     Compl     Time
+   0   4.61571168e+06 -1.88024033e+07  6.35e+01 3.45e+00  1.03e+03     9s
+   1   2.54321171e+05 -1.49927670e+07  2.84e+00 9.73e-14  7.91e+01     9s
+   2   5.90955798e+04 -3.64618928e+06  4.81e-01 2.69e-13  1.37e+01     9s
+   3   2.93713446e+04 -7.31657796e+05  7.57e-02 1.41e-13  2.26e+00     9s
+   4   1.47433531e+04 -1.80582538e+05  6.51e-03 7.11e-14  5.14e-01     9s
+   5   6.46091998e+03 -6.91618250e+04  9.01e-04 6.25e-14  1.96e-01     9s
+   6   2.49636756e+03 -1.67710747e+04  2.44e-04 8.24e-14  4.99e-02    10s
+   7   4.38021492e+02 -2.88262439e+03  8.61e-07 3.41e-14  8.59e-03    10s
+   8   3.06680658e+02 -1.34656468e+03  1.54e-08 2.84e-14  4.28e-03    10s
+   9   1.96648610e+02 -4.50698531e+02  3.10e-09 5.68e-14  1.67e-03    10s
+  10   1.49423019e+02 -1.73047604e+02  1.57e-09 2.84e-14  8.34e-04    10s
+  11   1.05843675e+02 -2.10331086e+01  5.04e-10 2.84e-14  3.28e-04    10s
+  12   8.62938161e+01  5.52218842e+01  1.44e-10 2.84e-14  8.04e-05    11s
+  13   7.99117100e+01  7.21696230e+01  4.82e-11 2.84e-14  2.00e-05    11s
+  14   7.80262244e+01  7.44818586e+01  6.91e-11 2.84e-14  9.17e-06    11s
+  15   7.70650621e+01  7.54958515e+01  1.17e-10 2.84e-14  4.06e-06    11s
+  16   7.66180550e+01  7.59163232e+01  1.75e-10 2.84e-14  1.81e-06    11s
+  17   7.64010046e+01  7.60953731e+01  6.18e-10 2.84e-14  7.90e-07    11s
+  18   7.62768574e+01  7.62075664e+01  4.12e-09 2.84e-14  1.79e-07    12s
+  19   7.62531496e+01  7.62300901e+01  2.53e-09 2.84e-14  5.96e-08    12s
+  20   7.62448942e+01  7.62417889e+01  1.05e-09 2.84e-14  8.03e-09    12s
+  21   7.62435393e+01  7.62430812e+01  4.69e-09 2.84e-14  1.18e-09    12s
+  22   7.62433030e+01  7.62432937e+01  3.55e-09 2.84e-14  2.43e-11    12s
+  23   7.62432973e+01  7.62432973e+01  4.70e-10 2.84e-14  2.57e-14    13s
+  24   7.62432973e+01  7.62432973e+01  7.11e-13 2.84e-14  2.57e-17    13s
+
+Barrier solved model in 24 iterations and 12.73 seconds (11.59 work units)
+Optimal objective 7.62432973e+01
+
+Crossover log...
+
+  111659 DPushes remaining with DInf 7.1155880e-02                13s
+       0 DPushes remaining with DInf 7.1155880e-02                13s
+
+   34534 PPushes remaining with PInf 0.0000000e+00                13s
+     259 PPushes remaining with PInf 0.0000000e+00                15s
+       0 PPushes remaining with PInf 0.0000000e+00                15s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 1.3572224e-04     15s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   34819    7.6243297e+01   0.000000e+00   1.357222e-04     16s
+   34824    7.6243297e+01   0.000000e+00   0.000000e+00     16s
+
+Use crossover to convert LP symmetric solution to basic solution...
+Crossover log...
+
+    1720 DPushes remaining with DInf 0.0000000e+00                17s
+       0 DPushes remaining with DInf 0.0000000e+00                18s
+
+   24530 PPushes remaining with PInf 0.0000000e+00                18s
+      47 PPushes remaining with PInf 0.0000000e+00                20s
+       0 PPushes remaining with PInf 0.0000000e+00                20s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 4.3634351e-13     20s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   60731    7.6243297e+01   0.000000e+00   0.000000e+00     22s
+
+Solved in 60731 iterations and 22.43 seconds (16.96 work units)
+Optimal objective  7.624329730e+01
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 76.24329729860492
+  Upper bound: 76.24329729860492
+  Number of objectives: 1
+  Number of constraints: 3101283
+  Number of variables: 2092826
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 2092826
+  Number of nonzeros: 7721626
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 22.454734802246094
+  Error rc: 0
+  Time: 44.46041536331177
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  144 s
+Objective function value                   76.24 M€
+Objective function value                   76.24329729860492
+Writing         cost summary results  ...  0 s
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Reading investment decisions from: ../L.Cont_Investments_per_hour/RTS24_mod2_ByStages_nc200/3.Out/oT_Result_NetworkInvestment_RTS24_mod2_ByStages_nc200.csv
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+Set parameter Username
+Set parameter TokenServer to value "SET-S-ME-LM3.luna.kuleuven.be"
+Read LP format model from file /tmp/tmp40pxx2iy.pyomo.lp
+Reading time = 6.89 seconds
+x1: 3101283 rows, 2092826 columns, 7721626 nonzeros
+Set parameter QCPDual to value 1
+Set parameter LogFile to value "RTS24_mod2/openStarNet_RTS24_mod2.log"
+Set parameter Method to value 2
+Set parameter MIPFocus to value 1
+Set parameter Presolve to value 2
+Set parameter RINS to value 100
+Set parameter MIPGap to value 0.01
+Set parameter Threads to value 36
+Set parameter TimeLimit to value 259200
+Set parameter IterationLimit to value 760000000
+Gurobi Optimizer version 11.0.0 build v11.0.0rc2 (linux64 - "Rocky Linux 8.9 (Green Obsidian)")
+
+CPU model: Intel(R) Xeon(R) Gold 6240 CPU @ 2.60GHz, instruction set [SSE2|AVX|AVX2|AVX512]
+Thread count: 36 physical cores, 36 logical processors, using up to 36 threads
+
+Optimize a model with 3101283 rows, 2092826 columns and 7721626 nonzeros
+Model fingerprint: 0x60cc364d
+Coefficient statistics:
+  Matrix range     [8e-05, 3e+02]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [3e-05, 3e+00]
+  RHS range        [3e-05, 2e+01]
+Presolve removed 2593516 rows and 1187223 columns (presolve time = 5s) ...
+Presolve removed 2603329 rows and 1187223 columns
+Presolve time: 5.40s
+Presolved: 497954 rows, 915416 columns, 2219762 nonzeros
+
+Ordering time: 0.08s
+
+Barrier statistics:
+ AA' NZ     : 1.183e+06
+ Factor NZ  : 4.277e+06 (roughly 500 MB of memory)
+ Factor Ops : 5.635e+07 (less than 1 second per iteration)
+ Threads    : 36
+
+                  Objective                Residual
+Iter       Primal          Dual         Primal    Dual     Compl     Time
+   0   4.61571168e+06 -1.88024033e+07  6.35e+01 3.45e+00  1.03e+03     9s
+   1   2.54321171e+05 -1.49927670e+07  2.84e+00 9.73e-14  7.91e+01     9s
+   2   5.90955798e+04 -3.64618928e+06  4.81e-01 2.69e-13  1.37e+01     9s
+   3   2.93713446e+04 -7.31657796e+05  7.57e-02 1.41e-13  2.26e+00    10s
+   4   1.47433531e+04 -1.80582538e+05  6.51e-03 7.11e-14  5.14e-01    10s
+   5   6.46091998e+03 -6.91618250e+04  9.01e-04 6.25e-14  1.96e-01    10s
+   6   2.49636756e+03 -1.67710747e+04  2.44e-04 8.24e-14  4.99e-02    10s
+   7   4.38021492e+02 -2.88262439e+03  8.61e-07 3.41e-14  8.59e-03    10s
+   8   3.06680658e+02 -1.34656468e+03  1.54e-08 2.84e-14  4.28e-03    10s
+   9   1.96648610e+02 -4.50698531e+02  3.10e-09 5.68e-14  1.67e-03    11s
+  10   1.49423019e+02 -1.73047604e+02  1.57e-09 2.84e-14  8.34e-04    11s
+  11   1.05843675e+02 -2.10331086e+01  5.04e-10 2.84e-14  3.28e-04    11s
+  12   8.62938161e+01  5.52218842e+01  1.44e-10 2.84e-14  8.04e-05    11s
+  13   7.99117100e+01  7.21696230e+01  4.82e-11 2.84e-14  2.00e-05    11s
+  14   7.80262244e+01  7.44818586e+01  6.91e-11 2.84e-14  9.17e-06    12s
+  15   7.70650621e+01  7.54958515e+01  1.17e-10 2.84e-14  4.06e-06    12s
+  16   7.66180550e+01  7.59163232e+01  1.75e-10 2.84e-14  1.81e-06    12s
+  17   7.64010046e+01  7.60953731e+01  6.18e-10 2.84e-14  7.90e-07    12s
+  18   7.62768574e+01  7.62075664e+01  4.12e-09 2.84e-14  1.79e-07    12s
+  19   7.62531496e+01  7.62300901e+01  2.53e-09 2.84e-14  5.96e-08    12s
+  20   7.62448942e+01  7.62417889e+01  1.05e-09 2.84e-14  8.03e-09    13s
+  21   7.62435393e+01  7.62430812e+01  4.69e-09 2.84e-14  1.18e-09    13s
+  22   7.62433030e+01  7.62432937e+01  3.55e-09 2.84e-14  2.43e-11    13s
+  23   7.62432973e+01  7.62432973e+01  4.70e-10 2.84e-14  2.57e-14    13s
+  24   7.62432973e+01  7.62432973e+01  7.11e-13 2.84e-14  2.57e-17    13s
+
+Barrier solved model in 24 iterations and 13.38 seconds (11.59 work units)
+Optimal objective 7.62432973e+01
+
+Crossover log...
+
+  111659 DPushes remaining with DInf 7.1155880e-02                14s
+       0 DPushes remaining with DInf 7.1155880e-02                14s
+
+   34534 PPushes remaining with PInf 0.0000000e+00                14s
+    5884 PPushes remaining with PInf 0.0000000e+00                15s
+       0 PPushes remaining with PInf 0.0000000e+00                16s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 1.3572224e-04     16s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   34819    7.6243297e+01   0.000000e+00   1.357222e-04     16s
+   34824    7.6243297e+01   0.000000e+00   0.000000e+00     17s
+
+Use crossover to convert LP symmetric solution to basic solution...
+Crossover log...
+
+    1720 DPushes remaining with DInf 0.0000000e+00                18s
+       0 DPushes remaining with DInf 0.0000000e+00                18s
+
+   24530 PPushes remaining with PInf 0.0000000e+00                19s
+    2471 PPushes remaining with PInf 0.0000000e+00                20s
+       0 PPushes remaining with PInf 0.0000000e+00                21s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 4.3634351e-13     21s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   60731    7.6243297e+01   0.000000e+00   0.000000e+00     23s
+
+Solved in 60731 iterations and 23.18 seconds (16.96 work units)
+Optimal objective  7.624329730e+01
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 76.24329729860492
+  Upper bound: 76.24329729860492
+  Number of objectives: 1
+  Number of constraints: 3101283
+  Number of variables: 2092826
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 2092826
+  Number of nonzeros: 7721626
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 23.205540895462036
+  Error rc: 0
+  Time: 44.79509925842285
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  134 s
+Objective function value                   76.24 M€
+Objective function value                   76.24329729860492
+Writing         cost summary results  ...  0 s
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Reading investment decisions from: ../L.Cont_Investments_per_hour/RTS24_mod2_ByStages_nc250/3.Out/oT_Result_NetworkInvestment_RTS24_mod2_ByStages_nc250.csv
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+Set parameter Username
+Set parameter TokenServer to value "SET-S-ME-LM3.luna.kuleuven.be"
+Read LP format model from file /tmp/tmptm0lfs2g.pyomo.lp
+Reading time = 6.92 seconds
+x1: 3101283 rows, 2092826 columns, 7721626 nonzeros
+Set parameter QCPDual to value 1
+Set parameter LogFile to value "RTS24_mod2/openStarNet_RTS24_mod2.log"
+Set parameter Method to value 2
+Set parameter MIPFocus to value 1
+Set parameter Presolve to value 2
+Set parameter RINS to value 100
+Set parameter MIPGap to value 0.01
+Set parameter Threads to value 36
+Set parameter TimeLimit to value 259200
+Set parameter IterationLimit to value 760000000
+Gurobi Optimizer version 11.0.0 build v11.0.0rc2 (linux64 - "Rocky Linux 8.9 (Green Obsidian)")
+
+CPU model: Intel(R) Xeon(R) Gold 6240 CPU @ 2.60GHz, instruction set [SSE2|AVX|AVX2|AVX512]
+Thread count: 36 physical cores, 36 logical processors, using up to 36 threads
+
+Optimize a model with 3101283 rows, 2092826 columns and 7721626 nonzeros
+Model fingerprint: 0x60cc364d
+Coefficient statistics:
+  Matrix range     [8e-05, 3e+02]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [3e-05, 3e+00]
+  RHS range        [3e-05, 2e+01]
+Presolve removed 2593516 rows and 1187223 columns (presolve time = 5s) ...
+Presolve removed 2603329 rows and 1187223 columns
+Presolve time: 5.52s
+Presolved: 497954 rows, 915416 columns, 2219762 nonzeros
+
+Ordering time: 0.08s
+
+Barrier statistics:
+ AA' NZ     : 1.183e+06
+ Factor NZ  : 4.277e+06 (roughly 500 MB of memory)
+ Factor Ops : 5.635e+07 (less than 1 second per iteration)
+ Threads    : 36
+
+                  Objective                Residual
+Iter       Primal          Dual         Primal    Dual     Compl     Time
+   0   4.61571168e+06 -1.88024033e+07  6.35e+01 3.45e+00  1.03e+03     9s
+   1   2.54321171e+05 -1.49927670e+07  2.84e+00 9.73e-14  7.91e+01     9s
+   2   5.90955798e+04 -3.64618928e+06  4.81e-01 2.69e-13  1.37e+01     9s
+   3   2.93713446e+04 -7.31657796e+05  7.57e-02 1.41e-13  2.26e+00     9s
+   4   1.47433531e+04 -1.80582538e+05  6.51e-03 7.11e-14  5.14e-01     9s
+   5   6.46091998e+03 -6.91618250e+04  9.01e-04 6.25e-14  1.96e-01     9s
+   6   2.49636756e+03 -1.67710747e+04  2.44e-04 8.24e-14  4.99e-02    10s
+   7   4.38021492e+02 -2.88262439e+03  8.61e-07 3.41e-14  8.59e-03    10s
+   8   3.06680658e+02 -1.34656468e+03  1.54e-08 2.84e-14  4.28e-03    10s
+   9   1.96648610e+02 -4.50698531e+02  3.10e-09 5.68e-14  1.67e-03    10s
+  10   1.49423019e+02 -1.73047604e+02  1.57e-09 2.84e-14  8.34e-04    10s
+  11   1.05843675e+02 -2.10331086e+01  5.04e-10 2.84e-14  3.28e-04    10s
+  12   8.62938161e+01  5.52218842e+01  1.44e-10 2.84e-14  8.04e-05    11s
+  13   7.99117100e+01  7.21696230e+01  4.82e-11 2.84e-14  2.00e-05    11s
+  14   7.80262244e+01  7.44818586e+01  6.91e-11 2.84e-14  9.17e-06    11s
+  15   7.70650621e+01  7.54958515e+01  1.17e-10 2.84e-14  4.06e-06    11s
+  16   7.66180550e+01  7.59163232e+01  1.75e-10 2.84e-14  1.81e-06    11s
+  17   7.64010046e+01  7.60953731e+01  6.18e-10 2.84e-14  7.90e-07    11s
+  18   7.62768574e+01  7.62075664e+01  4.12e-09 2.84e-14  1.79e-07    12s
+  19   7.62531496e+01  7.62300901e+01  2.53e-09 2.84e-14  5.96e-08    12s
+  20   7.62448942e+01  7.62417889e+01  1.05e-09 2.84e-14  8.03e-09    12s
+  21   7.62435393e+01  7.62430812e+01  4.69e-09 2.84e-14  1.18e-09    12s
+  22   7.62433030e+01  7.62432937e+01  3.55e-09 2.84e-14  2.43e-11    12s
+  23   7.62432973e+01  7.62432973e+01  4.70e-10 2.84e-14  2.57e-14    13s
+  24   7.62432973e+01  7.62432973e+01  7.11e-13 2.84e-14  2.57e-17    13s
+
+Barrier solved model in 24 iterations and 12.75 seconds (11.59 work units)
+Optimal objective 7.62432973e+01
+
+Crossover log...
+
+  111659 DPushes remaining with DInf 7.1155880e-02                13s
+       0 DPushes remaining with DInf 7.1155880e-02                13s
+
+   34534 PPushes remaining with PInf 0.0000000e+00                13s
+     259 PPushes remaining with PInf 0.0000000e+00                15s
+       0 PPushes remaining with PInf 0.0000000e+00                15s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 1.3572224e-04     15s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   34819    7.6243297e+01   0.000000e+00   1.357222e-04     16s
+   34824    7.6243297e+01   0.000000e+00   0.000000e+00     16s
+
+Use crossover to convert LP symmetric solution to basic solution...
+Crossover log...
+
+    1720 DPushes remaining with DInf 0.0000000e+00                17s
+       0 DPushes remaining with DInf 0.0000000e+00                18s
+
+   24530 PPushes remaining with PInf 0.0000000e+00                18s
+      47 PPushes remaining with PInf 0.0000000e+00                20s
+       0 PPushes remaining with PInf 0.0000000e+00                20s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 4.3634351e-13     20s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   60731    7.6243297e+01   0.000000e+00   0.000000e+00     22s
+
+Solved in 60731 iterations and 22.43 seconds (16.96 work units)
+Optimal objective  7.624329730e+01
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 76.24329729860492
+  Upper bound: 76.24329729860492
+  Number of objectives: 1
+  Number of constraints: 3101283
+  Number of variables: 2092826
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 2092826
+  Number of nonzeros: 7721626
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 22.45808506011963
+  Error rc: 0
+  Time: 43.949278831481934
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  139 s
+Objective function value                   76.24 M€
+Objective function value                   76.24329729860492
+Writing         cost summary results  ...  0 s
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Reading investment decisions from: ../L.Cont_Investments_per_hour/RTS24_mod2_ByStages_nc300/3.Out/oT_Result_NetworkInvestment_RTS24_mod2_ByStages_nc300.csv
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+Set parameter Username
+Set parameter TokenServer to value "SET-S-ME-LM3.luna.kuleuven.be"
+Read LP format model from file /tmp/tmpob4iq0kr.pyomo.lp
+Reading time = 7.14 seconds
+x1: 3101283 rows, 2092826 columns, 7721626 nonzeros
+Set parameter QCPDual to value 1
+Set parameter LogFile to value "RTS24_mod2/openStarNet_RTS24_mod2.log"
+Set parameter Method to value 2
+Set parameter MIPFocus to value 1
+Set parameter Presolve to value 2
+Set parameter RINS to value 100
+Set parameter MIPGap to value 0.01
+Set parameter Threads to value 36
+Set parameter TimeLimit to value 259200
+Set parameter IterationLimit to value 760000000
+Gurobi Optimizer version 11.0.0 build v11.0.0rc2 (linux64 - "Rocky Linux 8.9 (Green Obsidian)")
+
+CPU model: Intel(R) Xeon(R) Gold 6240 CPU @ 2.60GHz, instruction set [SSE2|AVX|AVX2|AVX512]
+Thread count: 36 physical cores, 36 logical processors, using up to 36 threads
+
+Optimize a model with 3101283 rows, 2092826 columns and 7721626 nonzeros
+Model fingerprint: 0x60cc364d
+Coefficient statistics:
+  Matrix range     [8e-05, 3e+02]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [3e-05, 3e+00]
+  RHS range        [3e-05, 2e+01]
+Presolve removed 2593516 rows and 1187223 columns (presolve time = 5s) ...
+Presolve removed 2603329 rows and 1187223 columns
+Presolve time: 5.51s
+Presolved: 497954 rows, 915416 columns, 2219762 nonzeros
+
+Ordering time: 0.08s
+
+Barrier statistics:
+ AA' NZ     : 1.183e+06
+ Factor NZ  : 4.277e+06 (roughly 500 MB of memory)
+ Factor Ops : 5.635e+07 (less than 1 second per iteration)
+ Threads    : 36
+
+                  Objective                Residual
+Iter       Primal          Dual         Primal    Dual     Compl     Time
+   0   4.61571168e+06 -1.88024033e+07  6.35e+01 3.45e+00  1.03e+03     9s
+   1   2.54321171e+05 -1.49927670e+07  2.84e+00 9.73e-14  7.91e+01     9s
+   2   5.90955798e+04 -3.64618928e+06  4.81e-01 2.69e-13  1.37e+01     9s
+   3   2.93713446e+04 -7.31657796e+05  7.57e-02 1.41e-13  2.26e+00     9s
+   4   1.47433531e+04 -1.80582538e+05  6.51e-03 7.11e-14  5.14e-01     9s
+   5   6.46091998e+03 -6.91618250e+04  9.01e-04 6.25e-14  1.96e-01    10s
+   6   2.49636756e+03 -1.67710747e+04  2.44e-04 8.24e-14  4.99e-02    10s
+   7   4.38021492e+02 -2.88262439e+03  8.61e-07 3.41e-14  8.59e-03    10s
+   8   3.06680658e+02 -1.34656468e+03  1.54e-08 2.84e-14  4.28e-03    10s
+   9   1.96648610e+02 -4.50698531e+02  3.10e-09 5.68e-14  1.67e-03    10s
+  10   1.49423019e+02 -1.73047604e+02  1.57e-09 2.84e-14  8.34e-04    10s
+  11   1.05843675e+02 -2.10331086e+01  5.04e-10 2.84e-14  3.28e-04    11s
+  12   8.62938161e+01  5.52218842e+01  1.44e-10 2.84e-14  8.04e-05    11s
+  13   7.99117100e+01  7.21696230e+01  4.82e-11 2.84e-14  2.00e-05    11s
+  14   7.80262244e+01  7.44818586e+01  6.91e-11 2.84e-14  9.17e-06    11s
+  15   7.70650621e+01  7.54958515e+01  1.17e-10 2.84e-14  4.06e-06    11s
+  16   7.66180550e+01  7.59163232e+01  1.75e-10 2.84e-14  1.81e-06    11s
+  17   7.64010046e+01  7.60953731e+01  6.18e-10 2.84e-14  7.90e-07    12s
+  18   7.62768574e+01  7.62075664e+01  4.12e-09 2.84e-14  1.79e-07    12s
+  19   7.62531496e+01  7.62300901e+01  2.53e-09 2.84e-14  5.96e-08    12s
+  20   7.62448942e+01  7.62417889e+01  1.05e-09 2.84e-14  8.03e-09    12s
+  21   7.62435393e+01  7.62430812e+01  4.69e-09 2.84e-14  1.18e-09    12s
+  22   7.62433030e+01  7.62432937e+01  3.55e-09 2.84e-14  2.43e-11    13s
+  23   7.62432973e+01  7.62432973e+01  4.70e-10 2.84e-14  2.57e-14    13s
+  24   7.62432973e+01  7.62432973e+01  7.11e-13 2.84e-14  2.57e-17    13s
+
+Barrier solved model in 24 iterations and 12.99 seconds (11.59 work units)
+Optimal objective 7.62432973e+01
+
+Crossover log...
+
+  111659 DPushes remaining with DInf 7.1155880e-02                13s
+       0 DPushes remaining with DInf 7.1155880e-02                14s
+
+   34534 PPushes remaining with PInf 0.0000000e+00                14s
+    2828 PPushes remaining with PInf 0.0000000e+00                15s
+       0 PPushes remaining with PInf 0.0000000e+00                16s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 1.3572224e-04     16s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   34819    7.6243297e+01   0.000000e+00   1.357222e-04     16s
+   34824    7.6243297e+01   0.000000e+00   0.000000e+00     17s
+
+Use crossover to convert LP symmetric solution to basic solution...
+Crossover log...
+
+    1720 DPushes remaining with DInf 0.0000000e+00                17s
+       0 DPushes remaining with DInf 0.0000000e+00                18s
+
+   24530 PPushes remaining with PInf 0.0000000e+00                18s
+     127 PPushes remaining with PInf 0.0000000e+00                20s
+       0 PPushes remaining with PInf 0.0000000e+00                21s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 4.3634351e-13     21s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   60731    7.6243297e+01   0.000000e+00   0.000000e+00     23s
+
+Solved in 60731 iterations and 22.73 seconds (16.96 work units)
+Optimal objective  7.624329730e+01
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 76.24329729860492
+  Upper bound: 76.24329729860492
+  Number of objectives: 1
+  Number of constraints: 3101283
+  Number of variables: 2092826
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 2092826
+  Number of nonzeros: 7721626
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 22.7519371509552
+  Error rc: 0
+  Time: 45.1923131942749
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  141 s
+Objective function value                   76.24 M€
+Objective function value                   76.24329729860492
+Writing         cost summary results  ...  0 s
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Reading investment decisions from: ../L.Cont_Investments_per_hour/RTS24_mod2_ByStages_nc350/3.Out/oT_Result_NetworkInvestment_RTS24_mod2_ByStages_nc350.csv
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+Set parameter Username
+Set parameter TokenServer to value "SET-S-ME-LM3.luna.kuleuven.be"
+Read LP format model from file /tmp/tmpp4jwu13z.pyomo.lp
+Reading time = 6.91 seconds
+x1: 3101283 rows, 2092826 columns, 7721626 nonzeros
+Set parameter QCPDual to value 1
+Set parameter LogFile to value "RTS24_mod2/openStarNet_RTS24_mod2.log"
+Set parameter Method to value 2
+Set parameter MIPFocus to value 1
+Set parameter Presolve to value 2
+Set parameter RINS to value 100
+Set parameter MIPGap to value 0.01
+Set parameter Threads to value 36
+Set parameter TimeLimit to value 259200
+Set parameter IterationLimit to value 760000000
+Gurobi Optimizer version 11.0.0 build v11.0.0rc2 (linux64 - "Rocky Linux 8.9 (Green Obsidian)")
+
+CPU model: Intel(R) Xeon(R) Gold 6240 CPU @ 2.60GHz, instruction set [SSE2|AVX|AVX2|AVX512]
+Thread count: 36 physical cores, 36 logical processors, using up to 36 threads
+
+Optimize a model with 3101283 rows, 2092826 columns and 7721626 nonzeros
+Model fingerprint: 0x60cc364d
+Coefficient statistics:
+  Matrix range     [8e-05, 3e+02]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [3e-05, 3e+00]
+  RHS range        [3e-05, 2e+01]
+Presolve removed 2593516 rows and 1187223 columns (presolve time = 5s) ...
+Presolve removed 2603329 rows and 1187223 columns
+Presolve time: 5.40s
+Presolved: 497954 rows, 915416 columns, 2219762 nonzeros
+
+Ordering time: 0.08s
+
+Barrier statistics:
+ AA' NZ     : 1.183e+06
+ Factor NZ  : 4.277e+06 (roughly 500 MB of memory)
+ Factor Ops : 5.635e+07 (less than 1 second per iteration)
+ Threads    : 36
+
+                  Objective                Residual
+Iter       Primal          Dual         Primal    Dual     Compl     Time
+   0   4.61571168e+06 -1.88024033e+07  6.35e+01 3.45e+00  1.03e+03     9s
+   1   2.54321171e+05 -1.49927670e+07  2.84e+00 9.73e-14  7.91e+01     9s
+   2   5.90955798e+04 -3.64618928e+06  4.81e-01 2.69e-13  1.37e+01    10s
+   3   2.93713446e+04 -7.31657796e+05  7.57e-02 1.41e-13  2.26e+00    10s
+   4   1.47433531e+04 -1.80582538e+05  6.51e-03 7.11e-14  5.14e-01    10s
+   5   6.46091998e+03 -6.91618250e+04  9.01e-04 6.25e-14  1.96e-01    11s
+   6   2.49636756e+03 -1.67710747e+04  2.44e-04 8.24e-14  4.99e-02    11s
+   7   4.38021492e+02 -2.88262439e+03  8.61e-07 3.41e-14  8.59e-03    11s
+   8   3.06680658e+02 -1.34656468e+03  1.54e-08 2.84e-14  4.28e-03    11s
+   9   1.96648610e+02 -4.50698531e+02  3.10e-09 5.68e-14  1.67e-03    11s
+  10   1.49423019e+02 -1.73047604e+02  1.57e-09 2.84e-14  8.34e-04    11s
+  11   1.05843675e+02 -2.10331086e+01  5.04e-10 2.84e-14  3.28e-04    11s
+  12   8.62938161e+01  5.52218842e+01  1.44e-10 2.84e-14  8.04e-05    12s
+  13   7.99117100e+01  7.21696230e+01  4.82e-11 2.84e-14  2.00e-05    12s
+  14   7.80262244e+01  7.44818586e+01  6.91e-11 2.84e-14  9.17e-06    12s
+  15   7.70650621e+01  7.54958515e+01  1.17e-10 2.84e-14  4.06e-06    12s
+  16   7.66180550e+01  7.59163232e+01  1.75e-10 2.84e-14  1.81e-06    12s
+  17   7.64010046e+01  7.60953731e+01  6.18e-10 2.84e-14  7.90e-07    13s
+  18   7.62768574e+01  7.62075664e+01  4.12e-09 2.84e-14  1.79e-07    13s
+  19   7.62531496e+01  7.62300901e+01  2.53e-09 2.84e-14  5.96e-08    13s
+  20   7.62448942e+01  7.62417889e+01  1.05e-09 2.84e-14  8.03e-09    13s
+  21   7.62435393e+01  7.62430812e+01  4.69e-09 2.84e-14  1.18e-09    13s
+  22   7.62433030e+01  7.62432937e+01  3.55e-09 2.84e-14  2.43e-11    14s
+  23   7.62432973e+01  7.62432973e+01  4.70e-10 2.84e-14  2.57e-14    14s
+  24   7.62432973e+01  7.62432973e+01  7.11e-13 2.84e-14  2.57e-17    14s
+
+Barrier solved model in 24 iterations and 13.95 seconds (11.59 work units)
+Optimal objective 7.62432973e+01
+
+Crossover log...
+
+  111659 DPushes remaining with DInf 7.1155880e-02                14s
+       0 DPushes remaining with DInf 7.1155880e-02                15s
+
+   34534 PPushes remaining with PInf 0.0000000e+00                15s
+       0 PPushes remaining with PInf 0.0000000e+00                17s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 1.3572224e-04     17s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   34819    7.6243297e+01   0.000000e+00   1.357222e-04     18s
+   34824    7.6243297e+01   0.000000e+00   0.000000e+00     18s
+
+Use crossover to convert LP symmetric solution to basic solution...
+Crossover log...
+
+    1720 DPushes remaining with DInf 0.0000000e+00                19s
+       0 DPushes remaining with DInf 0.0000000e+00                20s
+
+   24530 PPushes remaining with PInf 0.0000000e+00                20s
+   16234 PPushes remaining with PInf 0.0000000e+00                20s
+       0 PPushes remaining with PInf 0.0000000e+00                22s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 4.3634351e-13     22s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   60731    7.6243297e+01   0.000000e+00   0.000000e+00     24s
+
+Solved in 60731 iterations and 24.35 seconds (16.96 work units)
+Optimal objective  7.624329730e+01
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 76.24329729860492
+  Upper bound: 76.24329729860492
+  Number of objectives: 1
+  Number of constraints: 3101283
+  Number of variables: 2092826
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 2092826
+  Number of nonzeros: 7721626
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 24.369184017181396
+  Error rc: 0
+  Time: 46.30589723587036
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  133 s
+Objective function value                   76.24 M€
+Objective function value                   76.24329729860492
+Writing         cost summary results  ...  0 s
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Reading investment decisions from: ../L.Cont_Investments_per_hour/RTS24_mod2_ByStages_nc400/3.Out/oT_Result_NetworkInvestment_RTS24_mod2_ByStages_nc400.csv
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+Set parameter Username
+Set parameter TokenServer to value "SET-S-ME-LM3.luna.kuleuven.be"
+Read LP format model from file /tmp/tmpq48iglng.pyomo.lp
+Reading time = 6.94 seconds
+x1: 3101283 rows, 2092826 columns, 7721626 nonzeros
+Set parameter QCPDual to value 1
+Set parameter LogFile to value "RTS24_mod2/openStarNet_RTS24_mod2.log"
+Set parameter Method to value 2
+Set parameter MIPFocus to value 1
+Set parameter Presolve to value 2
+Set parameter RINS to value 100
+Set parameter MIPGap to value 0.01
+Set parameter Threads to value 36
+Set parameter TimeLimit to value 259200
+Set parameter IterationLimit to value 760000000
+Gurobi Optimizer version 11.0.0 build v11.0.0rc2 (linux64 - "Rocky Linux 8.9 (Green Obsidian)")
+
+CPU model: Intel(R) Xeon(R) Gold 6240 CPU @ 2.60GHz, instruction set [SSE2|AVX|AVX2|AVX512]
+Thread count: 36 physical cores, 36 logical processors, using up to 36 threads
+
+Optimize a model with 3101283 rows, 2092826 columns and 7721626 nonzeros
+Model fingerprint: 0x60cc364d
+Coefficient statistics:
+  Matrix range     [8e-05, 3e+02]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [3e-05, 3e+00]
+  RHS range        [3e-05, 2e+01]
+Presolve removed 2593516 rows and 1187223 columns (presolve time = 5s) ...
+Presolve removed 2603329 rows and 1187223 columns
+Presolve time: 5.36s
+Presolved: 497954 rows, 915416 columns, 2219762 nonzeros
+
+Ordering time: 0.08s
+
+Barrier statistics:
+ AA' NZ     : 1.183e+06
+ Factor NZ  : 4.277e+06 (roughly 500 MB of memory)
+ Factor Ops : 5.635e+07 (less than 1 second per iteration)
+ Threads    : 36
+
+                  Objective                Residual
+Iter       Primal          Dual         Primal    Dual     Compl     Time
+   0   4.61571168e+06 -1.88024033e+07  6.35e+01 3.45e+00  1.03e+03     8s
+   1   2.54321171e+05 -1.49927670e+07  2.84e+00 9.73e-14  7.91e+01     9s
+   2   5.90955798e+04 -3.64618928e+06  4.81e-01 2.69e-13  1.37e+01     9s
+   3   2.93713446e+04 -7.31657796e+05  7.57e-02 1.41e-13  2.26e+00     9s
+   4   1.47433531e+04 -1.80582538e+05  6.51e-03 7.11e-14  5.14e-01     9s
+   5   6.46091998e+03 -6.91618250e+04  9.01e-04 6.25e-14  1.96e-01    10s
+   6   2.49636756e+03 -1.67710747e+04  2.44e-04 8.24e-14  4.99e-02    10s
+   7   4.38021492e+02 -2.88262439e+03  8.61e-07 3.41e-14  8.59e-03    10s
+   8   3.06680658e+02 -1.34656468e+03  1.54e-08 2.84e-14  4.28e-03    10s
+   9   1.96648610e+02 -4.50698531e+02  3.10e-09 5.68e-14  1.67e-03    10s
+  10   1.49423019e+02 -1.73047604e+02  1.57e-09 2.84e-14  8.34e-04    10s
+  11   1.05843675e+02 -2.10331086e+01  5.04e-10 2.84e-14  3.28e-04    10s
+  12   8.62938161e+01  5.52218842e+01  1.44e-10 2.84e-14  8.04e-05    11s
+  13   7.99117100e+01  7.21696230e+01  4.82e-11 2.84e-14  2.00e-05    11s
+  14   7.80262244e+01  7.44818586e+01  6.91e-11 2.84e-14  9.17e-06    11s
+  15   7.70650621e+01  7.54958515e+01  1.17e-10 2.84e-14  4.06e-06    11s
+  16   7.66180550e+01  7.59163232e+01  1.75e-10 2.84e-14  1.81e-06    11s
+  17   7.64010046e+01  7.60953731e+01  6.18e-10 2.84e-14  7.90e-07    11s
+  18   7.62768574e+01  7.62075664e+01  4.12e-09 2.84e-14  1.79e-07    12s
+  19   7.62531496e+01  7.62300901e+01  2.53e-09 2.84e-14  5.96e-08    12s
+  20   7.62448942e+01  7.62417889e+01  1.05e-09 2.84e-14  8.03e-09    12s
+  21   7.62435393e+01  7.62430812e+01  4.69e-09 2.84e-14  1.18e-09    12s
+  22   7.62433030e+01  7.62432937e+01  3.55e-09 2.84e-14  2.43e-11    12s
+  23   7.62432973e+01  7.62432973e+01  4.70e-10 2.84e-14  2.57e-14    13s
+  24   7.62432973e+01  7.62432973e+01  7.11e-13 2.84e-14  2.57e-17    13s
+
+Barrier solved model in 24 iterations and 12.79 seconds (11.59 work units)
+Optimal objective 7.62432973e+01
+
+Crossover log...
+
+  111659 DPushes remaining with DInf 7.1155880e-02                13s
+       0 DPushes remaining with DInf 7.1155880e-02                13s
+
+   34534 PPushes remaining with PInf 0.0000000e+00                13s
+     259 PPushes remaining with PInf 0.0000000e+00                15s
+       0 PPushes remaining with PInf 0.0000000e+00                15s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 1.3572224e-04     16s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   34819    7.6243297e+01   0.000000e+00   1.357222e-04     16s
+   34824    7.6243297e+01   0.000000e+00   0.000000e+00     17s
+
+Use crossover to convert LP symmetric solution to basic solution...
+Crossover log...
+
+    1720 DPushes remaining with DInf 0.0000000e+00                17s
+       0 DPushes remaining with DInf 0.0000000e+00                18s
+
+   24530 PPushes remaining with PInf 0.0000000e+00                18s
+      47 PPushes remaining with PInf 0.0000000e+00                20s
+       0 PPushes remaining with PInf 0.0000000e+00                20s
+
+  Push phase complete: Pinf 0.0000000e+00, Dinf 4.3634351e-13     20s
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+   60731    7.6243297e+01   0.000000e+00   0.000000e+00     22s
+
+Solved in 60731 iterations and 22.44 seconds (16.96 work units)
+Optimal objective  7.624329730e+01
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 76.24329729860492
+  Upper bound: 76.24329729860492
+  Number of objectives: 1
+  Number of constraints: 3101283
+  Number of variables: 2092826
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 2092826
+  Number of nonzeros: 7721626
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 22.469980001449585
+  Error rc: 0
+  Time: 44.28457236289978
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  138 s
+Objective function value                   76.24 M€
+Objective function value                   76.24329729860492
+Writing         cost summary results  ...  0 s
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
