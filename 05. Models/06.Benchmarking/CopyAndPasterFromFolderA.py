@@ -18,9 +18,10 @@ Folder_H = 'H.Representative_days_based_on_Line_Benefit_NN_OC_fy_3'
 Folder_I = 'I.Representative_days_based_on_Line_Benefit_NN_OC_fy_4'
 Folder_K = 'K.Investments_per_hour'
 Folder_L = 'L.Cont_Investments_per_hour'
+Folder_M = 'M.Random_forest'
 
-FoldersToPaste = [Folder_B, Folder_D, Folder_E, Folder_K, Folder_L]
-# FoldersToPaste = [Folder_L]
+# FoldersToPaste = [Folder_B, Folder_D, Folder_E, Folder_K, Folder_L]
+FoldersToPaste = [Folder_M]
 
 # Defining the case CaseName_ByStages plus the CaseName_ByStages_nc#
 CasesToPaste = []
