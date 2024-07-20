@@ -352,7 +352,7 @@ def main(IndOptCluster, DirName, opt_cluster, CaseName_Base):
     elif IndOptCluster == 0:
         CaseName_ByStages = CaseName_Base+'_ByStages_nc'+str(opt_cluster)
 
-    CSV_name =  'oT_Hourly_Investments_' + CaseName_Base
+    CSV_name =  'oT_FeatureSeries_' + CaseName_Base
 
     _path_0 = os.path.join(DirName, CaseName_Base)
     _path_1 = os.path.join(DirName, CaseName_ByStages)
@@ -373,7 +373,7 @@ def main(IndOptCluster, DirName, opt_cluster, CaseName_Base):
     if not os.path.exists(output_directory):
         os.makedirs(output_directory)
 
-    df_1 = pd.read_csv(_path_0+'/3.Out'+'/'+CSV_name+'.csv', index_col=0, header=[0, 1, 2, 3])
+    df_1 = pd.read_csv(_path_0+'/3.Out'+'/'+CSV_name+'.csv', index_col=0)
      # from multilevel header to single level header
     df_1.columns = ['_'.join(col) for col in df_1.columns.values]
     diff_df_1 = df_1
@@ -409,10 +409,10 @@ def main(IndOptCluster, DirName, opt_cluster, CaseName_Base):
         # Classify the values
         labels[pos_values[pos_values > pos_threshold].index] = 'Positive'
         labels[neg_values[neg_values < neg_threshold].index] = 'Negative'
-    elif IndClassify == 0:
-        # Classify the values
-        labels[pos_values[pos_values > len(diff_df_1.columns)+1].index] = 'Positive'
-        labels[neg_values[neg_values < 0].index] = 'Negative'
+    # elif IndClassify == 0:
+    #     # Classify the values
+    #     labels[pos_values[pos_values > len(diff_df_1.columns)+1].index] = 'Positive'
+    #     labels[neg_values[neg_values < 0].index] = 'Negative'
 
     # Add a new column 'Mark' to diff_df_2 and assign the labels to it
     diff_df_2 = labels
