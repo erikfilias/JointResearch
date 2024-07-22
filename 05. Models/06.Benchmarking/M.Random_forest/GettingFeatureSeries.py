@@ -46,12 +46,22 @@ Data_LineBenefit.fillna(0, inplace=True)
 print('Filling the NaN values:                                       Done, ', round(time.time()-StatTime,2), ' seconds')
 StatTime = time.time()
 
-# Normalizing of each column of each dataframe
-scaler = StandardScaler()
-Data_Demand[Data_Demand.columns] = scaler.fit_transform(Data_Demand)
-Data_VarGen[Data_VarGen.columns] = scaler.fit_transform(Data_VarGen)
-Data_OperCost[Data_OperCost.columns] = scaler.fit_transform(Data_OperCost)
-Data_LineBenefit[Data_LineBenefit.columns] = scaler.fit_transform(Data_LineBenefit)
+# Normalizing of each column of each dataframe considering their maximum value and minimum value
+def normalize_dataframe(df):
+    """
+    Normalize each column of a dataframe using the min-max normalization.
+    """
+    return (df - df.min()) / (df.max() - df.min())
+
+Data_Demand      = normalize_dataframe(Data_Demand)
+Data_VarGen      = normalize_dataframe(Data_VarGen)
+Data_OperCost    = normalize_dataframe(Data_OperCost)
+Data_LineBenefit = normalize_dataframe(Data_LineBenefit)
+# scaler = StandardScaler()
+# Data_Demand[Data_Demand.columns] = scaler.fit_transform(Data_Demand)
+# Data_VarGen[Data_VarGen.columns] = scaler.fit_transform(Data_VarGen)
+# Data_OperCost[Data_OperCost.columns] = scaler.fit_transform(Data_OperCost)
+# Data_LineBenefit[Data_LineBenefit.columns] = scaler.fit_transform(Data_LineBenefit)
 
 print('Normalizing the dataframes:                                   Done, ', round(time.time()-StatTime,2), ' seconds')
 StatTime = time.time()
