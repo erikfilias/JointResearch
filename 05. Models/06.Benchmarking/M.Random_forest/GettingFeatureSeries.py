@@ -32,7 +32,8 @@ Data_VarGen      = pd.read_csv(os.path.join(parent_path1, Folder_A, CaseName, '2
 Data_OperCost    = pd.read_csv(os.path.join(parent_path1, Folder_B, CaseName, '3.Out', f'oT_Result_GenerationCost_{CaseName}.csv'), index_col=[0,1,2])
 Data_LineBenefit = pd.read_csv(os.path.join(parent_path1, Folder_E, CaseName, '3.Out', f'oT_LineBenefit_Data_{CaseName}.csv'), index_col=[0])
 
-Data_Features    = pd.read_csv(os.path.join(parent_path2, '07.Interpretable_ML', 'FeatureImportances', f'{CaseName}.csv'), index_col=[0])
+# Data_Features    = pd.read_csv(os.path.join(parent_path2, '07.Interpretable_ML', 'FeatureImportances', f'{CaseName}.csv'), index_col=[0])
+Data_Features    = pd.read_csv(os.path.join(parent_path2, '07.Interpretable_ML', 'FeatureImportances', f'{CaseName}_NO_OPC.csv'), index_col=[0])
 
 print('Reading the csv files:                                        Done, ', round(time.time()-InitialTime,2), ' seconds')
 StatTime = time.time()
