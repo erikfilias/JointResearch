@@ -90,6 +90,11 @@ Data_reduced = Data[Data_Features_95['Name']]
 # from the three indexes of the Data_reduced dataframe, select the third one as index
 Data_reduced.index = Data_reduced.index.get_level_values(2)
 
+# multiply each column of the Data_reduced dataframe by the value of the column 'Importance' in the Data_Features_95 dataframe
+for idx, column in enumerate(Data_reduced.columns):
+    importance_value = Data_Features_95.loc[Data_Features_95['Name'] == column, 'Importance'].values[0]
+    Data_reduced.loc[:, column] = Data_reduced[column].mul(importance_value)
+
 # save the Data_reduced dataframe in a csv file
 
 Data_reduced.to_csv(os.path.join(parent_path1, Folder_M, CaseName, '3.Out', f'oT_FeatureSeries_{CaseName}.csv'), index=True)
