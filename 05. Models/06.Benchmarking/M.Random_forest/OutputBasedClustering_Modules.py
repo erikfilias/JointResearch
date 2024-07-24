@@ -15,58 +15,122 @@ from pyomo.environ      import *
 from pyomo.opt          import SolverFactory
 
 #%% Defining the clustering functions
-def KMeansMethod(OptClusters, Y_sklearn, _path_0, _path_1, CaseName_0, CaseName_1, table, data, cluster_type):
+def KMeansMethod(OptClusters, Y_sklearn, _path_0, _path_1, CaseName_0, CaseName_1, table, data, cluster_type, procedure_type):
     # Running the K-means with the optimal number of clusters. Setting up the initializer and random state.
-    kmeans_pca = KMeans(n_clusters=OptClusters, init='k-means++', random_state=42)
+    kmeans_pca = KMeans(n_clusters=OptClusters, init='k-means++', random_state=0)
     kmeans_pca.fit(Y_sklearn)
     df_segm_pca_kmeans = pd.concat([table.reset_index(drop=True), pd.DataFrame(Y_sklearn)], axis=1)
     df_segm_pca_kmeans.columns.values[-3:] = ['Component 1', 'Component 2', 'Component 3']
     df_segm_pca_kmeans['Segment K-means PCA'] = kmeans_pca.labels_
     # Storing clusters in the first table
-    table['Segment K-means PCA'] = kmeans_pca.labels_
+    table = table.copy()
+    table['Segment K-means PCA'] = 0
+    table.loc[:, 'Segment K-means PCA'] = kmeans_pca.labels_
     table = table.reset_index()
     if cluster_type == 'hourly':
-        table = table.set_index(['LoadLevel', 'Day', 'Month', 'Segment K-medoids PCA'])
+        table = table.set_index(['LoadLevel', 'Day', 'Month', 'Segment K-means PCA'])
     elif cluster_type == 'daily with hourly resolution':
-        table = table.set_index(['Day', 'Month', 'Segment K-medoids PCA'])
+        table = table.set_index(['Day', 'Month', 'Segment K-means PCA'])
     elif cluster_type == 'weekly with hourly resolution':
-        table = table.set_index(['Week', 'Segment K-medoids PCA'])
+        table = table.set_index(['Week', 'Segment K-means PCA'])
     # Stacking the table to also have the lines as index
     df = table.stack()
     df = df.reset_index()
+    data = data.set_index(['LoadLevel'])
+    #
+    LoadLevel1 = df['LoadLevel'].unique()
+    # filter rows using the LoadLevel index and the df index
+    data = data.loc[LoadLevel1]
     # Adding a new column with the cluster for each LoadLevel
-    data['Segment K-means PCA'] = np.where(data['Variable'] == df['Variable'],
-                                                    df['Segment K-means PCA'], df['Segment K-means PCA'])
+    data.reset_index(inplace=True)
+    data['Segment K-means PCA'] = np.where(data['Variable'] == df['Variable'], df['Segment K-means PCA'], df['Segment K-means PCA'])
     # Adding the duration to each LoadLevel
-    data['Duration'] = 1
-    # Renaming the cluster with respective name adopting in openTEPES project
-    data['Stage'] = data['Segment K-medoids PCA'].map(lambda x: f'st{x + 1}' if 0 <= x < 8000 else f'st{x}')
+    data['Duration'] = 0
+    # Getting only the relevant information to build the new CSV file in CaseName_ByStages
+    if procedure_type == 0:
+        data['Stage'] = data['Segment K-means PCA'].map(lambda x: f'stp{x + 1}' if 0 <= x < 8000 else f'stp{x}')
+    elif procedure_type == 1:
+        data['Stage'] = data['Segment K-means PCA'].map(lambda x: f'stn{x + 1}' if 0 <= x < 8000 else f'stn{x}')
+    elif procedure_type == 2:
+        data['Stage'] = data['Segment K-means PCA'].map(lambda x: f'sti{x + 1}' if 0 <= x < 8000 else f'sti{x}')
+    #
+    # stages = data['Stage'].unique()
+    # stages = np.sort(stages)
+    # loadlevels = data['LoadLevel'].unique()
+
+    data['HourOfYear'] = 0
+    df_split = len(df['Variable'].unique())
+    for i in data.index:
+        if i < df_split:
+            data.loc[i, 'HourOfYear'] = 0
+        else:
+            data.loc[i, 'HourOfYear'] = int(i/df_split)
+    # find the first appearance of each stage in the data
+    first_occurrences = data.groupby('Stage').first().reset_index()
+    #
+    if cluster_type == 'hourly':
+        # data duration
+        idx = first_occurrences['HourOfYear'].values
+        dfHourToStage = pd.DataFrame(idx, columns=['Hour'])
+        dfHourToStage = dfHourToStage.copy()
+        for k in dfHourToStage.index:
+            data.loc[data['HourOfYear'] == dfHourToStage['Hour'][k], 'Duration'] = 1
+    elif cluster_type == 'daily with hourly resolution':
+        idx = first_occurrences['Day'].values
+        dfDayToStage = pd.DataFrame(idx, columns=['Day'])
+        dfDayToStage = dfDayToStage + 1
+        for k in dfDayToStage.index:
+            data.loc[data['Day'] == dfDayToStage['Day'][k], 'Duration'] = 1
+    elif cluster_type == 'weekly with hourly resolution':
+        idx = first_occurrences['Week'].values
+        dfWeekToStage = pd.DataFrame(idx, columns=['Day'])
+        dfWeekToStage = dfWeekToStage + 1
+        for k in dfWeekToStage.index:
+            data.loc[data['Week'] == dfWeekToStage['Week'][k], 'Duration'] = 1
     # Getting only the relevant information to build the new CSV file in CaseName_ByStages
     data = data[
-        ['Scenario', 'Period', 'LoadLevel', 'Stage', 'InitialNode', 'FinalNode', 'Circuit', 'Value']]
+        ['LoadLevel', 'Stage', 'Execution', 'Duration', 'Value']]
     # Shaping the dataframe to be saved in CSV files
     TableToFile = pd.pivot_table(data, values='Value', index=['LoadLevel', 'Stage', 'Duration'],
-                                 columns=['InitialNode', 'FinalNode', 'Circuit'], fill_value=42)
+                                 columns=['Execution'], fill_value=0)
     TableToFile = TableToFile.reset_index()
+    LoadLevelToStage = TableToFile[['LoadLevel', 'Stage', 'Duration']]
+    LoadLevelToStage.loc[:, 'Duration'] = 1
+    LoadLevelToStage = pd.pivot_table(LoadLevelToStage, values='Duration', index=['LoadLevel'], columns='Stage', fill_value=0)
+    # save the LoadLevelToStage dataframe
+    LoadLevelToStage.index.name = None
+    LoadLevelToStage.to_csv(os.path.join(_path_1, '2.Par', 'oT_Data_LoadLevelToStage_' + CaseName_1 + '.csv'), sep=',', index=True)
+    # select rows based on condition that Duration is 1
+    TableToFile = TableToFile[TableToFile['Duration'] == 1]
     # Creating the dataframe to generate oT_Data_Duration
     dfDuration = pd.DataFrame(0, index=TableToFile.index, columns=['LoadLevel', 'Duration', 'Stage'])
     dfDuration['LoadLevel'] = TableToFile['LoadLevel']
     dfDuration['Duration'] = TableToFile['Duration']
     dfDuration['Stage'] = TableToFile['Stage']
-    dfDuration.to_csv(_path_1 + '/oT_Data_Duration_' + CaseName_1 + '.csv', sep=',', index=False)
+    # dfDuration.to_csv(os.path.join(_path_1, '2.Par', 'oT_Data_Duration_' + CaseName_1 + '.csv'), sep=',', index=False)
     # Identifying the Stages
     Stages = dfDuration.Stage.unique()
     Stages = np.sort(Stages)
     # Creating the dataframe to generate oT_Data_Stages
-    dfa = pd.DataFrame({'Weight': dfDuration['Stage']})
+    dfa = pd.DataFrame({'Weight': data['Stage']})
     dfa = dfa['Weight'].value_counts()
-    dfa = dfa / 24
+    if cluster_type == 'hourly':
+        dfa = dfa/int(df_split)
+    elif cluster_type == 'daily with hourly resolution':
+        dfa = dfa/int(24*df_split)
+    elif cluster_type == 'weekly with hourly resolution':
+        dfa = dfa/int(168*df_split)
     dfa = dfa.sort_index()
     dfStages = pd.DataFrame(dfa.values, index=dfa.index, columns=['Weight'])
-    dfStages.to_csv(_path_1 + '/oT_Data_Stage_' + CaseName_1 + '.csv', sep=',')
+    dfStages.index.name = None
+    # dfStages.to_csv(os.path.join(_path_1, '2.Par', 'oT_Data_Stage_' + CaseName_1 + '.csv'), sep=',')
     # Creating the dataframe to generate oT_Dict_Stages
     dict_Stages = pd.DataFrame(Stages, columns=['Stage'])
-    dict_Stages.to_csv(_path_1 + '/oT_Dict_Stage_' + CaseName_1 + '.csv', sep=',', index=False)
+    # dict_Stages.to_csv(os.path.join(_path_1, '1.Set', 'oT_Dict_Stage_' + CaseName_1 + '.csv'), sep=',', index=False)
+
+    print('End of the process for clustering ' + CaseName_1 + '...' + str(procedure_type) + ' with ' + cluster_type + ' resolution')
+
+    return kmeans_pca, dfDuration, dfStages, dict_Stages
 
 
 def KMedoidsMethod(OptClusters, Y_sklearn, _path_0, _path_1, CaseName_0, CaseName_1, table, data, cluster_type, procedure_type):
@@ -130,7 +194,7 @@ def KMedoidsMethod(OptClusters, Y_sklearn, _path_0, _path_1, CaseName_0, CaseNam
         for k in dfDayToStage.index:
             data.loc[data['Day'] == dfDayToStage['Day'][k], 'Duration'] = 1
     elif cluster_type == 'weekly with hourly resolution':
-        dfWeekToStage = pd.DataFrame(idx, columns=['Day'])
+        dfWeekToStage = pd.DataFrame(idx, columns=['Week'])
         dfWeekToStage = dfWeekToStage + 1
         for k in dfWeekToStage.index:
             data.loc[data['Week'] == dfWeekToStage['Week'][k], 'Duration'] = 1
@@ -166,6 +230,8 @@ def KMedoidsMethod(OptClusters, Y_sklearn, _path_0, _path_1, CaseName_0, CaseNam
     # Creating the dataframe to generate oT_Dict_Stages
     dict_Stages = pd.DataFrame(Stages, columns=['Stage'])
     # dict_Stages.to_csv(os.path.join(_path_1, '1.Set', 'oT_Dict_Stage_' + CaseName_1 + '.csv'), sep=',', index=False)
+
+    print('End of the process for clustering ' + CaseName_1 + '...' + str(procedure_type) + ' with ' + cluster_type + ' resolution')
 
     return kmedoids_pca, dfDuration, dfStages, dict_Stages
 
@@ -336,9 +402,9 @@ def ClusteringProcess(X,y, IndOptCluster, opt_cluster, _path_0, _path_1, CaseNam
     #%% Clustering method
     print("Clustering" + CaseName_1 + "..." + str(procedure_type))
     if cluster_method == 0:
-        KMeansMethod(                                               opt_cluster, Y_sklearn, _path_0, _path_1, CaseName_0, CaseName_1, table, data, cluster_type, procedure_type)
+        results, dfDuration, dfStages, dict_Stages      = KMeansMethod(  opt_cluster, Y_sklearn, _path_0, _path_1, CaseName_0, CaseName_1, table, data, cluster_type, procedure_type)
     elif cluster_method == 1:
-        results, dfDuration, dfStages, dict_Stages = KMedoidsMethod(opt_cluster, Y_sklearn, _path_0, _path_1, CaseName_0, CaseName_1, table, data, cluster_type, procedure_type)
+        results, dfDuration, dfStages, dict_Stages      = KMedoidsMethod(opt_cluster, Y_sklearn, _path_0, _path_1, CaseName_0, CaseName_1, table, data, cluster_type, procedure_type)
     # print('End of the process...')
 
     return results, dfDuration, dfStages, dict_Stages
@@ -361,7 +427,7 @@ def main(IndOptCluster, DirName, opt_cluster, CaseName_Base):
     max_cluster = 1000
 
     # type of cluster method (0: k-means; 1:k-medoids)
-    cluster_method = 1
+    cluster_method = 0
 
     #%% type of clustering  ('hourly'; 'daily with hourly resolution'; 'weekly with hourly resolution')
     clustering_type = 'hourly'
@@ -569,5 +635,38 @@ def main(IndOptCluster, DirName, opt_cluster, CaseName_Base):
     dict_Stages.to_csv(os.path.join(_path_1, '1.Set', 'oT_Dict_Stage_' + CaseName_ByStages + '.csv'), sep=',', index=False)
 
     print('Number of representative stages: ' + str(dfDuration['Duration'].sum()))
+
+    if cluster_method == 0:
+        LoadlevelToStage_0 = pd.read_csv(os.path.join(_path_1, '2.Par', 'oT_Data_LoadLevelToStage_' + CaseName_ByStages + '.csv'), index_col=0)
+        # stack the table to also have the lines as index
+        LoadlevelToStage_0 = LoadlevelToStage_0.stack().reset_index().rename(columns={0: 'Duration'})
+        # select rows based on condition that Duration is 1
+        LoadlevelToStage_1 = pd.read_csv(os.path.join(_path_1, '2.Par', 'oT_Data_Duration_' + CaseName_ByStages + '.csv'))
+        # keep the column LoadLevel
+        dict_loadlevel = LoadlevelToStage_1['LoadLevel']
+        # save the dict_loadlevel
+        dict_loadlevel.to_frame(name='LoadLevel').to_csv(os.path.join(_path_1, '1.Set', 'oT_Dict_LoadLevel_' + CaseName_ByStages + '.csv'), sep=',', index=False)
+        # definition of the files
+        files_to_read = ['Demand', 'EnergyInflows', 'EnergyOutflows', 'Inertia', 'OperatingReserveDown', 'OperatingReserveUp', 'ReactiveDemand', 'VariableMaxGeneration']
+        for file in files_to_read:
+            df = pd.read_csv(os.path.join(_path_1, '2.Par', 'oT_Data_' + file + '_' + CaseName_ByStages + '.csv'))
+            # removing the first 3 columns
+            df_mod = df.iloc[:, 3:]
+            df_mod['Stage'] = LoadlevelToStage_0['level_1']
+            df_mod = df_mod.groupby('Stage').mean().reset_index()
+            df_mod['Period'] = 2030
+            df_mod['Scenario'] = 'sc01'
+            df_mod['LoadLevel'] = ''
+            # map the LoadLevel of LoadLevelToStage_1 to Stage of df_mod
+            df_mod['LoadLevel'] = np.where(df_mod['Stage'] == LoadlevelToStage_1['Stage'], LoadlevelToStage_1['LoadLevel'], LoadlevelToStage_1['LoadLevel'])
+            # remove column Stage and set index to Period, Scenario and LoadLevel
+            df_mod = df_mod.drop(columns=['Stage'])
+            df_mod = df_mod.set_index(['Period', 'Scenario', 'LoadLevel'])
+            # remove index names
+            df_mod.index.names = [None, None, None]
+            # save the modified dataframe
+            df_mod.to_csv(os.path.join(_path_1, '2.Par', 'oT_Data_' + file + '_' + CaseName_ByStages + '.csv'), sep=',')
+
+            print(f'End of the averaging process of the file {file}...')
 
     print('End of the process for ' + CaseName_ByStages + '...')
