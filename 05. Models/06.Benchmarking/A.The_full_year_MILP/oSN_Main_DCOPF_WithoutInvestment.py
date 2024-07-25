@@ -123,6 +123,16 @@ def main(cmodel):
     print(sys.argv)
     print(args)
     print(args)
+
+    # Define output path, and create directory if necessary
+    path_to_write_time = os.path.join(args.dir,args.case,"4.OutWoInv/ComputationTime.txt")
+
+    destination_folder = os.path.dirname(path_to_write_time)
+
+    # Check if the destination folder exists, if not, create it
+    if not os.path.exists(destination_folder):
+        os.makedirs(destination_folder)
+
     # Activating the variable reactance
     cmodel.pLineXNetInv = 0
     # reading and processing the data
@@ -137,7 +147,8 @@ def main(cmodel):
     model = saving_results(args.dir, args.case, args.solver, model, model)
     elapsed_time = round(time.time() - initial_time)
     print('Elapsed time: {} seconds'.format(elapsed_time))
-    path_to_write_time = os.path.join(args.dir,args.case,"3.Out/ComputationTime.txt")
+
+
     with open(path_to_write_time, 'w') as f:
          f.write(str(elapsed_time))
 
@@ -880,10 +891,7 @@ def create_variables(model, optmodel):
         if model.pIndBinGenInvest == 2:
             optmodel.vGenerationInvest[p,gc      ].fix(0)
     for p,ni,nf,cc in model.plc:
-        if model.pIndBinNetInvest() != 0 and model.pIndBinLineInvest[ni,nf,cc] == 0:
-            optmodel.vNetworkInvest   [p,ni,nf,cc].domain = UnitInterval
-        if model.pIndBinNetInvest() == 2:
-            optmodel.vNetworkInvest   [p,ni,nf,cc].fix(0)
+        optmodel.vNetworkInvest   [p,ni,nf,cc].fix(0)
 
     # relax binary condition in unit generation, startup and shutdown decisions
     for p,sc,n,nr in model.psnnr:
@@ -1546,7 +1554,7 @@ def saving_results(DirName, CaseName, SolverName, model, optmodel):
     RelCost     = pd.Series(data=[model.pDiscountFactor[p] * sum(model.pScenProb     [p,sc]()                                                              * optmodel.vTotalRCost      [p,sc,n]()  for sc,n    in model.sc*model.n           if model.pScenProb[p,sc]())     for p in model.p], index=model.p).to_frame(name='Reliability           Cost').stack()
     CostSummary = pd.concat([SysCost, GenInvCost, NetInvCost, GenCost, ConCost, EmiCost, RelCost])
     CostSummary = CostSummary.reset_index().rename(columns={'level_0': 'Period', 'level_1': 'Cost/Payment', 0: 'MEUR'})
-    CostSummary.to_csv(_path+'/3.Out/oT_Result_CostSummary_'+CaseName+'.csv', sep=',', index=False)
+    CostSummary.to_csv(_path+'/4.OutWoInv/oT_Result_CostSummary_'+CaseName+'.csv', sep=',', index=False)
 
     WritingCostSummaryTime = time.time() - StartTime
     StartTime              = time.time()
@@ -1555,11 +1563,11 @@ def saving_results(DirName, CaseName, SolverName, model, optmodel):
     #%% outputting the investments
     if len(model.pgc):
         OutputResults = pd.Series(data=[optmodel.vGenerationInvest[p,gc   ]() for p,gc       in model.pgc], index=pd.MultiIndex.from_tuples(model.pgc))
-        OutputResults.to_frame(name='p.u.').rename_axis(['Period','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_GenerationInvestment_'+CaseName+'.csv', index=False, sep=',')
+        OutputResults.to_frame(name='p.u.').rename_axis(['Period','Unit'], axis=0).reset_index().to_csv(_path+'/4.OutWoInv/oT_Result_GenerationInvestment_'+CaseName+'.csv', index=False, sep=',')
 
     if len(model.plc):
         OutputResults = pd.Series(data=[optmodel.vNetworkInvest[p,ni,nf,cc]() for p,ni,nf,cc in model.plc], index=pd.MultiIndex.from_tuples(model.plc))
-        OutputResults.to_frame(name='p.u.').rename_axis(['Period','InitialNode','FinalNode','Circuit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_NetworkInvestment_'+CaseName+'.csv', index=False, sep=',')
+        OutputResults.to_frame(name='p.u.').rename_axis(['Period','InitialNode','FinalNode','Circuit'], axis=0).reset_index().to_csv(_path+'/4.OutWoInv/oT_Result_NetworkInvestment_'+CaseName+'.csv', index=False, sep=',')
 
     WritingInvResultsTime = time.time() - StartTime
     StartTime              = time.time()
@@ -1567,7 +1575,7 @@ def saving_results(DirName, CaseName, SolverName, model, optmodel):
 
     #%% outputting the generation cost
     OutputResults = pd.Series(data=[model.pDiscountFactor[p]*model.pScenProb[p,sc]()*model.pLoadLevelDuration[n]()*(optmodel.vTotalGCost[p,sc,n]()+optmodel.vTotalCCost[p,sc,n]()+optmodel.vTotalECost[p,sc,n]()+optmodel.vTotalRCost[p,sc,n]())*1e3 for p,sc,n in model.psn], index=pd.MultiIndex.from_tuples(model.psn))
-    OutputResults.to_frame(name='mEUR').rename_axis(['Period','Scenario','LoadLevel'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_GenerationCost_'+CaseName+'.csv', index=False, sep=',')
+    OutputResults.to_frame(name='mEUR').rename_axis(['Period','Scenario','LoadLevel'], axis=0).reset_index().to_csv(_path+'/4.OutWoInv/oT_Result_GenerationCost_'+CaseName+'.csv', index=False, sep=',')
 
     # #%%  Power balance per period, scenario, and load level
     # # incoming and outgoing lines (lin) (lout)
@@ -1588,7 +1596,7 @@ def saving_results(DirName, CaseName, SolverName, model, optmodel):
     # OutputResults6     = pd.Series(data=[ sum(optmodel.vFlow          [p,sc,n,ni,nd,cc]()*model.pLoadLevelDuration[n]() for ni,cc in lin  [nd] if (ni,nd,cc) in model.la)                    for p,sc,n,ar,nd    in sPSNARND                          ], index=pd.Index(sPSNARND  )).to_frame(name='PowerFlowIn' )
     # OutputResults  = pd.concat([OutputResults1, OutputResults2, OutputResults3, OutputResults4, OutputResults5, OutputResults6], axis=1)
     #
-    # OutputResults.stack().rename_axis(['Period', 'Scenario', 'LoadLevel', 'Area', 'Node', 'Technology'], axis=0).reset_index().rename(columns={0: 'GWh'}, inplace=False).to_csv(_path+'/3.Out/oT_Result_BalanceEnergy_'+CaseName+'.csv', index=False, sep=',')
+    # OutputResults.stack().rename_axis(['Period', 'Scenario', 'LoadLevel', 'Area', 'Node', 'Technology'], axis=0).reset_index().rename(columns={0: 'GWh'}, inplace=False).to_csv(_path+'/4.OutWoInv/oT_Result_BalanceEnergy_'+CaseName+'.csv', index=False, sep=',')
     #
     # WritingEnergyBalanceTime = time.time() - StartTime
     # StartTime              = time.time()
@@ -1596,16 +1604,16 @@ def saving_results(DirName, CaseName, SolverName, model, optmodel):
 
     #%% outputting the network operation
     OutputResults = pd.Series(data=[optmodel.vFlow[p,sc,n,ni,nf,cc]() for p,sc,n,ni,nf,cc in model.psnla], index=pd.Index(model.psnla))
-    OutputResults.to_frame(name='GWh').rename_axis(['Period', 'Scenario', 'LoadLevel', 'InitialNode', 'FinalNode', 'Circuit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_NetworkFlowPerNode_'       +CaseName+'.csv', index=False, sep=',')
+    OutputResults.to_frame(name='GWh').rename_axis(['Period', 'Scenario', 'LoadLevel', 'InitialNode', 'FinalNode', 'Circuit'], axis=0).reset_index().to_csv(_path+'/4.OutWoInv/oT_Result_NetworkFlowPerNode_'       +CaseName+'.csv', index=False, sep=',')
 
     # tolerance to consider avoid division by 0
     pEpsilon = 1e-6
 
     OutputResults = pd.Series(data=[max(optmodel.vFlow[p,sc,n,ni,nf,cc]()/(model.pLineNTCFrw[ni,nf,cc]+pEpsilon),-optmodel.vFlow[p,sc,n,ni,nf,cc]()/(model.pLineNTCFrw[ni,nf,cc]+pEpsilon)) for p,sc,n,ni,nf,cc in model.psnla], index=pd.Index(model.psnla))
-    OutputResults.to_frame(name='GWh').rename_axis(['Period', 'Scenario', 'LoadLevel', 'InitialNode', 'FinalNode', 'Circuit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_NetworkUtilizationPerNode_DC_'+CaseName+'.csv', index=False, sep=',')
+    OutputResults.to_frame(name='GWh').rename_axis(['Period', 'Scenario', 'LoadLevel', 'InitialNode', 'FinalNode', 'Circuit'], axis=0).reset_index().to_csv(_path+'/4.OutWoInv/oT_Result_NetworkUtilizationPerNode_DC_'+CaseName+'.csv', index=False, sep=',')
 
     OutputResults = pd.Series(data=[optmodel.vENS[p,sc,n,nd]()*model.pLoadLevelDuration[n]()*model.pDemandP[p,sc,n,nd] for p,sc,n,nd in model.psnnd], index=pd.MultiIndex.from_tuples(model.psnnd))
-    OutputResults.to_frame(name='GWh' ).rename_axis(['Period','Scenario','LoadLevel','Node'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_ENS_'                 +CaseName+'.csv', index=False, sep=',')
+    OutputResults.to_frame(name='GWh' ).rename_axis(['Period','Scenario','LoadLevel','Node'], axis=0).reset_index().to_csv(_path+'/4.OutWoInv/oT_Result_ENS_'                 +CaseName+'.csv', index=False, sep=',')
 
     WritingNetOperTime = time.time() - StartTime
     StartTime              = time.time()
@@ -1613,23 +1621,23 @@ def saving_results(DirName, CaseName, SolverName, model, optmodel):
 
     #%% outputting the generation operation
     OutputResults = pd.Series(data=[optmodel.vCommitment[p,sc,n,nr]() for p,sc,n,nr in model.psnnr], index=pd.MultiIndex.from_tuples(model.psnnr))
-    OutputResults.to_frame(name='p.u.').rename_axis(['Period','Scenario','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_GenerationCommitment_'+CaseName+'.csv', index=False, sep=',')
+    OutputResults.to_frame(name='p.u.').rename_axis(['Period','Scenario','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/4.OutWoInv/oT_Result_GenerationCommitment_'+CaseName+'.csv', index=False, sep=',')
     OutputResults = pd.Series(data=[optmodel.vStartUp   [p,sc,n,nr]() for p,sc,n,nr in model.psnnr], index=pd.MultiIndex.from_tuples(model.psnnr))
-    OutputResults.to_frame(name='p.u.').rename_axis(['Period','Scenario','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_GenerationStartUp_'   +CaseName+'.csv', index=False, sep=',')
+    OutputResults.to_frame(name='p.u.').rename_axis(['Period','Scenario','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/4.OutWoInv/oT_Result_GenerationStartUp_'   +CaseName+'.csv', index=False, sep=',')
     OutputResults = pd.Series(data=[optmodel.vShutDown  [p,sc,n,nr]() for p,sc,n,nr in model.psnnr], index=pd.MultiIndex.from_tuples(model.psnnr))
-    OutputResults.to_frame(name='p.u.').rename_axis(['Period','Scenario','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_GenerationShutDown_'  +CaseName+'.csv', index=False, sep=',')
+    OutputResults.to_frame(name='p.u.').rename_axis(['Period','Scenario','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/4.OutWoInv/oT_Result_GenerationShutDown_'  +CaseName+'.csv', index=False, sep=',')
 
     OutputResults = pd.Series(data=[optmodel.vTotalOutputP[p,sc,n,g]()*model.pLoadLevelDuration[n]() for p,sc,n,g in model.psng], index=pd.MultiIndex.from_tuples(model.psng))
-    OutputResults.to_frame(name='GWh' ).rename_axis(['Period','Scenario','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_GenerationEnergy_'    +CaseName+'.csv', index=False, sep=',')
+    OutputResults.to_frame(name='GWh' ).rename_axis(['Period','Scenario','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/4.OutWoInv/oT_Result_GenerationEnergy_'    +CaseName+'.csv', index=False, sep=',')
     OutputResults = pd.Series(data=[sum(OutputResults[p,sc,n,g] for g in model.g if (gt,g) in model.t2g) for p,sc,n,gt in model.psngt], index=pd.MultiIndex.from_tuples(model.psngt))
-    OutputResults.to_frame(name='GWh' ).rename_axis(['Period','Scenario','LoadLevel','Technology'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_TechnologyEnergy_'+CaseName+'.csv', index=False, sep=',')
+    OutputResults.to_frame(name='GWh' ).rename_axis(['Period','Scenario','LoadLevel','Technology'], axis=0).reset_index().to_csv(_path+'/4.OutWoInv/oT_Result_TechnologyEnergy_'+CaseName+'.csv', index=False, sep=',')
 
     if len(model.r):
         OutputResults = pd.Series(data=[(model.pMaxPower[p,sc,n,g]-optmodel.vTotalOutputP[p,sc,n,g]())*1e3 for p,sc,n,g in model.psnr], index=pd.MultiIndex.from_tuples(model.psnr))
-        OutputResults.to_frame(name='MW'  ).rename_axis(['Period','Scenario','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_RESCurtailment_'      +CaseName+'.csv', index=False, sep=',')
+        OutputResults.to_frame(name='MW'  ).rename_axis(['Period','Scenario','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/4.OutWoInv/oT_Result_RESCurtailment_'      +CaseName+'.csv', index=False, sep=',')
 
     OutputResults = pd.Series(data=[optmodel.vTotalOutputP[p,sc,n,nr]()*model.pCO2EmissionRate[nr]*1e3 for p,sc,n,nr in model.psn*model.t], index=pd.MultiIndex.from_tuples(model.psn*model.t))
-    OutputResults.to_frame(name='tCO2').rename_axis(['Period','Scenario','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_GenerationEmission_'  +CaseName+'.csv', index=False, sep=',')
+    OutputResults.to_frame(name='tCO2').rename_axis(['Period','Scenario','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/4.OutWoInv/oT_Result_GenerationEmission_'  +CaseName+'.csv', index=False, sep=',')
 
     WritingGenOperTime = time.time() - StartTime
     StartTime              = time.time()
@@ -1639,17 +1647,17 @@ def saving_results(DirName, CaseName, SolverName, model, optmodel):
     if len(model.es):
 
         OutputResults = pd.Series(data=[optmodel.vESSTotalCharge   [p,sc,n,es]()*model.pLoadLevelDuration[n]() for p,sc,n,es in model.psnes], index=pd.MultiIndex.from_tuples(model.psnes))
-        OutputResults.to_frame(name='GWh').rename_axis(['Period','Scenario','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_ESSConsumptionEnergy_'+CaseName+'.csv', index=False, sep=',')
+        OutputResults.to_frame(name='GWh').rename_axis(['Period','Scenario','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/4.OutWoInv/oT_Result_ESSConsumptionEnergy_'+CaseName+'.csv', index=False, sep=',')
         OutputResults = pd.Series(data=[sum(OutputResults[p,sc,n,es] for es in model.es if (gt,es) in model.t2g) for p,sc,n,gt in model.psngt], index=pd.MultiIndex.from_tuples(model.psngt))
-        OutputResults.to_frame(name='GWh').rename_axis(['Period','Scenario','LoadLevel','Technology'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_TechnologyConsumption_'+CaseName+'.csv', index=False, sep=',')
+        OutputResults.to_frame(name='GWh').rename_axis(['Period','Scenario','LoadLevel','Technology'], axis=0).reset_index().to_csv(_path+'/4.OutWoInv/oT_Result_TechnologyConsumption_'+CaseName+'.csv', index=False, sep=',')
 
         OutputResults = pd.Series(data=[optmodel.vESSInventory[p,sc,n,es]()                               for p,sc,n,es in model.psnes], index=pd.MultiIndex.from_tuples(model.psnes))
         OutputResults *= 1e3
-        OutputResults.to_frame(name='GWh').rename_axis(['Period','Scenario','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_ESSInventory_'+CaseName+'.csv', index=False, sep=',')
+        OutputResults.to_frame(name='GWh').rename_axis(['Period','Scenario','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/4.OutWoInv/oT_Result_ESSInventory_'+CaseName+'.csv', index=False, sep=',')
 
         OutputResults = pd.Series(data=[optmodel.vESSSpillage [p,sc,n,es]()                               for p,sc,n,es in model.psnes], index=pd.MultiIndex.from_tuples(model.psnes))
         OutputResults *= 1e3
-        OutputResults.to_frame(name='GWh').rename_axis(['Period','Scenario','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_ESSSpillage_'+CaseName+'.csv', index=False, sep=',')
+        OutputResults.to_frame(name='GWh').rename_axis(['Period','Scenario','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/4.OutWoInv/oT_Result_ESSSpillage_'+CaseName+'.csv', index=False, sep=',')
 
     WritingESSOperTime = time.time() - StartTime
     StartTime              = time.time()
@@ -1665,24 +1673,24 @@ def saving_results(DirName, CaseName, SolverName, model, optmodel):
     #         lout[ni].append((nf, cc))
     #     dual_eBalance_list = [(p,sc,n,nd) for p,sc,st,n,nd in model.psnnd*model.st if (st,n) in model.s2n and sum(1 for g in model.g if (nd,g) in model.n2g) + sum(1 for lout in lout[nd]) + sum(1 for ni,cc in lin[nd])]
     #     OutputResults = pd.Series(data=[optmodel.dual[optmodel.eBalanceP[p,sc,st,n,nd]]*1e3/model.pScenProb[p,sc]()/model.pLoadLevelDuration[n]() for p,sc,n,nd,st in dual_eBalance_list], index=pd.MultiIndex.from_tuples(dual_eBalance_list))
-    #     OutputResults.to_frame(name='SRMC').rename_axis(['Period','Scenario','LoadLevel','Node'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_SRMC_'+CaseName+'.csv', index=False, sep=',')
+    #     OutputResults.to_frame(name='SRMC').rename_axis(['Period','Scenario','LoadLevel','Node'], axis=0).reset_index().to_csv(_path+'/4.OutWoInv/oT_Result_SRMC_'+CaseName+'.csv', index=False, sep=',')
     #
     # if sum(model.pGenFxInvest[gc] for gc in model.gc):
     #     List1 = [(p,sc,st,n,gc) for p,sc,st,n,gc in model.ps*model.n*model.st*model.n*model.gc if (st,n) in model.s2n and model.pMaxPower[p,sc,n,gc]]
     #     if len(List1):
     #         OutputResults = pd.Series(data=[optmodel.dual[optmodel.eInstalGenCap[p,sc,st,n,gc]] for (p,sc,st,n,gc) in List1], index=pd.MultiIndex.from_tuples(list(List1)))
-    #         OutputResults.to_frame(name='p.u.').rename_axis(['Period','Scenario','Stage','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_Dual_eGenFixedOperation_'+CaseName+'.csv', index=False, sep=',')
+    #         OutputResults.to_frame(name='p.u.').rename_axis(['Period','Scenario','Stage','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/4.OutWoInv/oT_Result_Dual_eGenFixedOperation_'+CaseName+'.csv', index=False, sep=',')
     #
     #         OutputResults = pd.Series(data=[optmodel.dual[optmodel.eGenFixedInvestment[p,gc]] for p,gc in model.pgc], index=pd.MultiIndex.from_tuples(model.pgc))
-    #         OutputResults.to_frame(name='p.u.').rename_axis(['Period','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_Dual_eGenFixedInvestment_'+CaseName+'.csv', index=False, sep=',')
+    #         OutputResults.to_frame(name='p.u.').rename_axis(['Period','Unit'], axis=0).reset_index().to_csv(_path+'/4.OutWoInv/oT_Result_Dual_eGenFixedInvestment_'+CaseName+'.csv', index=False, sep=',')
     #
     #     List2 = [(p,gc,sg) for p,gc,sg in model.pgc*model.gs if model.pGenSensitivity[gc]() and (sg,gc) in model.sg2g]
     #     if len(List2):
     #         OutputResults = pd.Series(data=[optmodel.dual[optmodel.eGenSensiGroup[p,gc,sg]] for p,gc,sg in List2], index=pd.MultiIndex.from_tuples(list(List2)))
-    #         OutputResults.to_frame(name='p.u.').rename_axis(['Period','Unit','Group'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_Dual_eGenSensitivityCoupling_'+CaseName+'.csv', index=False, sep=',')
+    #         OutputResults.to_frame(name='p.u.').rename_axis(['Period','Unit','Group'], axis=0).reset_index().to_csv(_path+'/4.OutWoInv/oT_Result_Dual_eGenSensitivityCoupling_'+CaseName+'.csv', index=False, sep=',')
     #
     #         OutputResults = pd.Series(data=[optmodel.dual[optmodel.eGenSensiGroupValue[p,gc,sg]] for p,gc,sg in List2], index=pd.MultiIndex.from_tuples(list(List2)))
-    #         OutputResults.to_frame(name='p.u.').rename_axis(['Period','Unit','Group'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_Dual_eGenSensitivityCouplingValue_'+CaseName+'.csv', index=False, sep=',')
+    #         OutputResults.to_frame(name='p.u.').rename_axis(['Period','Unit','Group'], axis=0).reset_index().to_csv(_path+'/4.OutWoInv/oT_Result_Dual_eGenSensitivityCouplingValue_'+CaseName+'.csv', index=False, sep=',')
 
     WritingEconomicTime = time.time() - StartTime
     print('Writing             economic results  ... ', round(WritingEconomicTime), 's')
