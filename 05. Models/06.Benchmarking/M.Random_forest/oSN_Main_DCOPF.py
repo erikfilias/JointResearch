@@ -954,43 +954,47 @@ def create_variables(model, optmodel):
 
     # thermal and RES units ordered by increasing variable operation cost, excluding reactive generating units
     # determine the initial committed units and their output
-    pInitialOutput = pd.Series([0.0]*len(model.g), model.g)
-    pInitialUC     = pd.Series([0.0]*len(model.g), model.g)
-    # pSystemOutput  = 0.0
-    # for go in model.go:
-    #     (p1,sc1,n1) = next(iter(model.psn))
-    #     if pSystemOutput < sum(pDemand[p1,sc1,n1,nd] for nd in model.nd):
-    #         if go in optmodel.r:
-    #             pInitialOutput[go] = pMaxPower[p1,sc1,n1,go]
-    #         else:
-    #             pInitialOutput[go] = pMinPower[p1,sc1,n1,go]
-    #         pInitialUC    [go] = 1
-    #         pSystemOutput     += pInitialOutput[go]
-    # model.go = [k for k in sorted(pLinearVarCost, key=pLinearVarCost.__getitem__)                      ]
+    pInitialOutput = pd.Series([0.0]*len(model.n*model.g), model.n*model.g)
+    pInitialUC     = pd.Series([0.0]*len(model.n*model.g), model.n*model.g)
+
     cost_serie = pd.Series([model.pLinearVarCost[gg] for gg in model.gg], index=model.gg)
     model.go = cost_serie.sort_values().index
 
-    for p,sc in model.ps:
+    for p,sc,st in model.ps*model.stt:
+        # activate only period, scenario and load levels to formulate
+        model.del_component(model.st)
+        model.del_component(model.n )
+        model.st = Set(initialize=model.stt, ordered=True, doc='stages',      filter=lambda model,stt: stt in st == stt and model.pStageWeight[stt] and sum(1 for (st,nn) in model.s2n))
+        model.n  = Set(initialize=model.nn , ordered=True, doc='load levels', filter=lambda model,nn : nn  in model.nn                              and           (st,nn) in model.s2n)
+
         if len(model.n):
+            model.psn1 = Set(initialize=[(p,sc,n) for p,sc,n in model.ps*model.n])
             # determine the first load level of each stage
-            n1 = next(iter(model.n))
+            n1 = next(iter(model.psn1))
             # commit the units and their output at the first load level of each stage
             pSystemOutput = 0.0
             for nr in model.nr:
-                if pSystemOutput < sum(model.pDemandP[p,sc,n1,nd] for nd in model.nd) and model.pMustRun[nr] == 1:
-                    pInitialOutput[nr] = model.pMaxPower[p,sc,n1,nr]
-                    pInitialUC    [nr] = 1
-                    pSystemOutput               += pInitialOutput[nr]
+                if pSystemOutput < sum(model.pDemandP[n1,nd] for nd in model.nd) and model.pMustRun[nr] == 1:
+                    pInitialOutput[n1[2], nr] = model.pMaxPower[n1,nr]
+                    pInitialUC    [n1[2], nr] = 1
+                    pSystemOutput            += pInitialOutput[n1[2] ,nr]
 
             # determine the initial committed units and their output at the first load level of each period, scenario, and stage
             for go in model.go:
-                if pSystemOutput < sum(model.pDemandP[p,sc,n1,nd] for nd in model.nd) and model.pMustRun[go] != 1:
+                if pSystemOutput < sum(model.pDemandP[n1,nd] for nd in model.nd) and model.pMustRun[go] != 1:
                     if go in model.r:
-                        pInitialOutput[go] = model.pMaxPower[p,sc,n1,go]
+                        pInitialOutput[n1[2], go] = model.pMaxPower[n1,go]
                     else:
-                        pInitialOutput[go] = model.pMinPower[p,sc,n1,go]
-                    pInitialUC[go] = 1
-                    pSystemOutput = pSystemOutput + pInitialOutput[go]
+                        pInitialOutput[n1[2], go] = model.pMinPower[n1,go]
+                    pInitialUC[n1[2], go] = 1
+                    pSystemOutput = pSystemOutput + pInitialOutput[n1[2], go]
+            model.del_component(model.psn1)
+
+        # activate all the periods, scenarios, and load levels again
+        model.del_component(model.st)
+        model.del_component(model.n )
+        model.st = Set(initialize=model.stt, ordered=True, doc='stages',      filter=lambda model,stt: stt in model.stt and model.pStageWeight[stt] and sum(1 for                   (stt,nn) in model.s2n))
+        model.n  = Set(initialize=model.nn,  ordered=True, doc='load levels', filter=lambda model,nn : nn  in model.nn                              and sum(1 for st in model.st if (st, nn) in model.s2n))
 
     model.pInitialUC = pInitialUC
     # fixing the ESS inventory at the last load level of the stage for every period and scenario if between storage limits
@@ -1303,7 +1307,7 @@ def create_constraints(model, optmodel):
 
     def eUCStrShut(optmodel,p,sc,st,n,nr):
         if   (st,n) in model.s2n and model.pMustRun[nr] == 0 and (model.pMinPower[p,sc,n,nr] or model.pConstantVarCost[nr]) and nr not in model.es and n == model.n.first():
-            return optmodel.vCommitment[p,sc,n,nr] - model.pInitialUC[nr]                             == optmodel.vStartUp[p,sc,n,nr] - optmodel.vShutDown[p,sc,n,nr]
+            return optmodel.vCommitment[p,sc,n,nr] - model.pInitialUC[n,nr]                        == optmodel.vStartUp[p,sc,n,nr] - optmodel.vShutDown[p,sc,n,nr]
         elif (st,n) in model.s2n and model.pMustRun[nr] == 0 and (model.pMinPower[p,sc,n,nr] or model.pConstantVarCost[nr]) and nr not in model.es:
             return optmodel.vCommitment[p,sc,n,nr] - optmodel.vCommitment[p,sc,model.n.prev(n),nr] == optmodel.vStartUp[p,sc,n,nr] - optmodel.vShutDown[p,sc,n,nr]
         else:
