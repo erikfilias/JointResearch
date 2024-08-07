@@ -1,0 +1,21 @@
+#!/bin/bash -l
+
+
+#SBATCH --cluster="genius"
+#SBATCH --job-name="9n_mod1_KDEPlot"
+#SBATCH --nodes="1"
+#SBATCH --mail-user="kristof.phillips@kuleuven.be"
+#SBATCH --mail-type=BEGIN,END,FAIL
+#SBATCH --time="2:00:00"
+#SBATCH --ntasks-per-node="6"
+#SBATCH --account="lp_elect_gen_modeling"
+#SBATCH --partition="batch"
+    
+source activate Jr23
+echo "Activation OK"
+cd $VSC_SCRATCH/JointResearch/05.Models/06.Benchmarking/Z.Figures/KDE2D
+
+echo "Starting runs"
+
+python python createKernelDensFigs_v2.py --case 9n_mod1 --min 0.85
+
