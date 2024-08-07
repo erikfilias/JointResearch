@@ -17,5 +17,5 @@ cd $VSC_SCRATCH/JointResearch/05.Models/06.Benchmarking/A.The_full_year_MILP
 
 echo "Starting runs"
 
-python oSN_Main_DCOPF_WithoutInvestment.py --case IEEE_mod1
+python oSN_Main_DCOPF_WithoutInvestment.py --case IEEE118_mod1
 
