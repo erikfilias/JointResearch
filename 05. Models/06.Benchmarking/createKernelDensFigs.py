@@ -59,20 +59,23 @@ def get_filter(ts_all_lines_CM,ts_all_lines_FYMILP,min_value,max_value,filter_ty
     elif filter_type == "None":
         filter_greater_than = (ts_all_lines_CM > -1) & (ts_all_lines_CM < 2)
     else:
-        ValueError("Filter type not defined")
+        raise ValueError("Filter type not defined")
 
     return filter_greater_than
 
 # Define the clustering methods and other constants
-case = "RTS24_mod1"
+case = "9n_mod1"
 clustering_methods = ["CHI", "R&D", "OPC", "HI", "OPT_LB"]  # Add the methods you want to analyze
-nbc = 200
+nbc = 20
 min_value =0.85
 max_value = 1
 filter_type = "Either"
 xmin, xmax = min_value, max_value
 ymin, ymax = min_value, max_value
 
+# Create output directory if it doesn't exist
+output_dir = "Z.Figures/KDE2D/Util/"
+os.makedirs(output_dir, exist_ok=True)
 
 # Prepare subplots
 fig, axes = plt.subplots(len(clustering_methods), 1, figsize=(8, 16), sharex=True)
@@ -136,6 +139,4 @@ for idx, (f, cm) in enumerate(zip(kde_values_list, clustering_methods)):
 
 # Adjust layout and show the plot
 plt.tight_layout()
-plt.savefig(f"Z.Figures/KDE2D/Util/LineUtil_nc{nbc}_th{min_value}_{max_value}_ft{filter_type}.png")
-
-
+plt.savefig(os.path.join(output_dir, f"LineUtil_{case}_nc{nbc}_th{min_value}_{max_value}_ft{filter_type}.png"))
