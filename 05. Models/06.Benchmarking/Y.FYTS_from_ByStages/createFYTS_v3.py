@@ -250,7 +250,9 @@ cm = args.cm
 nbcs = [10,20,50,100,200]
 
 if cm == "All":
-    for cm_ in ["R&D", "OPT_LB", "CHI","HI","OPC"]:
+    #for cm_ in ["R&D", "OPT_LB", "CHI","HI","OPC"]:
+    for cm_ in ["OPT_LB", "CHI", "HI", "OPC"]:
+
         folder_name = category_dict[cm_]
         loop_over_nbcs(CaseName_Base, cm_)
 else:
