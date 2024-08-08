@@ -2,7 +2,7 @@
 
 
 #SBATCH --cluster="genius"
-#SBATCH --job-name="9n_mod1_KDEPlot"
+#SBATCH --job-name="RTS24_mod1_KDEPlot"
 #SBATCH --nodes="1"
 #SBATCH --mail-user="kristof.phillips@kuleuven.be"
 #SBATCH --mail-type=BEGIN,END,FAIL
@@ -17,5 +17,5 @@ cd $VSC_SCRATCH/JointResearch/05.Models/06.Benchmarking/Z.Figures/KDE2D
 
 echo "Starting runs"
 
-python createKernelDensFigs_v2.py --case 9n_mod1 --min 0.
+python createKernelDensFigs_v2.py --case RTS24_mod1 --min 0.
 
