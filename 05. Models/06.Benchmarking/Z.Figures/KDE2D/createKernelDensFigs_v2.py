@@ -72,7 +72,7 @@ nbc_values = [20,50,100,200]  # Example values for nbc
 # max_value = 1
 filter_types = ["FYMILP", "Either", "CM", "None"]  # Add the filter types you want to analyze
 filter_types = ["Either", "None"]  # Add the filter types you want to analyze
-
+filter_types = ["None"]
 
 parser = argparse.ArgumentParser(description='Introducing main parameters...')
 parser.add_argument('--case',   type=str, default="RTS24_mod1")
