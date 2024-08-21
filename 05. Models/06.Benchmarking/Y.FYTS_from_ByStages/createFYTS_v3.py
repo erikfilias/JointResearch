@@ -121,7 +121,7 @@ def create_curtailment_fyts_frame(CaseName_Base, cm, nbc):
         fy_ts = np.zeros(len(all_load_levels))
 
         # Create full-year time series based on mapping and values of representative load levels
-        for i, load_level in enumerate(all_load_levels[:20]):
+        for i, load_level in enumerate(all_load_levels):
             this_loadlevel_stage = load_level_stage_map[load_level]
 
             # Filter to find the correct reduced load level
