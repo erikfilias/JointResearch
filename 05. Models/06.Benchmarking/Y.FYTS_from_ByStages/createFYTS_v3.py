@@ -211,6 +211,60 @@ def create_flow_fyts_frame(CaseName_Base, cm, nbc):
         frame_values[(initial_node, final_node)] = fy_ts
     return frame_values, destination_folder, filename
 
+def create_generation_cost_fyts_frame(CaseName_Base, cm, nbc):
+    destination_folder = f"../Y.FYTS_from_ByStages/{CaseName_Base}/{cm}"
+
+    filename = f"Generation_cost_nc{nbc}.csv"
+
+    # Read input data
+    df_duration = pd.read_csv(
+        f"../{folder_name}/{CaseName_Base}_ByStages_nc{nbc}/2.Par/oT_Data_Duration_{CaseName_Base}_ByStages_nc{nbc}.csv")
+    df_ts_bs = pd.read_csv(
+        f"../{folder_name}/{CaseName_Base}_ByStages_nc{nbc}/4.OutWoInv/oT_Result_GenerationCost_{CaseName_Base}_ByStages_nc{nbc}.csv")
+
+    # Ensure data types are consistent: convert load levels to strings
+    df_duration["LoadLevel"] = df_duration["LoadLevel"].astype(str)
+    df_ts_bs["LoadLevel"] = df_ts_bs["LoadLevel"].astype(str)
+    df_ts_bs["Unit"] = df_ts_bs["Unit"].astype(str)
+
+    # Create mapping of load level to stage name
+    load_level_stage_map = df_duration.set_index("LoadLevel")["Stage"].to_dict()
+    all_load_levels = df_duration.LoadLevel
+
+    # Create dataframe that that wil hold all timeseries
+    frame_values = pd.DataFrame({"LoadLevel": all_load_levels})
+
+    # Select a unit
+    units = np.unique(df_ts_bs.Unit)
+
+    for unit in units:
+
+        # Initialize the full-year time series array
+        fy_ts = np.zeros(len(all_load_levels))
+
+        # Create full-year time series based on mapping and values of representative load levels
+        for i, load_level in enumerate(all_load_levels):
+            this_loadlevel_stage = load_level_stage_map[load_level]
+
+            # Filter to find the correct reduced load level
+            filtered_duration = df_duration[
+                (df_duration["Stage"] == this_loadlevel_stage) & (df_duration["Duration"] == 1)]
+
+            if not filtered_duration.empty:
+                reduced_temp_load_level = filtered_duration.LoadLevel.iloc[0]
+
+                # Find the corresponding value in df_ts_bs
+                reduced_temp_value = df_ts_bs[
+                    (df_ts_bs["Unit"] == unit) & (df_ts_bs["LoadLevel"] == str(reduced_temp_load_level))]
+
+                if not reduced_temp_value.empty:
+                    # Assuming you want to assign a value from reduced_temp_value to fy_ts
+                    # You might need to aggregate if there are multiple values
+                    fy_ts[i] = reduced_temp_value['MW'].iloc[0]  # Replace 'YourValueColumn' with the actual column name
+        frame_values[unit] = fy_ts
+    return frame_values, destination_folder, filename
+
+
 
 def loop_over_nbcs(CaseName_Base, cm):
     for nbc in nbcs:
