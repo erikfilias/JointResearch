@@ -17,7 +17,7 @@ from pyomo.opt          import SolverFactory
 #%% Defining the clustering functions
 def KMeansMethod(OptClusters, Y_sklearn, _path_0, _path_1, CaseName_0, CaseName_1, table, data, cluster_type):
     # Running the K-means with the optimal number of clusters. Setting up the initializer and random state.
-    kmeans_pca = KMeans(n_clusters=OptClusters, init='k-means++', random_state=42)
+    kmeans_pca = KMeans(n_clusters=OptClusters, init='k-means++', random_state=0)
     kmeans_pca.fit(Y_sklearn)
     df_segm_pca_kmeans = pd.concat([table.reset_index(drop=True), pd.DataFrame(Y_sklearn)], axis=1)
     df_segm_pca_kmeans.columns.values[-3:] = ['Component 1', 'Component 2', 'Component 3']
