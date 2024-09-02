@@ -1,3 +1,4 @@
+from   collections       import defaultdict
 import oSN_Main_operational
 import pyomo
 import pandas as pd
@@ -84,9 +85,6 @@ def saving_results(DirName, CaseName, model, optmodel):
     StartTime              = time.time()
     print('Writing         cost summary results  ... ', round(WritingCostSummaryTime), 's')
 
-    StartTime = time.time()
-    print('Writing         cost summary results  ... ', round(WritingCostSummaryTime), 's')
-
     # %% outputting the investments
     if len(model.pgc):
         OutputResults = pd.Series(data=[optmodel.vGenerationInvest[p, gc]() for p, gc in model.pgc],
@@ -116,6 +114,27 @@ def saving_results(DirName, CaseName, model, optmodel):
     #%% outputting the generation cost
     OutputResults = pd.Series(data=[model.pDiscountFactor[p]*model.pScenProb[p,sc]()*model.pLoadLevelDuration[n]()*(optmodel.vTotalGCost[p,sc,n]()+optmodel.vTotalCCost[p,sc,n]()+optmodel.vTotalECost[p,sc,n]()+optmodel.vTotalRCost[p,sc,n]())*1e3 for p,sc,n in model.psn], index=pd.MultiIndex.from_tuples(model.psn))
     OutputResults.to_frame(name='mEUR').rename_axis(['Period','Scenario','LoadLevel'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_GenerationCost_'+CaseName+'.csv', index=False, sep=',')
+
+    # Determination of the net demand
+    r2r = defaultdict(list)
+    for rt,re in model.rt*model.r:
+        if (rt,re) in model.t2g:
+            r2r[rt].append(re)
+
+    if len(model.r):
+        OutputToFile1 = pd.Series(data=[sum(optmodel.vTotalOutputP[p,sc,n,re]() for rt in model.rt for re in r2r[rt] if (p,re) in model.pre and (nd,re) in model.n2g) for p,sc,n,nd in model.psnnd], index=pd.Index(model.psnnd))
+    else:
+        OutputToFile1 = pd.Series(data=[0.0                                                                               for p,sc,n,nd in model.psnnd], index=pd.Index(model.psnnd))
+    OutputToFile2 = pd.Series(data=[          model.pDemandP     [p,sc,n,nd]                                              for p,sc,n,nd in model.psnnd], index=pd.Index(model.psnnd))
+    OutputToFile  = OutputToFile2 - OutputToFile1
+    OutputToFile  *= 1e3
+    OutputToFile  = OutputToFile.to_frame(name='MW'  )
+    OutputToFile.reset_index().pivot_table(index=['level_0','level_1','level_2'], columns='level_3', values='MW', aggfunc='sum').rename_axis(['Period', 'Scenario', 'LoadLevel'], axis=0).rename_axis([None], axis=1).to_csv(_path+'/3.Out/oT_Result_NetworkNetDemand_'+CaseName+'.csv', sep=',')
+    OutputToFile.reset_index().pivot_table(index=['level_0','level_1','level_2'],                    values='MW', aggfunc='sum').rename_axis(['Period', 'Scenario', 'LoadLevel'], axis=0).rename_axis([None], axis=1).to_csv(_path+'/3.Out/oT_Result_NetDemand_'       +CaseName+'.csv', sep=',')
+
+    WritingOperatingResultsTime = time.time() - StartTime
+    StartTime = time.time()
+    print('Writing         operating results  ... ', round(WritingOperatingResultsTime), 's')
 
     return model
 
