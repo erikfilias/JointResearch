@@ -136,7 +136,7 @@ def obtain_list_of_ByStages_numbers(path_to_scan,min_nb,max_nb):
                     nb_stages_l.append(nc_number)
 
     nb_stages_l = sorted(nb_stages_l)
-    print("Found following ByStages results in folder {}")
+    #print("Found following ByStages results in folder {}")
     return nb_stages_l
 
 
@@ -163,5 +163,6 @@ if __name__ == '__main__':
         operational_model = oSN_Main_operational.solving_model(DirName="", CaseName=case, SolverName="gurobi",
                                                                optmodel=operational_model, pWriteLP=0)
         case_name_bs = f"{case}_ByStages_nc{nb_stages}"
-        save_dir = os.path.join("Results",os.path.split(origin_master)[1])
+        save_dir = os.path.join("Results",os.path.split(origin_master)[1][0])
+        print(save_dir)
         saving_results(DirName=save_dir,CaseName=case_name_bs,model=operational_model,optmodel=operational_model)
