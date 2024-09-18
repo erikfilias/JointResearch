@@ -6,7 +6,7 @@ InitialTime = time.time()
 
 DirName  = os.getcwd()
 
-CaseName_Base = 'IEEE118_mod1'
+CaseName_Base = 'IEEE118_mod2'
 
 Folder_A = 'A.The_full_year_MILP'
 Folder_B = 'B.Operation_cost'
@@ -27,8 +27,8 @@ FoldersToPaste = [Folder_B, Folder_D, Folder_E, Folder_K, Folder_L]
 CasesToPaste = []
 CasesToPaste.append(CaseName_Base + '_ByStages')
 
-# RangeClusters = [i for i in range(10, 101, 10)] + [i for i in range(150, 401, 50)] + [1000, 2000, 4000]
-RangeClusters = [110, 120, 130, 140]
+RangeClusters = [i for i in range(10, 101, 10)] + [i for i in range(150, 401, 50)] + [1000, 2000, 4000] + [110, 120, 130, 140]
+# RangeClusters = [110, 120, 130, 140]
 
 for i in RangeClusters:
     CasesToPaste.append(CaseName_Base + '_ByStages_nc' + str(i))

@@ -399,8 +399,11 @@ def data_processing(DirName, CaseName, model):
     model.psnla = [(p,sc,n,ni,nf,cc) for p,sc,n,ni,nf,cc in model.psn*model.la ]
     model.psnln = [(p,sc,n,ni,nf,cc) for p,sc,n,ni,nf,cc in model.psn*model.ln ]
 
-    model.pgc   = [(p,gc           ) for p,gc            in model.p  *model.gc ]
-    model.pec   = [(p,ec           ) for p,ec            in model.p  *model.ec ]
+    model.pg    = Set(initialize = [(p,g) for p,g in model.p*model.g if pPeriodIniGen[g ] <= p and pPeriodFinGen[g ] >= p])
+
+    model.pgc   = [(p,gc           ) for p,gc            in model.p  *model.gc if (p,gc) in model.pg]
+    model.pec   = [(p,ec           ) for p,ec            in model.p  *model.ec if (p,ec) in model.pg]
+    model.pre   = [(p,r            ) for p,r             in model.p  *model.r  if (p,r ) in model.pg]
     model.plc   = [(p,ni,nf,cc     ) for p,ni,nf,cc      in model.p  *model.lc ]
 
     # assigning a node to an area
