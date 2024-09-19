@@ -7,7 +7,7 @@ InitialTime = time.time()
 
 DirName  = os.getcwd()
 
-CaseName_Base = 'IEEE118_mod2'
+CaseName_Base = 'IEEE118_mod1'
 
 # Defining the case CaseName_ByStages plus the CaseName_ByStages_nc#
 CasesToPaste = []
