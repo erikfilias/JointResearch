@@ -116,7 +116,7 @@ def saving_results(DirName, CaseName, model, optmodel):
     OutputResults.to_frame(name='mEUR').rename_axis(['Period','Scenario','LoadLevel'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_GenerationCost_'+CaseName+'.csv', index=False, sep=',')
 
     #%% outputting the ENS
-    OutputResults = pd.Series(data=[model.pDiscountFactor[p]*model.pScenProb[p,sc]()*model.pLoadLevelDuration[n]()*optmodel.vENS[p,sc,n]()*model.pDemandP[p,sc,n,nd]*1e3  for p,sc,n,nd in model.psnnd], index=pd.MultiIndex.from_tuples(model.psnnd))
+    OutputResults = pd.Series(data=[model.pDiscountFactor[p]*model.pScenProb[p,sc]()*model.pLoadLevelDuration[n]()*optmodel.vENS[p,sc,n,nd]()*model.pDemandP[p,sc,n,nd]*1e3  for p,sc,n,nd in model.psnnd], index=pd.MultiIndex.from_tuples(model.psnnd))
     OutputResults.to_frame(name='MWh').rename_axis(['Period','Scenario','LoadLevel'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_EnergyNotSupplied_'+CaseName+'.csv', index=False, sep=',')
 
     # Determination of the net demand
