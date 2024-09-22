@@ -1,0 +1,3275 @@
+SLURM_JOB_ID: 57120369
+SLURM_JOB_USER: vsc34888
+SLURM_JOB_ACCOUNT: lp_elect_gen_modeling
+SLURM_JOB_NAME: IEEE118_mod1_by_stages_loop_L_10-400
+SLURM_CLUSTER_NAME: genius
+SLURM_JOB_PARTITION: batch
+SLURM_NNODES: 1
+SLURM_NODELIST: r25i13n04
+SLURM_JOB_CPUS_PER_NODE: 36
+Date: Sun Sep 22 10:42:48 CEST 2024
+Walltime: 00-06:00:00
+========================================================================
+Activation OK
+Starting runs
+
+ #### Academic research license - for non-commercial use only #### 
+
+IEEE118_mod1_ByStages_nc10
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour
+gurobi
+['oSN_Main_DCOPF_WithoutInvestment.py', '--case', 'IEEE118_mod1_ByStages_nc10']
+Namespace(case='IEEE118_mod1_ByStages_nc10', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+Namespace(case='IEEE118_mod1_ByStages_nc10', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+WARNING: Element LiION N01 already exists in Set gg; no action taken
+WARNING: Element LiION N02 already exists in Set gg; no action taken
+WARNING: Element LiION N03 already exists in Set gg; no action taken
+Reading    input data                 ...  1 s
+Setting up input data                 ...  0 s
+Generating objective function         ...  0 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  0 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  0 s
+Generating generation capacity        ...  0 s
+Generating network    capacity        ...  0 s
+Generating network    constraints     ...  0 s
+Econometric analysis  constraints     ...  0 s
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 8237.29565729857
+  Upper bound: 8237.29565729857
+  Number of objectives: 1
+  Number of constraints: 14213
+  Number of variables: 10408
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 10408
+  Number of nonzeros: 34956
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.3057849407196045
+  Error rc: 0
+  Time: 1.1444604396820068
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,bus068,bus069,cac1]
+fixing: vNetworkInvest[2030,bus054,bus056,cac1]
+fixing: vNetworkInvest[2030,bus094,bus100,cac1]
+fixing: vNetworkInvest[2030,bus047,bus049,cac1]
+fixing: vNetworkInvest[2030,bus017,bus113,cac1]
+fixing: vNetworkInvest[2030,bus008,bus030,cac1]
+fixing: vNetworkInvest[2030,bus038,bus037,cac1]
+fixing: vNetworkInvest[2030,bus065,bus068,cac1]
+fixing: vNetworkInvest[2030,bus005,bus006,cac1]
+fixing: vNetworkInvest[2030,bus092,bus093,cac1]
+fixing: vNetworkInvest[2030,bus077,bus082,cac1]
+fixing: vNetworkInvest[2030,bus080,bus099,cac1]
+fixing: vNetworkInvest[2030,bus033,bus037,cac1]
+fixing: vNetworkInvest[2030,bus026,bus030,cac1]
+fixing: vNetworkInvest[2030,bus064,bus065,cac1]
+fixing: vNetworkInvest[2030,bus012,bus014,cac1]
+fixing: vNetworkInvest[2030,bus082,bus083,cac1]
+fixing: vNetworkInvest[2030,bus038,bus065,cac1]
+fixing: vNetworkInvest[2030,bus004,bus011,cac1]
+fixing: vNetworkInvest[2030,bus025,bus027,cac1]
+fixing: vNetworkInvest[2030,bus003,bus005,cac1]
+fixing: vNetworkInvest[2030,bus012,bus016,cac1]
+fixing: vNetworkInvest[2030,bus007,bus012,cac1]
+fixing: vNetworkInvest[2030,bus015,bus033,cac1]
+fixing: vNetworkInvest[2030,bus030,bus038,cac1]
+fixing: vNetworkInvest[2030,bus023,bus032,cac1]
+fixing: vNetworkInvest[2030,bus069,bus077,cac1]
+fixing: vNetworkInvest[2030,bus011,bus013,cac1]
+fixing: vNetworkInvest[2030,bus006,bus007,cac1]
+fixing: vNetworkInvest[2030,bus012,bus117,cac1]
+fixing: vNetworkInvest[2030,bus008,bus005,cac1]
+fixing: vNetworkInvest[2030,bus093,bus094,cac1]
+fixing: vNetworkInvest[2030,bus011,bus012,cac1]
+fixing: vNetworkInvest[2030,bus099,bus100,cac1]
+Number of fixed variables:  34
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 8237.29565729857
+  Upper bound: 8237.29565729857
+  Number of objectives: 1
+  Number of constraints: 14213
+  Number of variables: 10408
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 10408
+  Number of nonzeros: 34956
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.10810399055480957
+  Error rc: 0
+  Time: 0.2944347858428955
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  2 s
+Objective function value                   8237.3 M€
+Objective function value                   8237.29565729857
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Writing    network operation results  ...  0 s
+Writing generation operation results  ...  0 s
+Writing        ESS operation results  ...  0 s
+Writing             economic results  ...  0 s
+
+ #### Academic research license - for non-commercial use only #### 
+
+Elapsed time: 7 seconds
+
+ #### Academic research license - for non-commercial use only #### 
+
+IEEE118_mod1_ByStages_nc20
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour
+gurobi
+['oSN_Main_DCOPF_WithoutInvestment.py', '--case', 'IEEE118_mod1_ByStages_nc20']
+Namespace(case='IEEE118_mod1_ByStages_nc20', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+Namespace(case='IEEE118_mod1_ByStages_nc20', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+WARNING: Element LiION N01 already exists in Set gg; no action taken
+WARNING: Element LiION N02 already exists in Set gg; no action taken
+WARNING: Element LiION N03 already exists in Set gg; no action taken
+Reading    input data                 ...  1 s
+Setting up input data                 ...  0 s
+Generating objective function         ...  0 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  1 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  0 s
+Generating generation capacity        ...  0 s
+Generating network    capacity        ...  0 s
+Generating network    constraints     ...  1 s
+Econometric analysis  constraints     ...  0 s
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 9595.650490173099
+  Upper bound: 9595.650490173099
+  Number of objectives: 1
+  Number of constraints: 28423
+  Number of variables: 21026
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 21026
+  Number of nonzeros: 70442
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.3035750389099121
+  Error rc: 0
+  Time: 0.6256115436553955
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,bus092,bus093,cac1]
+fixing: vNetworkInvest[2030,bus015,bus033,cac1]
+fixing: vNetworkInvest[2030,bus008,bus005,cac1]
+fixing: vNetworkInvest[2030,bus093,bus094,cac1]
+fixing: vNetworkInvest[2030,bus012,bus014,cac1]
+fixing: vNetworkInvest[2030,bus099,bus100,cac1]
+fixing: vNetworkInvest[2030,bus082,bus083,cac1]
+fixing: vNetworkInvest[2030,bus007,bus012,cac1]
+fixing: vNetworkInvest[2030,bus065,bus068,cac1]
+fixing: vNetworkInvest[2030,bus005,bus006,cac1]
+fixing: vNetworkInvest[2030,bus004,bus011,cac1]
+fixing: vNetworkInvest[2030,bus038,bus065,cac1]
+fixing: vNetworkInvest[2030,bus003,bus005,cac1]
+fixing: vNetworkInvest[2030,bus017,bus113,cac1]
+fixing: vNetworkInvest[2030,bus094,bus100,cac1]
+fixing: vNetworkInvest[2030,bus033,bus037,cac1]
+fixing: vNetworkInvest[2030,bus006,bus007,cac1]
+fixing: vNetworkInvest[2030,bus025,bus027,cac1]
+fixing: vNetworkInvest[2030,bus008,bus030,cac1]
+fixing: vNetworkInvest[2030,bus069,bus077,cac1]
+fixing: vNetworkInvest[2030,bus023,bus032,cac1]
+fixing: vNetworkInvest[2030,bus030,bus038,cac1]
+fixing: vNetworkInvest[2030,bus077,bus082,cac1]
+fixing: vNetworkInvest[2030,bus080,bus099,cac1]
+fixing: vNetworkInvest[2030,bus011,bus012,cac1]
+fixing: vNetworkInvest[2030,bus011,bus013,cac1]
+fixing: vNetworkInvest[2030,bus038,bus037,cac1]
+fixing: vNetworkInvest[2030,bus064,bus065,cac1]
+fixing: vNetworkInvest[2030,bus026,bus030,cac1]
+fixing: vNetworkInvest[2030,bus068,bus069,cac1]
+fixing: vNetworkInvest[2030,bus047,bus049,cac1]
+fixing: vNetworkInvest[2030,bus012,bus117,cac1]
+fixing: vNetworkInvest[2030,bus054,bus056,cac1]
+fixing: vNetworkInvest[2030,bus012,bus016,cac1]
+Number of fixed variables:  34
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 9595.650490173099
+  Upper bound: 9595.650490173099
+  Number of objectives: 1
+  Number of constraints: 28423
+  Number of variables: 21026
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 21026
+  Number of nonzeros: 70442
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.22622394561767578
+  Error rc: 0
+  Time: 0.5325939655303955
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  4 s
+Objective function value                   9595.65 M€
+Objective function value                   9595.650490173099
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Writing    network operation results  ...  0 s
+Writing generation operation results  ...  0 s
+Writing        ESS operation results  ...  0 s
+Writing             economic results  ...  0 s
+
+ #### Academic research license - for non-commercial use only #### 
+
+Elapsed time: 10 seconds
+
+ #### Academic research license - for non-commercial use only #### 
+
+IEEE118_mod1_ByStages_nc30
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour
+gurobi
+['oSN_Main_DCOPF_WithoutInvestment.py', '--case', 'IEEE118_mod1_ByStages_nc30']
+Namespace(case='IEEE118_mod1_ByStages_nc30', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+Namespace(case='IEEE118_mod1_ByStages_nc30', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+WARNING: Element LiION N01 already exists in Set gg; no action taken
+WARNING: Element LiION N02 already exists in Set gg; no action taken
+WARNING: Element LiION N03 already exists in Set gg; no action taken
+Reading    input data                 ...  1 s
+Setting up input data                 ...  0 s
+Generating objective function         ...  0 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  1 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  1 s
+Generating generation capacity        ...  1 s
+Generating network    capacity        ...  1 s
+Generating network    constraints     ...  2 s
+Econometric analysis  constraints     ...  0 s
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 10377.145029325022
+  Upper bound: 10377.145029325022
+  Number of objectives: 1
+  Number of constraints: 42633
+  Number of variables: 31432
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 31432
+  Number of nonzeros: 105504
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.3111097812652588
+  Error rc: 0
+  Time: 0.7331743240356445
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,bus068,bus069,cac1]
+fixing: vNetworkInvest[2030,bus030,bus038,cac1]
+fixing: vNetworkInvest[2030,bus005,bus006,cac1]
+fixing: vNetworkInvest[2030,bus004,bus011,cac1]
+fixing: vNetworkInvest[2030,bus064,bus065,cac1]
+fixing: vNetworkInvest[2030,bus003,bus005,cac1]
+fixing: vNetworkInvest[2030,bus006,bus007,cac1]
+fixing: vNetworkInvest[2030,bus038,bus037,cac1]
+fixing: vNetworkInvest[2030,bus023,bus032,cac1]
+fixing: vNetworkInvest[2030,bus033,bus037,cac1]
+fixing: vNetworkInvest[2030,bus012,bus117,cac1]
+fixing: vNetworkInvest[2030,bus038,bus065,cac1]
+fixing: vNetworkInvest[2030,bus026,bus030,cac1]
+fixing: vNetworkInvest[2030,bus015,bus033,cac1]
+fixing: vNetworkInvest[2030,bus011,bus013,cac1]
+fixing: vNetworkInvest[2030,bus012,bus014,cac1]
+fixing: vNetworkInvest[2030,bus080,bus099,cac1]
+fixing: vNetworkInvest[2030,bus047,bus049,cac1]
+fixing: vNetworkInvest[2030,bus054,bus056,cac1]
+fixing: vNetworkInvest[2030,bus012,bus016,cac1]
+fixing: vNetworkInvest[2030,bus011,bus012,cac1]
+fixing: vNetworkInvest[2030,bus017,bus113,cac1]
+fixing: vNetworkInvest[2030,bus099,bus100,cac1]
+fixing: vNetworkInvest[2030,bus008,bus030,cac1]
+fixing: vNetworkInvest[2030,bus082,bus083,cac1]
+fixing: vNetworkInvest[2030,bus094,bus100,cac1]
+fixing: vNetworkInvest[2030,bus065,bus068,cac1]
+fixing: vNetworkInvest[2030,bus069,bus077,cac1]
+fixing: vNetworkInvest[2030,bus008,bus005,cac1]
+fixing: vNetworkInvest[2030,bus092,bus093,cac1]
+fixing: vNetworkInvest[2030,bus093,bus094,cac1]
+fixing: vNetworkInvest[2030,bus007,bus012,cac1]
+fixing: vNetworkInvest[2030,bus077,bus082,cac1]
+fixing: vNetworkInvest[2030,bus025,bus027,cac1]
+Number of fixed variables:  34
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 10377.145029325022
+  Upper bound: 10377.145029325022
+  Number of objectives: 1
+  Number of constraints: 42633
+  Number of variables: 31432
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 31432
+  Number of nonzeros: 105504
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.29959678649902344
+  Error rc: 0
+  Time: 0.7032032012939453
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  6 s
+Objective function value                   10377.15 M€
+Objective function value                   10377.145029325022
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Writing    network operation results  ...  0 s
+Writing generation operation results  ...  0 s
+Writing        ESS operation results  ...  0 s
+Writing             economic results  ...  0 s
+
+ #### Academic research license - for non-commercial use only #### 
+
+Elapsed time: 16 seconds
+
+ #### Academic research license - for non-commercial use only #### 
+
+IEEE118_mod1_ByStages_nc40
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour
+gurobi
+['oSN_Main_DCOPF_WithoutInvestment.py', '--case', 'IEEE118_mod1_ByStages_nc40']
+Namespace(case='IEEE118_mod1_ByStages_nc40', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+Namespace(case='IEEE118_mod1_ByStages_nc40', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+WARNING: Element LiION N01 already exists in Set gg; no action taken
+WARNING: Element LiION N02 already exists in Set gg; no action taken
+WARNING: Element LiION N03 already exists in Set gg; no action taken
+Reading    input data                 ...  1 s
+Setting up input data                 ...  0 s
+Generating objective function         ...  0 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  2 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  1 s
+Generating generation capacity        ...  1 s
+Generating network    capacity        ...  1 s
+Generating network    constraints     ...  4 s
+Econometric analysis  constraints     ...  0 s
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 9765.996592858177
+  Upper bound: 9765.996592858177
+  Number of objectives: 1
+  Number of constraints: 56843
+  Number of variables: 41802
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 41802
+  Number of nonzeros: 140494
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.3925349712371826
+  Error rc: 0
+  Time: 0.9163639545440674
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,bus017,bus113,cac1]
+fixing: vNetworkInvest[2030,bus003,bus005,cac1]
+fixing: vNetworkInvest[2030,bus008,bus030,cac1]
+fixing: vNetworkInvest[2030,bus012,bus117,cac1]
+fixing: vNetworkInvest[2030,bus077,bus082,cac1]
+fixing: vNetworkInvest[2030,bus068,bus069,cac1]
+fixing: vNetworkInvest[2030,bus038,bus065,cac1]
+fixing: vNetworkInvest[2030,bus093,bus094,cac1]
+fixing: vNetworkInvest[2030,bus026,bus030,cac1]
+fixing: vNetworkInvest[2030,bus011,bus012,cac1]
+fixing: vNetworkInvest[2030,bus064,bus065,cac1]
+fixing: vNetworkInvest[2030,bus047,bus049,cac1]
+fixing: vNetworkInvest[2030,bus025,bus027,cac1]
+fixing: vNetworkInvest[2030,bus012,bus016,cac1]
+fixing: vNetworkInvest[2030,bus012,bus014,cac1]
+fixing: vNetworkInvest[2030,bus008,bus005,cac1]
+fixing: vNetworkInvest[2030,bus065,bus068,cac1]
+fixing: vNetworkInvest[2030,bus030,bus038,cac1]
+fixing: vNetworkInvest[2030,bus033,bus037,cac1]
+fixing: vNetworkInvest[2030,bus004,bus011,cac1]
+fixing: vNetworkInvest[2030,bus082,bus083,cac1]
+fixing: vNetworkInvest[2030,bus094,bus100,cac1]
+fixing: vNetworkInvest[2030,bus054,bus056,cac1]
+fixing: vNetworkInvest[2030,bus023,bus032,cac1]
+fixing: vNetworkInvest[2030,bus069,bus077,cac1]
+fixing: vNetworkInvest[2030,bus080,bus099,cac1]
+fixing: vNetworkInvest[2030,bus006,bus007,cac1]
+fixing: vNetworkInvest[2030,bus099,bus100,cac1]
+fixing: vNetworkInvest[2030,bus015,bus033,cac1]
+fixing: vNetworkInvest[2030,bus011,bus013,cac1]
+fixing: vNetworkInvest[2030,bus038,bus037,cac1]
+fixing: vNetworkInvest[2030,bus005,bus006,cac1]
+fixing: vNetworkInvest[2030,bus007,bus012,cac1]
+fixing: vNetworkInvest[2030,bus092,bus093,cac1]
+Number of fixed variables:  34
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 9765.996592858177
+  Upper bound: 9765.996592858177
+  Number of objectives: 1
+  Number of constraints: 56843
+  Number of variables: 41802
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 41802
+  Number of nonzeros: 140494
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.5081338882446289
+  Error rc: 0
+  Time: 1.0064637660980225
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  10 s
+Objective function value                   9766.0 M€
+Objective function value                   9765.996592858177
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Writing    network operation results  ...  0 s
+Writing generation operation results  ...  0 s
+Writing        ESS operation results  ...  0 s
+Writing             economic results  ...  0 s
+
+ #### Academic research license - for non-commercial use only #### 
+
+Elapsed time: 23 seconds
+
+ #### Academic research license - for non-commercial use only #### 
+
+IEEE118_mod1_ByStages_nc50
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour
+gurobi
+['oSN_Main_DCOPF_WithoutInvestment.py', '--case', 'IEEE118_mod1_ByStages_nc50']
+Namespace(case='IEEE118_mod1_ByStages_nc50', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+Namespace(case='IEEE118_mod1_ByStages_nc50', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+WARNING: Element LiION N01 already exists in Set gg; no action taken
+WARNING: Element LiION N02 already exists in Set gg; no action taken
+WARNING: Element LiION N03 already exists in Set gg; no action taken
+Reading    input data                 ...  1 s
+Setting up input data                 ...  0 s
+Generating objective function         ...  0 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  2 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  2 s
+Generating generation capacity        ...  2 s
+Generating network    capacity        ...  2 s
+Generating network    constraints     ...  6 s
+Econometric analysis  constraints     ...  0 s
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 10770.041610824783
+  Upper bound: 10770.041610824783
+  Number of objectives: 1
+  Number of constraints: 71053
+  Number of variables: 52415
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 52415
+  Number of nonzeros: 175970
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.4803769588470459
+  Error rc: 0
+  Time: 1.110382080078125
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,bus017,bus113,cac1]
+fixing: vNetworkInvest[2030,bus015,bus033,cac1]
+fixing: vNetworkInvest[2030,bus025,bus027,cac1]
+fixing: vNetworkInvest[2030,bus064,bus065,cac1]
+fixing: vNetworkInvest[2030,bus008,bus030,cac1]
+fixing: vNetworkInvest[2030,bus012,bus014,cac1]
+fixing: vNetworkInvest[2030,bus012,bus016,cac1]
+fixing: vNetworkInvest[2030,bus003,bus005,cac1]
+fixing: vNetworkInvest[2030,bus099,bus100,cac1]
+fixing: vNetworkInvest[2030,bus023,bus032,cac1]
+fixing: vNetworkInvest[2030,bus069,bus077,cac1]
+fixing: vNetworkInvest[2030,bus026,bus030,cac1]
+fixing: vNetworkInvest[2030,bus068,bus069,cac1]
+fixing: vNetworkInvest[2030,bus012,bus117,cac1]
+fixing: vNetworkInvest[2030,bus011,bus012,cac1]
+fixing: vNetworkInvest[2030,bus047,bus049,cac1]
+fixing: vNetworkInvest[2030,bus038,bus065,cac1]
+fixing: vNetworkInvest[2030,bus030,bus038,cac1]
+fixing: vNetworkInvest[2030,bus077,bus082,cac1]
+fixing: vNetworkInvest[2030,bus092,bus093,cac1]
+fixing: vNetworkInvest[2030,bus038,bus037,cac1]
+fixing: vNetworkInvest[2030,bus080,bus099,cac1]
+fixing: vNetworkInvest[2030,bus004,bus011,cac1]
+fixing: vNetworkInvest[2030,bus082,bus083,cac1]
+fixing: vNetworkInvest[2030,bus006,bus007,cac1]
+fixing: vNetworkInvest[2030,bus008,bus005,cac1]
+fixing: vNetworkInvest[2030,bus033,bus037,cac1]
+fixing: vNetworkInvest[2030,bus093,bus094,cac1]
+fixing: vNetworkInvest[2030,bus094,bus100,cac1]
+fixing: vNetworkInvest[2030,bus007,bus012,cac1]
+fixing: vNetworkInvest[2030,bus011,bus013,cac1]
+fixing: vNetworkInvest[2030,bus054,bus056,cac1]
+fixing: vNetworkInvest[2030,bus065,bus068,cac1]
+fixing: vNetworkInvest[2030,bus005,bus006,cac1]
+Number of fixed variables:  34
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 10770.041610824783
+  Upper bound: 10770.041610824783
+  Number of objectives: 1
+  Number of constraints: 71053
+  Number of variables: 52415
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 52415
+  Number of nonzeros: 175970
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.47655391693115234
+  Error rc: 0
+  Time: 1.0812625885009766
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  14 s
+Objective function value                   10770.04 M€
+Objective function value                   10770.041610824783
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Writing    network operation results  ...  0 s
+Writing generation operation results  ...  0 s
+Writing        ESS operation results  ...  0 s
+Writing             economic results  ...  0 s
+
+ #### Academic research license - for non-commercial use only #### 
+
+Elapsed time: 32 seconds
+
+ #### Academic research license - for non-commercial use only #### 
+
+IEEE118_mod1_ByStages_nc60
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour
+gurobi
+['oSN_Main_DCOPF_WithoutInvestment.py', '--case', 'IEEE118_mod1_ByStages_nc60']
+Namespace(case='IEEE118_mod1_ByStages_nc60', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+Namespace(case='IEEE118_mod1_ByStages_nc60', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+WARNING: Element LiION N01 already exists in Set gg; no action taken
+WARNING: Element LiION N02 already exists in Set gg; no action taken
+WARNING: Element LiION N03 already exists in Set gg; no action taken
+Reading    input data                 ...  1 s
+Setting up input data                 ...  0 s
+Generating objective function         ...  0 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  3 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  3 s
+Generating generation capacity        ...  2 s
+Generating network    capacity        ...  3 s
+Generating network    constraints     ...  8 s
+Econometric analysis  constraints     ...  0 s
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 10413.741819213988
+  Upper bound: 10413.741819213988
+  Number of objectives: 1
+  Number of constraints: 85263
+  Number of variables: 62963
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 62963
+  Number of nonzeros: 211316
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.581719160079956
+  Error rc: 0
+  Time: 1.317253828048706
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,bus004,bus011,cac1]
+fixing: vNetworkInvest[2030,bus033,bus037,cac1]
+fixing: vNetworkInvest[2030,bus068,bus069,cac1]
+fixing: vNetworkInvest[2030,bus077,bus082,cac1]
+fixing: vNetworkInvest[2030,bus011,bus012,cac1]
+fixing: vNetworkInvest[2030,bus012,bus014,cac1]
+fixing: vNetworkInvest[2030,bus064,bus065,cac1]
+fixing: vNetworkInvest[2030,bus069,bus077,cac1]
+fixing: vNetworkInvest[2030,bus005,bus006,cac1]
+fixing: vNetworkInvest[2030,bus011,bus013,cac1]
+fixing: vNetworkInvest[2030,bus012,bus117,cac1]
+fixing: vNetworkInvest[2030,bus099,bus100,cac1]
+fixing: vNetworkInvest[2030,bus080,bus099,cac1]
+fixing: vNetworkInvest[2030,bus008,bus005,cac1]
+fixing: vNetworkInvest[2030,bus003,bus005,cac1]
+fixing: vNetworkInvest[2030,bus038,bus037,cac1]
+fixing: vNetworkInvest[2030,bus030,bus038,cac1]
+fixing: vNetworkInvest[2030,bus006,bus007,cac1]
+fixing: vNetworkInvest[2030,bus007,bus012,cac1]
+fixing: vNetworkInvest[2030,bus065,bus068,cac1]
+fixing: vNetworkInvest[2030,bus023,bus032,cac1]
+fixing: vNetworkInvest[2030,bus017,bus113,cac1]
+fixing: vNetworkInvest[2030,bus093,bus094,cac1]
+fixing: vNetworkInvest[2030,bus012,bus016,cac1]
+fixing: vNetworkInvest[2030,bus026,bus030,cac1]
+fixing: vNetworkInvest[2030,bus008,bus030,cac1]
+fixing: vNetworkInvest[2030,bus054,bus056,cac1]
+fixing: vNetworkInvest[2030,bus082,bus083,cac1]
+fixing: vNetworkInvest[2030,bus038,bus065,cac1]
+fixing: vNetworkInvest[2030,bus047,bus049,cac1]
+fixing: vNetworkInvest[2030,bus094,bus100,cac1]
+fixing: vNetworkInvest[2030,bus025,bus027,cac1]
+fixing: vNetworkInvest[2030,bus015,bus033,cac1]
+fixing: vNetworkInvest[2030,bus092,bus093,cac1]
+Number of fixed variables:  34
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 10413.741819213988
+  Upper bound: 10413.741819213988
+  Number of objectives: 1
+  Number of constraints: 85263
+  Number of variables: 62963
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 62963
+  Number of nonzeros: 211316
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.57747483253479
+  Error rc: 0
+  Time: 1.2886204719543457
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  18 s
+Objective function value                   10413.74 M€
+Objective function value                   10413.741819213988
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Writing    network operation results  ...  0 s
+Writing generation operation results  ...  0 s
+Writing        ESS operation results  ...  0 s
+Writing             economic results  ...  0 s
+
+ #### Academic research license - for non-commercial use only #### 
+
+Elapsed time: 42 seconds
+
+ #### Academic research license - for non-commercial use only #### 
+
+IEEE118_mod1_ByStages_nc70
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour
+gurobi
+['oSN_Main_DCOPF_WithoutInvestment.py', '--case', 'IEEE118_mod1_ByStages_nc70']
+Namespace(case='IEEE118_mod1_ByStages_nc70', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+Namespace(case='IEEE118_mod1_ByStages_nc70', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+WARNING: Element LiION N01 already exists in Set gg; no action taken
+WARNING: Element LiION N02 already exists in Set gg; no action taken
+WARNING: Element LiION N03 already exists in Set gg; no action taken
+Reading    input data                 ...  1 s
+Setting up input data                 ...  0 s
+Generating objective function         ...  0 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  3 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  4 s
+Generating generation capacity        ...  3 s
+Generating network    capacity        ...  4 s
+Generating network    constraints     ...  11 s
+Econometric analysis  constraints     ...  0 s
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 10714.15167191168
+  Upper bound: 10714.15167191168
+  Number of objectives: 1
+  Number of constraints: 99473
+  Number of variables: 73390
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 73390
+  Number of nonzeros: 246420
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.6461629867553711
+  Error rc: 0
+  Time: 1.4653983116149902
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,bus004,bus011,cac1]
+fixing: vNetworkInvest[2030,bus026,bus030,cac1]
+fixing: vNetworkInvest[2030,bus033,bus037,cac1]
+fixing: vNetworkInvest[2030,bus011,bus012,cac1]
+fixing: vNetworkInvest[2030,bus012,bus014,cac1]
+fixing: vNetworkInvest[2030,bus069,bus077,cac1]
+fixing: vNetworkInvest[2030,bus080,bus099,cac1]
+fixing: vNetworkInvest[2030,bus011,bus013,cac1]
+fixing: vNetworkInvest[2030,bus003,bus005,cac1]
+fixing: vNetworkInvest[2030,bus012,bus117,cac1]
+fixing: vNetworkInvest[2030,bus064,bus065,cac1]
+fixing: vNetworkInvest[2030,bus023,bus032,cac1]
+fixing: vNetworkInvest[2030,bus099,bus100,cac1]
+fixing: vNetworkInvest[2030,bus094,bus100,cac1]
+fixing: vNetworkInvest[2030,bus012,bus016,cac1]
+fixing: vNetworkInvest[2030,bus007,bus012,cac1]
+fixing: vNetworkInvest[2030,bus077,bus082,cac1]
+fixing: vNetworkInvest[2030,bus030,bus038,cac1]
+fixing: vNetworkInvest[2030,bus008,bus030,cac1]
+fixing: vNetworkInvest[2030,bus017,bus113,cac1]
+fixing: vNetworkInvest[2030,bus008,bus005,cac1]
+fixing: vNetworkInvest[2030,bus054,bus056,cac1]
+fixing: vNetworkInvest[2030,bus065,bus068,cac1]
+fixing: vNetworkInvest[2030,bus093,bus094,cac1]
+fixing: vNetworkInvest[2030,bus006,bus007,cac1]
+fixing: vNetworkInvest[2030,bus038,bus065,cac1]
+fixing: vNetworkInvest[2030,bus047,bus049,cac1]
+fixing: vNetworkInvest[2030,bus082,bus083,cac1]
+fixing: vNetworkInvest[2030,bus092,bus093,cac1]
+fixing: vNetworkInvest[2030,bus068,bus069,cac1]
+fixing: vNetworkInvest[2030,bus005,bus006,cac1]
+fixing: vNetworkInvest[2030,bus038,bus037,cac1]
+fixing: vNetworkInvest[2030,bus015,bus033,cac1]
+fixing: vNetworkInvest[2030,bus025,bus027,cac1]
+Number of fixed variables:  34
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 10714.15167191168
+  Upper bound: 10714.15167191168
+  Number of objectives: 1
+  Number of constraints: 99473
+  Number of variables: 73390
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 73390
+  Number of nonzeros: 246420
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.6325960159301758
+  Error rc: 0
+  Time: 1.4290130138397217
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  23 s
+Objective function value                   10714.15 M€
+Objective function value                   10714.15167191168
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Writing    network operation results  ...  0 s
+Writing generation operation results  ...  0 s
+Writing        ESS operation results  ...  0 s
+Writing             economic results  ...  0 s
+
+ #### Academic research license - for non-commercial use only #### 
+
+Elapsed time: 54 seconds
+
+ #### Academic research license - for non-commercial use only #### 
+
+IEEE118_mod1_ByStages_nc80
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour
+gurobi
+['oSN_Main_DCOPF_WithoutInvestment.py', '--case', 'IEEE118_mod1_ByStages_nc80']
+Namespace(case='IEEE118_mod1_ByStages_nc80', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+Namespace(case='IEEE118_mod1_ByStages_nc80', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+WARNING: Element LiION N01 already exists in Set gg; no action taken
+WARNING: Element LiION N02 already exists in Set gg; no action taken
+WARNING: Element LiION N03 already exists in Set gg; no action taken
+Reading    input data                 ...  1 s
+Setting up input data                 ...  0 s
+Generating objective function         ...  1 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  4 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  5 s
+Generating generation capacity        ...  4 s
+Generating network    capacity        ...  5 s
+Generating network    constraints     ...  14 s
+Econometric analysis  constraints     ...  0 s
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 10916.481978928168
+  Upper bound: 10916.481978928168
+  Number of objectives: 1
+  Number of constraints: 113683
+  Number of variables: 83762
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 83762
+  Number of nonzeros: 281414
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.7534258365631104
+  Error rc: 0
+  Time: 1.6938979625701904
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,bus033,bus037,cac1]
+fixing: vNetworkInvest[2030,bus008,bus005,cac1]
+fixing: vNetworkInvest[2030,bus069,bus077,cac1]
+fixing: vNetworkInvest[2030,bus015,bus033,cac1]
+fixing: vNetworkInvest[2030,bus047,bus049,cac1]
+fixing: vNetworkInvest[2030,bus038,bus037,cac1]
+fixing: vNetworkInvest[2030,bus004,bus011,cac1]
+fixing: vNetworkInvest[2030,bus068,bus069,cac1]
+fixing: vNetworkInvest[2030,bus038,bus065,cac1]
+fixing: vNetworkInvest[2030,bus025,bus027,cac1]
+fixing: vNetworkInvest[2030,bus011,bus012,cac1]
+fixing: vNetworkInvest[2030,bus077,bus082,cac1]
+fixing: vNetworkInvest[2030,bus080,bus099,cac1]
+fixing: vNetworkInvest[2030,bus099,bus100,cac1]
+fixing: vNetworkInvest[2030,bus003,bus005,cac1]
+fixing: vNetworkInvest[2030,bus092,bus093,cac1]
+fixing: vNetworkInvest[2030,bus012,bus014,cac1]
+fixing: vNetworkInvest[2030,bus054,bus056,cac1]
+fixing: vNetworkInvest[2030,bus030,bus038,cac1]
+fixing: vNetworkInvest[2030,bus064,bus065,cac1]
+fixing: vNetworkInvest[2030,bus012,bus016,cac1]
+fixing: vNetworkInvest[2030,bus082,bus083,cac1]
+fixing: vNetworkInvest[2030,bus093,bus094,cac1]
+fixing: vNetworkInvest[2030,bus011,bus013,cac1]
+fixing: vNetworkInvest[2030,bus065,bus068,cac1]
+fixing: vNetworkInvest[2030,bus008,bus030,cac1]
+fixing: vNetworkInvest[2030,bus012,bus117,cac1]
+fixing: vNetworkInvest[2030,bus007,bus012,cac1]
+fixing: vNetworkInvest[2030,bus006,bus007,cac1]
+fixing: vNetworkInvest[2030,bus017,bus113,cac1]
+fixing: vNetworkInvest[2030,bus023,bus032,cac1]
+fixing: vNetworkInvest[2030,bus005,bus006,cac1]
+fixing: vNetworkInvest[2030,bus094,bus100,cac1]
+fixing: vNetworkInvest[2030,bus026,bus030,cac1]
+Number of fixed variables:  34
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 10916.481978928168
+  Upper bound: 10916.481978928168
+  Number of objectives: 1
+  Number of constraints: 113683
+  Number of variables: 83762
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 83762
+  Number of nonzeros: 281414
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.7469151020050049
+  Error rc: 0
+  Time: 1.6718573570251465
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  29 s
+Objective function value                   10916.48 M€
+Objective function value                   10916.481978928168
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Writing    network operation results  ...  0 s
+Writing generation operation results  ...  1 s
+Writing        ESS operation results  ...  0 s
+Writing             economic results  ...  0 s
+
+ #### Academic research license - for non-commercial use only #### 
+
+Elapsed time: 68 seconds
+
+ #### Academic research license - for non-commercial use only #### 
+
+IEEE118_mod1_ByStages_nc90
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour
+gurobi
+['oSN_Main_DCOPF_WithoutInvestment.py', '--case', 'IEEE118_mod1_ByStages_nc90']
+Namespace(case='IEEE118_mod1_ByStages_nc90', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+Namespace(case='IEEE118_mod1_ByStages_nc90', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+WARNING: Element LiION N01 already exists in Set gg; no action taken
+WARNING: Element LiION N02 already exists in Set gg; no action taken
+WARNING: Element LiION N03 already exists in Set gg; no action taken
+Reading    input data                 ...  1 s
+Setting up input data                 ...  0 s
+Generating objective function         ...  1 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  4 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  6 s
+Generating generation capacity        ...  6 s
+Generating network    capacity        ...  7 s
+Generating network    constraints     ...  18 s
+Econometric analysis  constraints     ...  0 s
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 10542.230589889552
+  Upper bound: 10542.230589889552
+  Number of objectives: 1
+  Number of constraints: 127893
+  Number of variables: 94191
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 94191
+  Number of nonzeros: 316522
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.9006280899047852
+  Error rc: 0
+  Time: 1.950012445449829
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,bus094,bus100,cac1]
+fixing: vNetworkInvest[2030,bus007,bus012,cac1]
+fixing: vNetworkInvest[2030,bus033,bus037,cac1]
+fixing: vNetworkInvest[2030,bus080,bus099,cac1]
+fixing: vNetworkInvest[2030,bus026,bus030,cac1]
+fixing: vNetworkInvest[2030,bus047,bus049,cac1]
+fixing: vNetworkInvest[2030,bus023,bus032,cac1]
+fixing: vNetworkInvest[2030,bus038,bus037,cac1]
+fixing: vNetworkInvest[2030,bus012,bus014,cac1]
+fixing: vNetworkInvest[2030,bus011,bus012,cac1]
+fixing: vNetworkInvest[2030,bus017,bus113,cac1]
+fixing: vNetworkInvest[2030,bus006,bus007,cac1]
+fixing: vNetworkInvest[2030,bus068,bus069,cac1]
+fixing: vNetworkInvest[2030,bus038,bus065,cac1]
+fixing: vNetworkInvest[2030,bus069,bus077,cac1]
+fixing: vNetworkInvest[2030,bus012,bus117,cac1]
+fixing: vNetworkInvest[2030,bus012,bus016,cac1]
+fixing: vNetworkInvest[2030,bus004,bus011,cac1]
+fixing: vNetworkInvest[2030,bus082,bus083,cac1]
+fixing: vNetworkInvest[2030,bus015,bus033,cac1]
+fixing: vNetworkInvest[2030,bus054,bus056,cac1]
+fixing: vNetworkInvest[2030,bus065,bus068,cac1]
+fixing: vNetworkInvest[2030,bus025,bus027,cac1]
+fixing: vNetworkInvest[2030,bus011,bus013,cac1]
+fixing: vNetworkInvest[2030,bus003,bus005,cac1]
+fixing: vNetworkInvest[2030,bus099,bus100,cac1]
+fixing: vNetworkInvest[2030,bus064,bus065,cac1]
+fixing: vNetworkInvest[2030,bus005,bus006,cac1]
+fixing: vNetworkInvest[2030,bus092,bus093,cac1]
+fixing: vNetworkInvest[2030,bus008,bus030,cac1]
+fixing: vNetworkInvest[2030,bus008,bus005,cac1]
+fixing: vNetworkInvest[2030,bus093,bus094,cac1]
+fixing: vNetworkInvest[2030,bus030,bus038,cac1]
+fixing: vNetworkInvest[2030,bus077,bus082,cac1]
+Number of fixed variables:  34
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 10542.230589889552
+  Upper bound: 10542.230589889552
+  Number of objectives: 1
+  Number of constraints: 127893
+  Number of variables: 94191
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 94191
+  Number of nonzeros: 316522
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.859483003616333
+  Error rc: 0
+  Time: 1.8801426887512207
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  36 s
+Objective function value                   10542.23 M€
+Objective function value                   10542.230589889552
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Writing    network operation results  ...  0 s
+Writing generation operation results  ...  1 s
+Writing        ESS operation results  ...  0 s
+Writing             economic results  ...  0 s
+
+ #### Academic research license - for non-commercial use only #### 
+
+Elapsed time: 83 seconds
+
+ #### Academic research license - for non-commercial use only #### 
+
+IEEE118_mod1_ByStages_nc100
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour
+gurobi
+['oSN_Main_DCOPF_WithoutInvestment.py', '--case', 'IEEE118_mod1_ByStages_nc100']
+Namespace(case='IEEE118_mod1_ByStages_nc100', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+Namespace(case='IEEE118_mod1_ByStages_nc100', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+WARNING: Element LiION N01 already exists in Set gg; no action taken
+WARNING: Element LiION N02 already exists in Set gg; no action taken
+WARNING: Element LiION N03 already exists in Set gg; no action taken
+Reading    input data                 ...  1 s
+Setting up input data                 ...  1 s
+Generating objective function         ...  1 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  5 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  7 s
+Generating generation capacity        ...  7 s
+Generating network    capacity        ...  9 s
+Generating network    constraints     ...  22 s
+Econometric analysis  constraints     ...  0 s
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 10646.321273322412
+  Upper bound: 10646.321273322412
+  Number of objectives: 1
+  Number of constraints: 142103
+  Number of variables: 104638
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 104638
+  Number of nonzeros: 351666
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.975567102432251
+  Error rc: 0
+  Time: 2.1336476802825928
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,bus015,bus033,cac1]
+fixing: vNetworkInvest[2030,bus038,bus037,cac1]
+fixing: vNetworkInvest[2030,bus025,bus027,cac1]
+fixing: vNetworkInvest[2030,bus012,bus014,cac1]
+fixing: vNetworkInvest[2030,bus033,bus037,cac1]
+fixing: vNetworkInvest[2030,bus008,bus005,cac1]
+fixing: vNetworkInvest[2030,bus064,bus065,cac1]
+fixing: vNetworkInvest[2030,bus069,bus077,cac1]
+fixing: vNetworkInvest[2030,bus065,bus068,cac1]
+fixing: vNetworkInvest[2030,bus005,bus006,cac1]
+fixing: vNetworkInvest[2030,bus007,bus012,cac1]
+fixing: vNetworkInvest[2030,bus026,bus030,cac1]
+fixing: vNetworkInvest[2030,bus023,bus032,cac1]
+fixing: vNetworkInvest[2030,bus092,bus093,cac1]
+fixing: vNetworkInvest[2030,bus006,bus007,cac1]
+fixing: vNetworkInvest[2030,bus008,bus030,cac1]
+fixing: vNetworkInvest[2030,bus082,bus083,cac1]
+fixing: vNetworkInvest[2030,bus017,bus113,cac1]
+fixing: vNetworkInvest[2030,bus004,bus011,cac1]
+fixing: vNetworkInvest[2030,bus011,bus013,cac1]
+fixing: vNetworkInvest[2030,bus054,bus056,cac1]
+fixing: vNetworkInvest[2030,bus099,bus100,cac1]
+fixing: vNetworkInvest[2030,bus038,bus065,cac1]
+fixing: vNetworkInvest[2030,bus093,bus094,cac1]
+fixing: vNetworkInvest[2030,bus011,bus012,cac1]
+fixing: vNetworkInvest[2030,bus047,bus049,cac1]
+fixing: vNetworkInvest[2030,bus080,bus099,cac1]
+fixing: vNetworkInvest[2030,bus094,bus100,cac1]
+fixing: vNetworkInvest[2030,bus012,bus016,cac1]
+fixing: vNetworkInvest[2030,bus068,bus069,cac1]
+fixing: vNetworkInvest[2030,bus003,bus005,cac1]
+fixing: vNetworkInvest[2030,bus012,bus117,cac1]
+fixing: vNetworkInvest[2030,bus030,bus038,cac1]
+fixing: vNetworkInvest[2030,bus077,bus082,cac1]
+Number of fixed variables:  34
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 10646.321273322412
+  Upper bound: 10646.321273322412
+  Number of objectives: 1
+  Number of constraints: 142103
+  Number of variables: 104638
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 104638
+  Number of nonzeros: 351666
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 0.9768610000610352
+  Error rc: 0
+  Time: 2.0888054370880127
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  43 s
+Objective function value                   10646.32 M€
+Objective function value                   10646.321273322412
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Writing    network operation results  ...  0 s
+Writing generation operation results  ...  1 s
+Writing        ESS operation results  ...  0 s
+Writing             economic results  ...  0 s
+
+ #### Academic research license - for non-commercial use only #### 
+
+Elapsed time: 100 seconds
+
+ #### Academic research license - for non-commercial use only #### 
+
+IEEE118_mod1_ByStages_nc110
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour
+gurobi
+['oSN_Main_DCOPF_WithoutInvestment.py', '--case', 'IEEE118_mod1_ByStages_nc110']
+Namespace(case='IEEE118_mod1_ByStages_nc110', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+Namespace(case='IEEE118_mod1_ByStages_nc110', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+WARNING: Element LiION N01 already exists in Set gg; no action taken
+WARNING: Element LiION N02 already exists in Set gg; no action taken
+WARNING: Element LiION N03 already exists in Set gg; no action taken
+Reading    input data                 ...  1 s
+Setting up input data                 ...  1 s
+Generating objective function         ...  1 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  6 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  8 s
+Generating generation capacity        ...  8 s
+Generating network    capacity        ...  10 s
+Generating network    constraints     ...  26 s
+Econometric analysis  constraints     ...  0 s
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 10558.864023535247
+  Upper bound: 10558.864023535247
+  Number of objectives: 1
+  Number of constraints: 156313
+  Number of variables: 115232
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 115232
+  Number of nonzeros: 387104
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 1.0655980110168457
+  Error rc: 0
+  Time: 2.346243381500244
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,bus026,bus030,cac1]
+fixing: vNetworkInvest[2030,bus092,bus093,cac1]
+fixing: vNetworkInvest[2030,bus069,bus077,cac1]
+fixing: vNetworkInvest[2030,bus047,bus049,cac1]
+fixing: vNetworkInvest[2030,bus008,bus030,cac1]
+fixing: vNetworkInvest[2030,bus093,bus094,cac1]
+fixing: vNetworkInvest[2030,bus065,bus068,cac1]
+fixing: vNetworkInvest[2030,bus011,bus013,cac1]
+fixing: vNetworkInvest[2030,bus003,bus005,cac1]
+fixing: vNetworkInvest[2030,bus017,bus113,cac1]
+fixing: vNetworkInvest[2030,bus038,bus065,cac1]
+fixing: vNetworkInvest[2030,bus068,bus069,cac1]
+fixing: vNetworkInvest[2030,bus012,bus016,cac1]
+fixing: vNetworkInvest[2030,bus077,bus082,cac1]
+fixing: vNetworkInvest[2030,bus004,bus011,cac1]
+fixing: vNetworkInvest[2030,bus030,bus038,cac1]
+fixing: vNetworkInvest[2030,bus012,bus014,cac1]
+fixing: vNetworkInvest[2030,bus094,bus100,cac1]
+fixing: vNetworkInvest[2030,bus011,bus012,cac1]
+fixing: vNetworkInvest[2030,bus038,bus037,cac1]
+fixing: vNetworkInvest[2030,bus006,bus007,cac1]
+fixing: vNetworkInvest[2030,bus008,bus005,cac1]
+fixing: vNetworkInvest[2030,bus007,bus012,cac1]
+fixing: vNetworkInvest[2030,bus023,bus032,cac1]
+fixing: vNetworkInvest[2030,bus015,bus033,cac1]
+fixing: vNetworkInvest[2030,bus054,bus056,cac1]
+fixing: vNetworkInvest[2030,bus012,bus117,cac1]
+fixing: vNetworkInvest[2030,bus099,bus100,cac1]
+fixing: vNetworkInvest[2030,bus025,bus027,cac1]
+fixing: vNetworkInvest[2030,bus005,bus006,cac1]
+fixing: vNetworkInvest[2030,bus082,bus083,cac1]
+fixing: vNetworkInvest[2030,bus033,bus037,cac1]
+fixing: vNetworkInvest[2030,bus080,bus099,cac1]
+fixing: vNetworkInvest[2030,bus064,bus065,cac1]
+Number of fixed variables:  34
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 10558.864023535247
+  Upper bound: 10558.864023535247
+  Number of objectives: 1
+  Number of constraints: 156313
+  Number of variables: 115232
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 115232
+  Number of nonzeros: 387104
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 1.0676019191741943
+  Error rc: 0
+  Time: 2.2746565341949463
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  50 s
+Objective function value                   10558.86 M€
+Objective function value                   10558.864023535247
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Writing    network operation results  ...  0 s
+Writing generation operation results  ...  1 s
+Writing        ESS operation results  ...  0 s
+Writing             economic results  ...  0 s
+
+ #### Academic research license - for non-commercial use only #### 
+
+Elapsed time: 116 seconds
+
+ #### Academic research license - for non-commercial use only #### 
+
+IEEE118_mod1_ByStages_nc120
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour
+gurobi
+['oSN_Main_DCOPF_WithoutInvestment.py', '--case', 'IEEE118_mod1_ByStages_nc120']
+Namespace(case='IEEE118_mod1_ByStages_nc120', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+Namespace(case='IEEE118_mod1_ByStages_nc120', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+WARNING: Element LiION N01 already exists in Set gg; no action taken
+WARNING: Element LiION N02 already exists in Set gg; no action taken
+WARNING: Element LiION N03 already exists in Set gg; no action taken
+Reading    input data                 ...  1 s
+Setting up input data                 ...  1 s
+Generating objective function         ...  1 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  6 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  10 s
+Generating generation capacity        ...  10 s
+Generating network    capacity        ...  12 s
+Generating network    constraints     ...  31 s
+Econometric analysis  constraints     ...  0 s
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 10674.032344233632
+  Upper bound: 10674.032344233632
+  Number of objectives: 1
+  Number of constraints: 170523
+  Number of variables: 125767
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 125767
+  Number of nonzeros: 422424
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 1.1670188903808594
+  Error rc: 0
+  Time: 2.5344221591949463
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,bus065,bus068,cac1]
+fixing: vNetworkInvest[2030,bus094,bus100,cac1]
+fixing: vNetworkInvest[2030,bus069,bus077,cac1]
+fixing: vNetworkInvest[2030,bus007,bus012,cac1]
+fixing: vNetworkInvest[2030,bus025,bus027,cac1]
+fixing: vNetworkInvest[2030,bus012,bus014,cac1]
+fixing: vNetworkInvest[2030,bus092,bus093,cac1]
+fixing: vNetworkInvest[2030,bus017,bus113,cac1]
+fixing: vNetworkInvest[2030,bus054,bus056,cac1]
+fixing: vNetworkInvest[2030,bus038,bus065,cac1]
+fixing: vNetworkInvest[2030,bus047,bus049,cac1]
+fixing: vNetworkInvest[2030,bus006,bus007,cac1]
+fixing: vNetworkInvest[2030,bus077,bus082,cac1]
+fixing: vNetworkInvest[2030,bus008,bus030,cac1]
+fixing: vNetworkInvest[2030,bus064,bus065,cac1]
+fixing: vNetworkInvest[2030,bus015,bus033,cac1]
+fixing: vNetworkInvest[2030,bus038,bus037,cac1]
+fixing: vNetworkInvest[2030,bus080,bus099,cac1]
+fixing: vNetworkInvest[2030,bus030,bus038,cac1]
+fixing: vNetworkInvest[2030,bus008,bus005,cac1]
+fixing: vNetworkInvest[2030,bus033,bus037,cac1]
+fixing: vNetworkInvest[2030,bus011,bus013,cac1]
+fixing: vNetworkInvest[2030,bus004,bus011,cac1]
+fixing: vNetworkInvest[2030,bus023,bus032,cac1]
+fixing: vNetworkInvest[2030,bus099,bus100,cac1]
+fixing: vNetworkInvest[2030,bus012,bus117,cac1]
+fixing: vNetworkInvest[2030,bus068,bus069,cac1]
+fixing: vNetworkInvest[2030,bus026,bus030,cac1]
+fixing: vNetworkInvest[2030,bus005,bus006,cac1]
+fixing: vNetworkInvest[2030,bus011,bus012,cac1]
+fixing: vNetworkInvest[2030,bus082,bus083,cac1]
+fixing: vNetworkInvest[2030,bus012,bus016,cac1]
+fixing: vNetworkInvest[2030,bus093,bus094,cac1]
+fixing: vNetworkInvest[2030,bus003,bus005,cac1]
+Number of fixed variables:  34
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 10674.032344233632
+  Upper bound: 10674.032344233632
+  Number of objectives: 1
+  Number of constraints: 170523
+  Number of variables: 125767
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 125767
+  Number of nonzeros: 422424
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 1.1662750244140625
+  Error rc: 0
+  Time: 2.5259692668914795
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  59 s
+Objective function value                   10674.03 M€
+Objective function value                   10674.032344233632
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Writing    network operation results  ...  0 s
+Writing generation operation results  ...  1 s
+Writing        ESS operation results  ...  0 s
+Writing             economic results  ...  0 s
+
+ #### Academic research license - for non-commercial use only #### 
+
+Elapsed time: 136 seconds
+
+ #### Academic research license - for non-commercial use only #### 
+
+IEEE118_mod1_ByStages_nc130
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour
+gurobi
+['oSN_Main_DCOPF_WithoutInvestment.py', '--case', 'IEEE118_mod1_ByStages_nc130']
+Namespace(case='IEEE118_mod1_ByStages_nc130', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+Namespace(case='IEEE118_mod1_ByStages_nc130', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+WARNING: Element LiION N01 already exists in Set gg; no action taken
+WARNING: Element LiION N02 already exists in Set gg; no action taken
+WARNING: Element LiION N03 already exists in Set gg; no action taken
+Reading    input data                 ...  1 s
+Setting up input data                 ...  1 s
+Generating objective function         ...  1 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  7 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  12 s
+Generating generation capacity        ...  11 s
+Generating network    capacity        ...  14 s
+Generating network    constraints     ...  37 s
+Econometric analysis  constraints     ...  0 s
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 10715.78531275892
+  Upper bound: 10715.78531275892
+  Number of objectives: 1
+  Number of constraints: 184733
+  Number of variables: 136300
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 136300
+  Number of nonzeros: 457740
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 1.287257194519043
+  Error rc: 0
+  Time: 2.7687981128692627
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,bus008,bus030,cac1]
+fixing: vNetworkInvest[2030,bus033,bus037,cac1]
+fixing: vNetworkInvest[2030,bus094,bus100,cac1]
+fixing: vNetworkInvest[2030,bus008,bus005,cac1]
+fixing: vNetworkInvest[2030,bus012,bus014,cac1]
+fixing: vNetworkInvest[2030,bus026,bus030,cac1]
+fixing: vNetworkInvest[2030,bus077,bus082,cac1]
+fixing: vNetworkInvest[2030,bus080,bus099,cac1]
+fixing: vNetworkInvest[2030,bus025,bus027,cac1]
+fixing: vNetworkInvest[2030,bus064,bus065,cac1]
+fixing: vNetworkInvest[2030,bus065,bus068,cac1]
+fixing: vNetworkInvest[2030,bus093,bus094,cac1]
+fixing: vNetworkInvest[2030,bus030,bus038,cac1]
+fixing: vNetworkInvest[2030,bus099,bus100,cac1]
+fixing: vNetworkInvest[2030,bus011,bus013,cac1]
+fixing: vNetworkInvest[2030,bus007,bus012,cac1]
+fixing: vNetworkInvest[2030,bus092,bus093,cac1]
+fixing: vNetworkInvest[2030,bus082,bus083,cac1]
+fixing: vNetworkInvest[2030,bus005,bus006,cac1]
+fixing: vNetworkInvest[2030,bus038,bus037,cac1]
+fixing: vNetworkInvest[2030,bus004,bus011,cac1]
+fixing: vNetworkInvest[2030,bus023,bus032,cac1]
+fixing: vNetworkInvest[2030,bus054,bus056,cac1]
+fixing: vNetworkInvest[2030,bus015,bus033,cac1]
+fixing: vNetworkInvest[2030,bus068,bus069,cac1]
+fixing: vNetworkInvest[2030,bus011,bus012,cac1]
+fixing: vNetworkInvest[2030,bus012,bus117,cac1]
+fixing: vNetworkInvest[2030,bus012,bus016,cac1]
+fixing: vNetworkInvest[2030,bus047,bus049,cac1]
+fixing: vNetworkInvest[2030,bus038,bus065,cac1]
+fixing: vNetworkInvest[2030,bus006,bus007,cac1]
+fixing: vNetworkInvest[2030,bus003,bus005,cac1]
+fixing: vNetworkInvest[2030,bus017,bus113,cac1]
+fixing: vNetworkInvest[2030,bus069,bus077,cac1]
+Number of fixed variables:  34
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 10715.78531275892
+  Upper bound: 10715.78531275892
+  Number of objectives: 1
+  Number of constraints: 184733
+  Number of variables: 136300
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 136300
+  Number of nonzeros: 457740
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 1.3098020553588867
+  Error rc: 0
+  Time: 2.762584924697876
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  68 s
+Objective function value                   10715.79 M€
+Objective function value                   10715.78531275892
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Writing    network operation results  ...  0 s
+Writing generation operation results  ...  1 s
+Writing        ESS operation results  ...  0 s
+Writing             economic results  ...  0 s
+
+ #### Academic research license - for non-commercial use only #### 
+
+Elapsed time: 157 seconds
+
+ #### Academic research license - for non-commercial use only #### 
+
+IEEE118_mod1_ByStages_nc140
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour
+gurobi
+['oSN_Main_DCOPF_WithoutInvestment.py', '--case', 'IEEE118_mod1_ByStages_nc140']
+Namespace(case='IEEE118_mod1_ByStages_nc140', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+Namespace(case='IEEE118_mod1_ByStages_nc140', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+WARNING: Element LiION N01 already exists in Set gg; no action taken
+WARNING: Element LiION N02 already exists in Set gg; no action taken
+WARNING: Element LiION N03 already exists in Set gg; no action taken
+Reading    input data                 ...  1 s
+Setting up input data                 ...  1 s
+Generating objective function         ...  1 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  8 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  13 s
+Generating generation capacity        ...  13 s
+Generating network    capacity        ...  16 s
+Generating network    constraints     ...  42 s
+Econometric analysis  constraints     ...  0 s
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 10770.559291556046
+  Upper bound: 10770.559291556046
+  Number of objectives: 1
+  Number of constraints: 198943
+  Number of variables: 146874
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 146874
+  Number of nonzeros: 493138
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 1.5628938674926758
+  Error rc: 0
+  Time: 3.16113543510437
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,bus093,bus094,cac1]
+fixing: vNetworkInvest[2030,bus004,bus011,cac1]
+fixing: vNetworkInvest[2030,bus082,bus083,cac1]
+fixing: vNetworkInvest[2030,bus026,bus030,cac1]
+fixing: vNetworkInvest[2030,bus012,bus016,cac1]
+fixing: vNetworkInvest[2030,bus080,bus099,cac1]
+fixing: vNetworkInvest[2030,bus068,bus069,cac1]
+fixing: vNetworkInvest[2030,bus065,bus068,cac1]
+fixing: vNetworkInvest[2030,bus023,bus032,cac1]
+fixing: vNetworkInvest[2030,bus007,bus012,cac1]
+fixing: vNetworkInvest[2030,bus030,bus038,cac1]
+fixing: vNetworkInvest[2030,bus033,bus037,cac1]
+fixing: vNetworkInvest[2030,bus006,bus007,cac1]
+fixing: vNetworkInvest[2030,bus047,bus049,cac1]
+fixing: vNetworkInvest[2030,bus008,bus005,cac1]
+fixing: vNetworkInvest[2030,bus012,bus014,cac1]
+fixing: vNetworkInvest[2030,bus017,bus113,cac1]
+fixing: vNetworkInvest[2030,bus025,bus027,cac1]
+fixing: vNetworkInvest[2030,bus012,bus117,cac1]
+fixing: vNetworkInvest[2030,bus064,bus065,cac1]
+fixing: vNetworkInvest[2030,bus005,bus006,cac1]
+fixing: vNetworkInvest[2030,bus003,bus005,cac1]
+fixing: vNetworkInvest[2030,bus038,bus037,cac1]
+fixing: vNetworkInvest[2030,bus015,bus033,cac1]
+fixing: vNetworkInvest[2030,bus011,bus013,cac1]
+fixing: vNetworkInvest[2030,bus054,bus056,cac1]
+fixing: vNetworkInvest[2030,bus094,bus100,cac1]
+fixing: vNetworkInvest[2030,bus077,bus082,cac1]
+fixing: vNetworkInvest[2030,bus069,bus077,cac1]
+fixing: vNetworkInvest[2030,bus011,bus012,cac1]
+fixing: vNetworkInvest[2030,bus008,bus030,cac1]
+fixing: vNetworkInvest[2030,bus099,bus100,cac1]
+fixing: vNetworkInvest[2030,bus092,bus093,cac1]
+fixing: vNetworkInvest[2030,bus038,bus065,cac1]
+Number of fixed variables:  34
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 10770.559291556046
+  Upper bound: 10770.559291556046
+  Number of objectives: 1
+  Number of constraints: 198943
+  Number of variables: 146874
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 146874
+  Number of nonzeros: 493138
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 1.366797924041748
+  Error rc: 0
+  Time: 2.91972279548645
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  78 s
+Objective function value                   10770.56 M€
+Objective function value                   10770.559291556046
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Writing    network operation results  ...  0 s
+Writing generation operation results  ...  1 s
+Writing        ESS operation results  ...  0 s
+Writing             economic results  ...  0 s
+
+ #### Academic research license - for non-commercial use only #### 
+
+Elapsed time: 179 seconds
+
+ #### Academic research license - for non-commercial use only #### 
+
+IEEE118_mod1_ByStages_nc150
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour
+gurobi
+['oSN_Main_DCOPF_WithoutInvestment.py', '--case', 'IEEE118_mod1_ByStages_nc150']
+Namespace(case='IEEE118_mod1_ByStages_nc150', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+Namespace(case='IEEE118_mod1_ByStages_nc150', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+WARNING: Element LiION N01 already exists in Set gg; no action taken
+WARNING: Element LiION N02 already exists in Set gg; no action taken
+WARNING: Element LiION N03 already exists in Set gg; no action taken
+Reading    input data                 ...  1 s
+Setting up input data                 ...  1 s
+Generating objective function         ...  1 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  9 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  16 s
+Generating generation capacity        ...  15 s
+Generating network    capacity        ...  19 s
+Generating network    constraints     ...  48 s
+Econometric analysis  constraints     ...  0 s
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 10409.08447160268
+  Upper bound: 10409.08447160268
+  Number of objectives: 1
+  Number of constraints: 213153
+  Number of variables: 157310
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 157310
+  Number of nonzeros: 528260
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 1.7719578742980957
+  Error rc: 0
+  Time: 3.4799439907073975
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,bus012,bus117,cac1]
+fixing: vNetworkInvest[2030,bus077,bus082,cac1]
+fixing: vNetworkInvest[2030,bus030,bus038,cac1]
+fixing: vNetworkInvest[2030,bus080,bus099,cac1]
+fixing: vNetworkInvest[2030,bus012,bus014,cac1]
+fixing: vNetworkInvest[2030,bus069,bus077,cac1]
+fixing: vNetworkInvest[2030,bus033,bus037,cac1]
+fixing: vNetworkInvest[2030,bus038,bus065,cac1]
+fixing: vNetworkInvest[2030,bus054,bus056,cac1]
+fixing: vNetworkInvest[2030,bus092,bus093,cac1]
+fixing: vNetworkInvest[2030,bus038,bus037,cac1]
+fixing: vNetworkInvest[2030,bus064,bus065,cac1]
+fixing: vNetworkInvest[2030,bus012,bus016,cac1]
+fixing: vNetworkInvest[2030,bus047,bus049,cac1]
+fixing: vNetworkInvest[2030,bus005,bus006,cac1]
+fixing: vNetworkInvest[2030,bus068,bus069,cac1]
+fixing: vNetworkInvest[2030,bus082,bus083,cac1]
+fixing: vNetworkInvest[2030,bus015,bus033,cac1]
+fixing: vNetworkInvest[2030,bus065,bus068,cac1]
+fixing: vNetworkInvest[2030,bus006,bus007,cac1]
+fixing: vNetworkInvest[2030,bus011,bus013,cac1]
+fixing: vNetworkInvest[2030,bus023,bus032,cac1]
+fixing: vNetworkInvest[2030,bus003,bus005,cac1]
+fixing: vNetworkInvest[2030,bus008,bus030,cac1]
+fixing: vNetworkInvest[2030,bus004,bus011,cac1]
+fixing: vNetworkInvest[2030,bus011,bus012,cac1]
+fixing: vNetworkInvest[2030,bus026,bus030,cac1]
+fixing: vNetworkInvest[2030,bus025,bus027,cac1]
+fixing: vNetworkInvest[2030,bus099,bus100,cac1]
+fixing: vNetworkInvest[2030,bus094,bus100,cac1]
+fixing: vNetworkInvest[2030,bus007,bus012,cac1]
+fixing: vNetworkInvest[2030,bus017,bus113,cac1]
+fixing: vNetworkInvest[2030,bus093,bus094,cac1]
+fixing: vNetworkInvest[2030,bus008,bus005,cac1]
+Number of fixed variables:  34
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 10409.08447160268
+  Upper bound: 10409.08447160268
+  Number of objectives: 1
+  Number of constraints: 213153
+  Number of variables: 157310
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 157310
+  Number of nonzeros: 528260
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 1.6080760955810547
+  Error rc: 0
+  Time: 3.2708866596221924
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  88 s
+Objective function value                   10409.08 M€
+Objective function value                   10409.08447160268
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Writing    network operation results  ...  0 s
+Writing generation operation results  ...  1 s
+Writing        ESS operation results  ...  0 s
+Writing             economic results  ...  0 s
+
+ #### Academic research license - for non-commercial use only #### 
+
+Elapsed time: 204 seconds
+
+ #### Academic research license - for non-commercial use only #### 
+
+IEEE118_mod1_ByStages_nc200
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour
+gurobi
+['oSN_Main_DCOPF_WithoutInvestment.py', '--case', 'IEEE118_mod1_ByStages_nc200']
+Namespace(case='IEEE118_mod1_ByStages_nc200', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+Namespace(case='IEEE118_mod1_ByStages_nc200', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+WARNING: Element LiION N01 already exists in Set gg; no action taken
+WARNING: Element LiION N02 already exists in Set gg; no action taken
+WARNING: Element LiION N03 already exists in Set gg; no action taken
+Reading    input data                 ...  1 s
+Setting up input data                 ...  1 s
+Generating objective function         ...  1 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  13 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  27 s
+Generating generation capacity        ...  26 s
+Generating network    capacity        ...  32 s
+Generating network    constraints     ...  84 s
+Econometric analysis  constraints     ...  0 s
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 11144.150154271942
+  Upper bound: 11144.150154271942
+  Number of objectives: 1
+  Number of constraints: 284203
+  Number of variables: 209920
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 209920
+  Number of nonzeros: 704730
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 2.495393991470337
+  Error rc: 0
+  Time: 4.708287239074707
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,bus092,bus093,cac1]
+fixing: vNetworkInvest[2030,bus065,bus068,cac1]
+fixing: vNetworkInvest[2030,bus054,bus056,cac1]
+fixing: vNetworkInvest[2030,bus094,bus100,cac1]
+fixing: vNetworkInvest[2030,bus047,bus049,cac1]
+fixing: vNetworkInvest[2030,bus015,bus033,cac1]
+fixing: vNetworkInvest[2030,bus006,bus007,cac1]
+fixing: vNetworkInvest[2030,bus004,bus011,cac1]
+fixing: vNetworkInvest[2030,bus005,bus006,cac1]
+fixing: vNetworkInvest[2030,bus030,bus038,cac1]
+fixing: vNetworkInvest[2030,bus017,bus113,cac1]
+fixing: vNetworkInvest[2030,bus068,bus069,cac1]
+fixing: vNetworkInvest[2030,bus033,bus037,cac1]
+fixing: vNetworkInvest[2030,bus080,bus099,cac1]
+fixing: vNetworkInvest[2030,bus008,bus005,cac1]
+fixing: vNetworkInvest[2030,bus082,bus083,cac1]
+fixing: vNetworkInvest[2030,bus064,bus065,cac1]
+fixing: vNetworkInvest[2030,bus011,bus013,cac1]
+fixing: vNetworkInvest[2030,bus077,bus082,cac1]
+fixing: vNetworkInvest[2030,bus012,bus117,cac1]
+fixing: vNetworkInvest[2030,bus038,bus065,cac1]
+fixing: vNetworkInvest[2030,bus099,bus100,cac1]
+fixing: vNetworkInvest[2030,bus003,bus005,cac1]
+fixing: vNetworkInvest[2030,bus025,bus027,cac1]
+fixing: vNetworkInvest[2030,bus007,bus012,cac1]
+fixing: vNetworkInvest[2030,bus012,bus014,cac1]
+fixing: vNetworkInvest[2030,bus008,bus030,cac1]
+fixing: vNetworkInvest[2030,bus069,bus077,cac1]
+fixing: vNetworkInvest[2030,bus011,bus012,cac1]
+fixing: vNetworkInvest[2030,bus023,bus032,cac1]
+fixing: vNetworkInvest[2030,bus093,bus094,cac1]
+fixing: vNetworkInvest[2030,bus038,bus037,cac1]
+fixing: vNetworkInvest[2030,bus012,bus016,cac1]
+fixing: vNetworkInvest[2030,bus026,bus030,cac1]
+Number of fixed variables:  34
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 11144.150154271942
+  Upper bound: 11144.150154271942
+  Number of objectives: 1
+  Number of constraints: 284203
+  Number of variables: 209920
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 209920
+  Number of nonzeros: 704730
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 2.505120038986206
+  Error rc: 0
+  Time: 4.669804096221924
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  148 s
+Objective function value                   11144.15 M€
+Objective function value                   11144.150154271942
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Writing    network operation results  ...  0 s
+Writing generation operation results  ...  1 s
+Writing        ESS operation results  ...  0 s
+Writing             economic results  ...  0 s
+
+ #### Academic research license - for non-commercial use only #### 
+
+Elapsed time: 343 seconds
+
+ #### Academic research license - for non-commercial use only #### 
+
+IEEE118_mod1_ByStages_nc250
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour
+gurobi
+['oSN_Main_DCOPF_WithoutInvestment.py', '--case', 'IEEE118_mod1_ByStages_nc250']
+Namespace(case='IEEE118_mod1_ByStages_nc250', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+Namespace(case='IEEE118_mod1_ByStages_nc250', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+WARNING: Element LiION N01 already exists in Set gg; no action taken
+WARNING: Element LiION N02 already exists in Set gg; no action taken
+WARNING: Element LiION N03 already exists in Set gg; no action taken
+Reading    input data                 ...  1 s
+Setting up input data                 ...  1 s
+Generating objective function         ...  2 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  19 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  43 s
+Generating generation capacity        ...  43 s
+Generating network    capacity        ...  51 s
+Generating network    constraints     ...  133 s
+Econometric analysis  constraints     ...  0 s
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 12474.252258184253
+  Upper bound: 12474.252258184253
+  Number of objectives: 1
+  Number of constraints: 355253
+  Number of variables: 262254
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 262254
+  Number of nonzeros: 880648
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 2.7343180179595947
+  Error rc: 0
+  Time: 5.487292051315308
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,bus012,bus117,cac1]
+fixing: vNetworkInvest[2030,bus011,bus012,cac1]
+fixing: vNetworkInvest[2030,bus017,bus113,cac1]
+fixing: vNetworkInvest[2030,bus092,bus093,cac1]
+fixing: vNetworkInvest[2030,bus012,bus014,cac1]
+fixing: vNetworkInvest[2030,bus054,bus056,cac1]
+fixing: vNetworkInvest[2030,bus007,bus012,cac1]
+fixing: vNetworkInvest[2030,bus077,bus082,cac1]
+fixing: vNetworkInvest[2030,bus023,bus032,cac1]
+fixing: vNetworkInvest[2030,bus038,bus065,cac1]
+fixing: vNetworkInvest[2030,bus026,bus030,cac1]
+fixing: vNetworkInvest[2030,bus038,bus037,cac1]
+fixing: vNetworkInvest[2030,bus008,bus005,cac1]
+fixing: vNetworkInvest[2030,bus068,bus069,cac1]
+fixing: vNetworkInvest[2030,bus012,bus016,cac1]
+fixing: vNetworkInvest[2030,bus064,bus065,cac1]
+fixing: vNetworkInvest[2030,bus006,bus007,cac1]
+fixing: vNetworkInvest[2030,bus047,bus049,cac1]
+fixing: vNetworkInvest[2030,bus033,bus037,cac1]
+fixing: vNetworkInvest[2030,bus025,bus027,cac1]
+fixing: vNetworkInvest[2030,bus015,bus033,cac1]
+fixing: vNetworkInvest[2030,bus082,bus083,cac1]
+fixing: vNetworkInvest[2030,bus094,bus100,cac1]
+fixing: vNetworkInvest[2030,bus080,bus099,cac1]
+fixing: vNetworkInvest[2030,bus093,bus094,cac1]
+fixing: vNetworkInvest[2030,bus004,bus011,cac1]
+fixing: vNetworkInvest[2030,bus005,bus006,cac1]
+fixing: vNetworkInvest[2030,bus003,bus005,cac1]
+fixing: vNetworkInvest[2030,bus008,bus030,cac1]
+fixing: vNetworkInvest[2030,bus099,bus100,cac1]
+fixing: vNetworkInvest[2030,bus030,bus038,cac1]
+fixing: vNetworkInvest[2030,bus065,bus068,cac1]
+fixing: vNetworkInvest[2030,bus069,bus077,cac1]
+fixing: vNetworkInvest[2030,bus011,bus013,cac1]
+Number of fixed variables:  34
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 12474.252258184253
+  Upper bound: 12474.252258184253
+  Number of objectives: 1
+  Number of constraints: 355253
+  Number of variables: 262254
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 262254
+  Number of nonzeros: 880648
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 3.043447971343994
+  Error rc: 0
+  Time: 5.729705810546875
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  224 s
+Objective function value                   12474.25 M€
+Objective function value                   12474.252258184253
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Writing    network operation results  ...  1 s
+Writing generation operation results  ...  2 s
+Writing        ESS operation results  ...  0 s
+Writing             economic results  ...  0 s
+
+ #### Academic research license - for non-commercial use only #### 
+
+Elapsed time: 526 seconds
+
+ #### Academic research license - for non-commercial use only #### 
+
+IEEE118_mod1_ByStages_nc300
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour
+gurobi
+['oSN_Main_DCOPF_WithoutInvestment.py', '--case', 'IEEE118_mod1_ByStages_nc300']
+Namespace(case='IEEE118_mod1_ByStages_nc300', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+Namespace(case='IEEE118_mod1_ByStages_nc300', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+WARNING: Element LiION N01 already exists in Set gg; no action taken
+WARNING: Element LiION N02 already exists in Set gg; no action taken
+WARNING: Element LiION N03 already exists in Set gg; no action taken
+Reading    input data                 ...  1 s
+Setting up input data                 ...  2 s
+Generating objective function         ...  2 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  25 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  61 s
+Generating generation capacity        ...  61 s
+Generating network    capacity        ...  73 s
+Generating network    constraints     ...  191 s
+Econometric analysis  constraints     ...  0 s
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 12570.748110973329
+  Upper bound: 12570.748110973329
+  Number of objectives: 1
+  Number of constraints: 426303
+  Number of variables: 314679
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 314679
+  Number of nonzeros: 1056748
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 4.077669858932495
+  Error rc: 0
+  Time: 7.319715261459351
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,bus004,bus011,cac1]
+fixing: vNetworkInvest[2030,bus064,bus065,cac1]
+fixing: vNetworkInvest[2030,bus011,bus013,cac1]
+fixing: vNetworkInvest[2030,bus047,bus049,cac1]
+fixing: vNetworkInvest[2030,bus015,bus033,cac1]
+fixing: vNetworkInvest[2030,bus030,bus038,cac1]
+fixing: vNetworkInvest[2030,bus012,bus014,cac1]
+fixing: vNetworkInvest[2030,bus007,bus012,cac1]
+fixing: vNetworkInvest[2030,bus026,bus030,cac1]
+fixing: vNetworkInvest[2030,bus093,bus094,cac1]
+fixing: vNetworkInvest[2030,bus012,bus016,cac1]
+fixing: vNetworkInvest[2030,bus012,bus117,cac1]
+fixing: vNetworkInvest[2030,bus033,bus037,cac1]
+fixing: vNetworkInvest[2030,bus094,bus100,cac1]
+fixing: vNetworkInvest[2030,bus069,bus077,cac1]
+fixing: vNetworkInvest[2030,bus008,bus005,cac1]
+fixing: vNetworkInvest[2030,bus077,bus082,cac1]
+fixing: vNetworkInvest[2030,bus065,bus068,cac1]
+fixing: vNetworkInvest[2030,bus003,bus005,cac1]
+fixing: vNetworkInvest[2030,bus006,bus007,cac1]
+fixing: vNetworkInvest[2030,bus038,bus065,cac1]
+fixing: vNetworkInvest[2030,bus092,bus093,cac1]
+fixing: vNetworkInvest[2030,bus005,bus006,cac1]
+fixing: vNetworkInvest[2030,bus038,bus037,cac1]
+fixing: vNetworkInvest[2030,bus011,bus012,cac1]
+fixing: vNetworkInvest[2030,bus068,bus069,cac1]
+fixing: vNetworkInvest[2030,bus017,bus113,cac1]
+fixing: vNetworkInvest[2030,bus008,bus030,cac1]
+fixing: vNetworkInvest[2030,bus025,bus027,cac1]
+fixing: vNetworkInvest[2030,bus080,bus099,cac1]
+fixing: vNetworkInvest[2030,bus099,bus100,cac1]
+fixing: vNetworkInvest[2030,bus082,bus083,cac1]
+fixing: vNetworkInvest[2030,bus023,bus032,cac1]
+fixing: vNetworkInvest[2030,bus054,bus056,cac1]
+Number of fixed variables:  34
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 12570.748110973329
+  Upper bound: 12570.748110973329
+  Number of objectives: 1
+  Number of constraints: 426303
+  Number of variables: 314679
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 314679
+  Number of nonzeros: 1056748
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 3.7093889713287354
+  Error rc: 0
+  Time: 6.899858713150024
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  318 s
+Objective function value                   12570.75 M€
+Objective function value                   12570.748110973329
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Writing    network operation results  ...  1 s
+Writing generation operation results  ...  2 s
+Writing        ESS operation results  ...  0 s
+Writing             economic results  ...  0 s
+
+ #### Academic research license - for non-commercial use only #### 
+
+Elapsed time: 745 seconds
+
+ #### Academic research license - for non-commercial use only #### 
+
+IEEE118_mod1_ByStages_nc350
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour
+gurobi
+['oSN_Main_DCOPF_WithoutInvestment.py', '--case', 'IEEE118_mod1_ByStages_nc350']
+Namespace(case='IEEE118_mod1_ByStages_nc350', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+Namespace(case='IEEE118_mod1_ByStages_nc350', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+WARNING: Element LiION N01 already exists in Set gg; no action taken
+WARNING: Element LiION N02 already exists in Set gg; no action taken
+WARNING: Element LiION N03 already exists in Set gg; no action taken
+Reading    input data                 ...  1 s
+Setting up input data                 ...  2 s
+Generating objective function         ...  3 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  32 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  82 s
+Generating generation capacity        ...  81 s
+Generating network    capacity        ...  98 s
+Generating network    constraints     ...  257 s
+Econometric analysis  constraints     ...  0 s
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 12682.430383111416
+  Upper bound: 12682.430383111416
+  Number of objectives: 1
+  Number of constraints: 497353
+  Number of variables: 366991
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 366991
+  Number of nonzeros: 1232622
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 4.335280179977417
+  Error rc: 0
+  Time: 8.098077774047852
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,bus017,bus113,cac1]
+fixing: vNetworkInvest[2030,bus011,bus013,cac1]
+fixing: vNetworkInvest[2030,bus064,bus065,cac1]
+fixing: vNetworkInvest[2030,bus008,bus005,cac1]
+fixing: vNetworkInvest[2030,bus077,bus082,cac1]
+fixing: vNetworkInvest[2030,bus025,bus027,cac1]
+fixing: vNetworkInvest[2030,bus069,bus077,cac1]
+fixing: vNetworkInvest[2030,bus093,bus094,cac1]
+fixing: vNetworkInvest[2030,bus099,bus100,cac1]
+fixing: vNetworkInvest[2030,bus012,bus016,cac1]
+fixing: vNetworkInvest[2030,bus038,bus065,cac1]
+fixing: vNetworkInvest[2030,bus005,bus006,cac1]
+fixing: vNetworkInvest[2030,bus011,bus012,cac1]
+fixing: vNetworkInvest[2030,bus082,bus083,cac1]
+fixing: vNetworkInvest[2030,bus065,bus068,cac1]
+fixing: vNetworkInvest[2030,bus033,bus037,cac1]
+fixing: vNetworkInvest[2030,bus023,bus032,cac1]
+fixing: vNetworkInvest[2030,bus004,bus011,cac1]
+fixing: vNetworkInvest[2030,bus038,bus037,cac1]
+fixing: vNetworkInvest[2030,bus007,bus012,cac1]
+fixing: vNetworkInvest[2030,bus047,bus049,cac1]
+fixing: vNetworkInvest[2030,bus006,bus007,cac1]
+fixing: vNetworkInvest[2030,bus012,bus117,cac1]
+fixing: vNetworkInvest[2030,bus054,bus056,cac1]
+fixing: vNetworkInvest[2030,bus030,bus038,cac1]
+fixing: vNetworkInvest[2030,bus092,bus093,cac1]
+fixing: vNetworkInvest[2030,bus003,bus005,cac1]
+fixing: vNetworkInvest[2030,bus012,bus014,cac1]
+fixing: vNetworkInvest[2030,bus080,bus099,cac1]
+fixing: vNetworkInvest[2030,bus026,bus030,cac1]
+fixing: vNetworkInvest[2030,bus015,bus033,cac1]
+fixing: vNetworkInvest[2030,bus068,bus069,cac1]
+fixing: vNetworkInvest[2030,bus094,bus100,cac1]
+fixing: vNetworkInvest[2030,bus008,bus030,cac1]
+Number of fixed variables:  34
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 12682.430383111416
+  Upper bound: 12682.430383111416
+  Number of objectives: 1
+  Number of constraints: 497353
+  Number of variables: 366991
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 366991
+  Number of nonzeros: 1232622
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 4.735931873321533
+  Error rc: 0
+  Time: 8.464427471160889
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  426 s
+Objective function value                   12682.43 M€
+Objective function value                   12682.430383111416
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Writing    network operation results  ...  1 s
+Writing generation operation results  ...  2 s
+Writing        ESS operation results  ...  0 s
+Writing             economic results  ...  0 s
+
+ #### Academic research license - for non-commercial use only #### 
+
+Elapsed time: 995 seconds
+
+ #### Academic research license - for non-commercial use only #### 
+
+IEEE118_mod1_ByStages_nc400
+/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour
+gurobi
+['oSN_Main_DCOPF_WithoutInvestment.py', '--case', 'IEEE118_mod1_ByStages_nc400']
+Namespace(case='IEEE118_mod1_ByStages_nc400', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+Namespace(case='IEEE118_mod1_ByStages_nc400', dir='/lustre1/scratch/348/vsc34888/JointResearch/05.Models/06.Benchmarking/L.Cont_Investments_per_hour', solver='gurobi')
+WARNING: Element LiION N01 already exists in Set gg; no action taken
+WARNING: Element LiION N02 already exists in Set gg; no action taken
+WARNING: Element LiION N03 already exists in Set gg; no action taken
+Reading    input data                 ...  1 s
+Setting up input data                 ...  2 s
+Generating objective function         ...  3 s
+Generating operation & investment     ...  0 s
+Generating balance                    ...  40 s
+Generating storage operation          ...  0 s
+Generating generation commitment      ...  107 s
+Generating generation capacity        ...  106 s
+Generating network    capacity        ...  129 s
+Generating network    constraints     ...  331 s
+Econometric analysis  constraints     ...  0 s
+Termination condition:  optimal
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 12580.654916998898
+  Upper bound: 12580.654916998898
+  Number of objectives: 1
+  Number of constraints: 568403
+  Number of variables: 419440
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 419440
+  Number of nonzeros: 1408770
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 4.99359393119812
+  Error rc: 0
+  Time: 9.321381330490112
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+# ============================================================================= #
+# ============================================================================= #
+fixing: vNetworkInvest[2030,bus038,bus037,cac1]
+fixing: vNetworkInvest[2030,bus094,bus100,cac1]
+fixing: vNetworkInvest[2030,bus017,bus113,cac1]
+fixing: vNetworkInvest[2030,bus080,bus099,cac1]
+fixing: vNetworkInvest[2030,bus064,bus065,cac1]
+fixing: vNetworkInvest[2030,bus068,bus069,cac1]
+fixing: vNetworkInvest[2030,bus047,bus049,cac1]
+fixing: vNetworkInvest[2030,bus026,bus030,cac1]
+fixing: vNetworkInvest[2030,bus012,bus016,cac1]
+fixing: vNetworkInvest[2030,bus033,bus037,cac1]
+fixing: vNetworkInvest[2030,bus011,bus013,cac1]
+fixing: vNetworkInvest[2030,bus008,bus030,cac1]
+fixing: vNetworkInvest[2030,bus025,bus027,cac1]
+fixing: vNetworkInvest[2030,bus005,bus006,cac1]
+fixing: vNetworkInvest[2030,bus012,bus117,cac1]
+fixing: vNetworkInvest[2030,bus003,bus005,cac1]
+fixing: vNetworkInvest[2030,bus093,bus094,cac1]
+fixing: vNetworkInvest[2030,bus054,bus056,cac1]
+fixing: vNetworkInvest[2030,bus011,bus012,cac1]
+fixing: vNetworkInvest[2030,bus082,bus083,cac1]
+fixing: vNetworkInvest[2030,bus004,bus011,cac1]
+fixing: vNetworkInvest[2030,bus007,bus012,cac1]
+fixing: vNetworkInvest[2030,bus012,bus014,cac1]
+fixing: vNetworkInvest[2030,bus077,bus082,cac1]
+fixing: vNetworkInvest[2030,bus006,bus007,cac1]
+fixing: vNetworkInvest[2030,bus099,bus100,cac1]
+fixing: vNetworkInvest[2030,bus008,bus005,cac1]
+fixing: vNetworkInvest[2030,bus015,bus033,cac1]
+fixing: vNetworkInvest[2030,bus069,bus077,cac1]
+fixing: vNetworkInvest[2030,bus038,bus065,cac1]
+fixing: vNetworkInvest[2030,bus030,bus038,cac1]
+fixing: vNetworkInvest[2030,bus023,bus032,cac1]
+fixing: vNetworkInvest[2030,bus092,bus093,cac1]
+fixing: vNetworkInvest[2030,bus065,bus068,cac1]
+Number of fixed variables:  34
+# ============================================================================= #
+# ============================================================================= #
+WARNING: Implicitly replacing the Component attribute dual (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+WARNING: Implicitly replacing the Component attribute rc (type=<class
+'pyomo.core.base.suffix.Suffix'>) on block 'openStarNet - Open Version of the
+StartNetLite Model (Long Term Transmission Expansion Planning) - Version 1.0.0
+- January 16, 2023' with a new Component (type=<class
+'pyomo.core.base.suffix.Suffix'>). This is usually indicative of a modelling
+error. To avoid this warning, use block.del_component() and
+block.add_component().
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Name: x1
+  Lower bound: 12580.654916998898
+  Upper bound: 12580.654916998898
+  Number of objectives: 1
+  Number of constraints: 568403
+  Number of variables: 419440
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 419440
+  Number of nonzeros: 1408770
+  Sense: minimize
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Return code: 0
+  Message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Termination condition: optimal
+  Termination message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
+  Wall time: 5.203682899475098
+  Error rc: 0
+  Time: 9.470640182495117
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+Solving                               ...  551 s
+Objective function value                   12580.65 M€
+Objective function value                   12580.654916998898
+Writing         cost summary results  ...  0 s
+Writing           investment results  ...  0 s
+Writing    network operation results  ...  1 s
+Writing generation operation results  ...  3 s
+Writing        ESS operation results  ...  0 s
+Writing             economic results  ...  0 s
+
+ #### Academic research license - for non-commercial use only #### 
+
+Elapsed time: 1286 seconds
+['IEEE118_mod1_ByStages_nc10', 'IEEE118_mod1_ByStages_nc20', 'IEEE118_mod1_ByStages_nc30', 'IEEE118_mod1_ByStages_nc40', 'IEEE118_mod1_ByStages_nc50', 'IEEE118_mod1_ByStages_nc60', 'IEEE118_mod1_ByStages_nc70', 'IEEE118_mod1_ByStages_nc80', 'IEEE118_mod1_ByStages_nc90', 'IEEE118_mod1_ByStages_nc100', 'IEEE118_mod1_ByStages_nc110', 'IEEE118_mod1_ByStages_nc120', 'IEEE118_mod1_ByStages_nc130', 'IEEE118_mod1_ByStages_nc140', 'IEEE118_mod1_ByStages_nc150', 'IEEE118_mod1_ByStages_nc200', 'IEEE118_mod1_ByStages_nc250', 'IEEE118_mod1_ByStages_nc300', 'IEEE118_mod1_ByStages_nc350', 'IEEE118_mod1_ByStages_nc400']
+python oSN_Main_DCOPF_WithoutInvestment.py --case IEEE118_mod1_ByStages_nc10
+python oSN_Main_DCOPF_WithoutInvestment.py --case IEEE118_mod1_ByStages_nc20
+python oSN_Main_DCOPF_WithoutInvestment.py --case IEEE118_mod1_ByStages_nc30
+python oSN_Main_DCOPF_WithoutInvestment.py --case IEEE118_mod1_ByStages_nc40
+python oSN_Main_DCOPF_WithoutInvestment.py --case IEEE118_mod1_ByStages_nc50
+python oSN_Main_DCOPF_WithoutInvestment.py --case IEEE118_mod1_ByStages_nc60
+python oSN_Main_DCOPF_WithoutInvestment.py --case IEEE118_mod1_ByStages_nc70
+python oSN_Main_DCOPF_WithoutInvestment.py --case IEEE118_mod1_ByStages_nc80
+python oSN_Main_DCOPF_WithoutInvestment.py --case IEEE118_mod1_ByStages_nc90
+python oSN_Main_DCOPF_WithoutInvestment.py --case IEEE118_mod1_ByStages_nc100
+python oSN_Main_DCOPF_WithoutInvestment.py --case IEEE118_mod1_ByStages_nc110
+python oSN_Main_DCOPF_WithoutInvestment.py --case IEEE118_mod1_ByStages_nc120
+python oSN_Main_DCOPF_WithoutInvestment.py --case IEEE118_mod1_ByStages_nc130
+python oSN_Main_DCOPF_WithoutInvestment.py --case IEEE118_mod1_ByStages_nc140
+python oSN_Main_DCOPF_WithoutInvestment.py --case IEEE118_mod1_ByStages_nc150
+python oSN_Main_DCOPF_WithoutInvestment.py --case IEEE118_mod1_ByStages_nc200
+python oSN_Main_DCOPF_WithoutInvestment.py --case IEEE118_mod1_ByStages_nc250
+python oSN_Main_DCOPF_WithoutInvestment.py --case IEEE118_mod1_ByStages_nc300
+python oSN_Main_DCOPF_WithoutInvestment.py --case IEEE118_mod1_ByStages_nc350
+python oSN_Main_DCOPF_WithoutInvestment.py --case IEEE118_mod1_ByStages_nc400
