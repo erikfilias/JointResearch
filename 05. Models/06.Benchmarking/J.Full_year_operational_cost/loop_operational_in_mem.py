@@ -186,6 +186,6 @@ if __name__ == '__main__':
         operational_model = oSN_Main_operational.solving_model(DirName="", CaseName=case, SolverName="gurobi",
                                                                optmodel=operational_model, pWriteLP=0)
         case_name_bs = f"{case}_ByStages_nc{nb_stages}"
-        save_dir = os.path.join("Results",os.path.split(origin_master)[1][0])
+        save_dir = os.path.join("Results",os.path.split(origin_master)[1])
         print(save_dir)
         saving_results(DirName=save_dir,CaseName=case_name_bs,model=operational_model,optmodel=operational_model)
