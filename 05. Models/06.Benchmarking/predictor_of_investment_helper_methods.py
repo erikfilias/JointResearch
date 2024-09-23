@@ -44,7 +44,7 @@ def get_utils_FYWOI(case):
     return df_utils_existing
 
 def get_utils_cm(cm, nbc, case):
-    return pd.read_csv(f"Y.FYTS_from_ByStages/{case}/{cm}/NetworkUtilization_nc{nbc}.csv", header=[0, 1], index_col=0)
+    return pd.read_csv(f"Y.FYTS_from_ByStages/{case}/{cm}/NetworkUtilization_nc{nbc}_2.csv", header=[0, 1], index_col=0)
 
 def get_filter(ts_all_lines_CM, ts_all_lines_FYWOI, min_value, max_value, filter_type):
     # Filter values based on thresholds
@@ -99,7 +99,7 @@ def get_line_flows_FYWOI(case):
     return df_line_flows_existing
 
 def get_line_flows_cm(cm, nbc, case):
-    return pd.read_csv(f"Y.FYTS_from_ByStages/{case}/{cm}/Flow_per_node_nc{nbc}.csv", header=[0, 1], index_col=0)
+    return pd.read_csv(f"Y.FYTS_from_ByStages/{case}/{cm}/Flow_per_node_nc{nbc}_2.csv", header=[0, 1], index_col=0)
 
 def get_line_flow_arrays(all_line_flows_FYWOI,cm,nbc,case):
     # Get all utilizations from saved files
@@ -165,9 +165,10 @@ def sum_curts_per_timestep_FYWOI(df_curts_per_unit):
     return df_curts_per_unit.pivot_table(values="MW", index="LoadLevel", aggfunc="sum")["MW"]
 
 def get_curts_cm(cm, nbc, case):
-    return pd.read_csv(f"Y.FYTS_from_ByStages/{case}/{cm}/Curtailment_nc{nbc}.csv", header=[0], index_col=0)
+    return pd.read_csv(f"Y.FYTS_from_ByStages/{case}/{cm}/Curtailment_nc{nbc}_2.csv", header=[0], index_col=0)
 def sum_curts_per_timestep_cm(df_curts_per_unit):
-    return df_curts_per_unit.set_index("LoadLevel").sum(axis=1)
+    #return df_curts_per_unit.set_index("LoadLevel").sum(axis=1)
+    return df_curts_per_unit.sum(axis=1)
 
 
 ###################
