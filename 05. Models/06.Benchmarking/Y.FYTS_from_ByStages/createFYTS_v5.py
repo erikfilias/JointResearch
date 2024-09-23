@@ -185,6 +185,40 @@ def create_flow_fyts_frame(CaseName_Base, cm, nbc):
 
     return frame_values, destination_folder, filename
 
+def create_net_dem_fyts_frame(CaseName_Base, cm, nbc):
+    destination_folder = f"../Y.FYTS_from_ByStages/{CaseName_Base}/{cm}"
+
+    filename = f"NetDemand_nc{nbc}.csv"
+
+    # Read input data
+    df_duration = pd.read_csv(
+        f"../{folder_name}/{CaseName_Base}_ByStages_nc{nbc}/2.Par/oT_Data_Duration_{CaseName_Base}_ByStages_nc{nbc}.csv")
+    df_ts_bs_dem = pd.read_csv(
+        f"../{folder_name}/{CaseName_Base}_ByStages_nc{nbc}/2.Par/oT_Data_Demand_{CaseName_Base}_ByStages_nc{nbc}.csv")
+    df_ts_bs_vgen = pd.read_csv(
+        f"../{folder_name}/{CaseName_Base}_ByStages_nc{nbc}/2.Par/oT_Data_VariableMaxGeneration_{CaseName_Base}_ByStages_nc{nbc}.csv")
+
+    # Values summed per hour
+    vargen_ph = df_ts_bs_vgen.rename(columns={"Unnamed: 2": "LoadLevel"}).iloc[:, 2:].set_index("LoadLevel").sum(axis=1)
+    dem_ph = df_ts_bs_dem.rename(columns={"Unnamed: 2": "LoadLevel"}).iloc[:, 2:].set_index("LoadLevel").sum(axis=1)
+    net_dem_ph = dem_ph - vargen_ph
+
+    # Create mapping of load level to stage name
+    load_level_to_stage_map = df_duration.set_index("LoadLevel")["Stage"].to_dict()
+    all_load_levels = df_duration.LoadLevel
+
+    # Create dataframe that wil hold all timeseries
+    frame_values = pd.DataFrame({"LoadLevel": all_load_levels})
+
+    # Initialize a DataFrame to hold all time series with MultiIndex
+    frame_values = pd.DataFrame(index=all_load_levels)
+
+    stage_to_repr_load_level_map = df_duration[df_duration["Duration"] == 1].set_index("Stage")["LoadLevel"].to_dict()
+    repr_load_level_to_value_map = {ll: net_dem_ph.loc[ll] for ll in stage_to_repr_load_level_map.values()}
+
+    frame_values["NetDemand"] = frame_values.index.map(load_level_to_stage_map).map(stage_to_repr_load_level_map).map(repr_load_level_to_value_map)
+    return frame_values, destination_folder, filename
+
 def loop_over_nbcs(CaseName_Base, cm):
     for nbc in nbcs:
         print(nbc)
@@ -194,6 +228,8 @@ def loop_over_nbcs(CaseName_Base, cm):
             frame_values, destination_folder, filename = create_curtailment_fyts_frame(CaseName_Base, cm, nbc)
         elif type == "flow":
             frame_values, destination_folder, filename = create_flow_fyts_frame(CaseName_Base, cm, nbc)
+        elif type == "netdem":
+            frame_values, destination_folder, filename = create_net_dem_fyts_frame(CaseName_Base, cm, nbc)
         else:
             print(f"Type: {type} undefined ")
 
@@ -219,7 +255,7 @@ cm = args.cm
 
 nbcs = [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150]
 # nbcs = [10,30,50,70]#,90,110,130,150]
-nbcs = [100]#,90,110,130,150]
+#nbcs = [100]#,90,110,130,150]
 if cm == "All":
     #for cm_ in ["R&D", "OPT_LB", "CHI","HI","OPC"]:
     for cm_ in ["R&D","OPT_LB", "CHI", "HI", "OPC"]:
