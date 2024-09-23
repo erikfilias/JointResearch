@@ -175,3 +175,18 @@ def sum_curts_per_timestep_cm(df_curts_per_unit):
 #Generation cost
 ##################
 
+###################
+#Net demand
+###################
+
+def get_net_dem_cm(cm, nbc, case):
+    return pd.read_csv(f"Y.FYTS_from_ByStages/{case}/{cm}/NetDemand_nc{nbc}.csv")
+
+def get_net_dem_FY(case):
+    dem_FY = pd.read_csv(f"A.The_full_year_MILP/{case}/2.Par/oT_Data_Demand_{case}.csv")
+    vargen_FY = pd.read_csv(f"A.The_full_year_MILP/{case}/2.Par/oT_Data_VariableMaxGeneration_{case}.csv")
+
+    vargen_ph = vargen_FY.rename(columns={"Unnamed: 2": "LoadLevel"}).iloc[:, 2:].set_index("LoadLevel").sum(axis=1)
+    dem_ph = dem_FY.rename(columns={"Unnamed: 2": "LoadLevel"}).iloc[:, 2:].set_index("LoadLevel").sum(axis=1)
+    net_dem_ph = dem_ph - vargen_ph
+    return net_dem_ph
