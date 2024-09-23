@@ -290,8 +290,8 @@ type = "flow"
 cm = "OPT_LB"
 
 parser = argparse.ArgumentParser(description='Introducing main parameters...')
-parser.add_argument('--case',   type=str, default="RTS24_mod1")
-parser.add_argument('--type',    type=str, default="flow")
+parser.add_argument('--case',   type=str, default="9n_mod1")
+parser.add_argument('--type',    type=str, default="util")
 parser.add_argument('--cm', type=str, default="CHI")
 args = parser.parse_args()
 
@@ -303,7 +303,8 @@ cm = args.cm
 
 nbcs = [10,20,50,100,200]
 
-nbcs = [30,40,60,70,80,90,150]
+nbcs = [10,20,30,40,50,60,70,80,90,110,120,130,140,150]
+nbcs = [10,30,50,70]#,90,110,130,150]
 if cm == "All":
     #for cm_ in ["R&D", "OPT_LB", "CHI","HI","OPC"]:
     for cm_ in ["R&D","OPT_LB", "CHI", "HI", "OPC"]:
