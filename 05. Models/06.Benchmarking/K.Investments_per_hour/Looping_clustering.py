@@ -15,7 +15,7 @@ CasesToPaste = []
 
 RangeClusters = [i for i in range(10, 101, 10)] + [i for i in range(150, 401, 50)] + [110, 120, 130, 140, 150]
 # RangeClusters = [110, 120, 130, 140, 150]
-# RangeClusters = [1000]
+RangeClusters = [160, 170, 180, 190, 200]
 
 
 for i in RangeClusters:
