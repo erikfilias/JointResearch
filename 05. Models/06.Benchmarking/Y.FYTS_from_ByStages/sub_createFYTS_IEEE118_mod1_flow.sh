@@ -17,5 +17,5 @@ cd $VSC_SCRATCH/JointResearch/05.Models/06.Benchmarking/Y.FYTS_from_ByStages
 
 echo "Starting runs"
 
-python createFYTS_v3.py --case IEEE118_mod1 --cm All --type flow
+python createFYTS_v5.py --case IEEE118_mod1 --cm All --type flow
 
