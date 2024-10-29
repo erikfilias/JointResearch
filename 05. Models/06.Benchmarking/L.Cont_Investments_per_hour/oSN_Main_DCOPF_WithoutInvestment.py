@@ -890,6 +890,7 @@ def create_variables(model, optmodel):
             optmodel.vGenerationInvest[p,gc      ].domain = UnitInterval
         if model.pIndBinGenInvest == 2:
             optmodel.vGenerationInvest[p,gc      ].fix(0)
+    #Fix investment variables to zero to disallow investments
     for p,ni,nf,cc in model.plc:
         optmodel.vNetworkInvest   [p,ni,nf,cc].fix(0)
 

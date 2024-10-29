@@ -890,8 +890,9 @@ def create_variables(model, optmodel):
             optmodel.vGenerationInvest[p,gc      ].domain = UnitInterval
         if model.pIndBinGenInvest == 2:
             optmodel.vGenerationInvest[p,gc      ].fix(0)
-    for p,ni,nf,cc in model.plc:
-        optmodel.vNetworkInvest   [p,ni,nf,cc].fix(0)
+            
+    # for p,ni,nf,cc in model.plc:
+    #     optmodel.vNetworkInvest   [p,ni,nf,cc].fix(0)
 
     # relax binary condition in unit generation, startup and shutdown decisions
     for p,sc,n,nr in model.psnnr:
