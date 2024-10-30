@@ -21,6 +21,7 @@ def parse_args():
     parser.add_argument('--min_nb', type=int, default=None, help='Minimum value for the integer following "nc"')
     parser.add_argument('--max_nb', type=int, default=None, help='Maximum value for the integer following "nc"')
     parser.add_argument('--origin_folder', type=str, default=None, help='Capital letter defining folder from which to fetch investment decisions')
+    parser.add_argument('--PCA', type=str, default="Yes", help='Results based on clustering with PCA or without')
 
     args = parser.parse_args()
 
@@ -28,8 +29,9 @@ def parse_args():
     min_nb = args.min_nb
     max_nb = args.max_nb
     origin_folder = folder_map[args.origin_folder]
+    PCA = args.PCA
 
-    return case,min_nb,max_nb,origin_folder
+    return case,min_nb,max_nb,origin_folder,PCA
 
 def create_model_from_input(case):
     operational_model = pyomo.environ.ConcreteModel(
@@ -55,7 +57,7 @@ def fix_investment_variables_based_on_file_reading(operational_model,df_investme
             var.fix(value=value_to_fix)
             idx += 1
 
-def saving_results(DirName, CaseName, model, optmodel):
+def saving_results(DirName, CaseName, model, optmodel,PCA):
 
     _path = os.path.join(DirName, CaseName)
     StartTime = time.time()
@@ -73,8 +75,11 @@ def saving_results(DirName, CaseName, model, optmodel):
     CostSummary = CostSummary.reset_index().rename(columns={'level_0': 'Period', 'level_1': 'Cost/Payment', 0: 'MEUR'})
 
 
-
-    output_directory = _path + '/3.Out/'
+    if PCA=="Yes":
+        output_directory = _path + '/3.Out/'
+    else:
+        assert(PCA=="No")
+        output_directory = _path + '/5.OutWoPCA/'
     # Check if the directory exists, and create it if not
     if not os.path.exists(output_directory):
         os.makedirs(output_directory)
@@ -90,34 +95,34 @@ def saving_results(DirName, CaseName, model, optmodel):
         OutputResults = pd.Series(data=[optmodel.vGenerationInvest[p, gc]() for p, gc in model.pgc],
                                   index=pd.MultiIndex.from_tuples(model.pgc))
         OutputResults.to_frame(name='p.u.').rename_axis(['Period', 'Unit'], axis=0).reset_index().to_csv(
-            _path + '/3.Out/oT_Result_GenerationInvestment_' + CaseName + '.csv', index=False, sep=',')
+            output_directory + '/oT_Result_GenerationInvestment_' + CaseName + '.csv', index=False, sep=',')
 
     if len(model.plc):
         OutputResults = pd.Series(data=[optmodel.vNetworkInvest[p, ni, nf, cc]() for p, ni, nf, cc in model.plc],
                                   index=pd.MultiIndex.from_tuples(model.plc))
         OutputResults.to_frame(name='p.u.').rename_axis(['Period', 'InitialNode', 'FinalNode', 'Circuit'],
                                                         axis=0).reset_index().to_csv(
-            _path + '/3.Out/oT_Result_NetworkInvestment_' + CaseName + '.csv', index=False, sep=',')
+            output_directory + '/oT_Result_NetworkInvestment_' + CaseName + '.csv', index=False, sep=',')
 
     WritingInvResultsTime = time.time() - StartTime
     StartTime = time.time()
     print('Writing           investment results  ... ', round(WritingInvResultsTime), 's')
 
-    if len(model.r):
-        OutputResults = pd.Series(data=[(model.pMaxPower[p,sc,n,g]-optmodel.vTotalOutputP[p,sc,n,g]())*1e3 for p,sc,n,g in model.psnr], index=pd.MultiIndex.from_tuples(model.psnr))
-        OutputResults.to_frame(name='MW'  ).rename_axis(['Period','Scenario','LoadLevel','Unit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_RESCurtailment_'      +CaseName+'.csv', index=False, sep=',')
+    # if len(model.r):
+    #     OutputResults = pd.Series(data=[(model.pMaxPower[p,sc,n,g]-optmodel.vTotalOutputP[p,sc,n,g]())*1e3 for p,sc,n,g in model.psnr], index=pd.MultiIndex.from_tuples(model.psnr))
+    #     OutputResults.to_frame(name='MW'  ).rename_axis(['Period','Scenario','LoadLevel','Unit'], axis=0).reset_index().to_csv(output_directory+'/oT_Result_RESCurtailment_'      +CaseName+'.csv', index=False, sep=',')
 
-    pEpsilon = 1e-6
-    OutputResults = pd.Series(data=[max(optmodel.vFlow[p,sc,n,ni,nf,cc]()/(model.pLineNTCFrw[ni,nf,cc]+pEpsilon),-optmodel.vFlow[p,sc,n,ni,nf,cc]()/(model.pLineNTCFrw[ni,nf,cc]+pEpsilon)) for p,sc,n,ni,nf,cc in model.psnla], index=pd.Index(model.psnla))
-    OutputResults.to_frame(name='GWh').rename_axis(['Period', 'Scenario', 'LoadLevel', 'InitialNode', 'FinalNode', 'Circuit'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_NetworkUtilizationPerNode_DC_'+CaseName+'.csv', index=False, sep=',')
+    # pEpsilon = 1e-6
+    # OutputResults = pd.Series(data=[max(optmodel.vFlow[p,sc,n,ni,nf,cc]()/(model.pLineNTCFrw[ni,nf,cc]+pEpsilon),-optmodel.vFlow[p,sc,n,ni,nf,cc]()/(model.pLineNTCFrw[ni,nf,cc]+pEpsilon)) for p,sc,n,ni,nf,cc in model.psnla], index=pd.Index(model.psnla))
+    # OutputResults.to_frame(name='GWh').rename_axis(['Period', 'Scenario', 'LoadLevel', 'InitialNode', 'FinalNode', 'Circuit'], axis=0).reset_index().to_csv(output_directory+'/oT_Result_NetworkUtilizationPerNode_DC_'+CaseName+'.csv', index=False, sep=',')
 
-    #%% outputting the generation cost
-    OutputResults = pd.Series(data=[model.pDiscountFactor[p]*model.pScenProb[p,sc]()*model.pLoadLevelDuration[n]()*(optmodel.vTotalGCost[p,sc,n]()+optmodel.vTotalCCost[p,sc,n]()+optmodel.vTotalECost[p,sc,n]()+optmodel.vTotalRCost[p,sc,n]())*1e3 for p,sc,n in model.psn], index=pd.MultiIndex.from_tuples(model.psn))
-    OutputResults.to_frame(name='mEUR').rename_axis(['Period','Scenario','LoadLevel'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_GenerationCost_'+CaseName+'.csv', index=False, sep=',')
+    # #%% outputting the generation cost
+    # OutputResults = pd.Series(data=[model.pDiscountFactor[p]*model.pScenProb[p,sc]()*model.pLoadLevelDuration[n]()*(optmodel.vTotalGCost[p,sc,n]()+optmodel.vTotalCCost[p,sc,n]()+optmodel.vTotalECost[p,sc,n]()+optmodel.vTotalRCost[p,sc,n]())*1e3 for p,sc,n in model.psn], index=pd.MultiIndex.from_tuples(model.psn))
+    # OutputResults.to_frame(name='mEUR').rename_axis(['Period','Scenario','LoadLevel'], axis=0).reset_index().to_csv(output_directory+'/oT_Result_GenerationCost_'+CaseName+'.csv', index=False, sep=',')
 
-    #%% outputting the ENS
-    OutputResults = pd.Series(data=[model.pDiscountFactor[p]*model.pScenProb[p,sc]()*model.pLoadLevelDuration[n]()*optmodel.vENS[p,sc,n,nd]()*model.pDemandP[p,sc,n,nd]*1e3  for p,sc,n,nd in model.psnnd], index=pd.MultiIndex.from_tuples(model.psnnd))
-    OutputResults.to_frame(name='MWh').rename_axis(['Period','Scenario','LoadLevel','Node'], axis=0).reset_index().to_csv(_path+'/3.Out/oT_Result_EnergyNotSupplied_'+CaseName+'.csv', index=False, sep=',')
+    # #%% outputting the ENS
+    # OutputResults = pd.Series(data=[model.pDiscountFactor[p]*model.pScenProb[p,sc]()*model.pLoadLevelDuration[n]()*optmodel.vENS[p,sc,n,nd]()*model.pDemandP[p,sc,n,nd]*1e3  for p,sc,n,nd in model.psnnd], index=pd.MultiIndex.from_tuples(model.psnnd))
+    # OutputResults.to_frame(name='MWh').rename_axis(['Period','Scenario','LoadLevel','Node'], axis=0).reset_index().to_csv(output_directory+'/oT_Result_EnergyNotSupplied_'+CaseName+'.csv', index=False, sep=',')
 
     # Determination of the net demand
     r2r = defaultdict(list)
@@ -133,8 +138,8 @@ def saving_results(DirName, CaseName, model, optmodel):
     OutputToFile  = OutputToFile2 - OutputToFile1
     OutputToFile  *= 1e3
     OutputToFile  = OutputToFile.to_frame(name='MW'  )
-    OutputToFile.reset_index().pivot_table(index=['level_0','level_1','level_2'], columns='level_3', values='MW', aggfunc='sum').rename_axis(['Period', 'Scenario', 'LoadLevel'], axis=0).rename_axis([None], axis=1).to_csv(_path+'/3.Out/oT_Result_NetworkNetDemand_'+CaseName+'.csv', sep=',')
-    OutputToFile.reset_index().pivot_table(index=['level_0','level_1','level_2'],                    values='MW', aggfunc='sum').rename_axis(['Period', 'Scenario', 'LoadLevel'], axis=0).rename_axis([None], axis=1).to_csv(_path+'/3.Out/oT_Result_NetDemand_'       +CaseName+'.csv', sep=',')
+    OutputToFile.reset_index().pivot_table(index=['level_0','level_1','level_2'], columns='level_3', values='MW', aggfunc='sum').rename_axis(['Period', 'Scenario', 'LoadLevel'], axis=0).rename_axis([None], axis=1).to_csv(output_directory+'/oT_Result_NetworkNetDemand_'+CaseName+'.csv', sep=',')
+    OutputToFile.reset_index().pivot_table(index=['level_0','level_1','level_2'],                    values='MW', aggfunc='sum').rename_axis(['Period', 'Scenario', 'LoadLevel'], axis=0).rename_axis([None], axis=1).to_csv(output_directory+'/oT_Result_NetDemand_'       +CaseName+'.csv', sep=',')
 
     WritingOperatingResultsTime = time.time() - StartTime
     StartTime = time.time()
@@ -165,7 +170,7 @@ def obtain_list_of_ByStages_numbers(path_to_scan,min_nb,max_nb):
 
 if __name__ == '__main__':
     #Start by parsing the arguments that define which cases have to be solved
-    case, min_nb, max_nb, origin_master = parse_args()
+    case, min_nb, max_nb, origin_master,PCA = parse_args()
 
     # Then create the model a single time based on the input folder
     operational_model = create_model_from_input(case=case)
@@ -177,7 +182,13 @@ if __name__ == '__main__':
     for nb_stages in list_nb_stages:
         # Then fix the investment variables based on the results read in the specified folder
 
-        origin_folder = f"{origin_master}/{case}_ByStages_nc{nb_stages}/3.Out/oT_Result_NetworkInvestment_{case}_ByStages_nc{nb_stages}.csv"
+        #Make a distinction between the results based on clustering with or without PCA
+        if PCA == "Yes":
+            origin_folder = f"{origin_master}/{case}_ByStages_nc{nb_stages}/3.Out/oT_Result_NetworkInvestment_{case}_ByStages_nc{nb_stages}.csv"
+        else:
+            assert(PCA == "No")
+            origin_folder = f"{origin_master}/{case}_ByStages_nc{nb_stages}/5.OutWoPCA/oT_Result_NetworkInvestment_{case}_ByStages_nc{nb_stages}.csv"
+
         print("Reading investment decisions from: " + origin_folder)
         df_investment_results = pd.read_csv(origin_folder)
         fix_investment_variables_based_on_file_reading(operational_model=operational_model,df_investment_results=df_investment_results)
@@ -188,4 +199,4 @@ if __name__ == '__main__':
         case_name_bs = f"{case}_ByStages_nc{nb_stages}"
         save_dir = os.path.join("Results",os.path.split(origin_master)[1])
         print(save_dir)
-        saving_results(DirName=save_dir,CaseName=case_name_bs,model=operational_model,optmodel=operational_model)
+        saving_results(DirName=save_dir,CaseName=case_name_bs,model=operational_model,optmodel=operational_model,PCA=PCA)
